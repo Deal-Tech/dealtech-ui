@@ -1,0 +1,12 @@
+{
+    "name": "page-header",
+    "description": "Consistent page header with title, subtitle, and optional action area (buttons/links) on the right.",
+    "dependencies": [],
+    "peerDependencies": [
+        "react",
+        "tailwindcss"
+    ],
+    "files": [
+        "page-header.tsx"
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "name": "action-button",
+    "description": "Compact action button for table rows with default (dark outline) and danger (red outline) variants, plus icon support.",
+    "dependencies": [
+        "lucide-react"
+    ],
+    "peerDependencies": [
+        "react",
+        "tailwindcss"
+    ],
+    "files": [
+        "action-button.tsx"
+    ]
+}

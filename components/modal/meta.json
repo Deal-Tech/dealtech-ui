@@ -1,0 +1,14 @@
+{
+    "name": "modal",
+    "description": "Reusable modal dialog with 4 sizes (sm/md/lg/xl), scrollable body with hidden scrollbar, body scroll lock, click-outside-to-close, and optional footer.",
+    "dependencies": [
+        "lucide-react"
+    ],
+    "peerDependencies": [
+        "react",
+        "tailwindcss"
+    ],
+    "files": [
+        "modal.tsx"
+    ]
+}

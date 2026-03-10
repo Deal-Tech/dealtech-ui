@@ -1,0 +1,19 @@
+{
+    "name": "admin-layout",
+    "description": "Complete Admin Layout structural framework with responsive Sidebar (using NavGroups), a sticky Header with user profile/logout, and a flexible main content area.",
+    "dependencies": [
+        "lucide-react",
+        "react-router-dom"
+    ],
+    "peerDependencies": [
+        "react",
+        "tailwindcss"
+    ],
+    "files": [
+        "admin-layout.tsx",
+        "admin-header.tsx",
+        "admin-sidebar.tsx",
+        "admin-layout.css",
+        "index.ts"
+    ]
+}
