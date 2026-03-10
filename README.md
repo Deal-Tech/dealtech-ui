@@ -2,7 +2,19 @@
 
 DealTech UI Component Library — installable React + Tailwind components via `npx`.
 
-## Install
+## Manual Installation (Local Development)
+
+Jika Anda ingin mengembangkan atau menambahkan komponen baru ke CLI ini secara lokal, Anda dapat meng-clone repository ini dan melakukan `npm link`:
+
+```bash
+git clone https://github.com/Deal-Tech/dealtech-ui.git
+cd dealtech-ui
+npm link
+```
+
+Setelah menjalankan perintah di atas, Anda dapat menggunakan command `dealtech-ui` secara global di terminal project aplikasi Anda (misal untuk menambah/modifikasi komponen).
+
+## Install (via npx)
 
 ```bash
 npx dealtech-ui add button              # single component
