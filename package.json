@@ -1,6 +1,6 @@
 {
     "name": "dealtech-ui",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "module",
     "description": "DealTech UI Component Library — installable React components via npx",
     "bin": {
