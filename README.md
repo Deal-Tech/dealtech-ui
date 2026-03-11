@@ -1,6 +1,6 @@
 # dealtech-ui
 
-DealTech UI Component Library — installable React + Tailwind components via `npx`, inspired by [shadcn/ui](https://ui.shadcn.com/).
+DealTech UI Component Library — installable React + Tailwind components via `npx`.
 
 > **Copy-paste components into your project.** No bundler lock-in, full control over the source code.
 
@@ -347,4 +347,4 @@ After linking, you can use `dealtech-ui` commands globally to test components lo
 
 ## License
 
-MIT © [Deal-Tech](https://tech.mudahdeal.com)
+MIT © [Deal-Tech](https://tech.mudahdeal.com) · [GitHub](https://github.com/Deal-Tech)
