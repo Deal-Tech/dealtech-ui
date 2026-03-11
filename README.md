@@ -13,12 +13,30 @@ DealTech UI Component Library — installable React + Tailwind components via `n
 
 ## Quick Start
 
+### Install Components
+
 ```bash
-npx dealtech-ui add button          # install single component
-npx dealtech-ui add card modal      # install multiple at once
-npx dealtech-ui add-layout admin-layout  # install a layout
-npx dealtech-ui install             # install ALL components & layouts
-npx dealtech-ui list                # show all available
+npx dealtech-ui add button                # install single component
+npx dealtech-ui add card modal badge      # install multiple at once
+```
+
+### Install Layouts
+
+```bash
+npx dealtech-ui add-layout admin-layout                # install single layout
+npx dealtech-ui add-layout admin-layout login-layout   # install multiple layouts
+```
+
+### Install Everything
+
+```bash
+npx dealtech-ui install                   # install ALL components & layouts
+```
+
+### Show Available
+
+```bash
+npx dealtech-ui list                      # show all available components & layouts
 ```
 
 Components are copied to `src/components/<name>/`  
