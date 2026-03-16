@@ -2,7 +2,7 @@
 
 `dealtech-ui` adalah CLI untuk generate `UI Panel Starter` berbasis React, Vite, TypeScript, dan Tailwind.
 
-Core `dealtech-ui` saat ini adalah starter admin panel siap pakai, bukan package import per komponen. Dokumentasi sementara difokuskan untuk instalasi starter app langsung lewat `npx dealtech-ui install`.
+Core `dealtech-ui` v1.2.0 difokuskan sebagai starter admin panel siap pakai. Flow add per komponen atau per layout akan masuk ke versi berikutnya, jadi dokumentasi saat ini tetap fokus ke instalasi starter app langsung lewat `npx dealtech-ui install`.
 
 Starter app yang dihasilkan sudah menyiapkan:
 - halaman login admin
@@ -49,15 +49,6 @@ npx dealtech-ui install my-admin-app --force
 - `--no-install` untuk skip `npm install`
 - `--force` untuk scaffold ke folder yang tidak kosong
 
-## Current scope
-
-Dokumentasi saat ini masih fokus ke flow install starter app.
-
-Belum ada dokumentasi resmi untuk:
-- import per komponen secara terpisah
-- publish komponen sebagai package terpisah
-- registry komponen seperti `add component`
-
 ## Optional command
 
 ```bash
@@ -84,4 +75,4 @@ dealtech-ui install demo-app
 
 ## License
 
-MIT
+MIT | [Deal-Tech](https://tech.mudahdeal.com)
