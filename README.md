@@ -79,7 +79,7 @@ npx dealtech-ui add-layout admin-layout --force
 
 ## Available UI
 
-`actionbutton`, `badge`, `button`, `confirmmodal`, `filterselect`, `formmodal`, `infosection`, `input`, `longtextinput`, `modal`, `notecard`, `pageheader`, `pagination`, `plancard`, `progresbarv1`, `progresbarv2`, `progresbarv3`, `scroltotop`, `searchableselect`, `searchinput`, `statcardoverview`, `tabledata-v1`, `tabledata-v2`, `uploadfield`, `welcomecard`
+`actionbutton`, `badge`, `button`, `cardtabelv1`, `confirmmodal`, `filterselect`, `formmodal`, `infosection`, `input`, `inputdate`, `longtextinput`, `modal`, `notecard`, `pageheader`, `pagination`, `plancard`, `progresbarv1`, `progresbarv2`, `progresbarv3`, `scroltotop`, `searchableselect`, `searchinput`, `statcardoverview`, `tabledata-v1`, `tabledata-v2`, `timelinetabel`, `uploadfield`, `welcomecard`
 
 Alias umum seperti `action-button`, `page-header`, `search-input`, `scroll-to-top`, dan `progress-bar-v2` juga didukung.
 
