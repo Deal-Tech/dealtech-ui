@@ -1,182 +1,398 @@
 #!/usr/bin/env node
 
-import { createRequire } from 'module';
-import { fileURLToPath } from 'url';
-import { dirname, join, resolve } from 'path';
-import { existsSync, mkdirSync, copyFileSync, readFileSync } from 'fs';
+import { spawnSync } from 'node:child_process';
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs';
+import { basename, dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT = resolve(__dirname, '..');
+const STARTER_TEMPLATE_DIR = join(ROOT, 'templates', 'starter');
 
-// ── Colors (no dependency) ──────────────────────────
-const c = {
-    green: (t) => `\x1b[32m${t}\x1b[0m`,
-    red: (t) => `\x1b[31m${t}\x1b[0m`,
-    cyan: (t) => `\x1b[36m${t}\x1b[0m`,
-    yellow: (t) => `\x1b[33m${t}\x1b[0m`,
-    bold: (t) => `\x1b[1m${t}\x1b[0m`,
-    dim: (t) => `\x1b[2m${t}\x1b[0m`,
+const colors = {
+  green: (text) => `\x1b[32m${text}\x1b[0m`,
+  red: (text) => `\x1b[31m${text}\x1b[0m`,
+  cyan: (text) => `\x1b[36m${text}\x1b[0m`,
+  yellow: (text) => `\x1b[33m${text}\x1b[0m`,
+  bold: (text) => `\x1b[1m${text}\x1b[0m`,
+  dim: (text) => `\x1b[2m${text}\x1b[0m`,
 };
 
-// ── Load registry ───────────────────────────────────
-const registry = JSON.parse(readFileSync(join(ROOT, 'registry.json'), 'utf-8'));
+const [, , command, ...rawArgs] = process.argv;
+const { flags, positional } = parseArgs(rawArgs);
 
-// ── CLI ─────────────────────────────────────────────
-const [, , command, ...args] = process.argv;
+function parseArgs(args) {
+  const parsedFlags = new Set();
+  const parsedPositional = [];
+
+  for (const arg of args) {
+    if (arg.startsWith('--')) {
+      parsedFlags.add(arg);
+      continue;
+    }
+
+    parsedPositional.push(arg);
+  }
+
+  return { flags: parsedFlags, positional: parsedPositional };
+}
+
+function toPackageName(value) {
+  const normalized = value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  return normalized || 'dealtech-app';
+}
+
+function toKebabCase(value) {
+  return value
+    .trim()
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+}
+
+function toPascalCase(value) {
+  return value
+    .trim()
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase())
+    .join('');
+}
+
+function isDirectoryEmpty(targetDir) {
+  const ignoredEntries = new Set(['.git']);
+  const entries = readdirSync(targetDir).filter((entry) => !ignoredEntries.has(entry));
+  return entries.length === 0;
+}
+
+function copyDirectory(sourceDir, destinationDir) {
+  if (!existsSync(destinationDir)) {
+    mkdirSync(destinationDir, { recursive: true });
+  }
+
+  const entries = readdirSync(sourceDir, { withFileTypes: true });
+  for (const entry of entries) {
+    const sourcePath = join(sourceDir, entry.name);
+    const destinationPath = join(destinationDir, entry.name);
+
+    if (entry.isDirectory()) {
+      copyDirectory(sourcePath, destinationPath);
+      continue;
+    }
+
+    copyFileSync(sourcePath, destinationPath);
+  }
+}
+
+function updatePackageName(targetDir, projectName) {
+  const packageJsonPath = join(targetDir, 'package.json');
+  if (!existsSync(packageJsonPath)) {
+    return;
+  }
+
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+  packageJson.name = toPackageName(projectName);
+  writeFileSync(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}\n`, 'utf-8');
+}
+
+function installDependencies(targetDir) {
+  const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+  const result = spawnSync(npmCommand, ['install'], {
+    cwd: targetDir,
+    stdio: 'inherit',
+  });
+
+  return result.status === 0;
+}
 
 function showHelp() {
-    console.log(`
-${c.bold('dealtech-ui')} — DealTech Component Library
+  console.log(`
+${colors.bold('dealtech-ui')} - DealTech App Starter CLI
 
-${c.bold('Usage:')}
-  npx dealtech-ui ${c.cyan('add')} ${c.dim('<component>')}    Install a component
-  npx dealtech-ui ${c.cyan('add-layout')} ${c.dim('<layout>')}  Install a layout
-  npx dealtech-ui ${c.cyan('install')}              Install ALL components & layouts
-  npx dealtech-ui ${c.cyan('list')}                 Show available components & layouts
-  npx dealtech-ui ${c.cyan('help')}                 Show this message
+${colors.bold('Usage:')}
+  npx dealtech-ui ${colors.cyan('install')} ${colors.dim('[project-name]')} ${colors.dim('[--no-install] [--force]')}
+  npx dealtech-ui ${colors.cyan('add-page')} ${colors.dim('<page-name>')}
+  npx dealtech-ui ${colors.cyan('help')}
 
-${c.bold('Examples:')}
-  npx dealtech-ui add button
-  npx dealtech-ui add card modal
-  npx dealtech-ui add-layout sidebar-layout
+${colors.bold('Examples:')}
+  npx dealtech-ui install
+  npx dealtech-ui install my-admin-app
+  npx dealtech-ui install my-admin-app --no-install
+  npx dealtech-ui add-page reports
 `);
 }
 
-function listComponents() {
-    console.log(`\n${c.bold('Available components:')}\n`);
-    registry.components.forEach((comp) => {
-        const deps = comp.dependencies.length > 0 ? c.dim(` → deps: ${comp.dependencies.join(', ')}`) : '';
-        console.log(`  ${c.cyan(comp.name.padEnd(20))} ${comp.description}${deps}`);
-    });
+function installStarter(projectArg) {
+  if (!existsSync(STARTER_TEMPLATE_DIR)) {
+    console.error(colors.red('\n[error] Starter template not found.\n'));
+    process.exit(1);
+  }
 
-    if (registry.layouts && registry.layouts.length > 0) {
-        console.log(`\n${c.bold('Available layouts:')}\n`);
-        registry.layouts.forEach((layout) => {
-            const deps = layout.dependencies.length > 0 ? c.dim(` → deps: ${layout.dependencies.join(', ')}`) : '';
-            console.log(`  ${c.cyan(layout.name.padEnd(20))} ${layout.description}${deps}`);
-        });
-    }
-    console.log();
+  const force = flags.has('--force');
+  const skipInstall = flags.has('--no-install');
+  const useCurrentDirectory = !projectArg || projectArg === '.';
+  const targetDir = useCurrentDirectory ? process.cwd() : resolve(process.cwd(), projectArg);
+
+  if (existsSync(targetDir) && !statSync(targetDir).isDirectory()) {
+    console.error(colors.red('\n[error] Target path exists and is not a directory.\n'));
+    process.exit(1);
+  }
+
+  if (!existsSync(targetDir)) {
+    mkdirSync(targetDir, { recursive: true });
+  }
+
+  if (!isDirectoryEmpty(targetDir) && !force) {
+    console.error(colors.red('\n[error] Target directory is not empty.'));
+    console.error(colors.dim('Run in an empty folder or use --force to overwrite files.\n'));
+    process.exit(1);
+  }
+
+  copyDirectory(STARTER_TEMPLATE_DIR, targetDir);
+
+  const projectName = toPackageName(useCurrentDirectory ? basename(targetDir) : projectArg);
+  updatePackageName(targetDir, projectName);
+
+  console.log(colors.green('\n[ok] Starter app created successfully.'));
+  console.log(colors.dim(`      Path: ${targetDir}`));
+
+  if (skipInstall) {
+    console.log(colors.yellow('\n[info] Dependency install skipped (--no-install).'));
+    printNextSteps(targetDir, useCurrentDirectory);
+    return;
+  }
+
+  console.log(colors.bold('\nInstalling dependencies with npm...'));
+  const installSuccess = installDependencies(targetDir);
+
+  if (!installSuccess) {
+    console.log(colors.yellow('\n[warn] npm install failed. You can run it manually.'));
+  }
+
+  printNextSteps(targetDir, useCurrentDirectory);
 }
 
-function addItems(names, type) {
-    const isLayout = type === 'layout';
-    const items = isLayout ? (registry.layouts || []) : registry.components;
-    const outputBase = isLayout ? 'src/layouts' : 'src/components';
-    const outputDir = resolve(process.cwd(), ...outputBase.split('/'));
-    const label = isLayout ? 'layout' : 'component';
+function buildPageTemplate(componentName, title) {
+  return `const ${componentName} = () => {
+  return (
+    <section className="space-y-4">
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#334a34]">
+          DealTech UI
+        </p>
+        <h1 className="mt-3 text-2xl font-semibold text-gray-900">${title}</h1>
+        <p className="mt-2 max-w-2xl text-sm text-gray-500">
+          Halaman ini dibuat otomatis oleh dealtech-ui. Lanjutkan dengan komponen
+          dan data sesuai kebutuhan modul Anda.
+        </p>
+      </div>
+    </section>
+  );
+};
 
-    if (names.length === 0) {
-        console.log(c.red(`\n✗ Please specify ${label} name(s). Example: npx dealtech-ui ${isLayout ? 'add-layout sidebar-layout' : 'add button'}\n`));
-        listComponents();
-        return;
-    }
-
-    const allDeps = new Set();
-
-    console.log();
-
-    for (const name of names) {
-        const item = items.find((i) => i.name === name.toLowerCase());
-
-        if (!item) {
-            console.log(c.red(`  ✗ ${label} "${name}" not found.`));
-            continue;
-        }
-
-        const itemDir = join(outputDir, item.name);
-        const sourceDir = join(ROOT, item.path);
-
-        // Create target directory
-        if (!existsSync(itemDir)) {
-            mkdirSync(itemDir, { recursive: true });
-        }
-
-        // Copy files
-        for (const file of item.files) {
-            const src = join(sourceDir, file);
-            const dest = join(itemDir, file);
-
-            if (!existsSync(src)) {
-                console.log(c.red(`  ✗ Source file not found: ${file}`));
-                continue;
-            }
-
-            copyFileSync(src, dest);
-            console.log(c.green(`  ✓ ${item.name}/${file}`) + c.dim(` → ${outputBase}/${item.name}/${file}`));
-        }
-
-        // Collect dependencies
-        item.dependencies.forEach((dep) => allDeps.add(dep));
-    }
-
-    // Show dependency install hint
-    if (allDeps.size > 0) {
-        const depList = [...allDeps].join(' ');
-        console.log(`\n${c.yellow('📦 Install required dependencies:')}`);
-        console.log(c.dim(`   npm install ${depList}\n`));
-    } else {
-        console.log();
-    }
+export default ${componentName};
+`;
 }
 
-function installAll() {
-    console.log(c.bold('\nInstalling ALL DealTech components and layouts...\n'));
-    const allDeps = new Set();
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
-    const installItems = (items, outputBase) => {
-        if (!items || items.length === 0) return;
-        const outputDir = resolve(process.cwd(), ...outputBase.split('/'));
-        items.forEach(item => {
-            const itemDir = join(outputDir, item.name);
-            const sourceDir = join(ROOT, item.path);
-            if (!existsSync(itemDir)) mkdirSync(itemDir, { recursive: true });
-            item.files.forEach(file => {
-                const src = join(sourceDir, file);
-                const dest = join(itemDir, file);
-                if (existsSync(src)) {
-                    copyFileSync(src, dest);
-                    console.log(c.green(`  ✓ ${item.name}/${file}`) + c.dim(` → ${outputBase}/${item.name}/${file}`));
-                }
-            });
-            item.dependencies.forEach(dep => allDeps.add(dep));
-        });
+function insertBlockBeforeMarker(content, marker, block) {
+  const pattern = new RegExp(`([ \\t]*)${escapeRegExp(marker)}`);
+
+  if (!pattern.test(content)) {
+    return null;
+  }
+
+  return content.replace(pattern, (_, indent) => {
+    const indentedBlock = block
+      .split('\n')
+      .map((line) => (line ? `${indent}${line}` : line))
+      .join('\n');
+
+    return `${indentedBlock}\n${indent}${marker}`;
+  });
+}
+
+function resolvePageScaffold(sourceDir, routeName, componentName) {
+  const adminAppPath = join(sourceDir, 'layout', 'AdminApp.tsx');
+  if (existsSync(adminAppPath)) {
+    return {
+      pageDirectory: join(sourceDir, 'pages', routeName),
+      pageFilePath: join(sourceDir, 'pages', routeName, `${componentName}.tsx`),
+      routerPath: adminAppPath,
+      displayPath: `src/pages/${routeName}/${componentName}.tsx`,
+      displayRoute: `/dashboard/${routeName}`,
+      importMarker: '// [dealtech:auto-imports]',
+      routeMarker: '{/* [dealtech:auto-routes] */}',
+      importStatement: `import ${componentName} from '../pages/${routeName}/${componentName}';`,
+      fallbackImport: "import ConfirmModalPage from '../pages/komponent/ConfirmModalPage';",
+      routeBlock: `<Route path="${routeName}" element={<${componentName} />} />`,
+      fallbackRoute: '      <Route path="komponent/confirm-modal" element={<ConfirmModalPage />} />',
+      routerLabel: 'src/layout/AdminApp.tsx',
     };
+  }
 
-    installItems(registry.components, 'src/components');
-    installItems(registry.layouts, 'src/layouts');
+  const routerPath = join(sourceDir, 'router.tsx');
+  if (existsSync(routerPath)) {
+    return {
+      pageDirectory: join(sourceDir, 'pages'),
+      pageFilePath: join(sourceDir, 'pages', `${componentName}.tsx`),
+      routerPath,
+      displayPath: `src/pages/${componentName}.tsx`,
+      displayRoute: `/${routeName}`,
+      importMarker: '// [dealtech:auto-imports]',
+      routeMarker: '{/* [dealtech:auto-routes] */}',
+      importStatement: `import { ${componentName} } from './pages/${componentName}';`,
+      fallbackImport: "import { LoginPage } from './pages/LoginPage';",
+      routeBlock: `<Route
+  path="/${routeName}"
+  element={
+    <PrivateRoute>
+      <${componentName} />
+    </PrivateRoute>
+  }
+/>`,
+      fallbackRoute: '<Route path="/" element={<Navigate to="/dashboard" replace />} />',
+      routerLabel: 'src/router.tsx',
+    };
+  }
 
-    if (allDeps.size > 0) {
-        const depList = [...allDeps].join(' ');
-        console.log(`\n${c.yellow('📦 Install required dependencies:')}`);
-        console.log(c.dim(`   npm install ${depList}\n`));
-    } else {
-        console.log();
-    }
+  return null;
 }
 
-// ── Route command ───────────────────────────────────
+function addPage(pageArg) {
+  if (!pageArg) {
+    console.error(colors.red('\n[error] Please provide a page name. Example: npx dealtech-ui add-page reports\n'));
+    process.exit(1);
+  }
+
+  const routeName = toKebabCase(pageArg);
+  const pageBaseName = toPascalCase(pageArg);
+
+  if (!routeName || !pageBaseName) {
+    console.error(colors.red('\n[error] Invalid page name.\n'));
+    process.exit(1);
+  }
+
+  const componentName = `${pageBaseName}Page`;
+  const sourceDir = resolve(process.cwd(), 'src');
+  const pageScaffold = resolvePageScaffold(sourceDir, routeName, componentName);
+
+  if (!pageScaffold) {
+    console.error(colors.red('\n[error] Starter router not found in src/.'));
+    console.error(colors.dim('Run this command inside a DealTech starter app.\n'));
+    process.exit(1);
+  }
+
+  if (!existsSync(pageScaffold.pageDirectory)) {
+    mkdirSync(pageScaffold.pageDirectory, { recursive: true });
+  }
+
+  if (existsSync(pageScaffold.pageFilePath)) {
+    console.error(colors.red(`\n[error] Page already exists: ${pageScaffold.displayPath}\n`));
+    process.exit(1);
+  }
+
+  writeFileSync(pageScaffold.pageFilePath, buildPageTemplate(componentName, pageBaseName), 'utf-8');
+
+  let routerContent = readFileSync(pageScaffold.routerPath, 'utf-8');
+
+  if (routerContent.includes(pageScaffold.importMarker)) {
+    routerContent = routerContent.replace(
+      pageScaffold.importMarker,
+      `${pageScaffold.importStatement}\n${pageScaffold.importMarker}`
+    );
+  } else if (!routerContent.includes(pageScaffold.importStatement)) {
+    if (routerContent.includes(pageScaffold.fallbackImport)) {
+      routerContent = routerContent.replace(
+        pageScaffold.fallbackImport,
+        `${pageScaffold.fallbackImport}\n${pageScaffold.importStatement}`
+      );
+    } else {
+      console.error(colors.red(`\n[error] Unable to insert page import into ${pageScaffold.routerLabel}.`));
+      process.exit(1);
+    }
+  }
+
+  if (routerContent.includes(pageScaffold.routeMarker)) {
+    const nextRouterContent = insertBlockBeforeMarker(
+      routerContent,
+      pageScaffold.routeMarker,
+      pageScaffold.routeBlock
+    );
+
+    if (!nextRouterContent) {
+      console.error(colors.red(`\n[error] Unable to insert page route into ${pageScaffold.routerLabel}.`));
+      process.exit(1);
+    }
+
+    routerContent = nextRouterContent;
+  } else {
+    if (routerContent.includes(pageScaffold.fallbackRoute)) {
+      routerContent = routerContent.replace(
+        pageScaffold.fallbackRoute,
+        `${pageScaffold.routeBlock}\n${pageScaffold.fallbackRoute}`
+      );
+    } else {
+      console.error(colors.red(`\n[error] Unable to insert page route into ${pageScaffold.routerLabel}.`));
+      process.exit(1);
+    }
+  }
+
+  writeFileSync(pageScaffold.routerPath, routerContent, 'utf-8');
+
+  console.log(colors.green('\n[ok] Page generated successfully.'));
+  console.log(colors.dim(`      File : ${pageScaffold.displayPath}`));
+  console.log(colors.dim(`      Route: ${pageScaffold.displayRoute}\n`));
+}
+
+function printNextSteps(targetDir, useCurrentDirectory) {
+  console.log(colors.bold('\nNext steps:'));
+
+  if (!useCurrentDirectory) {
+    console.log(colors.cyan(`  cd ${targetDir}`));
+  }
+
+  if (flags.has('--no-install')) {
+    console.log(colors.cyan('  npm install'));
+  }
+
+  console.log(colors.cyan('  npm run dev'));
+  console.log();
+}
+
 switch (command) {
-    case 'add':
-        addItems(args, 'component');
-        break;
-    case 'add-layout':
-        addItems(args, 'layout');
-        break;
-    case 'install':
-        installAll();
-        break;
-    case 'list':
-        listComponents();
-        break;
-    case 'help':
-    case '--help':
-    case '-h':
-    case undefined:
-        showHelp();
-        break;
-    default:
-        console.log(c.red(`\n✗ Unknown command: ${command}`));
-        showHelp();
+  case 'install':
+    installStarter(positional[0]);
+    break;
+  case 'add-page':
+    addPage(positional[0]);
+    break;
+  case 'help':
+  case '--help':
+  case '-h':
+  case undefined:
+    showHelp();
+    break;
+  default:
+    console.error(colors.red(`\n[error] Unknown command: ${command}`));
+    showHelp();
+    process.exit(1);
 }

@@ -1,24 +1,23 @@
 {
-    "name": "dealtech-ui",
-    "version": "1.0.0",
-    "type": "module",
-    "description": "DealTech UI Component Library — installable React components via npx",
-    "bin": {
-        "dealtech-ui": "./cli/install.js"
-    },
-    "keywords": [
-        "react",
-        "ui",
-        "components",
-        "tailwind",
-        "dealtech"
-    ],
-    "author": "Deal-Tech",
-    "license": "MIT",
-    "files": [
-        "cli/",
-        "components/",
-        "registry.json",
-        "README.md"
-    ]
+  "name": "dealtech-ui",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "DealTech UI panel starter scaffolder for React + Vite + Tailwind",
+  "bin": {
+    "dealtech-ui": "./cli/install.js"
+  },
+  "keywords": [
+    "react",
+    "vite",
+    "tailwind",
+    "scaffold",
+    "dealtech"
+  ],
+  "author": "Deal-Tech",
+  "license": "MIT",
+  "files": [
+    "cli/",
+    "templates/",
+    "README.md"
+  ]
 }

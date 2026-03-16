@@ -1,0 +1,256 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
+
+@layer base {
+  body {
+    font-family: 'SN Pro', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-neutral-50;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  @media (min-width: 768px) {
+    body {
+      font-size: 16px;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  @media (min-width: 768px) {
+    h1, h2, h3, h4, h5, h6 {
+      font-size: 20px;
+    }
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom animations */
+@layer components {
+  .fade-in {
+    @apply opacity-0 animate-[fadeIn_0.3s_ease-in_forwards];
+  }
+
+  .slide-up {
+    @apply translate-y-4 opacity-0 animate-[slideUp_0.3s_ease-out_forwards];
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-102;
+  }
+}
+
+/* Custom pulse animation for emergency markers */
+.pulse-animation {
+  position: relative;
+}
+
+.pulse-animation::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(216, 49, 91, 0.7);
+  animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(216, 49, 91, 0.7);
+  }
+  
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(216, 49, 91, 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(216, 49, 91, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Glass effect */
+.glass {
+  @apply bg-white bg-opacity-70 backdrop-blur-md border border-white border-opacity-20;
+}
+
+/* Tooltip customization */
+.leaflet-tooltip {
+  @apply !bg-primary-900/90 !text-white !border-none !rounded !px-3 !py-1.5 !text-sm !shadow-lg;
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: rgba(10, 36, 99, 0.9) !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-neutral-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-300 rounded-full hover:bg-neutral-400 transition-colors;
+}
+
+/* Table styles */
+.table-container {
+  @apply rounded-xl overflow-hidden border border-neutral-200 bg-white shadow-sm;
+}
+
+.table-header {
+  @apply bg-neutral-50 text-neutral-600 text-xs font-medium uppercase tracking-wider px-6 py-3;
+}
+
+.table-cell {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-neutral-700;
+}
+
+/* Card styles */
+.dashboard-card {
+  @apply bg-white rounded-xl p-6 shadow-sm border border-neutral-200 hover:border-primary-200 transition-all duration-300;
+}
+
+/* Button styles */
+.btn {
+  @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-primary {
+  @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+}
+
+.btn-secondary {
+  @apply bg-neutral-100 text-neutral-700 hover:bg-neutral-200 focus:ring-neutral-400;
+}
+
+.btn-accent {
+  @apply bg-accent-500 text-white hover:bg-accent-600 focus:ring-accent-400;
+}
+
+/* Input styles */
+.input {
+  @apply w-full px-4 py-2 rounded-lg border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+}
+
+/* Badge styles */
+.badge {
+  @apply px-2.5 py-1 rounded-full text-xs font-medium;
+}
+
+.badge-success {
+  @apply bg-green-100 text-green-800;
+}
+
+.badge-warning {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.badge-danger {
+  @apply bg-red-100 text-red-800;
+}
+
+.badge-info {
+  @apply bg-blue-100 text-blue-800;
+}
+
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+  color: #0f172a;
+  background-color: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+#root {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.page-wrapper,
+.page-container,
+.main-container,
+.wrapper,
+body>div:first-child {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Toastify Customization */
+.Toastify__toast {
+  min-height: 48px !important;
+  padding: 8px 12px !important;
+  font-family: inherit !important;
+}
+
+.Toastify__toast-body {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+.Toastify__toast-icon {
+  width: 18px !important;
+  margin-inline-end: 8px !important;
+}
+
+.Toastify__close-button {
+  align-self: center !important;
+}
