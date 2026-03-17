@@ -1,11 +1,15 @@
+# DealTech Web & Apps Development
+
+DealTech Web & Apps Development builds modern web and mobile application solutions for businesses that need fast, scalable, and practical digital products.
+
 # dealtech-ui
 
-`dealtech-ui` adalah CLI untuk generate `UI Panel Starter` dan menambahkan UI element atau layout secara terpisah ke project React Anda.
+`dealtech-ui` is a CLI for generating a `UI Panel Starter` and adding UI elements or layouts separately into your React project.
 
-Core `dealtech-ui` v2.0.0:
-- `install` untuk starter admin panel lengkap
-- `add` untuk copy UI element siap pakai
-- `add-layout` untuk copy layout beserta style CSS pendukungnya
+Core features in `dealtech-ui` v2.0.0:
+- `install` for a complete admin panel starter
+- `add` to copy ready-to-use UI elements
+- `add-layout` to copy layouts along with their supporting CSS styles
 
 ## Usage
 
@@ -15,12 +19,12 @@ Core `dealtech-ui` v2.0.0:
 npx dealtech-ui install my-admin-app
 ```
 
-Command ini akan:
-1. Membuat folder project baru
-2. Menyalin starter template DealTech UI
-3. Menjalankan `npm install` otomatis
+This command will:
+1. Create a new project folder
+2. Copy the DealTech UI starter template
+3. Run `npm install` automatically
 
-Lalu jalankan:
+Then run:
 
 ```bash
 cd my-admin-app
@@ -33,15 +37,15 @@ npm run dev
 npx dealtech-ui add button badge modal
 ```
 
-Command ini akan menyalin file ke `src/components/ui/...` dan otomatis membawa dependency lokal yang dibutuhkan.
+This command copies files into `src/components/ui/...` and automatically includes the required local dependencies.
 
-Contoh:
+Example:
 
 ```bash
 npx dealtech-ui add tabledata-v2
 ```
 
-`tabledata-v2` akan ikut membawa `button` dan `actionbutton` bila belum ada.
+`tabledata-v2` will also include `button` and `actionbutton` if they are not already available.
 
 ### Add layout
 
@@ -49,7 +53,7 @@ npx dealtech-ui add tabledata-v2
 npx dealtech-ui add-layout admin-layout
 ```
 
-Command ini akan menyalin:
+This command will copy:
 - `src/layout/AdminLayout.tsx`
 - `src/components/layout/AdminHeader.tsx`
 - `src/components/layout/AdminSidebar.tsx`
@@ -61,9 +65,9 @@ Command ini akan menyalin:
 npx dealtech-ui add-page reports
 ```
 
-Command ini akan:
-- membuat file `src/pages/reports/ReportsPage.tsx`
-- menambahkan route `/dashboard/reports` ke `src/layout/AdminApp.tsx`
+This command will:
+- create `src/pages/reports/ReportsPage.tsx`
+- add the `/dashboard/reports` route to `src/layout/AdminApp.tsx`
 
 ### Flags
 
@@ -74,14 +78,14 @@ npx dealtech-ui add button --force
 npx dealtech-ui add-layout admin-layout --force
 ```
 
-- `--no-install` untuk skip `npm install`
-- `--force` untuk overwrite file atau folder yang sudah ada
+- `--no-install` skips `npm install`
+- `--force` overwrites existing files or folders
 
 ## Available UI
 
 `actionbutton`, `badge`, `button`, `cardtabelv1`, `confirmmodal`, `filterselect`, `formmodal`, `infosection`, `input`, `inputdate`, `longtextinput`, `modal`, `notecard`, `pageheader`, `pagination`, `plancard`, `progresbarv1`, `progresbarv2`, `progresbarv3`, `scroltotop`, `searchableselect`, `searchinput`, `statcardoverview`, `tabledata-v1`, `tabledata-v2`, `timelinetabel`, `uploadfield`, `welcomecard`
 
-Alias umum seperti `action-button`, `page-header`, `search-input`, `scroll-to-top`, dan `progress-bar-v2` juga didukung.
+Common aliases such as `action-button`, `page-header`, `search-input`, `scroll-to-top`, and `progress-bar-v2` are also supported.
 
 ## Available Layout
 
@@ -95,7 +99,7 @@ cd dealtech-ui
 npm link
 ```
 
-Lalu dari folder lain:
+Then from another folder:
 
 ```bash
 dealtech-ui install demo-app
@@ -105,4 +109,4 @@ dealtech-ui add-layout admin-layout
 
 ## License
 
-MIT | [Deal-Tech](https://tech.mudahdeal.com)
+MIT | [Official Website Deal-Tech](https://tech.mudahdeal.com) | [GitHub](https://github.com/Deal-Tech)
