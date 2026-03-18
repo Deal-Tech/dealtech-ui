@@ -6,10 +6,11 @@ DealTech Web & Apps Development builds modern web and mobile application solutio
 
 `dealtech-ui` is a CLI for generating a `UI Panel Starter` and adding UI elements or layouts separately into your React project.
 
-Core features in `dealtech-ui` v2.0.0:
+Core features in `dealtech-ui` v2.1.0:
 - `install` for a complete admin panel starter
 - `add` to copy ready-to-use UI elements
 - `add-layout` to copy layouts along with their supporting CSS styles
+- `pagination-v2` untuk pagination gaya admin dengan tombol `Previous / Next`
 
 ## Usage
 
@@ -47,6 +48,12 @@ npx dealtech-ui add tabledata-v2
 
 `tabledata-v2` will also include `button` and `actionbutton` if they are not already available.
 
+Pagination versi baru:
+
+```bash
+npx dealtech-ui add pagination-v2
+```
+
 ### Add layout
 
 ```bash
@@ -83,7 +90,7 @@ npx dealtech-ui add-layout admin-layout --force
 
 ## Available UI
 
-`actionbutton`, `badge`, `button`, `cardtabelv1`, `confirmmodal`, `filterselect`, `formmodal`, `infosection`, `input`, `inputdate`, `longtextinput`, `modal`, `notecard`, `pageheader`, `pagination`, `plancard`, `progresbarv1`, `progresbarv2`, `progresbarv3`, `scroltotop`, `searchableselect`, `searchinput`, `statcardoverview`, `tabledata-v1`, `tabledata-v2`, `timelinetabel`, `uploadfield`, `welcomecard`
+`actionbutton`, `badge`, `button`, `cardtabelv1`, `confirmmodal`, `filterselect`, `formmodal`, `infosection`, `input`, `inputdate`, `longtextinput`, `modal`, `notecard`, `pageheader`, `pagination` (v1), `pagination-v2`, `plancard`, `progresbarv1`, `progresbarv2`, `progresbarv3`, `scroltotop`, `searchableselect`, `searchinput`, `statcardoverview`, `tabledata-v1`, `tabledata-v2`, `timelinetabel`, `uploadfield`, `welcomecard`
 
 Common aliases such as `action-button`, `page-header`, `search-input`, `scroll-to-top`, and `progress-bar-v2` are also supported.
 

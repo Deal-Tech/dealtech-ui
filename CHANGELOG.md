@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.1.0 - 2026-03-17
+
+- Tambah komponen `pagination-v2` dengan pola pagination admin `Previous / Next` dan sibling window 2 kiri 2 kanan.
+- Pagination lama tetap dipertahankan sebagai `pagination` v1.
+- Tambah halaman showcase `Pagination V2` di starter app.
+- README dan metadata package diperbarui untuk rilis `v2.1.0`.
+
 ## v2.0.0 - 2026-03-16
 
 - Tambah command `add` untuk menyalin UI element satuan beserta dependency lokalnya.
