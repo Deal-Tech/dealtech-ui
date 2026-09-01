@@ -13,7 +13,6 @@ import {
   Ship,
   Sparkles,
   Trash2,
-  TrendingUp,
   Users,
 } from 'lucide-react';
 
@@ -69,7 +68,6 @@ import { TabelCardV1 } from '@/components/ui/tabelcardv1/TabelCardV1';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
 import { TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
 import { ToggleOnOff } from '@/components/ui/toggleonoff/ToggleOnOff';
-import { TombolAksi, TombolTautan } from '@/components/ui/tombol-tautan/TombolTautan';
 import { UlasanBerjalan } from '@/components/ui/ulasan-berjalan/UlasanBerjalan';
 import { UnggahGambar } from '@/components/ui/unggah-gambar/UnggahGambar';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
@@ -249,11 +247,7 @@ export default function ElementPage() {
       <PageTitle
         title="Semua Element"
         subtitle="Katalog komponen DealTech UI v2. Setiap kotak menampilkan satu komponen beserta letak berkasnya di src/components/ui/."
-        action={
-          <TombolAksi varian="garis" icon={Sparkles}>
-            56 komponen
-          </TombolAksi>
-        }
+        action={<span className="element-hitung">55 komponen</span>}
       />
 
       <nav className="element-nav" aria-label="Lompat ke seksi">
@@ -265,7 +259,7 @@ export default function ElementPage() {
       </nav>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="tombol" judul="Tombol & Navigasi" jumlah={5}>
+      <Seksi id="tombol" judul="Tombol & Navigasi" jumlah={4}>
         <Petak nama="Button" jalur="button/">
           <p className="element-catatan">Satu ukuran, empat keadaan.</p>
           <div className="element-baris">
@@ -300,24 +294,6 @@ export default function ElementPage() {
             <ActionButton icon={Pencil} disabled aria-label="Nonaktif" />
           </div>
           <p className="element-catatan">Tombol ikon untuk kolom aksi di tabel.</p>
-        </Petak>
-
-        <Petak nama="TombolTautan / TombolAksi" jalur="tombol-tautan/">
-          <div className="element-baris">
-            <TombolTautan to="/dashboard">Primary</TombolTautan>
-            <TombolTautan to="/dashboard" varian="garis">
-              Garis
-            </TombolTautan>
-            <TombolTautan to="/dashboard" varian="garis-merek" icon={TrendingUp} ikonKanan>
-              Ikon Kanan
-            </TombolTautan>
-          </div>
-          <div className="element-baris">
-            <TombolAksi ukuran="sm">Aksi Kecil</TombolAksi>
-            <TombolAksi ukuran="lg" icon={Compass}>
-              Aksi Besar
-            </TombolAksi>
-          </div>
         </Petak>
 
         <Petak nama="TabButton" jalur="tab-button/">

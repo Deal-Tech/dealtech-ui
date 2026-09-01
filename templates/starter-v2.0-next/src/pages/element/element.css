@@ -125,3 +125,15 @@
   border-radius: 8px;
   background: var(--color-hero-base);
 }
+
+/* Label jumlah komponen di kepala halaman. */
+.element-hitung {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: var(--app-chip-bg);
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-chip-fg);
+}
