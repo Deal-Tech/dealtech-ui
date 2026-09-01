@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { LogIn } from 'lucide-react';
 
+import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { Button } from '@/components/ui/button/Button';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { ApiError } from '@/lib/api';
@@ -67,9 +68,6 @@ export default function AdminLogin() {
             </span>
           </div>
 
-          {/* Pakai komponen InputText, bukan <input> mentah — supaya gaya field,
-              cincin fokus, dan tombol lihat-sandi ikut satu sumber dengan
-              seluruh form lain di aplikasi. */}
           <InputText
             label="Email"
             name="email"
@@ -94,15 +92,8 @@ export default function AdminLogin() {
             required
           />
 
-          {galat ? (
-            <p className="login-error" role="alert">
-              {galat}
-            </p>
-          ) : null}
+          {galat ? <BadgeInfo variant="error">{galat}</BadgeInfo> : null}
 
-          {/* Komponen Button, bukan <button> mentah — kalau tidak, tombol ini
-              berhenti ikut perbaikan design system seperti yang sudah pernah
-              terjadi pada isian di halaman ini. */}
           <Button
             type="submit"
             icon={LogIn}
@@ -118,17 +109,12 @@ export default function AdminLogin() {
           &copy; {new Date().getFullYear()} DealTech UI
           <span className="login-footnote__powered mt-1">
             Panel Admin Di Tenagai serta Di Suport
-            {/* noopener+noreferrer wajib: tanpa itu halaman tujuan bisa menyetir tab ini. */}
             <a
               href="https://tech.mudahdeal.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="login-footnote__tautan"
             >
-              {/* Disalin ke src/assets, bukan ditarik dari CDN DealTech:
-                  CSP produksi (cspAplikasi di backend) cuma mengizinkan
-                  img-src 'self', jadi versi CDN-nya tidak pernah tampil di
-                  pemasangan sungguhan — cuma di dev. */}
               <img
                 src={dealhost}
                 alt="DealHost"

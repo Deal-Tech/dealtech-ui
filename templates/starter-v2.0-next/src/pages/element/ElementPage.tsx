@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 
 import ActionButton from '@/components/ui/action-button/ActionButton';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert/Alert';
 import { Badge } from '@/components/ui/badge/Badge';
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { BadgeV2 } from '@/components/ui/badgev2/BadgeV2';
@@ -252,7 +251,7 @@ export default function ElementPage() {
         subtitle="Katalog komponen DealTech UI v2. Setiap kotak menampilkan satu komponen beserta letak berkasnya di src/components/ui/."
         action={
           <TombolAksi varian="garis" icon={Sparkles}>
-            57 komponen
+            56 komponen
           </TombolAksi>
         }
       />
@@ -347,27 +346,30 @@ export default function ElementPage() {
       </Seksi>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="status" judul="Status & Umpan Balik" jumlah={7}>
-        <Petak nama="Alert" jalur="alert/">
-          <Alert variant="info">
-            <AlertTitle>Informasi</AlertTitle>
-            <AlertDescription>Jadwal keberangkatan berubah menjadi 08.30 WITA.</AlertDescription>
-          </Alert>
-          <Alert variant="success">
-            <AlertTitle>Berhasil</AlertTitle>
-            <AlertDescription>Paket tour berhasil disimpan.</AlertDescription>
-          </Alert>
-          <Alert variant="warning">
-            <AlertTitle>Perhatian</AlertTitle>
-            <AlertDescription>Kuota tersisa tinggal 2 kursi.</AlertDescription>
-          </Alert>
-          <Alert variant="destructive">
-            <AlertTitle>Gagal</AlertTitle>
-            <AlertDescription>Koneksi ke server terputus.</AlertDescription>
-          </Alert>
+      <Seksi id="status" judul="Status & Umpan Balik" jumlah={6}>
+        <Petak nama="BadgeInfo" jalur="badgeinfo/">
+          <p className="element-catatan">Dengan ikon — bawaan tiap varian.</p>
+          <BadgeInfo variant="info">Jadwal keberangkatan berubah menjadi 08.30 WITA.</BadgeInfo>
+          <BadgeInfo variant="success">Paket tour berhasil disimpan.</BadgeInfo>
+          <BadgeInfo variant="warning">Kuota tersisa tinggal 2 kursi.</BadgeInfo>
+          <BadgeInfo variant="error">Koneksi ke server terputus.</BadgeInfo>
+
+          <p className="element-catatan">Tanpa ikon — <code>icon={'{false}'}</code>.</p>
+          <BadgeInfo variant="info" icon={false}>
+            Jadwal keberangkatan berubah menjadi 08.30 WITA.
+          </BadgeInfo>
+          <BadgeInfo variant="success" icon={false}>
+            Paket tour berhasil disimpan.
+          </BadgeInfo>
+          <BadgeInfo variant="warning" icon={false}>
+            Kuota tersisa tinggal 2 kursi.
+          </BadgeInfo>
+          <BadgeInfo variant="error" icon={false}>
+            Koneksi ke server terputus.
+          </BadgeInfo>
         </Petak>
 
-        <Petak nama="Badge / BadgeInfo" jalur="badge/, badgeinfo/">
+        <Petak nama="Badge" jalur="badge/">
           <div className="element-baris">
             <Badge icon={Check} variant="green">
               Aktif
@@ -387,12 +389,6 @@ export default function ElementPage() {
             <Badge icon={Package} variant="gray">
               Arsip
             </Badge>
-          </div>
-          <div className="element-baris">
-            <BadgeInfo variant="success">Tersimpan</BadgeInfo>
-            <BadgeInfo variant="info">Draf</BadgeInfo>
-            <BadgeInfo variant="warning">Menunggu</BadgeInfo>
-            <BadgeInfo variant="error">Ditolak</BadgeInfo>
           </div>
         </Petak>
 
@@ -931,16 +927,11 @@ export default function ElementPage() {
             <span className="element-seksi__jumlah">2 elemen</span>
           </h2>
         </div>
-        <Alert variant="default">
-          <AlertTitle>ProtectedRoute &amp; ModalGalat</AlertTitle>
-          <AlertDescription>
-            Dua komponen ini tidak punya tampilan sendiri untuk dipajang.{' '}
-            <strong>ProtectedRoute</strong> (protected-route/) adalah gerbang rute yang
-            mengalihkan ke halaman masuk, dan <strong>ModalGalat</strong> (modal-galat/) sudah
-            terpasang sekali di <code>src/main.tsx</code> untuk menangkap gangguan sistem dari
-            seluruh halaman.
-          </AlertDescription>
-        </Alert>
+        <BadgeInfo variant="info">
+          <strong>ProtectedRoute</strong> (protected-route/) adalah gerbang rute yang mengalihkan
+          ke halaman masuk, dan <strong>ModalGalat</strong> (modal-galat/) sudah terpasang sekali
+          di <code>src/main.tsx</code> untuk menangkap gangguan sistem dari seluruh halaman.
+        </BadgeInfo>
       </section>
     </div>
   );

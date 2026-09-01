@@ -5,7 +5,6 @@ export default function LoginBg() {
   return (
     <>
       <HexBackdrop />
-      {/* Halaman masuk tidak di-scroll — tanpa ini lambangnya tidak pernah tampil. */}
       <LogoShape revealOnScroll={false} />
     </>
   );

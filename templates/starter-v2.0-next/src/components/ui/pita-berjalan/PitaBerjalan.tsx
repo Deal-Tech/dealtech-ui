@@ -11,8 +11,6 @@ export interface PitaBerjalanProps {
 export function PitaBerjalan({ atas, bawah, className = '' }: PitaBerjalanProps) {
   return (
     <div className={`pita-berjalan ${className}`}>
-      {/* Tiap baris digandakan supaya translateX(-50%) mendaratkan salinan kedua
-          tepat di posisi awal salinan pertama — sambungannya jadi tak terlihat. */}
       <div className="pita-berjalan__baris pita-berjalan__baris--kiri">
         {[...atas, ...atas].map((isi, i) => (
           <div className="pita-berjalan__sel" key={i}>

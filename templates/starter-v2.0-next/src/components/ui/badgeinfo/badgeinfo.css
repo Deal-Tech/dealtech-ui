@@ -21,6 +21,11 @@
   min-width: 0;
 }
 
+/* Tanpa ikon: gap tidak terpakai. */
+.badgeinfo--polos {
+  gap: 0;
+}
+
 .badgeinfo--success {
   --bi-c: var(--app-success-text);
 }

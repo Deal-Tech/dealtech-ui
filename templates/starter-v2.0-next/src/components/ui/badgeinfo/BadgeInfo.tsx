@@ -15,15 +15,20 @@ const DEFAULT_ICON: Record<BadgeInfoVariant, LucideIcon> = {
 export interface BadgeInfoProps {
   children: ReactNode;
   variant?: BadgeInfoVariant;
-  icon?: LucideIcon;
+  /** Ikon bawaan varian, ikon sendiri, atau `false` untuk tanpa ikon. */
+  icon?: LucideIcon | false;
   className?: string;
 }
 
 export function BadgeInfo({ children, variant = 'success', icon, className = '' }: BadgeInfoProps) {
-  const Icon = icon ?? DEFAULT_ICON[variant];
+  const Icon = icon === false ? null : (icon ?? DEFAULT_ICON[variant]);
+
   return (
-    <div role="status" className={`badgeinfo badgeinfo--${variant} ${className}`}>
-      <Icon className="badgeinfo__icon" />
+    <div
+      role="status"
+      className={`badgeinfo badgeinfo--${variant} ${Icon ? '' : 'badgeinfo--polos'} ${className}`}
+    >
+      {Icon ? <Icon className="badgeinfo__icon" /> : null}
       <span className="badgeinfo__text">{children}</span>
     </div>
   );

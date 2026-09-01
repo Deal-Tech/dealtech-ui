@@ -13,7 +13,6 @@ export interface LabelQRProps {
 export function LabelQR({ kode, judul, rincian = [], className = '' }: LabelQRProps) {
   return (
     <div className={`label-qr ${className}`}>
-      {/* Level M: tahan kerusakan ~15%, tanpa membuat kotaknya terlalu rapat di 13 mm. */}
       <QRCodeSVG value={kode} level="M" marginSize={0} className="label-qr__kode" />
       <div className="label-qr__teks">
         <span className="label-qr__judul">{judul}</span>

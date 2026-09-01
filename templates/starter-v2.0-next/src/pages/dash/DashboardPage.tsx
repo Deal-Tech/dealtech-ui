@@ -53,7 +53,6 @@ function AksesCepat() {
 export default function DashboardPage() {
   return (
     <div className="dashboard space-y-6">
-      {/* Tanpa PageTitle — dashboard langsung dibuka kartu sambutan ini. */}
       <WelcomeCardV2
         name="Administrator"
         badge="DealTech UI 2.0 Next"

@@ -276,9 +276,6 @@ export default function PengaturanPage() {
     <div className="pengaturan-page space-y-6">
       <PageTitle title="Pengaturan" subtitle="Kelola informasi akun dan kata sandi Anda" />
 
-      {/* Kontak publik — khusus admin. Operator tidak melihat bagian ini sama
-          sekali, bukan sekadar tidak bisa menyimpannya: endpointnya pun ditolak
-          untuk mereka, jadi form yang tampil cuma akan berakhir dengan galat. */}
       {peranAdmin ? (
         <section className="app-section-card">
           <div className="app-section-body pengaturan-bagian">
@@ -365,7 +362,6 @@ export default function PengaturanPage() {
         </section>
       ) : null}
 
-      {/* items-stretch (bawaan grid) — tinggi kedua section wajib selalu sama. */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {/* ---------- Informasi akun ---------- */}
         <section className="app-section-card">
@@ -387,8 +383,6 @@ export default function PengaturanPage() {
                 required
               />
 
-              {/* Select tidak punya prop label, jadi labelnya manual — ukurannya
-                  wajib ikut token yang sama dengan label komponen input lain. */}
               <div className="pengaturan-form__field">
                 <span className="pengaturan-form__label">Zona waktu</span>
                 <Select
@@ -414,9 +408,6 @@ export default function PengaturanPage() {
 
             {/* Ganti email */}
             <div className="pengaturan-email">
-              {/* Tampil seperti field Nama, tapi readOnly — email hanya bisa
-                  diganti lewat form di bawah yang meminta sandi, bukan diketik
-                  langsung di sini. */}
               <InputText
                 label="Email"
                 type="email"
@@ -442,8 +433,6 @@ export default function PengaturanPage() {
 
               {tahap === 'form' ? (
                 <form onSubmit={simpanEmail} className="pengaturan-form">
-                  {/* Peringatan, bukan penjelasan cara kerja sistem: alamatnya
-                      tidak diverifikasi, jadi salah ketik mengunci akun ini. */}
                   <p className="pengaturan-catatan">
                     Email baru langsung dipakai untuk masuk. Pastikan alamatnya benar — kalau salah,
                     akun ini tidak bisa dipakai masuk lagi dan harus direset admin.

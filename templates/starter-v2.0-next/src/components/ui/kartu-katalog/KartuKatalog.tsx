@@ -43,9 +43,6 @@ export function KartuKatalog({
           <div className="kartu-katalog__gambar kartu-katalog__gambar--kosong" aria-hidden="true" />
         )}
 
-        {/* Lencana kiri atas diisi KATEGORI — data sungguhan. Rancangan klien
-            memakai label pemasaran ("Best Seller"), dan kita belum punya
-            satu pun penanda seperti itu. */}
         {kategori ? <span className="kartu-katalog__kategori">{kategori}</span> : null}
 
         {durasi ? (
@@ -58,8 +55,6 @@ export function KartuKatalog({
 
       <div className="kartu-katalog__isi">
         <h3 className="kartu-katalog__nama">
-          {/* Tautan membungkus judulnya saja, tapi ::after-nya melebar ke seluruh
-              kartu — seluruh kartu bisa diklik tanpa menelan tombol di kakinya. */}
           <Link className="kartu-katalog__tautan" to={ke}>
             {nama}
           </Link>
@@ -72,8 +67,6 @@ export function KartuKatalog({
           </p>
         ) : null}
 
-        {/* title= supaya nama yang terpotong tetap bisa dibaca utuh saat
-            disentuh kursor — potongannya cuma soal ruang, bukan soal isi. */}
         {keterangan ? (
           <p className="kartu-katalog__keterangan" title={keterangan}>
             {keterangan}

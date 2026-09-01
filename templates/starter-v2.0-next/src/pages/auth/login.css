@@ -78,17 +78,6 @@
   }
 }
 
-.login-page .login-error {
-  margin: 0;
-  border-radius: 6px;
-  border: 1px solid rgba(185, 28, 28, 0.35);
-  background: rgba(185, 28, 28, 0.08);
-  padding: 8px 12px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--app-danger-solid);
-}
-
 .login-page .login-btn {
   width: 100%;
 }
