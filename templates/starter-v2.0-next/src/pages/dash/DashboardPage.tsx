@@ -70,7 +70,6 @@ export default function DashboardPage() {
       <WelcomeCardV2
         name="Administrator"
         badge="DealTech UI 2.0 Next"
-        deskripsi="Starter admin dengan tema token CSS dan style terpisah per komponen. Buka halaman Semua Element untuk melihat seluruh koleksinya."
         aksiLabel="Lihat Semua Element"
         aksiKe="/dashboard/element"
         aksiIkon={Component}
