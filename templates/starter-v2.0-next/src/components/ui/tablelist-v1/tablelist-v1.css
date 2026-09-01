@@ -252,3 +252,15 @@
   justify-content: flex-end;
   gap: 6px;
 }
+
+/* Seret-untuk-menggulir. `pointer: fine` membatasinya ke perangkat bertetikus —
+   di layar sentuh gulir bawaan peramban sudah benar dan tidak boleh diganggu. */
+@media (pointer: fine) {
+  .tablelist-v1__scroll--seret {
+    cursor: grab;
+  }
+  .tablelist-v1__scroll--menyeret {
+    cursor: grabbing;
+    user-select: none;
+  }
+}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const PER_HALAMAN_OPSI = [
   { value: '25', label: '25 baris' },
@@ -102,4 +102,31 @@ export function useDaftar<T>(sumber: T[], opsi: OpsiDaftar<T>) {
     toggleSemuaHalaman,
     bersihkanPilihan,
   };
+}
+
+/**
+ * Pilihan baris untuk `<TableListV1 pilihan={...}>`.
+ *
+ * Bentuk kembaliannya sengaja sama persis dengan `PilihanTabel`, jadi bisa
+ * dioper apa adanya. `kunciHalaman` diisi kunci baris yang sedang tampil.
+ */
+export function usePilihan(kunciHalaman: string[]) {
+  const [terpilih, setTerpilih] = useState<string[]>([]);
+
+  const onToggle = useCallback((kunci: string) => {
+    setTerpilih((p) => (p.includes(kunci) ? p.filter((k) => k !== kunci) : [...p, kunci]));
+  }, []);
+
+  const onToggleSemua = useCallback(() => {
+    setTerpilih((p) => {
+      const semua = kunciHalaman.length > 0 && kunciHalaman.every((k) => p.includes(k));
+      return semua
+        ? p.filter((k) => !kunciHalaman.includes(k))
+        : Array.from(new Set([...p, ...kunciHalaman]));
+    });
+  }, [kunciHalaman]);
+
+  const onBersihkan = useCallback(() => setTerpilih([]), []);
+
+  return { terpilih, kunciHalaman, onToggle, onToggleSemua, onBersihkan };
 }

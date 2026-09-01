@@ -71,7 +71,7 @@ import { ToggleOnOff } from '@/components/ui/toggleonoff/ToggleOnOff';
 import { UlasanBerjalan } from '@/components/ui/ulasan-berjalan/UlasanBerjalan';
 import { UnggahGambar } from '@/components/ui/unggah-gambar/UnggahGambar';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
-import { PER_HALAMAN_BAWAAN } from '@/lib/daftar';
+import { PER_HALAMAN_BAWAAN, usePilihan } from '@/lib/daftar';
 import './element.css';
 
 /* -------------------------------------------------------------------------- */
@@ -261,6 +261,8 @@ export default function ElementPage() {
   const halamanAman = Math.min(halamanTabel, totalHalaman);
   const mulai = (halamanAman - 1) * ukuran;
   const terlihat = cocok.slice(mulai, mulai + ukuran);
+
+  const pilihanTabel = usePilihan(terlihat.map((i) => i.kode));
 
   const barisTabel = terlihat.map((i) => ({
     kode: i.kode,
@@ -562,6 +564,15 @@ export default function ElementPage() {
             rows={barisTabel}
             rowKey={(row) => String(row.kode)}
             minBaris={8}
+            pilihan={pilihanTabel}
+            aksiMassal={
+              <>
+                <Button variant="ghost" icon={Download}>
+                  Ekspor
+                </Button>
+                <Button icon={Trash2}>Hapus</Button>
+              </>
+            }
             toolbar={
               <TableToolbar
                 cari={cariTabel}

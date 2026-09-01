@@ -5,6 +5,7 @@ import {
   Check,
   CircleAlert,
   Component,
+  Download,
   Eye,
   LayoutDashboard,
   Package,
@@ -16,13 +17,14 @@ import {
 
 import ActionButton from '@/components/ui/action-button/ActionButton';
 import { Badge } from '@/components/ui/badge/Badge';
+import { Button } from '@/components/ui/button/Button';
 import { StatCard } from '@/components/ui/stat-card/StatCard';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
 import { TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
 import { resolveIcon } from '@/layout/ikon-menu';
 import { menu, saringMenu } from '@/layout/menu';
-import { PER_HALAMAN_BAWAAN } from '@/lib/daftar';
+import { PER_HALAMAN_BAWAAN, usePilihan } from '@/lib/daftar';
 import './dashboard.css';
 
 const RINGKASAN = [
@@ -104,6 +106,8 @@ function TabelTerbaru() {
   const mulai = (halamanAman - 1) * ukuran;
   const terlihat = cocok.slice(mulai, mulai + ukuran);
 
+  const pilihan = usePilihan(terlihat.map((d) => d.kode));
+
   const baris = terlihat.map((d) => ({
     kode: d.kode,
     nama: d.nama,
@@ -126,6 +130,15 @@ function TabelTerbaru() {
       columns={KOLOM}
       rows={baris}
       rowKey={(row) => String(row.kode)}
+      pilihan={pilihan}
+      aksiMassal={
+        <>
+          <Button variant="ghost" icon={Download}>
+            Ekspor
+          </Button>
+          <Button icon={Trash2}>Hapus</Button>
+        </>
+      }
       toolbar={
         <TableToolbar
           cari={cari}

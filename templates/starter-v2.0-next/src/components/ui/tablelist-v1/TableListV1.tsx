@@ -1,4 +1,12 @@
-import type { ReactNode } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent as MouseEventReact,
+  type PointerEvent as PointerEventReact,
+  type ReactNode,
+} from 'react';
 
 import { Checkbox } from '@/components/ui/checkbox/Checkbox';
 import { Pagination } from '@/components/ui/pagination/Pagination';
@@ -86,6 +94,91 @@ function lebarMinimum(columns: TableListColumn[], adaPilihan: boolean): string {
 
 const isTeks = (v: ReactNode) => typeof v === 'string' || typeof v === 'number';
 
+/** Geseran sebelum tarikan dianggap sengaja — supaya klik biasa tetap jalan. */
+const AMBANG_SERET = 4;
+
+const KONTROL = 'button, input, a, label, select, textarea';
+
+/**
+ * Seret-untuk-menggulir mendatar, khusus tetikus.
+ *
+ * Sentuh sengaja tidak ikut: peramban sudah menggulir sendiri, dan memaksakan
+ * ini di sana justru merebut gerakan gulir vertikal halaman.
+ */
+function useSeretGulir(pemicu: unknown) {
+  const wadahRef = useRef<HTMLDivElement>(null);
+  const [bisaSeret, setBisaSeret] = useState(false);
+  const [menyeret, setMenyeret] = useState(false);
+  const seret = useRef({ aktif: false, bergerak: false, mulaiX: 0, mulaiGulir: 0 });
+  const baruSeret = useRef(false);
+
+  useEffect(() => {
+    const el = wadahRef.current;
+    if (!el) return;
+    const cek = () => setBisaSeret(el.scrollWidth > el.clientWidth + 1);
+    cek();
+    window.addEventListener('resize', cek);
+    return () => window.removeEventListener('resize', cek);
+  }, [pemicu]);
+
+  useEffect(() => {
+    const gerak = (e: globalThis.PointerEvent) => {
+      const s = seret.current;
+      const el = wadahRef.current;
+      if (!s.aktif || !el) return;
+      const jarak = e.clientX - s.mulaiX;
+      if (!s.bergerak) {
+        if (Math.abs(jarak) < AMBANG_SERET) return;
+        s.bergerak = true;
+        setMenyeret(true);
+      }
+      e.preventDefault();
+      el.scrollLeft = s.mulaiGulir - jarak;
+    };
+
+    const lepas = () => {
+      const s = seret.current;
+      if (!s.aktif) return;
+      s.aktif = false;
+      if (s.bergerak) {
+        // Klik sesudah menyeret ditelan sekali, kalau tidak barisnya ikut terbuka.
+        baruSeret.current = true;
+        window.setTimeout(() => {
+          baruSeret.current = false;
+        }, 0);
+        setMenyeret(false);
+      }
+      s.bergerak = false;
+    };
+
+    window.addEventListener('pointermove', gerak);
+    window.addEventListener('pointerup', lepas);
+    window.addEventListener('pointercancel', lepas);
+    return () => {
+      window.removeEventListener('pointermove', gerak);
+      window.removeEventListener('pointerup', lepas);
+      window.removeEventListener('pointercancel', lepas);
+    };
+  }, []);
+
+  const mulai = useCallback((e: PointerEventReact<HTMLDivElement>) => {
+    const el = wadahRef.current;
+    if (!el) return;
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    if (el.scrollWidth <= el.clientWidth + 1) return;
+    if ((e.target as HTMLElement).closest(KONTROL)) return;
+    seret.current = { aktif: true, bergerak: false, mulaiX: e.clientX, mulaiGulir: el.scrollLeft };
+  }, []);
+
+  const tahanKlik = useCallback((e: MouseEventReact) => {
+    if (!baruSeret.current) return;
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  return { wadahRef, bisaSeret, menyeret, mulai, tahanKlik };
+}
+
 export function TableListV1({
   title,
   subtitle,
@@ -119,6 +212,8 @@ export function TableListV1({
   const kurang = minBaris && rows.length > 0 ? Math.max(0, minBaris - rows.length) : 0;
   const pengisi = Array.from({ length: kurang }, (_, i) => i);
 
+  const { wadahRef, bisaSeret, menyeret, mulai, tahanKlik } = useSeretGulir(columns);
+
   return (
     <section className={`tablelist-v1 ${className}`}>
       {title || subtitle || action ? (
@@ -148,7 +243,14 @@ export function TableListV1({
       ) : null}
 
       <div className="tablelist-v1__body">
-        <div className="tablelist-v1__scroll">
+        <div
+          ref={wadahRef}
+          className={`tablelist-v1__scroll ${bisaSeret ? 'tablelist-v1__scroll--seret' : ''} ${
+            menyeret ? 'tablelist-v1__scroll--menyeret' : ''
+          }`}
+          onPointerDown={mulai}
+          onClickCapture={tahanKlik}
+        >
           <table
             className="tablelist-v1__table"
             style={{ minWidth: lebarMinimum(columns, adaPilihan) }}
