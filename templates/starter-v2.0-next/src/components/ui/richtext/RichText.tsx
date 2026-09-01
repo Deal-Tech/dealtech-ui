@@ -382,11 +382,11 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
         footer={
           <div className="richtext-modal__aksi">
             {sedangEdit ? (
-              <Button variant="danger" icon={Unlink} onClick={hapusTautan}>
+              <Button icon={Unlink} onClick={hapusTautan}>
                 Hapus Link
               </Button>
             ) : null}
-            <Button variant="secondary" icon={X} onClick={tutupModal}>
+            <Button variant="ghost" icon={X} onClick={tutupModal}>
               Batal
             </Button>
             <Button icon={Save} onClick={terapkanTautan}>

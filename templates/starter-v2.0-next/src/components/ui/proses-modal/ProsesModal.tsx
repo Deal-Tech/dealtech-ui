@@ -110,7 +110,7 @@ export function ProsesModal({
       title={judul}
       footer={
         !selesai ? (
-          <Button variant="secondary" onClick={onClose}>
+          <Button variant="ghost" onClick={onClose}>
             Batalkan
           </Button>
         ) : tawarkanUnduh ? (
@@ -118,7 +118,7 @@ export function ProsesModal({
             {formatUnduh.map((f, i) => (
               <Button
                 key={f.format}
-                variant={i === formatUnduh.length - 1 ? 'primary' : 'secondary'}
+                variant={i === formatUnduh.length - 1 ? 'normal' : 'ghost'}
                 icon={f.icon}
                 onClick={() => onUnduh?.(f.format)}
               >

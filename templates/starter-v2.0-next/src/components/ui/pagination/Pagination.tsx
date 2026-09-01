@@ -66,7 +66,7 @@ function Row({ pages, current, last, onNavigate, extraClass }: RowProps) {
         ) : (
           <Button
             key={p}
-            variant={p === current ? 'primary' : 'ghost'}
+            variant={p === current ? 'normal' : 'ghost'}
             className="pagination__page"
             aria-current={p === current ? 'page' : undefined}
             onClick={() => onNavigate(Number(p))}

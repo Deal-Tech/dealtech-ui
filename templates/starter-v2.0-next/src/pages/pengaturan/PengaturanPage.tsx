@@ -420,7 +420,7 @@ export default function PengaturanPage() {
 
               {tahap === 'diam' ? (
                 <Button
-                  variant="outline"
+                 
                   icon={PencilLine}
                   onClick={() => {
                     setTahap('form');

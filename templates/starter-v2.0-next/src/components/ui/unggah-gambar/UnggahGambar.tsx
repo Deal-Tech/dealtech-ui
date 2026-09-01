@@ -100,7 +100,7 @@ export function UnggahGambar({ nilai, onChange, label, disabled = false }: Ungga
 
       <Button
         icon={nilai ? RotateCw : ImagePlus}
-        variant="secondary"
+        variant="ghost"
         loading={memuat}
         disabled={disabled}
         onClick={() => inputRef.current?.click()}
@@ -228,7 +228,7 @@ export function UnggahGaleri({
 
       <Button
         icon={ImagePlus}
-        variant="secondary"
+        variant="ghost"
         loading={memuat}
         disabled={disabled || penuh}
         onClick={() => inputRef.current?.click()}

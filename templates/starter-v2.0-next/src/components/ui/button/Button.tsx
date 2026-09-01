@@ -3,19 +3,11 @@ import { Loader2, type LucideIcon } from 'lucide-react';
 
 import './button.css';
 
-export type ButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'outline'
-  | 'danger'
-  | 'ghost'
-  | 'action'
-  | 'action-danger';
-export type ButtonSize = 'sm' | 'md' | 'lg';
+/** Satu ukuran saja: kecil. */
+export type ButtonVariant = 'normal' | 'ghost';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
-  size?: ButtonSize;
   icon?: LucideIcon;
   iconPosition?: 'left' | 'right';
   loading?: boolean;
@@ -25,8 +17,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
   {
     children,
     className = '',
-    variant = 'primary',
-    size = 'md',
+    variant = 'normal',
     icon: Icon,
     iconPosition = 'left',
     loading = false,
@@ -37,11 +28,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
   ref,
 ) {
   const showIcon = !!Icon && !loading;
+
   return (
     <button
       ref={ref}
       type={type}
-      className={`btn btn--${variant} btn--${size} ${children ? '' : 'btn--icon-only'} ${className}`}
+      className={`btn btn--${variant} ${loading ? 'btn--loading' : ''} ${
+        children ? '' : 'btn--icon-only'
+      } ${className}`}
       disabled={disabled || loading}
       {...props}
     >

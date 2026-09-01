@@ -267,29 +267,27 @@ export default function ElementPage() {
       {/* ------------------------------------------------------------------ */}
       <Seksi id="tombol" judul="Tombol & Navigasi" jumlah={5}>
         <Petak nama="Button" jalur="button/">
+          <p className="element-catatan">Satu ukuran, empat keadaan.</p>
           <div className="element-baris">
-            <Button>Primary</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="danger">Danger</Button>
+            <Button>Normal</Button>
             <Button variant="ghost">Ghost</Button>
-          </div>
-          <div className="element-baris">
-            <Button variant="action">Action</Button>
-            <Button variant="action-danger">Action Danger</Button>
-          </div>
-          <div className="element-baris">
-            <Button size="sm" icon={Plus}>
-              Kecil
-            </Button>
-            <Button size="md" icon={Plus}>
-              Sedang
-            </Button>
-            <Button size="lg" icon={Plus}>
-              Besar
-            </Button>
-            <Button loading>Memproses</Button>
+            <Button loading>Loading</Button>
             <Button disabled>Nonaktif</Button>
+          </div>
+          <div className="element-baris">
+            <Button icon={Plus}>Normal</Button>
+            <Button variant="ghost" icon={Plus}>
+              Ghost
+            </Button>
+            <Button loading>Loading</Button>
+            <Button icon={Plus} disabled>
+              Nonaktif
+            </Button>
+          </div>
+          <div className="element-baris">
+            <Button icon={Plus} aria-label="Tambah" />
+            <Button variant="ghost" icon={Pencil} aria-label="Ubah" />
+            <Button icon={Download} disabled aria-label="Unduh" />
           </div>
         </Petak>
 
@@ -541,7 +539,7 @@ export default function ElementPage() {
             title="Daftar Tour"
             subtitle="Semua tour yang tampil di halaman publik."
             action={
-              <Button size="sm" icon={Plus}>
+              <Button icon={Plus}>
                 Tambah
               </Button>
             }
@@ -755,10 +753,10 @@ export default function ElementPage() {
             title="Hapus Paket Tour"
             footer={
               <>
-                <Button variant="secondary" onClick={() => setModalBuka(false)}>
+                <Button variant="ghost" onClick={() => setModalBuka(false)}>
                   Batal
                 </Button>
-                <Button variant="danger" onClick={() => setModalBuka(false)}>
+                <Button onClick={() => setModalBuka(false)}>
                   Hapus
                 </Button>
               </>

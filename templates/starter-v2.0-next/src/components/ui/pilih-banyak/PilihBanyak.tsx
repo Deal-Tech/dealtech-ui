@@ -63,7 +63,7 @@ export function PilihBanyak({
       {onPilihSemua || onKosongkan ? (
         <div className="pilih-banyak__aksi">
           {onPilihSemua ? (
-            <Button variant="secondary" icon={CheckCircle2} disabled={disabled} onClick={onPilihSemua}>
+            <Button variant="ghost" icon={CheckCircle2} disabled={disabled} onClick={onPilihSemua}>
               Pilih Semua
             </Button>
           ) : null}

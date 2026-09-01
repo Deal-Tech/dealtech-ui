@@ -76,7 +76,7 @@ export default function ModalGalat() {
       className="modal-galat"
       footer={
         <>
-          <Button variant="secondary" onClick={tutup}>
+          <Button variant="ghost" onClick={tutup}>
             Tutup
           </Button>
           <Button
