@@ -167,11 +167,11 @@ const DATA_BATANG = [
 ];
 
 const KOLOM_TABEL = [
-  { key: 'kode', label: 'Kode', width: '120px' },
+  { key: 'kode', label: 'Kode', width: '130px' },
   { key: 'nama', label: 'Nama Item' },
-  { key: 'jumlah', label: 'Jumlah', align: 'right' as const },
-  { key: 'status', label: 'Status', align: 'center' as const },
-  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '130px' },
+  { key: 'jumlah', label: 'Jumlah', align: 'right' as const, width: '110px' },
+  { key: 'status', label: 'Status', align: 'center' as const, width: '130px' },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '150px' },
 ];
 
 type StatusItem = 'aktif' | 'baru' | 'tinjau' | 'arsip';
@@ -268,7 +268,7 @@ export default function ElementPage() {
     jumlah: i.jumlah.toLocaleString('id-ID'),
     status: LENCANA[i.status],
     aksi: (
-      <div className="element-baris" style={{ justifyContent: 'flex-end' }}>
+      <div className="tablelist-v1__aksi">
         <ActionButton icon={Eye} aria-label={`Lihat ${i.nama}`} />
         <ActionButton icon={Pencil} aria-label={`Ubah ${i.nama}`} />
         <ActionButton icon={Trash2} variant="danger" aria-label={`Hapus ${i.nama}`} />
@@ -561,6 +561,7 @@ export default function ElementPage() {
             columns={KOLOM_TABEL}
             rows={barisTabel}
             rowKey={(row) => String(row.kode)}
+            minBaris={8}
             toolbar={
               <TableToolbar
                 cari={cariTabel}

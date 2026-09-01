@@ -235,3 +235,20 @@
   outline: 2px solid var(--app-primary);
   outline-offset: -2px;
 }
+
+/* Baris penambal: hanya menahan tinggi, tidak boleh menarik perhatian. */
+.tablelist-v1__row--kosong:hover {
+  background: inherit;
+}
+.tablelist-v1__row--kosong .tablelist-v1__td {
+  color: transparent;
+}
+
+/* Wadah tombol aksi di kolom terakhir. Sengaja tidak boleh membungkus baris. */
+.tablelist-v1__aksi {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}

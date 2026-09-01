@@ -43,6 +43,12 @@ export interface TableListV1Props {
     onNavigasi: (halaman: number) => void;
   };
   footer?: ReactNode;
+  /**
+   * Jumlah baris minimal yang selalu dirender. Kekurangannya diisi baris
+   * kosong supaya tinggi tabel tidak berubah saat halaman terakhir lebih
+   * pendek. Kosongkan kalau tabel memang boleh memendek.
+   */
+  minBaris?: number;
   emptyText?: string;
   className?: string;
 }
@@ -61,12 +67,19 @@ const TD_ALIGN: Record<TableListAlign, string> = {
 
 const LEBAR_PILIH = 44;
 
+/** Jatah kolom yang tidak diberi lebar. */
+const LEBAR_LENTUR = 200;
+
+/**
+ * Lebar minimum tabel dihitung dari definisi kolom, bukan dari isinya — supaya
+ * lebar kolom tidak bergeser saat halaman berganti. Lebih sempit dari ini,
+ * pembungkusnya menggulir mendatar.
+ */
 function lebarMinimum(columns: TableListColumn[], adaPilihan: boolean): string {
   let total = adaPilihan ? LEBAR_PILIH : 0;
   for (const c of columns) {
     const px = c.width?.endsWith('px') ? Number.parseFloat(c.width) : NaN;
-    if (!Number.isFinite(px)) return '760px'; // ada kolom tanpa lebar px → pakai bawaan
-    total += px;
+    total += Number.isFinite(px) ? px : LEBAR_LENTUR;
   }
   return `${total}px`;
 }
@@ -86,6 +99,7 @@ export function TableListV1({
   aksiMassal,
   paginasi,
   footer,
+  minBaris,
   emptyText = 'Tidak ada data.',
   className = '',
 }: TableListV1Props) {
@@ -100,6 +114,10 @@ export function TableListV1({
   const jumlahTerpilih = pilihan?.terpilih.length ?? 0;
 
   const kolomTotal = columns.length + (adaPilihan ? 1 : 0);
+
+  // Baris kosong penambal; tanpa ini tinggi tabel melompat di halaman terakhir.
+  const kurang = minBaris && rows.length > 0 ? Math.max(0, minBaris - rows.length) : 0;
+  const pengisi = Array.from({ length: kurang }, (_, i) => i);
 
   return (
     <section className={`tablelist-v1 ${className}`}>
@@ -227,6 +245,13 @@ export function TableListV1({
                   </tr>
                 );
               })}
+              {pengisi.map((n) => (
+                <tr key={`kosong-${n}`} className="tablelist-v1__row tablelist-v1__row--kosong">
+                  <td className="tablelist-v1__td" colSpan={kolomTotal}>
+                    &nbsp;
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

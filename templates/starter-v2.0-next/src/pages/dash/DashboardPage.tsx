@@ -33,12 +33,12 @@ const RINGKASAN = [
 ] as const;
 
 const KOLOM = [
-  { key: 'kode', label: 'Kode', width: '120px' },
+  { key: 'kode', label: 'Kode', width: '130px' },
   { key: 'nama', label: 'Nama Item' },
   { key: 'tanggal', label: 'Tanggal', width: '130px' },
-  { key: 'jumlah', label: 'Jumlah', align: 'right' as const },
-  { key: 'status', label: 'Status', align: 'center' as const },
-  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '130px' },
+  { key: 'jumlah', label: 'Jumlah', align: 'right' as const, width: '150px' },
+  { key: 'status', label: 'Status', align: 'center' as const, width: '130px' },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '150px' },
 ];
 
 type Status = 'aktif' | 'baru' | 'tinjau' | 'arsip';
@@ -111,7 +111,7 @@ function TabelTerbaru() {
     jumlah: rupiah(d.jumlah),
     status: LENCANA[d.status],
     aksi: (
-      <div className="dashboard__aksi">
+      <div className="tablelist-v1__aksi">
         <ActionButton icon={Eye} aria-label={`Lihat ${d.kode}`} />
         <ActionButton icon={Pencil} aria-label={`Ubah ${d.kode}`} />
         <ActionButton icon={Trash2} variant="danger" aria-label={`Hapus ${d.kode}`} />
@@ -149,6 +149,7 @@ function TabelTerbaru() {
         } data`,
         onNavigasi: setHalaman,
       }}
+      minBaris={8}
       emptyText="Tidak ada transaksi yang cocok."
     />
   );
