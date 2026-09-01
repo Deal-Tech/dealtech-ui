@@ -9,7 +9,7 @@ import { menu, saringMenu } from '@/layout/menu';
 import './dashboard.css';
 
 const RINGKASAN = [
-  { kunci: 'komponen', ikon: Component, judul: 'Komponen UI', nilai: '57 elemen', helper: null },
+  { kunci: 'komponen', ikon: Component, judul: 'Komponen UI', nilai: '55 elemen', helper: null },
   { kunci: 'layout', ikon: LayoutDashboard, judul: 'Layout', nilai: '1 layout', helper: null },
   { kunci: 'token', ikon: Boxes, judul: 'Token Tema', nilai: '60+ variabel', helper: null },
   { kunci: 'pengguna', ikon: Users, judul: 'Pengguna', nilai: '1 akun', helper: 'mode demo' },
@@ -53,13 +53,8 @@ function AksesCepat() {
 export default function DashboardPage() {
   return (
     <div className="dashboard space-y-6">
-      <WelcomeCardV2
-        name="Administrator"
-        badge="DealTech UI 2.0 Next"
-        aksiLabel="Lihat Semua Element"
-        aksiKe="/dashboard/element"
-        aksiIkon={Component}
-      />
+      {/* Aksi dibiarkan bawaan: Hubungi Pengembang. */}
+      <WelcomeCardV2 name="Administrator" badge="DealTech UI 2.0 Next" />
 
       <div className="dashboard__stat">
         {RINGKASAN.map(({ kunci, ikon, judul, nilai, helper }) => (
