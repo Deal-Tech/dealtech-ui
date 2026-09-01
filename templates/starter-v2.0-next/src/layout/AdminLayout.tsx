@@ -50,7 +50,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="app-shell flex h-screen overflow-hidden">
+    <div className="app-shell flex overflow-hidden">
       <AdminSidebar
         menu={menuPeran}
         user={user}

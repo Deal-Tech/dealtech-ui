@@ -160,7 +160,7 @@ export default function AdminSidebar({
       />
 
       <aside
-        className={`app-sidebar fixed left-0 top-0 z-50 flex h-screen w-64 flex-col md:sticky ${
+        className={`app-sidebar fixed left-0 top-0 z-50 flex w-64 flex-col md:sticky ${
           isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >

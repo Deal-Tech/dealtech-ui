@@ -1,9 +1,27 @@
 
 /* --- Kerangka layout ------------------------------------------------------ */
 
+/* Hanya .app-main yang boleh menggulir. Tanpa penguncian ini, apa pun yang
+   membuat dokumen lebih tinggi dari layar akan menggeser seluruh kerangka —
+   sidebar ikut naik dan menyisakan ruang kosong di bawahnya.
+   Dibatasi dengan :has() supaya halaman non-admin tetap bisa menggulir. */
+html:has(.app-shell),
+html:has(.app-shell) body {
+  height: 100%;
+  overflow: hidden;
+}
+
 .app-shell {
+  /* dvh mengikuti bilah alamat peramban seluler yang bisa menyusut; vh tidak. */
+  height: 100vh;
+  height: 100dvh;
   background: var(--app-bg);
   color: var(--app-text);
+}
+
+.app-sidebar {
+  height: 100vh;
+  height: 100dvh;
 }
 
 .app-main {
