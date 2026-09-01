@@ -2,7 +2,7 @@
 .tabelcardv1 {
   overflow: hidden;
   border-radius: 8px;
-  border: 0;
+  border: 1px solid var(--app-card-border);
   background: var(--app-surface);
 }
 
@@ -68,8 +68,8 @@
 
 .tabelcardv1__item {
   border-radius: 8px;
-  border: 1px solid var(--app-border-strong);
-  background: var(--app-fill);
+  border: 0;
+  background: var(--app-fill-strong);
   padding: 12px;
 }
 .tabelcardv1__item-title {
@@ -117,8 +117,8 @@
 
 .tabelcardv1__empty {
   border-radius: 8px;
-  border: 1px solid var(--app-border-strong);
-  background: var(--app-fill);
+  border: 0;
+  background: var(--app-fill-strong);
   padding: 24px;
   text-align: center;
   font-size: 14px;

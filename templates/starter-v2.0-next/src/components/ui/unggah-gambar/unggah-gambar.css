@@ -19,9 +19,9 @@
   position: relative;
   display: inline-block;
   max-width: 100%;
-  border: 1px solid var(--app-border);
+  border: 0;
   border-radius: 8px;
-  background: var(--app-fill);
+  background: var(--app-fill-strong);
   overflow: hidden;
 }
 
@@ -47,9 +47,9 @@
   position: relative;
   width: 104px;
   height: 104px;
-  border: 1px solid var(--app-border);
+  border: 0;
   border-radius: 8px;
-  background: var(--app-fill);
+  background: var(--app-fill-strong);
   overflow: hidden;
 }
 

@@ -2,7 +2,7 @@
 .chartbar-ganda {
   overflow: hidden;
   border-radius: 8px;
-  border: 0;
+  border: 1px solid var(--app-card-border);
   background: var(--app-surface);
 }
 .chartbar-ganda__header {

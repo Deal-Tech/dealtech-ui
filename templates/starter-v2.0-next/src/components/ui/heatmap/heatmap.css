@@ -2,7 +2,7 @@
 .heatmap {
   overflow: hidden;
   border-radius: 8px;
-  border: 0;
+  border: 1px solid var(--app-card-border);
   background: var(--app-surface);
 }
 .heatmap__header {

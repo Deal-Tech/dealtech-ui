@@ -2,7 +2,7 @@
 .chartpie {
   overflow: hidden;
   border-radius: 8px;
-  border: 0;
+  border: 1px solid var(--app-card-border);
   background: var(--app-surface);
 }
 .chartpie__header {
@@ -64,8 +64,8 @@
 }
 .chartpie__summary-item {
   border-radius: 8px;
-  border: 1px solid var(--app-border-strong);
-  background: var(--app-fill);
+  border: 0;
+  background: var(--app-fill-strong);
   padding: 10px 12px;
 }
 .chartpie__summary-head {

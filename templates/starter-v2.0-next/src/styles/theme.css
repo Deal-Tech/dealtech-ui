@@ -192,7 +192,7 @@ body {
 .app-section-card {
   overflow: hidden;
   border-radius: 8px;
-  border: 0;
+  border: 1px solid var(--app-card-border);
   background: var(--app-surface);
   box-shadow: var(--app-shadow-card);
 }

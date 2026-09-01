@@ -2,7 +2,7 @@
 .chartlinev2 {
   overflow: hidden;
   border-radius: 8px;
-  border: 0;
+  border: 1px solid var(--app-card-border);
   background: var(--app-surface);
 }
 .chartlinev2__header {
