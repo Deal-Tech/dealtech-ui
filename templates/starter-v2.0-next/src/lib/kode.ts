@@ -53,8 +53,8 @@ function seluruhKata(nama: string, cadangan: string): string {
   return hasil.slice(0, 10);
 }
 
-export function pratinjauKodeTour(nama: string): string {
-  return seluruhKata(nama, 'TOUR');
+export function pratinjauKodeItem(nama: string): string {
+  return seluruhKata(nama, 'ITEM');
 }
 
 export function pratinjauKodePaket(nama: string): string {

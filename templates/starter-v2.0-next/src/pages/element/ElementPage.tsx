@@ -1,19 +1,19 @@
 import { useState, type ReactNode } from 'react';
 import {
-  Anchor,
+  Building2,
   Check,
   CircleAlert,
-  Compass,
+  Clock,
   Download,
   Eye,
-  MapPin,
   Package,
   Pencil,
   Plus,
-  Ship,
+  ShoppingCart,
   Sparkles,
   Trash2,
   Users,
+  Wallet,
 } from 'lucide-react';
 
 import ActionButton from '@/components/ui/action-button/ActionButton';
@@ -139,20 +139,20 @@ const OPSI_BADGE = [
   { value: 'arsip', label: 'Arsip', icon: Trash2, variant: 'gray' as const },
 ];
 
-const OPSI_FASILITAS = [
-  { value: 'snorkel', label: 'Snorkeling', warna: '#066aca' },
-  { value: 'makan', label: 'Makan Siang', warna: '#16a34a' },
-  { value: 'foto', label: 'Foto Bawah Air', warna: '#d29922' },
-  { value: 'jemput', label: 'Antar Jemput', warna: '#9333ea' },
+const OPSI_FITUR = [
+  { value: 'notifikasi', label: 'Notifikasi', warna: '#066aca' },
+  { value: 'ekspor', label: 'Ekspor Data', warna: '#16a34a' },
+  { value: 'multi', label: 'Multi Pengguna', warna: '#d29922' },
+  { value: 'api', label: 'Akses API', warna: '#9333ea' },
 ];
 
 const DATA_GARIS = [
-  { bulan: 'Jan', kunjungan: 320, pesanan: 180 },
-  { bulan: 'Feb', kunjungan: 410, pesanan: 220 },
-  { bulan: 'Mar', kunjungan: 380, pesanan: 205 },
-  { bulan: 'Apr', kunjungan: 520, pesanan: 290 },
-  { bulan: 'Mei', kunjungan: 610, pesanan: 340 },
-  { bulan: 'Jun', kunjungan: 580, pesanan: 325 },
+  { bulan: 'Jan', kunjungan: 320, transaksi: 180 },
+  { bulan: 'Feb', kunjungan: 410, transaksi: 220 },
+  { bulan: 'Mar', kunjungan: 380, transaksi: 205 },
+  { bulan: 'Apr', kunjungan: 520, transaksi: 290 },
+  { bulan: 'Mei', kunjungan: 610, transaksi: 340 },
+  { bulan: 'Jun', kunjungan: 580, transaksi: 325 },
 ];
 
 const DATA_BATANG = [
@@ -167,8 +167,8 @@ const DATA_BATANG = [
 
 const KOLOM_TABEL = [
   { key: 'kode', label: 'Kode', width: '120px' },
-  { key: 'nama', label: 'Nama Paket' },
-  { key: 'kuota', label: 'Kuota', align: 'right' as const },
+  { key: 'nama', label: 'Nama Item' },
+  { key: 'jumlah', label: 'Jumlah', align: 'right' as const },
   { key: 'status', label: 'Status', align: 'center' as const },
 ];
 
@@ -187,7 +187,7 @@ const NAVIGASI = [
 /* -------------------------------------------------------------------------- */
 
 export default function ElementPage() {
-  const [teks, setTeks] = useState('Snorkeling 3 Gili');
+  const [teks, setTeks] = useState('Paket Langganan Pro');
   const [angka, setAngka] = useState('450000');
   const [panjang, setPanjang] = useState('');
   const [tanggal, setTanggal] = useState('');
@@ -197,7 +197,7 @@ export default function ElementPage() {
   const [perHalaman, setPerHalaman] = useState(10);
   const [setuju, setSetuju] = useState(true);
   const [aktif, setAktif] = useState(true);
-  const [fasilitas, setFasilitas] = useState<string[]>(['snorkel', 'makan']);
+  const [fitur, setFitur] = useState<string[]>(['notifikasi', 'ekspor']);
   const [isiKaya, setIsiKaya] = useState('<p>Tulis <strong>deskripsi</strong> paket di sini.</p>');
   const [gambar, setGambar] = useState('');
   const [badge, setBadge] = useState('aktif');
@@ -211,9 +211,9 @@ export default function ElementPage() {
 
   const barisTabel = [
     {
-      kode: 'SNOR3GIL',
-      nama: 'Snorkeling 3 Gili',
-      kuota: '12',
+      kode: 'ITM-001',
+      nama: 'Paket Langganan Dasar',
+      jumlah: '128',
       status: (
         <Badge icon={Check} variant="green">
           Aktif
@@ -221,19 +221,19 @@ export default function ElementPage() {
       ),
     },
     {
-      kode: 'SUNSETGT',
-      nama: 'Sunset Cruise Trawangan',
-      kuota: '20',
+      kode: 'ITM-002',
+      nama: 'Paket Langganan Pro',
+      jumlah: '64',
       status: (
-        <Badge icon={Ship} variant="blue">
+        <Badge icon={Sparkles} variant="blue">
           Baru
         </Badge>
       ),
     },
     {
-      kode: 'FISHTRIP',
-      nama: 'Fishing Trip Lombok',
-      kuota: '8',
+      kode: 'ITM-003',
+      nama: 'Tambahan Penyimpanan',
+      jumlah: '19',
       status: (
         <Badge icon={CircleAlert} variant="amber">
           Tinjau
@@ -323,20 +323,20 @@ export default function ElementPage() {
       <Seksi id="status" judul="Status & Umpan Balik" jumlah={6}>
         <Petak nama="BadgeInfo" jalur="badgeinfo/">
           <p className="element-catatan">Dengan ikon — bawaan tiap varian.</p>
-          <BadgeInfo variant="info">Jadwal keberangkatan berubah menjadi 08.30 WITA.</BadgeInfo>
-          <BadgeInfo variant="success">Paket tour berhasil disimpan.</BadgeInfo>
-          <BadgeInfo variant="warning">Kuota tersisa tinggal 2 kursi.</BadgeInfo>
+          <BadgeInfo variant="info">Sinkronisasi data dijadwalkan malam ini.</BadgeInfo>
+          <BadgeInfo variant="success">Perubahan berhasil disimpan.</BadgeInfo>
+          <BadgeInfo variant="warning">Sisa kuota penyimpanan tinggal 8%.</BadgeInfo>
           <BadgeInfo variant="error">Koneksi ke server terputus.</BadgeInfo>
 
           <p className="element-catatan">Tanpa ikon — <code>icon={'{false}'}</code>.</p>
           <BadgeInfo variant="info" icon={false}>
-            Jadwal keberangkatan berubah menjadi 08.30 WITA.
+            Sinkronisasi data dijadwalkan malam ini.
           </BadgeInfo>
           <BadgeInfo variant="success" icon={false}>
-            Paket tour berhasil disimpan.
+            Perubahan berhasil disimpan.
           </BadgeInfo>
           <BadgeInfo variant="warning" icon={false}>
-            Kuota tersisa tinggal 2 kursi.
+            Sisa kuota penyimpanan tinggal 8%.
           </BadgeInfo>
           <BadgeInfo variant="error" icon={false}>
             Koneksi ke server terputus.
@@ -354,8 +354,8 @@ export default function ElementPage() {
             <Badge icon={Trash2} variant="red">
               Batal
             </Badge>
-            <Badge icon={Ship} variant="blue">
-              Berlayar
+            <Badge icon={Clock} variant="blue">
+              Menunggu
             </Badge>
             <Badge icon={Sparkles} variant="purple">
               Baru
@@ -391,8 +391,8 @@ export default function ElementPage() {
 
         <Petak nama="KodeOtomatis" jalur="kode-otomatis/">
           <KodeOtomatis
-            label="Kode Paket"
-            kode="SNOR3GIL-004"
+            label="Kode Item"
+            kode="ITM-2026-004"
             tetap={false}
             keterangan="Masih perkiraan — kode final dibuat saat data disimpan."
           />
@@ -403,10 +403,10 @@ export default function ElementPage() {
       <Seksi id="form" judul="Form" jumlah={12}>
         <Petak nama="InputText / InputNumber" jalur="inputtext/, inputnumber/">
           <InputText
-            label="Nama Paket"
+            label="Nama Item"
             value={teks}
             onChange={(e) => setTeks(e.target.value)}
-            hint="Nama yang tampil di halaman pemesanan."
+            hint="Nama yang tampil di daftar dan laporan."
           />
           <InputNumber
             label="Harga"
@@ -426,7 +426,7 @@ export default function ElementPage() {
             onChange={(e) => setPanjang(e.target.value)}
           />
           <DateInput
-            label="Tanggal Berangkat"
+            label="Tanggal Mulai"
             value={tanggal}
             onChange={(e) => setTanggal(e.target.value)}
           />
@@ -452,7 +452,7 @@ export default function ElementPage() {
 
         <Petak nama="SearchInput" jalur="search-input/">
           <SearchInput
-            placeholder="Cari paket, kode, atau pemandu…"
+            placeholder="Cari nama, kode, atau kategori…"
             value={pencarian}
             onChange={(e) => setPencarian(e.target.value)}
           />
@@ -472,15 +472,15 @@ export default function ElementPage() {
 
         <Petak nama="PilihBanyak" jalur="pilih-banyak/">
           <PilihBanyak
-            opsi={OPSI_FASILITAS}
-            terpilih={fasilitas}
+            opsi={OPSI_FITUR}
+            terpilih={fitur}
             onToggle={(v) =>
-              setFasilitas((prev) =>
+              setFitur((prev) =>
                 prev.includes(v) ? prev.filter((x) => x !== v) : [...prev, v],
               )
             }
-            onPilihSemua={() => setFasilitas(OPSI_FASILITAS.map((o) => o.value))}
-            onKosongkan={() => setFasilitas([])}
+            onPilihSemua={() => setFitur(OPSI_FITUR.map((o) => o.value))}
+            onKosongkan={() => setFitur([])}
           />
         </Petak>
 
@@ -503,17 +503,17 @@ export default function ElementPage() {
           <div
             style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(2, minmax(0,1fr))' }}
           >
-            <StatCard icon={Compass} title="Tour" value="24 tour" helper="3 nonaktif" />
-            <StatCard icon={MapPin} title="SpotView" value="18 spot" />
-            <StatCard icon={Package} title="Paket" value="12 paket" />
-            <StatCard icon={Users} title="Pengguna" value="7 akun" helper="1 nonaktif" />
+            <StatCard icon={Package} title="Produk" value="248 produk" helper="12 nonaktif" />
+            <StatCard icon={ShoppingCart} title="Transaksi" value="1.860 transaksi" />
+            <StatCard icon={Wallet} title="Pendapatan" value="Rp 412 jt" />
+            <StatCard icon={Users} title="Pengguna" value="1.204 akun" helper="18 nonaktif" />
           </div>
         </Petak>
 
         <Petak nama="PageTitle" jalur="pagetitle/">
           <PageTitle
-            title="Daftar Tour"
-            subtitle="Semua tour yang tampil di halaman publik."
+            title="Daftar Produk"
+            subtitle="Semua produk yang tampil di katalog."
             action={
               <Button icon={Plus}>
                 Tambah
@@ -533,7 +533,7 @@ export default function ElementPage() {
                 onCari={setCariTabel}
                 perHalaman={perHalaman}
                 onPerHalaman={setPerHalaman}
-                placeholderCari="Cari paket…"
+                placeholderCari="Cari item…"
               />
             }
             paginasi={{
@@ -547,29 +547,29 @@ export default function ElementPage() {
 
         <Petak nama="TabelCardV1" jalur="tabelcardv1/">
           <TabelCardV1
-            title="Pemandu Aktif"
-            subtitle="Tiga pemandu dengan jadwal terpadat"
+            title="Tim Paling Aktif"
+            subtitle="Tiga anggota dengan tugas terbanyak"
             count={3}
             items={[
               {
-                title: 'Wayan Sudiarta',
-                subtitle: 'Gili Trawangan',
-                initials: 'WS',
-                meta: '12 trip',
+                title: 'Dewi Anggraini',
+                subtitle: 'Operasional',
+                initials: 'DA',
+                meta: '12 tugas',
                 badge: { label: 'Aktif', icon: Check, variant: 'green' },
               },
               {
-                title: 'Komang Ari',
-                subtitle: 'Gili Air',
-                initials: 'KA',
-                meta: '9 trip',
+                title: 'Bagus Prasetyo',
+                subtitle: 'Keuangan',
+                initials: 'BP',
+                meta: '9 tugas',
                 badge: { label: 'Aktif', icon: Check, variant: 'green' },
               },
               {
-                title: 'Putu Rahayu',
-                subtitle: 'Gili Meno',
-                initials: 'PR',
-                meta: '4 trip',
+                title: 'Rina Kusuma',
+                subtitle: 'Dukungan',
+                initials: 'RK',
+                meta: '4 tugas',
                 badge: { label: 'Cuti', icon: CircleAlert, variant: 'amber' },
               },
             ]}
@@ -589,8 +589,8 @@ export default function ElementPage() {
 
         <Petak nama="Heatmap" jalur="heatmap/">
           <Heatmap
-            title="Kepadatan Trip"
-            subtitle="Jumlah keberangkatan per hari"
+            title="Kepadatan Aktivitas"
+            subtitle="Jumlah transaksi per shift"
             rows={['Pagi', 'Siang', 'Sore']}
             cols={['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min']}
             values={[
@@ -606,40 +606,40 @@ export default function ElementPage() {
       <Seksi id="chart" judul="Chart" jumlah={10}>
         <Petak nama="ChartLine" jalur="chartline/">
           <ChartLine
-            title="Kunjungan & Pesanan"
+            title="Kunjungan & Transaksi"
             subtitle="Enam bulan terakhir"
             data={DATA_GARIS}
             xKey="bulan"
             series={[
               { key: 'kunjungan', label: 'Kunjungan' },
-              { key: 'pesanan', label: 'Pesanan' },
+              { key: 'transaksi', label: 'Transaksi' },
             ]}
           />
         </Petak>
 
         <Petak nama="ChartLineV2" jalur="chartlinev2/">
           <ChartLineV2
-            title="Tren Pesanan"
+            title="Tren Transaksi"
             subtitle="Dengan tabel rincian"
             data={DATA_GARIS}
             xKey="bulan"
-            series={[{ key: 'pesanan', label: 'Pesanan' }]}
+            series={[{ key: 'transaksi', label: 'Transaksi' }]}
             showTable
           />
         </Petak>
 
         <Petak nama="ChartBarVer" jalur="chartbarver/">
-          <ChartBarVer title="Trip per Hari" subtitle="Minggu ini" data={DATA_BATANG} />
+          <ChartBarVer title="Transaksi per Hari" subtitle="Minggu ini" data={DATA_BATANG} />
         </Petak>
 
         <Petak nama="ChartBarHor" jalur="chartbarhor/">
           <ChartBarHor
-            title="Paket Terlaris"
+            title="Produk Terlaris"
             data={[
-              { label: 'Snorkeling 3 Gili', value: 128 },
-              { label: 'Sunset Cruise', value: 94 },
-              { label: 'Fishing Trip', value: 61 },
-              { label: 'Private Boat', value: 38 },
+              { label: 'Paket Langganan Pro', value: 128 },
+              { label: 'Paket Langganan Dasar', value: 94 },
+              { label: 'Tambahan Penyimpanan', value: 61 },
+              { label: 'Dukungan Prioritas', value: 38 },
             ]}
           />
         </Petak>
@@ -660,12 +660,12 @@ export default function ElementPage() {
 
         <Petak nama="ChartPie" jalur="chartpie/">
           <ChartPie
-            title="Asal Pemesan"
+            title="Sumber Trafik"
             data={[
-              { name: 'Domestik', value: 420 },
-              { name: 'Eropa', value: 310 },
-              { name: 'Asia', value: 190 },
-              { name: 'Lainnya', value: 80 },
+              { name: 'Organik', value: 420 },
+              { name: 'Iklan', value: 310 },
+              { name: 'Rujukan', value: 190 },
+              { name: 'Langsung', value: 80 },
             ]}
             showSummary
             showLegend
@@ -674,44 +674,44 @@ export default function ElementPage() {
 
         <Petak nama="ChartListBar" jalur="chartlistbar/">
           <ChartListBar
-            title="Kanal Pemesanan"
+            title="Kanal Penjualan"
             items={[
-              { label: 'Website', value: 62, valueLabel: '62%', meta: '740 pesanan' },
-              { label: 'WhatsApp', value: 24, valueLabel: '24%', meta: '286 pesanan' },
-              { label: 'Agen', value: 14, valueLabel: '14%', meta: '167 pesanan' },
+              { label: 'Website', value: 62, valueLabel: '62%', meta: '740 transaksi' },
+              { label: 'Aplikasi', value: 24, valueLabel: '24%', meta: '286 transaksi' },
+              { label: 'Mitra', value: 14, valueLabel: '14%', meta: '167 transaksi' },
             ]}
           />
         </Petak>
 
         <Petak nama="ChartTopList" jalur="charttoplist/">
           <ChartTopList
-            title="Pemandu Terbaik"
-            subtitle="Berdasarkan ulasan bulan ini"
+            title="Staf Terbaik"
+            subtitle="Berdasarkan penilaian bulan ini"
             items={[
-              { name: 'Wayan Sudiarta', meta: 'Gili Trawangan', value: '4.9' },
-              { name: 'Komang Ari', meta: 'Gili Air', value: '4.8' },
-              { name: 'Putu Rahayu', meta: 'Gili Meno', value: '4.7' },
+              { name: 'Dewi Anggraini', meta: 'Operasional', value: '4.9' },
+              { name: 'Bagus Prasetyo', meta: 'Keuangan', value: '4.8' },
+              { name: 'Rina Kusuma', meta: 'Dukungan', value: '4.7' },
             ]}
           />
         </Petak>
 
         <Petak nama="CardBarChart" jalur="cardbar-chart/">
           <CardBarChart
-            title="Keberangkatan"
+            title="Transaksi Harian"
             subtitle="Tujuh hari terakhir"
             data={DATA_BATANG}
-            unit="trip"
+            unit="transaksi"
           />
         </Petak>
 
         <Petak nama="CardBarList" jalur="cardbar-list/">
           <CardBarList
-            title="Kategori Tour"
+            title="Kategori Produk"
             items={[
-              { label: 'Snorkeling', value: 48 },
-              { label: 'Sunset', value: 26 },
-              { label: 'Fishing', value: 17 },
-              { label: 'Private', value: 9 },
+              { label: 'Langganan', value: 48 },
+              { label: 'Add-on', value: 26 },
+              { label: 'Layanan', value: 17 },
+              { label: 'Lainnya', value: 9 },
             ]}
           />
         </Petak>
@@ -726,7 +726,7 @@ export default function ElementPage() {
           <Modal
             open={modalBuka}
             onClose={() => setModalBuka(false)}
-            title="Hapus Paket Tour"
+            title="Hapus Item"
             footer={
               <>
                 <Button variant="ghost" onClick={() => setModalBuka(false)}>
@@ -739,8 +739,8 @@ export default function ElementPage() {
             }
           >
             <p style={{ margin: 0 }}>
-              Paket <strong>Snorkeling 3 Gili</strong> akan dihapus permanen. Tindakan ini tidak
-              bisa dibatalkan.
+              Item <strong>Paket Langganan Pro</strong> akan dihapus permanen. Tindakan ini
+              tidak bisa dibatalkan.
             </p>
           </Modal>
         </Petak>
@@ -752,7 +752,7 @@ export default function ElementPage() {
               onClick={() =>
                 setTugas({
                   aksi: 'unduh',
-                  judul: 'Laporan Pesanan',
+                  judul: 'Laporan Transaksi',
                   tahap: 'selesai',
                   progress: 100,
                 })
@@ -800,47 +800,46 @@ export default function ElementPage() {
             badge="DealTech UI"
             aksiLabel="Ke Dashboard"
             aksiKe="/dashboard"
-            aksiIkon={Compass}
           />
         </Petak>
 
         <Petak nama="KartuKatalog" jalur="kartu-katalog/">
           <KartuKatalog
             ke="/dashboard"
-            nama="Snorkeling 3 Gili"
+            nama="Paket Langganan Pro"
             gambar={GAMBAR_CONTOH}
-            kategori="Snorkeling"
-            durasi="6 jam"
-            lokasi="Gili Trawangan"
+            kategori="Langganan"
+            durasi="12 bulan"
+            lokasi="Semua wilayah"
             harga={450000}
-            hargaAwalan="From"
+            hargaAwalan="Mulai"
           />
         </Petak>
 
         <Petak nama="KepalaPublik" jalur="kepala-publik/">
           <KepalaPublik
-            remah="Tours"
-            judul="Semua Trip Kami"
-            deskripsi="Pilih trip harian yang berangkat dari tiga pulau."
+            remah="Katalog"
+            judul="Semua Produk Kami"
+            deskripsi="Telusuri seluruh paket dan layanan yang tersedia."
           />
         </Petak>
 
         <Petak nama="BlokTentang" jalur="blok-tentang/">
           <BlokTentang
             judul="Tentang Kami"
-            ikon={Anchor}
-            isi={<p>Operator lokal yang berangkat setiap hari dari Gili Trawangan.</p>}
+            ikon={Building2}
+            isi={<p>Tim lokal yang membangun perangkat lunak untuk usaha di Indonesia.</p>}
             angka={[
               { nilai: '12+', label: 'Tahun' },
-              { nilai: '8.400', label: 'Tamu' },
+              { nilai: '8.400', label: 'Klien' },
             ]}
           />
         </Petak>
 
         <Petak nama="PitaBerjalan" jalur="pita-berjalan/">
           <PitaBerjalan
-            atas={['Snorkeling', 'Sunset Cruise', 'Fishing Trip', 'Private Boat']}
-            bawah={['Gili Trawangan', 'Gili Meno', 'Gili Air', 'Lombok']}
+            atas={['Dashboard', 'Laporan', 'Inventori', 'Penggajian']}
+            bawah={['Retail', 'Manufaktur', 'Jasa', 'Distribusi']}
           />
         </Petak>
 
@@ -870,9 +869,9 @@ export default function ElementPage() {
 
         <Petak nama="LabelQR" jalur="label-qr/">
           <LabelQR
-            kode="SNOR3GIL-004"
-            judul="Snorkeling 3 Gili"
-            rincian={['12 Sep 2026', '08.30 WITA']}
+            kode="ITM-2026-004"
+            judul="Paket Langganan Pro"
+            rincian={['12 Sep 2026', 'Gudang A']}
           />
         </Petak>
 
@@ -881,12 +880,12 @@ export default function ElementPage() {
             <TombolCetak jumlah={3} />
           </div>
           <LembarCetak
-            judul="Label Keberangkatan"
+            judul="Label Inventori"
             subjudul="12 September 2026"
             label={[
-              { kode: 'SNOR3GIL-001', judul: 'Snorkeling 3 Gili', rincian: ['08.30 WITA'] },
-              { kode: 'SNOR3GIL-002', judul: 'Snorkeling 3 Gili', rincian: ['08.30 WITA'] },
-              { kode: 'SUNSETGT-001', judul: 'Sunset Cruise', rincian: ['16.00 WITA'] },
+              { kode: 'ITM-2026-001', judul: 'Paket Langganan Dasar', rincian: ['Gudang A'] },
+              { kode: 'ITM-2026-002', judul: 'Paket Langganan Pro', rincian: ['Gudang A'] },
+              { kode: 'ITM-2026-003', judul: 'Tambahan Penyimpanan', rincian: ['Gudang B'] },
             ]}
           />
           <p className="element-catatan">Lembarnya hanya muncul di hasil cetak.</p>
