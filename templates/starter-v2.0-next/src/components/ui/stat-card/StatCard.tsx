@@ -1,8 +1,62 @@
+import { useEffect, useRef, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
-import { CountUp } from '@/components/ui/count-up/CountUp';
 import { fmtCompact } from '@/lib/format';
 import './stat-card.css';
+
+/** Angka menghitung naik saat pertama tampil. Hormati prefers-reduced-motion. */
+function AngkaNaik({ value, duration = 650 }: { value: string | number; duration?: number }) {
+  const raw = String(value);
+  const m = raw.match(/-?\d[\d.,]*/);
+  const target = m ? Number(m[0].replace(/\./g, '').replace(',', '.')) : NaN;
+  const bisa = !!m && Number.isFinite(target);
+  const awalan = bisa && m ? raw.slice(0, m.index) : '';
+  const akhiran = bisa && m ? raw.slice((m.index ?? 0) + m[0].length) : '';
+  const desimal = bisa && m && m[0].includes(',') ? (m[0].split(',')[1]?.length ?? 0) : 0;
+  const fmt = (n: number) =>
+    n.toLocaleString('id-ID', {
+      minimumFractionDigits: desimal,
+      maximumFractionDigits: desimal,
+    });
+
+  const [tampil, setTampil] = useState<string | number>(
+    bisa ? `${awalan}${fmt(0)}${akhiran}` : value,
+  );
+  const rafRef = useRef<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (!bisa || !m) {
+      setTampil(value);
+      return undefined;
+    }
+    const redam =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (redam) {
+      setTampil(value);
+      return undefined;
+    }
+    const mulai = performance.now();
+    const detak = (kini: number) => {
+      const p = Math.min((kini - mulai) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      if (p < 1) {
+        setTampil(`${awalan}${fmt(target * eased)}${akhiran}`);
+        rafRef.current = requestAnimationFrame(detak);
+      } else {
+        setTampil(value);
+      }
+    };
+    rafRef.current = requestAnimationFrame(detak);
+    return () => {
+      if (rafRef.current !== undefined) cancelAnimationFrame(rafRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  return <>{tampil}</>;
+}
 
 export type NadaStat = 'naik' | 'turun' | 'datar';
 
@@ -42,7 +96,7 @@ export function StatCard({
       <div className="stat-card__body">
         <span className="stat-card__title">{title}</span>
         <span className={`stat-card__value ${sizeClass}`}>
-          <CountUp value={display} />
+          <AngkaNaik value={display} />
         </span>
       </div>
       {helper ? (

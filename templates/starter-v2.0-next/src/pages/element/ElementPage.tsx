@@ -33,7 +33,6 @@ import { ChartListBar } from '@/components/ui/chartlistbar/ChartListBar';
 import { ChartPie } from '@/components/ui/chartpie/ChartPie';
 import { ChartTopList } from '@/components/ui/charttoplist/ChartTopList';
 import { Checkbox } from '@/components/ui/checkbox/Checkbox';
-import { CountUp } from '@/components/ui/count-up/CountUp';
 import { DateInput } from '@/components/ui/date-input/DateInput';
 import { Heatmap } from '@/components/ui/heatmap/Heatmap';
 import HexBackdrop from '@/components/ui/hex-backdrop/HexBackdrop';
@@ -283,7 +282,7 @@ export default function ElementPage() {
       <PageTitle
         title="Semua Element"
         subtitle="Katalog komponen DealTech UI v2. Setiap kotak menampilkan satu komponen beserta letak berkasnya di src/components/ui/."
-        action={<span className="element-hitung">55 komponen</span>}
+        action={<span className="element-hitung">54 komponen</span>}
       />
 
       <nav className="element-nav" aria-label="Lompat ke seksi">
@@ -356,7 +355,7 @@ export default function ElementPage() {
       </Seksi>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="status" judul="Status & Umpan Balik" jumlah={6}>
+      <Seksi id="status" judul="Status & Umpan Balik" jumlah={5}>
         <Petak nama="BadgeInfo" jalur="badgeinfo/">
           <p className="element-catatan">Dengan ikon — bawaan tiap varian.</p>
           <BadgeInfo variant="info">Sinkronisasi data dijadwalkan malam ini.</BadgeInfo>
@@ -415,14 +414,6 @@ export default function ElementPage() {
 
         <Petak nama="Memuat" jalur="memuat/">
           <Memuat teks="Memuat data…" ukuran="halaman" />
-        </Petak>
-
-        <Petak nama="CountUp" jalur="count-up/">
-          <div className="element-baris" style={{ fontSize: 28, fontWeight: 600 }}>
-            <CountUp value={1284} />
-            <span style={{ fontSize: 14, fontWeight: 400 }}>kunjungan bulan ini</span>
-          </div>
-          <p className="element-catatan">Angka menghitung naik saat pertama tampil.</p>
         </Petak>
 
         <Petak nama="KodeOtomatis" jalur="kode-otomatis/">
