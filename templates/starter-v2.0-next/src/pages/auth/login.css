@@ -1,0 +1,116 @@
+/* Latar = section 1 DealTech: dasar solid + HexBackdrop + LogoShape.
+   overflow hidden WAJIB — mask fade di kedua komponen itu bergantung padanya. */
+.login-page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--app-body-text);
+  font-family: 'SN Pro', 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--color-hero-base);
+}
+
+.login-page input,
+.login-page button,
+.login-page label,
+.login-page h1,
+.login-page p {
+  font-family: inherit;
+}
+
+/* Catatan kaki di luar kartu, jadi warnanya ikut latar gelap, bukan token teks. */
+.login-page .login-footnote {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.login-page .login-footnote__powered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.login-page .login-footnote__tautan {
+  display: inline-flex;
+  border-radius: 4px;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.login-page .login-footnote__tautan:hover {
+  opacity: 1;
+}
+
+.login-page .login-footnote__logo {
+  height: 40px;
+  width: auto;
+}
+
+/* Tanpa border: latar sudah punya bentuk sendiri, garis tepi kartu bikin dua
+   batas bersaing di titik yang sama. Keputusan Bos 2026-08-25. */
+.login-page .login-card {
+  background: var(--app-surface);
+  border-radius: 14px;
+  border: 0;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+}
+
+.login-page .login-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+/* Diturunkan 2026-08-14 mengikuti nama usaha yang lebih panjang. Wordmark-nya
+   nowrap, jadi ukuran lama melewati lebar kartu di ponsel sempit. */
+.login-page .login-brand__name {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--app-text);
+  white-space: nowrap;
+}
+
+.login-page .login-brand__name strong {
+  font-weight: 700;
+  color: var(--app-primary);
+}
+
+@media (max-width: 480px) {
+  .login-page .login-brand__name {
+    font-size: 17px;
+  }
+}
+
+.login-page .login-error {
+  margin: 0;
+  border-radius: 6px;
+  border: 1px solid rgba(185, 28, 28, 0.35);
+  background: rgba(185, 28, 28, 0.08);
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--app-danger-solid);
+}
+
+/*
+ * Gaya tombol datang dari komponen Button. Yang disetel di sini cuma lebar
+ * penuh — sisanya sengaja tidak ditimpa supaya tombol ini ikut setiap
+ * perbaikan design system.
+ */
+.login-page .login-btn {
+  width: 100%;
+}
+
+.login-page input:-webkit-autofill,
+.login-page input:-webkit-autofill:hover,
+.login-page input:-webkit-autofill:focus,
+.login-page input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--app-surface) inset !important;
+  box-shadow: 0 0 0 30px var(--app-surface) inset !important;
+  -webkit-text-fill-color: var(--app-text) !important;
+  caret-color: var(--app-text);
+}
