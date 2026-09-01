@@ -25,7 +25,7 @@
 }
 
 .pilih-banyak__chip:hover:not(:disabled) {
-  border-color: var(--app-primary);
+  border-color: var(--app-border-focus);
 }
 
 .pilih-banyak__chip:disabled {

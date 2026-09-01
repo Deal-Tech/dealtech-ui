@@ -21,7 +21,7 @@
 }
 
 .richtext__kotak:focus-within {
-  border-color: var(--app-primary);
+  border-color: var(--app-border-focus);
   box-shadow: var(--app-control-ring-focus);
 }
 

@@ -29,7 +29,7 @@
 }
 
 .checkbox:hover .checkbox__kotak {
-  border-color: var(--app-primary);
+  border-color: var(--app-border-focus);
 }
 
 .checkbox__input:checked + .checkbox__kotak,

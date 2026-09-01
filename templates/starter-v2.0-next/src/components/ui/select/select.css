@@ -17,7 +17,7 @@
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 .select__trigger:hover {
-  border-color: var(--app-primary);
+  border-color: var(--app-border-focus);
 }
 .select__trigger:focus-visible {
   outline: none;
