@@ -1,0 +1,40 @@
+.hex-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
+}
+
+.hex-backdrop__glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(44rem 32rem at 34% 48%, var(--color-hero-glow-1), transparent 68%),
+    radial-gradient(30rem 24rem at 92% 6%, var(--color-hero-glow-2), transparent 72%);
+}
+
+/* Alpha dipasang di elemen svg, BUKAN di warna stroke: kalau di stroke, sisi
+   heksagon yang berhimpit menumpuk dan polanya jadi belang. */
+.hex-backdrop__grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--color-hero-line);
+  opacity: 0.16;
+  -webkit-mask-image: radial-gradient(62% 72% at 38% 46%, #000 18%, transparent 100%);
+  mask-image: radial-gradient(62% 72% at 38% 46%, #000 18%, transparent 100%);
+}
+
+/* Peredaman dilakukan di induk, bukan menurunkan glow dan grid satu per satu —
+   supaya perbandingan antar-lapisan tetap sama, cuma keseluruhannya lebih tipis. */
+.hex-backdrop--subtle {
+  opacity: 0.66;
+}
+
+.hex-backdrop--faint {
+  opacity: 0.5;
+}

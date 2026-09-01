@@ -1,0 +1,115 @@
+.tombol-tautan {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  /* Kotak baris dipepetkan ke kotak hurufnya supaya yang disejajarkan dengan
+     ikon adalah hurufnya, bukan ruang kosong di atas-bawah baris. */
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.tombol-tautan:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.tombol-tautan__ikon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Ukurannya mengikuti `.header-cta` DealTech (Bos 2026-08-26): tinggi 40px,
+   padding 0 18px, 14px. Ini MENGGANTI keputusan sebelumnya yang menyamakannya
+   dengan Button admin — tombol admin dipatok untuk kerapatan panel, dan di
+   halaman depan hasilnya terlalu kecil untuk ditekan dengan ibu jari.
+   Tebalnya 700, bukan 800 seperti rujukan: SN Pro tidak punya bobot 800, dan
+   memintanya membuat peramban menebalkan sendiri. */
+.tombol-tautan--sm {
+  min-height: 36px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+
+.tombol-tautan--md {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+
+.tombol-tautan--lg {
+  min-height: 44px;
+  padding: 0 22px;
+  font-size: 14px;
+}
+
+/* Varian dipakai berpasangan menurut kontras latarnya: `primary` di atas
+   permukaan terang, `putih`/`garis` di atas latar gelap. */
+.tombol-tautan--primary {
+  background: var(--app-primary);
+  border-color: var(--app-primary);
+  color: var(--app-on-primary);
+}
+
+.tombol-tautan--primary:hover {
+  background: var(--app-primary-hover);
+  border-color: var(--app-primary-hover);
+}
+
+.tombol-tautan--putih {
+  background: var(--app-surface);
+  border-color: var(--app-surface);
+  color: var(--app-primary);
+}
+
+.tombol-tautan--putih:hover {
+  background: color-mix(in srgb, var(--app-surface) 88%, var(--app-primary));
+  border-color: color-mix(in srgb, var(--app-surface) 88%, var(--app-primary));
+}
+
+.tombol-tautan--garis {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--app-on-primary) 55%, transparent);
+  color: var(--app-on-primary);
+}
+
+.tombol-tautan--garis:hover {
+  background: color-mix(in srgb, var(--app-on-primary) 12%, transparent);
+  border-color: var(--app-on-primary);
+}
+
+/* Garis tepi berwarna merek — untuk latar TERANG. Varian garis di atas memakai
+   warna putih dan hilang total kalau dipasang di permukaan putih. */
+.tombol-tautan--garis-merek {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--app-primary) 45%, transparent);
+  color: var(--app-primary);
+}
+
+.tombol-tautan--garis-merek:hover {
+  background: color-mix(in srgb, var(--app-primary) 8%, transparent);
+  border-color: var(--app-primary);
+}
+
+/* Garis tepi berwarna merek — untuk latar TERANG. Varian garis di atas memakai
+   warna putih dan hilang total kalau dipasang di permukaan putih. */
+.tombol-tautan--garis-merek {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--app-primary) 45%, transparent);
+  color: var(--app-primary);
+}
+
+.tombol-tautan--garis-merek:hover {
+  background: color-mix(in srgb, var(--app-primary) 8%, transparent);
+  border-color: var(--app-primary);
+}

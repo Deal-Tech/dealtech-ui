@@ -1,0 +1,66 @@
+/* Latar tint yang memudar ke putih, jadi batasnya dengan isi halaman di
+   bawahnya tidak terasa seperti garis (rancangan klien 2026-08-28). */
+.kepala-publik {
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-publik) 9%, #ffffff) 0%,
+    #ffffff 100%
+  );
+  padding: 28px 0 36px;
+  margin-bottom: 32px;
+}
+
+.kepala-publik__wadah {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+.kepala-publik__remah {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-publik-subteks);
+}
+
+.kepala-publik__remah-tautan {
+  color: var(--color-publik-subteks);
+  text-decoration: none;
+}
+
+.kepala-publik__remah-tautan:hover {
+  color: var(--app-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* h1 halaman: font dan gaya miringnya sudah diatur aturan global sisi publik,
+   di sini tinggal ukurannya. */
+.kepala-publik__judul {
+  margin: 18px 0 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  /* Longgar dari -0.03em: fontnya Sriracha, huruf sambung yang bertabrakan
+     kalau dirapatkan sekuat itu. */
+  letter-spacing: -0.01em;
+}
+
+.kepala-publik__teks {
+  margin: 16px 0 0;
+  max-width: 52ch;
+  font-size: 1rem;
+  color: var(--color-publik-subteks);
+}
+
+@media (max-width: 600px) {
+  .kepala-publik {
+    padding: 20px 0 28px;
+    margin-bottom: 24px;
+  }
+
+  .kepala-publik__wadah {
+    padding: 0 16px;
+  }
+}

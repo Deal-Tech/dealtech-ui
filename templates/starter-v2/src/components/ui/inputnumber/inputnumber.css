@@ -1,0 +1,78 @@
+
+.inputnumber {
+  display: block;
+}
+.inputnumber__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: var(--app-field-label-size);
+  font-weight: var(--app-field-label-weight);
+  color: var(--app-body-text);
+}
+.inputnumber__req {
+  margin-left: 2px;
+  color: var(--app-danger-text);
+}
+.inputnumber__field {
+  width: 100%;
+  height: var(--app-control-h);
+  padding: 0 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid var(--app-border-strong);
+  box-shadow: var(--app-control-ring);
+  background: var(--app-bg);
+  color: var(--app-body-text);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.inputnumber__field::placeholder {
+  color: var(--app-placeholder);
+}
+.inputnumber__field:focus {
+  outline: none;
+  border-color: var(--app-primary);
+  box-shadow: var(--app-control-ring-focus);
+}
+.inputnumber__field:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.inputnumber__field--error {
+  border-color: var(--app-danger-text);
+}
+.inputnumber__field--error:focus {
+  box-shadow: var(--app-control-ring-error);
+}
+.inputnumber__hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.inputnumber__error {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--app-danger-text);
+}
+
+/*
+ * Tombol panah naik-turun bawaan peramban dibuang.
+ *
+ * Keputusan Bos 2026-08-12. Panahnya kecil, gampang tersenggol saat menggulir
+ * dengan mouse di atas isian, dan angka berubah tanpa disadari — di pencatatan
+ * stok itu berarti angka salah masuk tanpa ada yang tahu.
+ *
+ * Panah keyboard (atas/bawah) tetap berfungsi, jadi yang terbiasa memakainya
+ * tidak kehilangan apa-apa.
+ */
+.inputnumber__field::-webkit-outer-spin-button,
+.inputnumber__field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.inputnumber__field[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

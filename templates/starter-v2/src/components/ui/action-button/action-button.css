@@ -1,0 +1,31 @@
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Sama dengan tombol ikon di komponen Button — satu ukuran untuk semua
+     tombol ikon di aplikasi. */
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--app-text-muted);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.action-button:hover {
+  background: var(--app-fill-strong);
+  color: var(--app-text);
+}
+.action-button--danger:hover {
+  background: color-mix(in srgb, var(--app-danger-text) 12%, transparent);
+  color: var(--app-danger-text);
+}
+.action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.action-button__icon {
+  width: 16px;
+  height: 16px;
+}

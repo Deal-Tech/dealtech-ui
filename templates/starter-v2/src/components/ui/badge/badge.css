@@ -1,0 +1,40 @@
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: #ffffff;
+  background-color: var(--app-neutral); /* default (gray) */
+}
+
+.badge__icon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.badge--green {
+  background-color: var(--app-success-solid);
+}
+.badge--amber {
+  background-color: var(--app-warning-solid);
+  color: var(--app-warning-solid-fg);
+}
+.badge--red {
+  background-color: var(--app-danger-solid);
+}
+.badge--blue {
+  background-color: var(--app-primary-hover);
+}
+.badge--purple {
+  background-color: var(--app-primary-deep);
+}
+.badge--gray {
+  background-color: var(--app-neutral);
+}

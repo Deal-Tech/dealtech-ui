@@ -1,0 +1,84 @@
+
+.cardbar-list {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+}
+
+.cardbar-list__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--app-border-strong);
+}
+@media (min-width: 768px) {
+  .cardbar-list__header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.cardbar-list__heading {
+  min-width: 0;
+}
+.cardbar-list__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--app-text);
+}
+.cardbar-list__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.cardbar-list__action {
+  flex-shrink: 0;
+}
+
+.cardbar-list__body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.cardbar-list__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.cardbar-list__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--app-text);
+}
+.cardbar-list__value {
+  font-size: 14px;
+  color: var(--app-text-muted);
+}
+
+.cardbar-list__track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--app-fill);
+  overflow: hidden;
+}
+.cardbar-list__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--app-primary);
+  transition: width 0.4s ease;
+}
+
+.cardbar-list__row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

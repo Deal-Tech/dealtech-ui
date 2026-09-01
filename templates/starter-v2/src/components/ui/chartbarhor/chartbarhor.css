@@ -1,0 +1,26 @@
+
+.chartbarhor {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+}
+.chartbarhor__header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--app-border-strong);
+}
+.chartbarhor__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--app-text);
+}
+.chartbarhor__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.chartbarhor__body {
+  padding: 16px 12px 8px;
+}

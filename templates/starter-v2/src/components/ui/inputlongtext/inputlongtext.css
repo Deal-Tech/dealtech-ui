@@ -1,0 +1,60 @@
+
+.inputlongtext {
+  display: block;
+}
+.inputlongtext__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: var(--app-field-label-size);
+  font-weight: var(--app-field-label-weight);
+  color: var(--app-body-text);
+}
+.inputlongtext__req {
+  margin-left: 2px;
+  color: var(--app-danger-text);
+}
+.inputlongtext__field {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid var(--app-border-strong);
+  box-shadow: var(--app-control-ring);
+  background: var(--app-bg);
+  color: var(--app-body-text);
+  resize: vertical;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.inputlongtext__field--autoresize {
+  resize: none;
+  overflow: hidden;
+}
+.inputlongtext__field::placeholder {
+  color: var(--app-placeholder);
+}
+.inputlongtext__field:focus {
+  outline: none;
+  border-color: var(--app-primary);
+  box-shadow: var(--app-control-ring-focus);
+}
+.inputlongtext__field:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.inputlongtext__field--error {
+  border-color: var(--app-danger-text);
+}
+.inputlongtext__field--error:focus {
+  box-shadow: var(--app-control-ring-error);
+}
+.inputlongtext__hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.inputlongtext__error {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--app-danger-text);
+}

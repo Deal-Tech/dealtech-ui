@@ -1,0 +1,378 @@
+/* Kerangka dua kolomnya diambil apa adanya dari .home-service-detail di DealTech;
+   isi kotak kirinya diganti angka usaha — lihat module-publik 5.6. */
+.blok-tentang {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 36px 0;
+  /* Header sisi publik position:fixed — tanpa ini, blok yang dituju tautan
+     #anchor berhenti tepat di bawah header dan judulnya tertutup. */
+  scroll-margin-top: 80px;
+}
+
+.blok-tentang__wadah {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(28px, 4vw, 64px);
+  /* 1200px, bukan 1100px seperti rujukan — supaya tepinya lurus dengan section
+     berkartu di atas dan di bawahnya. Lebar yang beda 100px justru paling
+     kelihatan saat di-scroll berurutan. */
+  width: min(1200px, 100%);
+  margin: 0 22px;
+}
+
+/* Dua foto BERSEBELAHAN, masing-masing setengah lebar kolom kiri, dan
+   tingginya mengikuti kolom kanan (Bos 2026-08-28). */
+.blok-tentang__foto-kisi {
+  display: grid;
+  /* minmax(0, 1fr), BUKAN 1fr: `1fr` sendirian berarti minmax(auto, 1fr), dan
+     minimum auto itu selebar gambar bawaannya — jadi kolomnya menolak mengecil
+     dan pembagian 50/50 batal diam-diam. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  /* Mengisi tinggi kolom kanan yang sudah di-stretch. */
+  height: 100%;
+  min-height: 340px;
+}
+
+/* Kartu yang memegang kotaknya — sudut, latar, dan pemotongan gambar ada di
+   sini, bukan di <img>. min-width/min-height: 0 wajib: tanpa itu kolom 1fr
+   tidak boleh lebih sempit daripada gambar bawaannya. */
+.blok-tentang__kartu-foto {
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--color-publik) 12%, #ffffff);
+}
+
+/* Gambar mengisi kartunya dan dipotong, bukan diregangkan. */
+.blok-tentang__foto {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Hanya varian berfoto dan berpeta yang direntangkan. Kotak hiasan air
+   dikalibrasi untuk tinggi ~300px; merentangkannya mengikuti teks panjang di
+   About membuat ombaknya melar dan gelembungnya berjalan terlalu jauh. */
+.blok-tentang.is-foto .blok-tentang__wadah,
+.blok-tentang.is-peta .blok-tentang__wadah {
+  align-items: stretch;
+}
+
+/* ── Peta (halaman Contact) ───────────────────────────────────────────────── */
+
+.blok-tentang__peta {
+  overflow: hidden;
+  min-width: 0;
+  min-height: 340px;
+  height: 100%;
+  border-radius: 12px;
+  /* Warna kartu foto dipakai lagi supaya kotaknya tetap terlihat utuh selama
+     peta belum termuat — bingkai kosong berlatar putih terbaca sebagai rusak. */
+  background: color-mix(in srgb, var(--color-publik) 12%, #ffffff);
+}
+
+.blok-tentang__peta-bingkai {
+  display: block;
+  height: 100%;
+  width: 100%;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .blok-tentang__peta {
+    order: 2;
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 900px) {
+  /* Di satu kolom fotonya menyusul cerita, sama seperti kotak hiasannya. */
+  .blok-tentang__foto-kisi {
+    order: 2;
+    /* Tetap bersebelahan di ponsel, cuma lebih pendek — dua kartu tegak
+       selebar setengah layar sudah cukup tinggi pada 240px. */
+    min-height: 240px;
+  }
+}
+
+/* Kotak kiri murni hiasan (Bos 2026-08-26): angkanya pindah ke bawah deskripsi.
+   overflow:hidden wajib — ombaknya jauh lebih besar daripada kotaknya. */
+.blok-tentang__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 300px;
+  border: 1px solid color-mix(in srgb, var(--color-publik) 18%, #ffffff);
+  border-radius: 20px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-publik) 6%, #ffffff) 0%,
+    color-mix(in srgb, var(--color-publik) 18%, #ffffff) 100%
+  );
+  padding: 28px;
+}
+
+/* Ombak dibuat dari lingkaran raksasa ber-border-radius 44% yang diputar pelan:
+   tepinya yang tidak bulat sempurna melintas sebagai puncak gelombang. Dua lapis
+   dengan kecepatan dan arah berbeda supaya geraknya tidak terbaca berulang.
+   Tanpa berkas gambar dan tanpa pustaka animasi. */
+.blok-tentang__air {
+  position: absolute;
+  bottom: -168%;
+  left: 50%;
+  z-index: 0;
+  aspect-ratio: 1;
+  width: 240%;
+  margin-left: -120%;
+  border-radius: 44%;
+  background: color-mix(in srgb, var(--color-publik) 30%, #ffffff);
+  animation: blokTentangOmbak 16s linear infinite;
+}
+
+.blok-tentang__air--dalam {
+  bottom: -172%;
+  width: 260%;
+  margin-left: -130%;
+  border-radius: 46%;
+  background: color-mix(in srgb, var(--color-publik) 46%, #ffffff);
+  animation-duration: 24s;
+  animation-direction: reverse;
+}
+
+@keyframes blokTentangOmbak {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Riak yang melebar dari balik ikon — penanda bahwa titik tengahnya hidup. */
+.blok-tentang__cincin {
+  position: absolute;
+  z-index: 1;
+  height: 96px;
+  width: 96px;
+  border: 1px solid color-mix(in srgb, var(--color-publik) 45%, transparent);
+  border-radius: 999px;
+  opacity: 0;
+  animation: blokTentangRiak 3.6s ease-out infinite;
+}
+
+.blok-tentang__cincin--dua {
+  animation-delay: 1.8s;
+}
+
+@keyframes blokTentangRiak {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+}
+
+/* Gelembung naik dari dasar lalu pecah di permukaan. Ukuran, posisi, dan jedanya
+   beda-beda supaya tidak terbaca sebagai barisan yang seragam. */
+.blok-tentang__buih {
+  position: absolute;
+  bottom: 12%;
+  z-index: 1;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  opacity: 0;
+  animation: blokTentangNaik 7s ease-in infinite;
+}
+
+.blok-tentang__buih:nth-of-type(1) {
+  left: 18%;
+  height: 8px;
+  width: 8px;
+}
+
+.blok-tentang__buih:nth-of-type(2) {
+  left: 34%;
+  height: 5px;
+  width: 5px;
+  animation-delay: 2.4s;
+  animation-duration: 8.5s;
+}
+
+.blok-tentang__buih:nth-of-type(3) {
+  left: 68%;
+  height: 10px;
+  width: 10px;
+  animation-delay: 1.2s;
+  animation-duration: 6.2s;
+}
+
+.blok-tentang__buih:nth-of-type(4) {
+  left: 82%;
+  height: 6px;
+  width: 6px;
+  animation-delay: 4.1s;
+}
+
+@keyframes blokTentangNaik {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  15% {
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-190px) scale(1);
+  }
+}
+
+.blok-tentang__ikon {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  height: 96px;
+  width: 96px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28px;
+  background: var(--color-publik);
+  color: var(--app-on-primary);
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--color-publik) 28%, transparent);
+  animation: blokTentangMelayang 3.6s ease-in-out infinite;
+}
+
+@keyframes blokTentangMelayang {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Hiasan boleh bergerak, tapi tidak untuk yang memintanya diam. */
+@media (prefers-reduced-motion: reduce) {
+  .blok-tentang__ikon,
+  .blok-tentang__air,
+  .blok-tentang__cincin,
+  .blok-tentang__buih {
+    animation: none;
+  }
+
+  /* Riak dan gelembung mulai dari opacity 0; tanpa ini keduanya tidak pernah
+     terlihat dan kotaknya jadi kosong. */
+  .blok-tentang__cincin {
+    opacity: 0.35;
+  }
+
+  .blok-tentang__buih {
+    opacity: 0.5;
+  }
+}
+
+/* Angka usaha, sekarang di bawah deskripsi (Bos). dl/dt/dd, bukan div: nilai dan
+   labelnya memang pasangan istilah-dan-keterangan, dan itu yang dibacakan screen
+   reader sebagai satu kesatuan. */
+.blok-tentang__angka {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 12px;
+  margin: 22px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--color-publik) 16%, #ffffff);
+  padding-top: 20px;
+}
+
+.blok-tentang__angka-nilai {
+  margin: 0;
+  font-size: clamp(1.45rem, 2.2vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-publik);
+}
+
+.blok-tentang__angka-label {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--color-publik-subteks);
+}
+
+.blok-tentang__teks {
+  margin: 14px 0 0;
+  font-size: 1rem;
+  color: var(--color-publik-subteks);
+}
+
+/* Bagian yang ditekankan di tengah kalimat: warna teks utama + garis bawah,
+   bukan warna merek — kalau berwarna, ia terbaca sebagai tautan. */
+.blok-tentang__tebal {
+  color: var(--app-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+}
+
+.blok-tentang__tautan {
+  display: inline-block;
+  margin-top: 18px;
+  color: var(--app-primary);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 2px;
+  transition: color 0.2s ease;
+}
+
+.blok-tentang__tautan:hover {
+  color: var(--app-primary-hover);
+}
+
+@media (max-width: 900px) {
+  .blok-tentang {
+    padding: 26px 0;
+  }
+
+  .blok-tentang__wadah {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  /* Di satu kolom ceritanya duluan, hiasannya menyusul. Beda dari rujukan yang
+     gambarnya selalu di atas: kotak 300px berisi hiasan di puncak layar ponsel
+     cuma mendorong isi yang sebenarnya ke bawah lipatan. */
+  .blok-tentang__isi {
+    order: 1;
+  }
+
+  .blok-tentang__media {
+    order: 2;
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 600px) {
+  .blok-tentang__wadah {
+    margin: 0 16px;
+  }
+
+  .blok-tentang__angka {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 12px;
+  }
+}

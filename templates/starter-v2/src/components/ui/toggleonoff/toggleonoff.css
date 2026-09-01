@@ -1,0 +1,69 @@
+
+.toggleonoff {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--app-fill-strong);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.toggleonoff.is-on {
+  background: var(--app-primary);
+}
+.toggleonoff:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.toggleonoff:focus-visible {
+  outline: 2px solid var(--app-primary);
+  outline-offset: 2px;
+}
+
+.toggleonoff__knob {
+  position: absolute;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+.toggleonoff.is-on .toggleonoff__knob {
+  transform: translateX(20px);
+}
+
+.toggleonoff-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.toggleonoff-field__label {
+  font-size: var(--app-field-label-size);
+  color: var(--app-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+/*
+ * Ukuran kecil — untuk dipakai di kolom aksi tabel, sebaris dengan ActionButton.
+ * Tingginya disamakan dengan tombol aksi supaya barisnya rata.
+ */
+.toggleonoff--sm {
+  width: 34px;
+  height: 18px;
+}
+.toggleonoff--sm .toggleonoff__knob {
+  left: 3px;
+  width: 12px;
+  height: 12px;
+}
+.toggleonoff--sm.is-on .toggleonoff__knob {
+  transform: translateX(16px);
+}

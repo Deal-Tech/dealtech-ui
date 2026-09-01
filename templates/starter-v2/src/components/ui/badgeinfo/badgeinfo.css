@@ -1,0 +1,42 @@
+
+/*
+ * Notifikasi baku untuk seluruh aplikasi — sukses, galat, peringatan, info.
+ * Tanpa border, selebar penuh kiri-kanan. Keputusan Bos 2026-08-12.
+ *
+ * Ini satu-satunya bentuk notifikasi yang dipakai; jangan bikin kotak pesan
+ * sendiri di halaman.
+ */
+.badgeinfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  background: color-mix(in srgb, var(--bi-c) 13%, var(--app-surface));
+  color: var(--bi-c);
+}
+.badgeinfo__icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.badgeinfo__text {
+  min-width: 0;
+}
+
+.badgeinfo--success {
+  --bi-c: var(--app-success-text);
+}
+.badgeinfo--error {
+  --bi-c: var(--app-danger-text);
+}
+.badgeinfo--info {
+  --bi-c: var(--app-primary-hover);
+}
+.badgeinfo--warning {
+  --bi-c: var(--app-warning-text);
+}

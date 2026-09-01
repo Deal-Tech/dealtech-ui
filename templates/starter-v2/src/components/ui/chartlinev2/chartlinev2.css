@@ -1,0 +1,110 @@
+
+.chartlinev2 {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+}
+.chartlinev2__header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--app-border-strong);
+}
+.chartlinev2__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--app-text);
+}
+.chartlinev2__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.chartlinev2__body {
+  padding: 16px 12px 8px;
+}
+
+.chartlinev2__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding: 4px 8px 14px;
+}
+.chartlinev2__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--app-text);
+}
+.chartlinev2__legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+.chartlinev2__chart {
+  width: 100%;
+}
+
+.chartlinev2__table-scroll {
+  margin-top: 16px;
+  padding: 0 8px;
+  overflow-x: auto;
+}
+.chartlinev2__table {
+  width: 100%;
+  min-width: 420px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.chartlinev2__th {
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--app-text-muted);
+  border-bottom: 1px solid var(--app-border-strong);
+}
+.chartlinev2__th--right {
+  text-align: right;
+}
+.chartlinev2__row {
+  border-bottom: 1px solid var(--app-border);
+  transition: background-color 0.15s ease;
+}
+.chartlinev2__row:last-child {
+  border-bottom: 0;
+}
+.chartlinev2__row:hover {
+  background: var(--app-fill);
+}
+.chartlinev2__td {
+  padding: 10px 12px;
+  white-space: nowrap;
+  color: var(--app-text);
+}
+.chartlinev2__td--muted {
+  color: var(--app-text-muted);
+}
+.chartlinev2__td--right {
+  text-align: right;
+}
+.chartlinev2__td--strong {
+  font-weight: 600;
+}
+.chartlinev2__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.chartlinev2__item-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}

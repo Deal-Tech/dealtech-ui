@@ -1,0 +1,48 @@
+
+.date-input {
+  height: var(--app-control-h);
+  padding: 0 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--app-border-strong);
+  box-shadow: var(--app-control-ring);
+  background: var(--app-bg);
+  color: var(--app-body-text);
+  cursor: pointer;
+  color-scheme: var(--app-input-scheme);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.date-input:focus {
+  outline: none;
+  border-color: var(--app-primary);
+  box-shadow: var(--app-control-ring-focus);
+}
+
+.date-input-wrap {
+  display: block;
+}
+
+.date-input__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: var(--app-field-label-size);
+  font-weight: var(--app-field-label-weight);
+  color: var(--app-body-text);
+}
+
+.date-input--error {
+  border-color: var(--app-danger-text);
+}
+
+.date-input__hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+
+.date-input__error {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--app-danger-text);
+}

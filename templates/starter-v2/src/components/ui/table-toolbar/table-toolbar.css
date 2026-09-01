@@ -1,0 +1,114 @@
+.table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.table-toolbar__cari {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: 180px;
+}
+
+/*
+ * Beri ruang untuk tombol silang. `className` pada SearchInput menempel di
+ * pembungkusnya, bukan di <input> — jadi turunkan selectornya.
+ */
+.table-toolbar__input--terisi .search-input {
+  padding-right: 34px;
+}
+
+.table-toolbar__bersih {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--app-text-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.table-toolbar__bersih:hover {
+  color: var(--app-text);
+  background: var(--app-fill-strong);
+}
+
+.table-toolbar__bersih svg {
+  width: 14px;
+  height: 14px;
+}
+
+/*
+ * Petunjuk "tekan Enter" hanya muncul saat ada ketikan yang belum dijalankan.
+ * Melayang di atas isi supaya tidak mendorong tinggi baris alat.
+ */
+.table-toolbar__petunjuk {
+  position: absolute;
+  left: 0;
+  top: calc(var(--app-control-h) + 6px);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 4px;
+  border: 1px solid var(--app-primary);
+  background: var(--app-surface);
+  box-shadow: 0 4px 10px color-mix(in srgb, var(--app-text) 12%, transparent);
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--app-primary-hover);
+}
+
+.table-toolbar__petunjuk svg {
+  width: 12px;
+  height: 12px;
+}
+
+.table-toolbar__saring {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-toolbar__saring > * {
+  min-width: 150px;
+}
+
+.table-toolbar__per-halaman {
+  width: 140px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 639px) {
+  .table-toolbar {
+    padding: 10px 12px;
+  }
+
+  .table-toolbar__cari {
+    flex-basis: 100%;
+  }
+
+  .table-toolbar__saring,
+  .table-toolbar__per-halaman {
+    flex: 1 1 140px;
+    width: auto;
+  }
+
+  .table-toolbar__saring > * {
+    min-width: 0;
+    width: 100%;
+  }
+}

@@ -1,0 +1,135 @@
+/* Pratinjau: ukuran label diturunkan dari lebar sel lewat `--label-lebar`,
+   jadi ia mengecil tanpa berubah bentuk. Ukuran cetak tidak terpengaruh. */
+.lembar-cetak__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+@media (min-width: 640px) {
+  .lembar-cetak__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .lembar-cetak__grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+/* Sel jadi acuan lebar label — `100cqw` di dalamnya membaca lebar sel ini. */
+.lembar-cetak__sel {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.lembar-cetak__sel .label-qr {
+  --label-lebar: 100cqw;
+}
+
+.lembar-cetak__kepala {
+  display: none;
+}
+
+/*
+ * CETAK — blok inilah yang menentukan bentuk hasil cetakan.
+ *
+ * 6 kolom × 33 mm = 198 mm, muat di lebar isi A4 200 mm. Jarak antar-sel nol:
+ * dua label bersebelahan berbagi satu garis potong.
+ *
+ * Setiap angka di sini ikut menentukan `LABEL_PER_LEMBAR_A4` di
+ * `LembarCetak.tsx`. Ubah salah satunya, ukur ulang kapasitasnya.
+ */
+@media print {
+  @page {
+    size: auto;
+    /* Jangan di bawah 5 mm — banyak printer tidak bisa mencetak 4 mm terluar. */
+    margin: 5mm;
+  }
+
+  /* Sembunyikan semua kecuali lembar label, isinya, dan leluhurnya. Leluhur
+     harus tetap hidup: lembar ini bersarang jauh di dalam layout. */
+  body :not(:has(.lembar-cetak)):not(.lembar-cetak):not(.lembar-cetak *) {
+    display: none !important;
+  }
+
+  /* `min-height` wajib dinolkan: `100vh` di body diukur terhadap lembar penuh
+     di sebagian peramban, dan sisanya jatuh ke lembar kosong berikutnya. */
+  html,
+  body {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  /* Leluhur dilucuti — `h-screen`, `overflow-hidden`, padding, dan bayangan
+     dari layout layar semua lewat sini. */
+  body :has(.lembar-cetak) {
+    display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    transform: none !important;
+    float: none !important;
+  }
+
+  .lembar-cetak {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .lembar-cetak__kepala {
+    display: block;
+    margin-bottom: 3mm;
+    text-align: center;
+    color: #1f2937;
+  }
+
+  .lembar-cetak__judul {
+    display: block;
+    font-size: 12pt;
+    font-weight: 700;
+  }
+
+  .lembar-cetak__subjudul {
+    display: block;
+    margin-top: 1mm;
+    font-size: 9pt;
+    color: #5a5a5a;
+  }
+
+  /* `inline-block`, bukan grid/flex: pemotongan antar-halaman pada grid dan
+     flex masih beda-beda hasilnya antar-peramban. */
+  .lembar-cetak__grid {
+    display: block;
+    font-size: 0;
+  }
+
+  .lembar-cetak__sel {
+    display: inline-block;
+    vertical-align: top;
+    container-type: normal;
+    margin: 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .lembar-cetak__sel .label-qr {
+    --label-lebar: 33mm;
+    /* Garis potong. */
+    border: 1px dashed #9ca3af;
+  }
+}

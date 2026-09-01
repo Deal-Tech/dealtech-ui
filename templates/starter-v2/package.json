@@ -1,0 +1,44 @@
+{
+  "name": "dealtech-app-v2",
+  "private": true,
+  "version": "2.0.0",
+  "description": "DealTech UI admin starter template v2 — tema token CSS, style terpisah per komponen",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "dealtech",
+    "react",
+    "vite",
+    "tailwind",
+    "admin-dashboard"
+  ],
+  "author": "Deal-Tech",
+  "license": "MIT",
+  "dependencies": {
+    "lucide-react": "^0.554.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.18.0",
+    "recharts": "^3.2.1",
+    "yet-another-react-lightbox": "3.32.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.2"
+  },
+  "overrides": {
+    "react-router": "^7.18.0"
+  }
+}

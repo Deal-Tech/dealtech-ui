@@ -1,0 +1,26 @@
+
+.chartline {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+}
+.chartline__header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--app-border-strong);
+}
+.chartline__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--app-text);
+}
+.chartline__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.chartline__body {
+  padding: 16px 12px 8px;
+}

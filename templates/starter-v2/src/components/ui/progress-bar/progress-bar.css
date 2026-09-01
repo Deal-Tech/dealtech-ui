@@ -1,0 +1,70 @@
+.progress-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.progress-bar__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.progress-bar__label {
+  font-size: 13px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+
+.progress-bar__value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--app-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-bar__track {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--app-fill-strong);
+}
+
+.progress-bar__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--app-primary);
+  transition: width 0.2s ease;
+}
+
+.progress-bar__fill--indeterminate {
+  position: absolute;
+  left: 0;
+  width: 40%;
+  animation: progress-slide 1.1s ease-in-out infinite;
+}
+
+@keyframes progress-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-bar__fill {
+    transition: none;
+  }
+  .progress-bar__fill--indeterminate {
+    position: static;
+    width: 100%;
+    animation: none;
+    opacity: 0.6;
+  }
+}

@@ -1,0 +1,126 @@
+.welcome-v2 {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-radius: 10px;
+  padding: 18px 20px;
+  background: linear-gradient(
+    100deg,
+    var(--color-primary-darker) 0%,
+    var(--color-primary) 52%,
+    var(--color-accent) 100%
+  );
+}
+
+/* Bidang miring terang di kanan — bentuk yang sama dengan kartu rujukan Bos. */
+.welcome-v2::after {
+  content: '';
+  position: absolute;
+  inset: -40% -12% -40% auto;
+  z-index: -1;
+  width: 34%;
+  transform: skewX(-18deg);
+  background: rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+}
+
+.welcome-v2__isi {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.welcome-v2__badge {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.16);
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.welcome-v2__badge-ikon {
+  height: 12px;
+  width: 12px;
+}
+
+.welcome-v2__judul {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Baris deskripsi opsional — cuma dipakai pemanggil yang mengoper deskripsi.
+   Putih beropasitas, bukan token teks: latarnya gradien gelap. */
+.welcome-v2__teks {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Slot untuk aksi selain tombol (mis. select). Lebarnya tidak ikut memanjang
+   supaya kartunya tetap terbaca judul-di-kiri, aksi-di-kanan. */
+.welcome-v2__slot {
+  flex: 0 0 auto;
+  min-width: 200px;
+}
+
+.welcome-v2__aksi {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+/* Diturunkan dari --color-primary, bukan biru yang dipatok: kartu ini dipakai
+   panel admin DAN sisi publik, dan yang kedua paletnya lain. */
+.welcome-v2__aksi:hover {
+  background: color-mix(in srgb, #ffffff 88%, var(--color-primary));
+}
+
+.welcome-v2__aksi-ikon {
+  height: 14px;
+  width: 14px;
+}
+
+@media (max-width: 639px) {
+  .welcome-v2 {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .welcome-v2__judul {
+    font-size: 15px;
+  }
+
+  .welcome-v2__aksi {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .welcome-v2__slot {
+    width: 100%;
+  }
+}

@@ -1,0 +1,24 @@
+.tombol-cetak {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tombol-cetak__baris {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.tombol-cetak__ket {
+  margin: 0;
+  font-size: 12px;
+  color: var(--app-text-muted);
+}
+
+@media print {
+  .tombol-cetak {
+    display: none !important;
+  }
+}

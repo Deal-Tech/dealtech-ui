@@ -1,0 +1,126 @@
+
+.tabelcardv1 {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+}
+
+.tabelcardv1__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--app-border-strong);
+}
+@media (min-width: 768px) {
+  .tabelcardv1__header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.tabelcardv1__heading {
+  min-width: 0;
+}
+.tabelcardv1__title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tabelcardv1__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--app-text);
+}
+.tabelcardv1__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--app-count-bg);
+  color: var(--app-count-fg);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+.tabelcardv1__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.tabelcardv1__action {
+  flex-shrink: 0;
+}
+
+.tabelcardv1__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.tabelcardv1__item {
+  border-radius: 8px;
+  border: 1px solid var(--app-border-strong);
+  background: var(--app-fill);
+  padding: 12px;
+}
+.tabelcardv1__item-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--app-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabelcardv1__item-subtitle {
+  margin: 4px 0 0;
+  font-size: 12px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabelcardv1__item-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.tabelcardv1__item-date {
+  font-size: 11px;
+  color: var(--app-text-faint);
+}
+.tabelcardv1__avatar {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--app-count-bg);
+  color: var(--app-count-fg);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.tabelcardv1__empty {
+  border-radius: 8px;
+  border: 1px solid var(--app-border-strong);
+  background: var(--app-fill);
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--app-text-muted);
+}

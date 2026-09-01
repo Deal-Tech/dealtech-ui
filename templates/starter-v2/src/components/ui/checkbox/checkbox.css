@@ -1,0 +1,67 @@
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkbox__kotak {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 1px solid var(--app-border-strong);
+  background: var(--app-bg);
+  color: var(--app-on-primary);
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.checkbox:hover .checkbox__kotak {
+  border-color: var(--app-primary);
+}
+
+.checkbox__input:checked + .checkbox__kotak,
+.checkbox__input:indeterminate + .checkbox__kotak {
+  border-color: var(--app-primary);
+  background: var(--app-primary);
+}
+
+.checkbox__input:focus-visible + .checkbox__kotak {
+  box-shadow: var(--app-control-ring-focus);
+}
+
+.checkbox__input:disabled + .checkbox__kotak {
+  opacity: 0.5;
+}
+
+.checkbox__input:disabled ~ .checkbox__label {
+  opacity: 0.5;
+}
+
+.checkbox:has(.checkbox__input:disabled) {
+  cursor: not-allowed;
+}
+
+.checkbox__ikon {
+  width: 13px;
+  height: 13px;
+  stroke-width: 3;
+}
+
+.checkbox__label {
+  font-size: var(--app-field-label-size);
+  font-weight: var(--app-field-label-weight);
+  color: var(--app-body-text);
+}

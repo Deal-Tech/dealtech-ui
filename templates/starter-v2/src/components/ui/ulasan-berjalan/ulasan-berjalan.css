@@ -1,0 +1,95 @@
+/* Angkanya dari .reviews-marquee DealTech; warnanya diganti palet publik.
+   Sectionnya melebar penuh, bukan 1200px — pita berjalan yang berhenti di tepi
+   wadah terbaca sebagai kotak, bukan sebagai sesuatu yang terus mengalir. */
+.ulasan-berjalan {
+  width: 100%;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-publik) 5%, #ffffff);
+  padding: 40px 0 44px;
+}
+
+.ulasan-berjalan__garis {
+  display: inline-block;
+  color: var(--app-primary);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+/* Jarak judul ke pita. Dulu ada di pembungkus .__jalur yang ikut terhapus saat
+   mekanik pitanya dipindah jadi komponen — dan hilangnya baru ketahuan setelah
+   dilihat Bos. Jarak antar-bagian memang milik section, bukan milik pitanya. */
+.ulasan-berjalan__pita {
+  margin-top: 24px;
+}
+
+/* Mekanik pitanya di components/pita-berjalan — di sini tinggal kartunya. */
+.ulasan-berjalan__kartu {
+  display: flex;
+  flex: 0 0 300px;
+  flex-direction: column;
+  gap: 14px;
+  width: 300px;
+  border: 1px solid color-mix(in srgb, var(--color-publik) 16%, #ffffff);
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 18px 18px 14px;
+}
+
+/* Tiga baris supaya tinggi semua kartu sama; ulasan panjang tetap boleh ditulis
+   panjang dan potongannya diurus peramban. */
+.ulasan-berjalan__isi {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--color-publik-subteks);
+}
+
+.ulasan-berjalan__kaki {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--color-publik) 10%, #ffffff);
+  padding-top: 10px;
+}
+
+.ulasan-berjalan__nama {
+  overflow: hidden;
+  font-size: 0.8rem;
+  line-height: 1;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ulasan-berjalan__bintang {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 2px;
+  color: #f5a524;
+}
+
+.ulasan-berjalan__bintang-ikon {
+  height: 13px;
+  width: 13px;
+  fill: currentColor;
+}
+
+@media (max-width: 600px) {
+  .ulasan-berjalan {
+    padding: 30px 0 32px;
+  }
+
+  .ulasan-berjalan__kartu {
+    flex-basis: 260px;
+    width: 260px;
+  }
+}

@@ -1,0 +1,145 @@
+/*
+ * Dashboard: empat kartu angka, lalu akses cepat.
+ *
+ * Kelas lama (dashboard-panel, dashboard-toolbar, dashboard-galat) dihapus
+ * 2026-08-13 bersama metrik toko online yang tidak pernah dipakai di sini.
+ */
+
+/* Empat kartu angka. Turun jadi dua kolom di tablet dan satu di ponsel —
+   angka besar yang dipaksa muat bertiga jadi terlalu kecil untuk dibaca
+   sekilas, dan sekilas itulah satu-satunya cara halaman ini dipakai. */
+.dashboard .dashboard__stat {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .dashboard .dashboard__stat {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .dashboard .dashboard__stat {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── Akses cepat ────────────────────────────────────────────────────────────
+ *
+ * Bentuknya sengaja mengikuti WelcomeCardV2 (Bos 2026-08-28): gradien, lencana,
+ * judul. Yang berbeda cuma isinya — deretan tombol, bukan satu tombol di kanan.
+ *
+ * Nilainya disalin dari welcome-card-v2.css, tidak di-`@extend` atau dibungkus
+ * kelas bersama: kalau suatu saat salah satunya diubah, yang lain tidak ikut
+ * berubah diam-diam. Kartu sambutan itu juga dipakai sisi publik dengan palet
+ * yang lain. */
+.dashboard .akses-cepat {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 10px;
+  padding: 18px 20px;
+  background: linear-gradient(
+    100deg,
+    var(--color-primary-darker) 0%,
+    var(--color-primary) 52%,
+    var(--color-accent) 100%
+  );
+}
+
+.dashboard .akses-cepat::after {
+  content: '';
+  position: absolute;
+  inset: -40% -12% -40% auto;
+  z-index: -1;
+  width: 34%;
+  transform: skewX(-18deg);
+  background: rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+}
+
+.dashboard .akses-cepat__isi {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dashboard .akses-cepat__badge {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.dashboard .akses-cepat__badge-ikon {
+  height: 12px;
+  width: 12px;
+}
+
+.dashboard .akses-cepat__judul {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Membungkus, bukan menggulir: jumlah menunya sedikit dan tetap, dan baris yang
+   bisa digulir menyembunyikan tujuan yang justru dicari orang. */
+.dashboard .akses-cepat__tombol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dashboard .akses-cepat__butir {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  /* line-height 1 + align-items center: ikon dan teksnya sejajar tengah tanpa
+     geseran manual. Lihat aturan penyejajaran ikon di module-frontend. */
+  line-height: 1;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.dashboard .akses-cepat__butir:hover {
+  background: color-mix(in srgb, #ffffff 88%, var(--color-primary));
+}
+
+.dashboard .akses-cepat__ikon {
+  height: 14px;
+  width: 14px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 639px) {
+  .dashboard .akses-cepat__judul {
+    font-size: 15px;
+  }
+
+  /* Di ponsel tombolnya melebar penuh: setengah lebar layar untuk satu tujuan
+     membuat dua tombol berdempetan dan gampang salah tekan. */
+  .dashboard .akses-cepat__butir {
+    width: 100%;
+    justify-content: center;
+  }
+}

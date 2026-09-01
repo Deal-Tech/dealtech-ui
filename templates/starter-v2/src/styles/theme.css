@@ -1,0 +1,429 @@
+/* Sriracha — font judul BESAR sisi publik (Bos 2026-08-28). Self-hosted, bukan
+   ditarik dari Google Fonts: CSP di sini `font-src 'self'`. Berlisensi OFL.
+   Satu bobot (400) dan satu gaya — keluarga ini memang cuma punya itu.
+   Subset thai dan vietnamese sengaja tidak diambil; tidak pernah dipakai. */
+@font-face {
+  font-family: 'Sriracha';
+  src: url('./fonts/Sriracha-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sriracha';
+  src: url('./fonts/Sriracha-latin-ext.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Google Sans — font judul sisi publik (Sido-hiroshima). Self-hosted, bukan
+   ditarik dari Google Fonts: CSP di sini `font-src 'self'`, dan panel admin
+   tidak perlu memanggil server pihak ketiga setiap kali dibuka.
+   Berlisensi OFL, satu berkas variabel untuk bobot 400-700. */
+@font-face {
+  font-family: 'Google Sans';
+  src: url('./fonts/GoogleSans-latin.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Google Sans';
+  src: url('./fonts/GoogleSans-latin-ext.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'SN Pro';
+  src: url('./fonts/SNPro-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SN Pro';
+  src: url('./fonts/SNPro-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SN Pro';
+  src: url('./fonts/SNPro-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SN Pro';
+  src: url('./fonts/SNPro-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Gulir halus untuk tautan #anchor di sisi publik. Di luar blok ini peramban
+   melompat seketika, dan itu memang yang diminta prefers-reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+:root {
+  --app-bg: #ffffff;
+  --app-bg-gradient: #ffffff;
+  --app-surface: #ffffff;
+  --app-elevated: #ffffff;
+  --app-option-bg: #ffffff;
+
+  /* Palet DealTech — sumber tunggal warna merek, dipakai lintas produk
+     DealTech. Ganti di sini, seluruh token turunannya ikut. */
+  --color-primary: #066aca;
+  --color-primary-dark: #0556a3;
+  --color-primary-darker: #0a3f73;
+  --color-accent: #1184df;
+
+  --app-primary: var(--color-primary);
+  --app-primary-hover: var(--color-primary-dark);
+  --app-primary-active: var(--color-primary-darker);
+  --app-primary-deep: var(--color-primary-darker);
+  --app-primary-tint: color-mix(in srgb, var(--color-accent) 55%, #ffffff);
+  --app-primary-soft: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  --app-primary-ring: color-mix(in srgb, var(--color-primary) 32%, transparent);
+  --app-accent: var(--color-accent);
+
+  /* Tumpukan font judul (Google Sans, self-hosted di atas). Diangkat jadi token
+     supaya sisi publik tidak menyalin daftar fallback-nya lagi. */
+  --font-judul: 'Google Sans', 'SN Pro', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Judul BESAR sisi publik — Sriracha (Bos 2026-08-28). Berlaku persis untuk
+     judul yang huruf besar semua: h1 halaman dan .seksi-judul.
+
+     Teks biasa, judul kartu, dan seluruh panel admin TIDAK ikut — mereka tetap
+     SN Pro. Sriracha font tulisan tangan; enak sebagai judul, melelahkan
+     sebagai badan teks.
+
+     Cadangannya SN Pro, bukan sans-serif sistem: kalau berkasnya gagal dimuat,
+     yang muncul font yang memang sudah dipakai halaman itu. */
+  --font-judul-publik: 'Sriracha', 'SN Pro', ui-sans-serif, system-ui, sans-serif;
+
+  /* Palet sisi PUBLIK. Satu hex dari Bos (2026-08-26); nada lainnya diturunkan
+     dengan color-mix supaya cuma ada satu angka yang perlu diganti. */
+  --color-publik: #0a3b45;
+  /* Dua aksen dari rancangan klien (2026-08-28), dipakai HANYA di atas latar
+     gelap hero: pirus untuk kata yang disorot, oranye untuk coretannya.
+     Keduanya TIDAK lolos kontras di atas putih — jangan dipakai di section
+     berlatar terang. */
+  --color-publik-sorot: #4fd8c8;
+  --color-publik-coret: #f2a13c;
+  /* Warna AKSI sisi publik (Bos 2026-08-28): tombol, tautan, ikon, cincin
+     fokus. Judul dan teks TIDAK memakainya — keduanya tetap --color-publik-teks
+     dan --color-publik, yang jauh lebih gelap dan memang untuk dibaca. */
+  --color-publik-aksi: #0e9490;
+  /* Teks sisi publik: navy, bukan hitam pekat — sama seperti Tech.Mudahdeal.
+     Di atas putih, hitam pekat terbaca keras; navy tetap kontras tapi lebih
+     tenang. Ini WARNA TEKS UTAMA, bukan abu sekunder. */
+  --color-publik-teks: #13263a;
+  /* Subjudul section di sisi publik — SATU-SATUNYA teks yang boleh lebih redup
+     dari teks utama, dan hanya di sisi publik. Lihat catatan pengecualian di
+     skills/module-publik. Jangan dipakai untuk teks lain. */
+  --color-publik-subteks: #4b5563;
+
+  /* Latar section 1 DealTech — dipakai halaman masuk lintas produk. */
+  --color-hero-base: #074787;
+  --color-hero-line: #a3d0f7;
+  --color-hero-glow-1: rgba(74, 159, 224, 0.42);
+  --color-hero-glow-2: rgba(31, 127, 206, 0.5);
+  --app-on-primary: #ffffff;
+
+  --app-text: #000000;
+  --app-body-text: #000000;
+  --app-text-muted: #000000;
+  /* Keputusan Bos 2026-08-25: TIDAK ADA teks abu-abu nanggung. Semua teks —
+     judul, keterangan, teks kecil — memakai warna yang sama. Yang tersisa abu
+     cuma placeholder, karena placeholder hitam terbaca seperti nilai terisi. */
+  --app-text-faint: #000000;
+  --app-placeholder: rgba(0, 0, 0, 0.42);
+  --app-border: rgba(0, 0, 0, 0.14);
+  --app-border-strong: rgba(0, 0, 0, 0.2);
+  --app-card-border: rgba(0, 0, 0, 0.14);
+  --app-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --app-fill: rgba(0, 0, 0, 0.04);
+  --app-fill-strong: rgba(0, 0, 0, 0.08);
+  --app-neutral: #4a4a4a;
+  --app-neutral-soft: #9ca3af;
+
+  --app-chip-bg: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  --app-chip-fg: var(--color-primary-dark);
+  --app-secondary-border: rgba(0, 0, 0, 0.14);
+  --app-secondary-text: #000000;
+  --app-link: var(--color-primary);
+  --app-link-hover: var(--color-primary-dark);
+  --app-count-bg: var(--color-primary);
+  --app-count-fg: #ffffff;
+  --app-scroll-thumb: rgba(0, 0, 0, 0.2);
+  --app-scroll-thumb-hover: rgba(0, 0, 0, 0.36);
+  --app-input-scheme: light;
+
+  --app-desc-weight: 600;
+  --app-desc-color: var(--app-body-text);
+
+  --app-control-h-sm: 30px;
+  --app-control-h: 34px;
+  --app-control-h-lg: 38px;
+
+  /*
+   * Cincin kontrol form. Keadaan default memakai bentuk yang sama persis
+   * dengan fokus — bedanya hanya warna: abu-abu saat diam, biru saat fokus.
+   * Ubah di sini kalau mau menyetel ketebalannya sekali untuk semua kontrol.
+   */
+  /* Judul field pada form — WAJIB seragam di semua kontrol dan semua page. */
+  --app-field-label-size: 14px;
+  --app-field-label-weight: 500;
+
+  --app-control-ring: 0 0 0 3px var(--app-fill-strong);
+  --app-control-ring-focus: 0 0 0 3px color-mix(in srgb, var(--app-primary) 25%, transparent);
+  --app-control-ring-error: 0 0 0 3px color-mix(in srgb, var(--app-danger-text) 25%, transparent);
+
+  --app-success: #16a34a;
+  --app-success-text: #15803d;
+  --app-warning: #d29922;
+  --app-warning-text: #8a6100;
+  --app-danger: #da3633;
+  --app-danger-text: #b91c1c;
+  --app-danger-hover: #b91c1c;
+
+  --app-success-solid: #15803d;
+  --app-warning-solid: #d29922;
+  --app-warning-solid-fg: #000000;
+  --app-danger-solid: #b91c1c;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--app-bg);
+  color: var(--app-body-text);
+  font-family: var(--font-sans, 'SN Pro', 'Inter', ui-sans-serif, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--app-scroll-thumb);
+  border-radius: 1px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--app-scroll-thumb-hover);
+}
+
+.app-section-card {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow-card);
+}
+
+.chartline,
+.chartlinev2,
+.chartbarver,
+.chartbarhor,
+.chartpie,
+.chartlistbar,
+.charttoplist,
+.cardbar-list,
+.cardbar-chart,
+.tablelist-v1,
+.tabelcardv1,
+.heatmap {
+  box-shadow: var(--app-shadow-card);
+}
+
+.app-section-body {
+  padding: 16px 20px;
+}
+
+@media (min-width: 640px) {
+  .app-section-body {
+    padding: 16px 24px;
+  }
+}
+
+@media (max-width: 639px) {
+  .app-section-body {
+    padding: 10px 12px;
+  }
+}
+
+body,
+body * {
+  line-height: 1.4;
+}
+
+/* Isi di DALAM heading ikut jarak baris headingnya, bukan 1.4 dari aturan di
+   atas. Tanpa ini, membungkus sebagian judul dengan <span> (mis. untuk garis
+   bawah) membuat barisnya melar jadi 1.4 — judul dua baris langsung renggang
+   dan aturan 1.05/1.2 di bawah kalah tanpa ada yang salah kelihatan. */
+:is(h1, h2, h3, h4, h5, h6) * {
+  line-height: inherit;
+}
+
+.app-main :is(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.2;
+}
+
+.app-main :is(h1, h2, h3, h4, h5, h6) + p {
+  margin-top: 0;
+  line-height: 1.25;
+}
+
+/* Sisi publik hidup di luar .app-main, jadi dua aturan di atas tidak
+   menjangkaunya. Nilainya sengaja sama — bukan ritme kedua. */
+.layout-publik :is(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.2;
+}
+
+/* Judul besar butuh jarak baris LEBIH RAPAT, bukan sama. Pada 60px, 1.2 berarti
+   jarak baris 72px — terbaca renggang. h1 di sisi publik selalu judul display,
+   jadi aturannya di sini, bukan ditambal di CSS halaman. */
+.layout-publik h1 {
+  line-height: 1.05;
+}
+
+/* Kepala section sisi publik — ukuran judul dan gaya subjudulnya dipatok sekali
+   di sini supaya section berikutnya tinggal memakai dua kelas ini, bukan
+   menyalin angka. Nilainya mengikuti Tech.Mudahdeal (Bos 2026-08-26). */
+.layout-publik .seksi-judul {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  letter-spacing: -0.02em;
+}
+
+.layout-publik .seksi-subjudul {
+  margin: 10px auto 0;
+  max-width: 640px;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-publik-subteks);
+}
+
+/* Varian rata kiri — dipakai section yang kepala judulnya berbagi baris dengan
+   tautan di ujung kanan. Ukurannya tetap sama; yang berubah cuma perataannya. */
+.layout-publik .seksi-judul--kiri,
+.layout-publik .seksi-subjudul--kiri {
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left;
+}
+
+/* Varian di atas latar gelap. Subjudulnya TIDAK memakai --color-publik-subteks:
+   abu gelap di latar gelap tidak terbaca. Putih beropasitas adalah satu-satunya
+   pengecualian yang diizinkan aturan "tidak ada teks abu nanggung". */
+.layout-publik .seksi-judul--terang {
+  color: var(--app-on-primary);
+}
+
+.layout-publik .seksi-subjudul--terang {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Miring HANYA untuk judul besar: h1 halaman dan judul section.
+   Judul kecil di dalam kartu memakai font teks biasa (SN Pro) — sama seperti
+   Tech.Mudahdeal, di sana pun cuma judul section yang memakai font display.
+   Memaksakannya ke semua heading membuat judul kartu terbaca sesak. */
+.layout-publik h1,
+.layout-publik .seksi-judul {
+  font-family: var(--font-judul-publik);
+  /* TANPA italic sejak 2026-08-28: Sriracha tidak punya berkas miring, dan
+     memiringkan font tulisan tangan lewat peramban membuat hurufnya rebah.
+
+     600, bukan 400 (Bos 2026-08-28). Keluarga ini cuma punya bobot 400, jadi
+     ketebalannya DIBUAT peramban. Itu diterima di sini — judulnya besar, dan
+     pada ukuran itu tebal buatan masih rapi. Jangan menaikkannya lagi: makin
+     jauh dari 400, makin kentara hurufnya melebar bukan menebal. */
+  font-weight: 600;
+  /* Huruf besar semua SEMPAT dipakai 2026-08-28 lalu dicabut hari itu juga
+     (Bos) — pada font tulisan tangan, huruf besar mematikan sambungan antar
+     hurufnya dan judulnya terbaca kaku.
+
+     Rapatannya tetap -0.005em, tidak dikembalikan ke -0.02em: Sriracha huruf
+     sambung, dan rapatan negatif yang kuat membuat hurufnya bertabrakan. */
+  letter-spacing: -0.005em;
+}
+
+/* Judul kecil di dalam kartu: jarak barisnya 1.4, bukan 1.2 seperti heading
+   besar. Pada 15-17px, 1.2 membuat judul dua baris menempel satu sama lain. */
+.layout-publik :is(h3, h4, h5, h6) {
+  line-height: 1.4;
+}
+
+/* Aturan "heading + p" SENGAJA TIDAK ADA di sisi publik.
+   Di panel admin ia merapatkan subjudul ke judul halaman. Di sisi publik ia
+   justru merusak: setiap deskripsi kartu berdiri tepat sesudah judulnya, jadi
+   `margin-top: 0` membunuh jarak 6px yang sudah ditulis di komponennya — dan
+   line-height-nya ikut turun jadi 1.25. Jaraknya diatur di komponen
+   masing-masing, tidak di sini. */
+
+.app-main .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0.75rem;
+}
+.app-main .gap-6 {
+  gap: 0.75rem;
+}
+
+@media (max-width: 639px) {
+  .app-main .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.5625rem;
+  }
+  .app-main .gap-6 {
+    gap: 0.5625rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+.animate-fade-in-scale {
+  animation: fadeInScale 0.2s ease-out;
+}

@@ -1,0 +1,37 @@
+.memuat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+
+/* Gerbang sebelum aplikasi tampil — sidebar dan topbar belum ada. */
+.memuat--layar {
+  min-height: 100vh;
+}
+
+/* Di dalam layout admin: isi area kerja, bukan seluruh layar. */
+.memuat--halaman {
+  min-height: 40vh;
+}
+
+.memuat__putar {
+  width: 18px;
+  height: 18px;
+  animation: memuat-putar 0.9s linear infinite;
+}
+
+@keyframes memuat-putar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memuat__putar {
+    animation: none;
+  }
+}

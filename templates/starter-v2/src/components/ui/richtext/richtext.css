@@ -1,0 +1,306 @@
+.richtext {
+  display: block;
+}
+
+.richtext__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: var(--app-field-label-size);
+  font-weight: var(--app-field-label-weight);
+  color: var(--app-body-text);
+  cursor: text;
+}
+
+.richtext__kotak {
+  border: 1px solid var(--app-border-strong);
+  border-radius: 8px;
+  box-shadow: var(--app-control-ring);
+  overflow: hidden;
+  background: var(--app-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.richtext__kotak:focus-within {
+  border-color: var(--app-primary);
+  box-shadow: var(--app-control-ring-focus);
+}
+
+.richtext__kotak--galat {
+  border-color: var(--app-danger-text);
+}
+
+.richtext__kotak--galat:focus-within {
+  border-color: var(--app-danger-text);
+  box-shadow: var(--app-control-ring-error);
+}
+
+.richtext__kotak--mati {
+  opacity: 0.5;
+}
+
+.richtext__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--app-border);
+  background: var(--app-fill);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.richtext__tombol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--app-body-text);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.richtext__tombol:hover:not(:disabled) {
+  background: var(--app-fill-strong);
+  color: var(--app-primary);
+}
+
+.richtext__tombol:focus-visible {
+  outline: 2px solid var(--app-primary);
+  outline-offset: -2px;
+}
+
+.richtext__tombol:disabled {
+  cursor: not-allowed;
+}
+
+.richtext__tombol--aktif {
+  background: var(--app-chip-bg);
+  color: var(--app-chip-fg);
+}
+
+.richtext__konten {
+  min-height: 240px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--app-body-text);
+  outline: none;
+}
+
+/* Placeholder satu-satunya teks yang boleh lebih pucat (aturan 2026-08-25). */
+.richtext__konten:empty::before {
+  content: attr(data-placeholder);
+  color: var(--app-placeholder);
+  pointer-events: none;
+}
+
+.richtext__galat {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--app-danger-text);
+}
+
+/* ---- Modal tautan (di-portal, jadi di-scope dari class-nya sendiri) ---- */
+.richtext-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.richtext-modal__aksi {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+}
+
+.richtext-modal__aksi .btn--danger {
+  margin-right: auto;
+}
+
+/* ---- Gaya isi: dipakai editor maupun penampil ---- */
+.richtext__konten h2,
+.richtext-isi h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 1em 0 0.5em;
+  color: var(--app-text);
+}
+
+.richtext__konten h3,
+.richtext-isi h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 1em 0 0.5em;
+  color: var(--app-text);
+}
+
+.richtext__konten p,
+.richtext-isi p {
+  margin: 0 0 0.75em;
+}
+
+.richtext__konten ul,
+.richtext-isi ul {
+  list-style: disc;
+  padding-left: 1.5em;
+  margin: 0 0 0.75em;
+}
+
+.richtext__konten ol,
+.richtext-isi ol {
+  list-style: decimal;
+  padding-left: 1.5em;
+  margin: 0 0 0.75em;
+}
+
+.richtext__konten li,
+.richtext-isi li {
+  margin: 0.25em 0;
+}
+
+.richtext__konten blockquote,
+.richtext-isi blockquote {
+  border-left: 3px solid var(--app-primary);
+  padding-left: 12px;
+  margin: 0 0 0.75em;
+  color: var(--app-body-text);
+  font-style: italic;
+}
+
+.richtext__konten strong,
+.richtext__konten b,
+.richtext-isi strong,
+.richtext-isi b {
+  font-weight: 700;
+}
+
+.richtext__konten em,
+.richtext__konten i,
+.richtext-isi em,
+.richtext-isi i {
+  font-style: italic;
+}
+
+.richtext__konten a,
+.richtext-isi a {
+  color: var(--app-link);
+  text-decoration: underline;
+}
+
+.richtext__konten a:hover,
+.richtext-isi a:hover {
+  color: var(--app-link-hover);
+}
+
+.richtext__konten img,
+.richtext-isi img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin: 0 0 0.75em;
+}
+
+.richtext__konten figure,
+.richtext-isi figure {
+  margin: 0 0 0.75em;
+}
+
+.richtext__konten figcaption,
+.richtext-isi figcaption {
+  font-size: 12px;
+  color: var(--app-body-text);
+}
+
+.richtext__konten table,
+.richtext-isi table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 0.75em;
+  font-size: 13px;
+}
+
+.richtext__konten th,
+.richtext__konten td,
+.richtext-isi th,
+.richtext-isi td {
+  border: 1px solid var(--app-border-strong);
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.richtext__konten thead th,
+.richtext__konten th,
+.richtext-isi thead th,
+.richtext-isi th {
+  background: var(--app-fill);
+  font-weight: 600;
+}
+
+.richtext__konten caption,
+.richtext-isi caption {
+  caption-side: top;
+  font-size: 12px;
+  color: var(--app-body-text);
+  margin-bottom: 6px;
+  text-align: left;
+}
+
+/* Blok kode gelap: dua-duanya warna literal, disepakati ikut aslinya. */
+.richtext__konten pre,
+.richtext-isi pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 12px 14px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 0.75em;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.richtext__konten code,
+.richtext-isi code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.92em;
+  background: var(--app-fill);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.richtext__konten pre code,
+.richtext-isi pre code {
+  background: transparent;
+  padding: 0;
+}
+
+/* ---- Penampil ---- */
+.richtext-isi {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--app-body-text);
+  word-break: break-word;
+}
+
+.richtext-isi > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Tabel lebar tidak boleh menggeser seluruh halaman ke samping. */
+.richtext-isi table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}

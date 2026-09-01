@@ -1,0 +1,63 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pagination__info {
+  margin: 0;
+  font-size: 12px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+
+.pagination__row {
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.pagination__row--desktop {
+  display: none;
+}
+.pagination__row--mobile {
+  display: flex;
+}
+@media (min-width: 640px) {
+  .pagination__row--desktop {
+    display: flex;
+  }
+  .pagination__row--mobile {
+    display: none;
+  }
+}
+
+/*
+ * Ukurannya sama dengan tombol ikon di seluruh aplikasi: 32px persegi, 13px.
+ * Sebelumnya 28px/12px di ponsel dan 32px/14px di layar lebar — jadi tombol
+ * paginasi kelihatan beda sendiri dari tombol lain di halaman yang sama.
+ */
+.pagination .pagination__page,
+.pagination .pagination__nav {
+  height: 32px;
+  min-height: 32px;
+  width: 32px;
+  min-width: 32px;
+  padding: 0;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.pagination__nav-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.pagination__ellipsis {
+  padding: 0 4px;
+  font-size: 12px;
+  color: var(--app-text-faint);
+  user-select: none;
+}

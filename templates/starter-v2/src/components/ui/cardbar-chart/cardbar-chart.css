@@ -1,0 +1,104 @@
+
+.cardbar-chart {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+}
+
+.cardbar-chart__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--app-border-strong);
+}
+@media (min-width: 768px) {
+  .cardbar-chart__header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.cardbar-chart__heading {
+  min-width: 0;
+}
+.cardbar-chart__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--app-text);
+}
+.cardbar-chart__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.cardbar-chart__action {
+  flex-shrink: 0;
+}
+
+.cardbar-chart__body {
+  padding: 20px;
+}
+.cardbar-chart__bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 170px;
+}
+
+.cardbar-chart__col {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardbar-chart__track {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 128px;
+  width: 100%;
+  max-width: 40px;
+  border-radius: 6px 6px 0 0;
+  background: var(--app-fill);
+}
+.cardbar-chart__fill {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  background: var(--app-primary);
+  transition: height 0.4s ease, background-color 0.2s ease;
+}
+.cardbar-chart__col:hover .cardbar-chart__fill {
+  background: var(--app-primary-hover);
+}
+
+.cardbar-chart__tip {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--app-border-strong);
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.cardbar-chart__col:hover .cardbar-chart__tip {
+  display: block;
+}
+
+.cardbar-chart__label {
+  font-size: 12px;
+  color: var(--app-text-muted);
+}

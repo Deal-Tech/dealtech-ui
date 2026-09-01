@@ -1,0 +1,132 @@
+/* Halaman katalog elemen. Style-nya sengaja tipis: yang harus terlihat di sini
+   adalah komponennya, bukan halamannya. */
+
+.element-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Daftar lompatan ke tiap seksi. */
+.element-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.element-nav__tautan {
+  border: 1px solid var(--app-border);
+  border-radius: 6px;
+  background: var(--app-surface);
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--app-text);
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.element-nav__tautan:hover {
+  border-color: var(--app-primary);
+  background: var(--app-primary-soft);
+}
+
+.element-seksi {
+  scroll-margin-top: 80px;
+}
+
+.element-seksi__kepala {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--app-border);
+  padding-bottom: 8px;
+}
+
+.element-seksi__judul {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.element-seksi__jumlah {
+  margin-left: 8px;
+  border-radius: 999px;
+  background: var(--app-chip-bg);
+  padding: 1px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--app-chip-fg);
+}
+
+.element-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 900px) {
+  .element-grid--dua {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Satu kotak = satu komponen, dengan namanya sebagai kepala. */
+.element-petak {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--app-card-border);
+  border-radius: 8px;
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow-card);
+}
+
+.element-petak__kepala {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  border-bottom: 1px solid var(--app-border);
+  background: var(--app-fill);
+  padding: 7px 12px;
+}
+
+.element-petak__nama {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.element-petak__jalur {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: var(--app-placeholder);
+}
+
+.element-petak__isi {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 12px;
+}
+
+/* Baris contoh yang isinya berjajar, mis. deretan varian tombol. */
+.element-baris {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.element-catatan {
+  margin: 0;
+  font-size: 12px;
+  color: var(--app-placeholder);
+}
+
+/* Kotak berlatar gelap — untuk elemen yang memang dirancang di atas hero. */
+.element-gelap {
+  position: relative;
+  overflow: hidden;
+  min-height: 190px;
+  border-radius: 8px;
+  background: var(--color-hero-base);
+}

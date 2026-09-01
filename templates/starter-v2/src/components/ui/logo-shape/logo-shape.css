@@ -1,0 +1,42 @@
+/* Opasitas akhir ditaruh di variabel, bukan langsung: nilai di dalam keyframes
+   menang atas aturan biasa dan tidak bisa ditimpa per breakpoint. */
+.logo-shape {
+  --logo-shape-opacity: 0.1;
+
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  width: min(700px, 77.5%);
+  height: auto;
+  color: var(--color-hero-line);
+  pointer-events: none;
+
+  -webkit-mask-image: linear-gradient(to bottom, #000 75%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 75%, transparent 100%);
+
+  opacity: 0;
+  transform: translateY(33%);
+  transition:
+    opacity 0.93s ease,
+    transform 0.93s ease;
+}
+
+.logo-shape.is-visible {
+  opacity: var(--logo-shape-opacity);
+  transform: translateY(15%);
+}
+
+@media (max-width: 639px) {
+  .logo-shape {
+    --logo-shape-opacity: 0.075;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-shape,
+  .logo-shape.is-visible {
+    transform: translateY(15%);
+    transition: opacity 0.93s ease;
+  }
+}

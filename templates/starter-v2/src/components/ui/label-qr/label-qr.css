@@ -1,0 +1,69 @@
+/*
+ * Label 33 × 15 mm.
+ *
+ * Seluruh ukurannya diturunkan dari satu variabel `--label-lebar` memakai rasio
+ * terhadap 33 mm. Jadi label bisa mengecil mengikuti kolom pratinjau tanpa
+ * berubah bentuk, sementara saat dicetak nilainya kembali ke 33 mm persis.
+ *
+ * Angka aslinya dalam mm, bukan px: px bergantung DPI dan hasil cetaknya akan
+ * meleset dari 33 × 15 mm.
+ */
+.label-qr {
+  --label-lebar: 33mm;
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--label-lebar) * 1.2 / 33);
+  width: var(--label-lebar);
+  height: calc(var(--label-lebar) * 15 / 33);
+  padding: calc(var(--label-lebar) * 1 / 33);
+  background: #ffffff;
+  color: #000000;
+  overflow: hidden;
+}
+
+.label-qr__kode {
+  flex-shrink: 0;
+  width: calc(var(--label-lebar) * 13 / 33);
+  height: calc(var(--label-lebar) * 13 / 33);
+}
+
+.label-qr__teks {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(var(--label-lebar) * 0.3 / 33);
+  min-width: 0;
+  flex: 1;
+}
+
+.label-qr__judul,
+.label-qr__rincian,
+.label-qr__nomor {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+
+.label-qr__judul {
+  font-size: calc(var(--label-lebar) * 2.1 / 33);
+  font-weight: 700;
+}
+
+.label-qr__rincian {
+  font-size: calc(var(--label-lebar) * 1.9 / 33);
+}
+
+.label-qr__nomor {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(var(--label-lebar) * 2 / 33);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Pratinjau di layar — diberi garis supaya batas labelnya kelihatan. */
+.label-qr--pratinjau {
+  border: 1px dashed var(--app-border-strong);
+}

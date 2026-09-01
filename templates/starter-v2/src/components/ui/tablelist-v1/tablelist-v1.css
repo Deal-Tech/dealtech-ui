@@ -1,0 +1,240 @@
+
+.tablelist-v1 {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+}
+
+.tablelist-v1__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--app-border-strong);
+}
+@media (min-width: 768px) {
+  .tablelist-v1__header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.tablelist-v1__heading {
+  min-width: 0;
+}
+.tablelist-v1__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--app-text);
+}
+.tablelist-v1__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.tablelist-v1__action {
+  flex-shrink: 0;
+}
+
+.tablelist-v1__body {
+  padding: 12px 8px 14px;
+}
+
+.tablelist-v1__scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.tablelist-v1__table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tablelist-v1__th {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--app-text-muted);
+  background: var(--app-fill-strong);
+  border-bottom: 1px solid var(--app-border-strong);
+}
+.tablelist-v1__th--right {
+  text-align: right;
+}
+.tablelist-v1__th--center {
+  text-align: center;
+}
+
+.tablelist-v1__row {
+  transition: background-color 0.15s ease;
+}
+.tablelist-v1__row:nth-child(odd) {
+  background: var(--app-fill);
+}
+.tablelist-v1__row:nth-child(even) {
+  background: var(--app-surface);
+}
+.tablelist-v1__row:hover {
+  background: var(--app-fill-strong);
+}
+
+.tablelist-v1__td {
+  padding: 12px;
+  white-space: nowrap;
+  vertical-align: middle;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--app-text);
+}
+
+.tablelist-v1__teks {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tablelist-v1__td--muted {
+  color: var(--app-text-muted);
+}
+.tablelist-v1__td--right {
+  text-align: right;
+}
+.tablelist-v1__td--center {
+  text-align: center;
+}
+
+.tablelist-v1__invoice {
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.tablelist-v1__empty {
+  padding: 28px 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+
+.tablelist-v1__footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--app-border-strong);
+}
+@media (max-width: 639px) {
+  .tablelist-v1__footer {
+    padding: 10px 12px;
+  }
+}
+
+.tablelist-v1__actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+/* ---- Kolom pilih + bar aksi massal ---- */
+
+.tablelist-v1__th--pilih,
+.tablelist-v1__td--pilih {
+  padding-left: 16px;
+  padding-right: 0;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tablelist-v1__row--dipilih {
+  background: var(--app-primary-soft);
+}
+
+.tablelist-v1__massal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--app-border);
+  background: var(--app-primary-soft);
+}
+
+.tablelist-v1__massal-jumlah {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--app-primary-hover);
+}
+
+.tablelist-v1__massal-aksi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.tablelist-v1__massal-batal {
+  margin-left: auto;
+  background: transparent;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--app-text-muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tablelist-v1__massal-batal:hover {
+  color: var(--app-text);
+}
+
+@media (max-width: 639px) {
+  .tablelist-v1__massal {
+    padding: 10px 12px;
+  }
+
+  .tablelist-v1__massal-batal {
+    margin-left: 0;
+  }
+
+  .tablelist-v1__th--pilih,
+  .tablelist-v1__td--pilih {
+    padding-left: 12px;
+  }
+}
+
+.tablelist-v1__footer--paginasi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tablelist-v1__info {
+  font-size: 12px;
+  color: var(--app-text-muted);
+}
+
+/* Baris yang bisa diklik untuk membuka detailnya. */
+.tablelist-v1__row--klik {
+  cursor: pointer;
+}
+
+.tablelist-v1__row--klik:hover {
+  background: var(--app-fill);
+}
+
+.tablelist-v1__row--klik:focus-visible {
+  outline: 2px solid var(--app-primary);
+  outline-offset: -2px;
+}

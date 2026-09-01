@@ -1,0 +1,63 @@
+.proses-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.proses-modal__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.proses-modal__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--app-chip-bg);
+  color: var(--app-chip-fg);
+}
+.proses-modal__icon svg {
+  width: 22px;
+  height: 22px;
+}
+.proses-modal__icon--selesai {
+  background: color-mix(in srgb, var(--app-success) 14%, transparent);
+  color: var(--app-success-text);
+}
+
+.proses-modal__spinner {
+  animation: proses-spin 0.9s linear infinite;
+}
+@keyframes proses-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .proses-modal__spinner {
+    animation: none;
+  }
+}
+
+.proses-modal__judul {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--app-text);
+}
+.proses-modal__sub {
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.proses-modal__nota {
+  margin: 0;
+  font-size: 12px;
+  color: var(--app-text-faint);
+}

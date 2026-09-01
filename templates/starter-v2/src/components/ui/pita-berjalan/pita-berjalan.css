@@ -1,0 +1,53 @@
+/* Angkanya dari .reviews-marquee DealTech. */
+.pita-berjalan {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* width: max-content wajib — tanpa itu kartunya menyusut agar muat selebar
+   layar, dan pita yang tidak lebih panjang daripada layarnya tidak berjalan. */
+.pita-berjalan__baris {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  will-change: transform;
+}
+
+.pita-berjalan__sel {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.pita-berjalan__baris--kiri {
+  animation: pitaBerjalanKiri 66.67s linear infinite;
+}
+
+.pita-berjalan__baris--kanan {
+  animation: pitaBerjalanKanan 73.33s linear infinite;
+}
+
+@keyframes pitaBerjalanKiri {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pitaBerjalanKanan {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pita-berjalan__baris--kiri,
+  .pita-berjalan__baris--kanan {
+    animation: none;
+  }
+}
