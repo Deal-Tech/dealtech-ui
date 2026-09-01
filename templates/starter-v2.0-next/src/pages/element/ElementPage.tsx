@@ -93,7 +93,7 @@ function Seksi({ id, judul, jumlah, children }: SeksiProps) {
           <span className="element-seksi__jumlah">{jumlah} elemen</span>
         </h2>
       </div>
-      <div className="element-grid element-grid--dua">{children}</div>
+      <div className="element-grid">{children}</div>
     </section>
   );
 }
