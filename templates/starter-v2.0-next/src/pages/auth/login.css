@@ -1,5 +1,3 @@
-/* Latar = section 1 DealTech: dasar solid + HexBackdrop + LogoShape.
-   overflow hidden WAJIB — mask fade di kedua komponen itu bergantung padanya. */
 .login-page {
   position: relative;
   isolation: isolate;
@@ -17,7 +15,6 @@
   font-family: inherit;
 }
 
-/* Catatan kaki di luar kartu, jadi warnanya ikut latar gelap, bukan token teks. */
 .login-page .login-footnote {
   color: rgba(255, 255, 255, 0.72);
 }
@@ -45,8 +42,6 @@
   width: auto;
 }
 
-/* Tanpa border: latar sudah punya bentuk sendiri, garis tepi kartu bikin dua
-   batas bersaing di titik yang sama. Keputusan Bos 2026-08-25. */
 .login-page .login-card {
   background: var(--app-surface);
   border-radius: 14px;
@@ -64,8 +59,6 @@
   border-bottom: 1px solid var(--app-border);
 }
 
-/* Diturunkan 2026-08-14 mengikuti nama usaha yang lebih panjang. Wordmark-nya
-   nowrap, jadi ukuran lama melewati lebar kartu di ponsel sempit. */
 .login-page .login-brand__name {
   font-size: 22px;
   font-weight: 500;
@@ -96,11 +89,6 @@
   color: var(--app-danger-solid);
 }
 
-/*
- * Gaya tombol datang dari komponen Button. Yang disetel di sini cuma lebar
- * penuh — sisanya sengaja tidak ditimpa supaya tombol ini ikut setiap
- * perbaikan design system.
- */
 .login-page .login-btn {
   width: 100%;
 }

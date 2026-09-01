@@ -29,17 +29,14 @@ export interface KalenderSel {
   minggu: boolean;
 }
 
-/** `YYYY-MM-DD` dari Date lokal — bukan toISOString, yang menggeser ke UTC. */
 export function kunciTanggal(d: Date): string {
   const b = `${d.getMonth() + 1}`.padStart(2, '0');
   const t = `${d.getDate()}`.padStart(2, '0');
   return `${d.getFullYear()}-${b}-${t}`;
 }
 
-/** Kisi kalender sebulan, selalu mulai Senin dan berhenti di Minggu. */
 export function susunKisi(tahun: number, bulan: number, kunciHariIni?: string): KalenderSel[] {
   const awal = new Date(tahun, bulan, 1);
-  // getDay(): 0 = Minggu. Senin-first berarti Minggu mundur 6 hari, bukan 0.
   const mundur = (awal.getDay() + 6) % 7;
   const mulai = new Date(tahun, bulan, 1 - mundur);
 
@@ -47,8 +44,6 @@ export function susunKisi(tahun: number, bulan: number, kunciHariIni?: string): 
   const maju = (7 - ((akhirBulan.getDay() + 6) % 7) - 1 + 7) % 7;
   const selesai = new Date(tahun, bulan + 1, maju);
 
-  // Tanpa kunciHariIni dipasok, jatuh ke jam peranti — cukup untuk panel admin.
-  // Sisi publik WAJIB memasoknya dari server; lihat module-publik 5.13.
   const kunciKini = kunciHariIni ?? kunciTanggal(new Date());
   const sel: KalenderSel[] = [];
   for (const d = new Date(mulai); d <= selesai; d.setDate(d.getDate() + 1)) {
@@ -68,19 +63,13 @@ export interface KalenderProps {
   tahun: number;
   bulan: number;
   onGantiBulan: (tahun: number, bulan: number) => void;
-  /** Angka di pojok sel, dikunci `YYYY-MM-DD`. Nol atau tidak ada = tanpa badge. */
   badge?: Record<string, number>;
-  /** Satu tanggal disorot — dipakai mode lihat. */
   aktif?: string | null;
-  /** Ujung rentang terpilih. Tanggal di antaranya ikut ditandai. */
   mulai?: string | null;
   selesai?: string | null;
   onPilih?: (kunci: string) => void;
-  /** Hanya sel dengan badge yang bisa diklik. */
   hanyaBerbadge?: boolean;
-  /** `YYYY-MM-DD` paling awal yang boleh dilihat. Sebelumnya mati, dan bulan yang sudah lewat tidak bisa dibuka. */
   min?: string | null;
-  /** `YYYY-MM-DD` yang ditandai "hari ini". Kosong = jam peranti. */
   hariIni?: string | null;
   disabled?: boolean;
 }
@@ -101,8 +90,6 @@ export function Kalender({
 }: KalenderProps) {
   const kisi = useMemo(() => susunKisi(tahun, bulan, hariIni ?? undefined), [tahun, bulan, hariIni]);
 
-  // Bulan yang sudah lewat tidak bisa dibuka: perbandingan "YYYY-MM" cukup,
-  // tanggal di dalamnya tidak menentukan bulan mana yang boleh ditampilkan.
   const bulanIni = `${tahun}-${`${bulan + 1}`.padStart(2, '0')}`;
   const bulanMin = min ? min.slice(0, 7) : null;
   const mundurTertutup = !!bulanMin && bulanIni <= bulanMin;

@@ -16,64 +16,9 @@ import {
   type Peran,
 } from '@/services/auth';
 import { hapusCSRF, pasangPenanganSesiHabis, pasangPenanganWajibGantiSandi } from './api';
+import { MODE_DEMO, bacaSesi, penggunaDemo, simpanSesi } from './demo';
 
 export type { Pengguna, Peran };
-
-/**
- * Mode demo — starter berjalan tanpa backend.
- *
- * Halaman masuk menerima email dan kata sandi APA SAJA, lalu membuat sesi
- * lokal seadanya. Tidak ada pemeriksaan apa pun di sini, dan memang tidak
- * boleh ada: ini cuma supaya starter bisa langsung dicoba.
- *
- * Setel ke `false` begitu backend auth Anda siap. Seluruh alur di bawah
- * langsung kembali memakai `@/services/auth`, dan halaman masuk tidak perlu
- * diubah sama sekali — ia memang hanya memanggil `masuk()`.
- */
-const MODE_DEMO: boolean = true;
-
-const KUNCI_SESI_DEMO = 'dealtech_sesi_demo';
-
-/** Nama tampilan seadanya dari bagian depan email: "budi.santoso@x" → "Budi Santoso". */
-function namaDariEmail(email: string): string {
-  const depan = email.split('@')[0] ?? '';
-  const nama = depan
-    .split(/[._-]+/)
-    .filter(Boolean)
-    .map((kata) => kata.charAt(0).toUpperCase() + kata.slice(1))
-    .join(' ');
-  return nama || 'Pengguna';
-}
-
-function penggunaDemo(email: string): Pengguna {
-  return {
-    id: 1,
-    name: namaDariEmail(email),
-    email,
-    role: 'admin',
-    is_active: true,
-    zona_waktu: 'WIB',
-  };
-}
-
-/** Sesi demo ditaruh di sessionStorage supaya muat-ulang halaman tidak melempar keluar. */
-function bacaSesiDemo(): Pengguna | null {
-  try {
-    const mentah = window.sessionStorage.getItem(KUNCI_SESI_DEMO);
-    return mentah ? (JSON.parse(mentah) as Pengguna) : null;
-  } catch {
-    return null;
-  }
-}
-
-function simpanSesiDemo(u: Pengguna | null): void {
-  try {
-    if (u) window.sessionStorage.setItem(KUNCI_SESI_DEMO, JSON.stringify(u));
-    else window.sessionStorage.removeItem(KUNCI_SESI_DEMO);
-  } catch {
-    // Penyimpanan diblokir peramban — sesinya cuma bertahan selama halaman terbuka.
-  }
-}
 
 interface KonteksAuth {
   pengguna: Pengguna | null;
@@ -81,11 +26,6 @@ interface KonteksAuth {
   masuk: (email: string, sandi: string) => Promise<void>;
   keluar: () => Promise<void>;
   boleh: (...peran: Peran[]) => boolean;
-  /**
-   * Menyegarkan data pengguna setelah profil diubah, supaya sidebar tidak basi.
-   *
-   * Hanya untuk data dari server. JANGAN dipakai menaikkan peran dari klien.
-   */
   segarkan: (u: Pengguna) => void;
 }
 
@@ -105,7 +45,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setPengguna(null);
     });
 
-    // Servernya yang menolak; ini cuma memindahkan orangnya ke halaman yang benar.
     pasangPenanganWajibGantiSandi(() => {
       if (window.location.pathname !== '/dashboard/pengaturan') {
         window.location.replace('/dashboard/pengaturan');
@@ -113,13 +52,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  /**
-   * Tanya server siapa yang sedang masuk. Tidak ada token dari penyimpanan
-   * lokal — cookie sesi dikirim peramban sendiri, dan 401 bukan galat.
-   */
   useEffect(() => {
     if (MODE_DEMO) {
-      pasang(bacaSesiDemo());
+      pasang(bacaSesi());
       setMemuat(false);
       return;
     }
@@ -143,9 +78,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const masuk = useCallback(
     async (email: string, sandi: string) => {
       if (MODE_DEMO) {
-        // Sengaja tanpa pemeriksaan — email dan sandi apa pun diterima.
         const u = penggunaDemo(email);
-        simpanSesiDemo(u);
+        simpanSesi(u);
         pasang(u);
         return;
       }
@@ -156,11 +90,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const keluar = useCallback(async () => {
     if (MODE_DEMO) {
-      simpanSesiDemo(null);
+      simpanSesi(null);
       pasang(null);
       return;
     }
-    // Sesinya dicabut di server, bukan sekadar dilupakan di sini.
     await keluarLayanan();
     pasang(null);
   }, [pasang]);

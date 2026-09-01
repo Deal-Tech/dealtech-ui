@@ -5,8 +5,6 @@
   gap: 14px;
 }
 
-/* width: max-content wajib — tanpa itu kartunya menyusut agar muat selebar
-   layar, dan pita yang tidak lebih panjang daripada layarnya tidak berjalan. */
 .pita-berjalan__baris {
   display: flex;
   gap: 14px;

@@ -7,16 +7,9 @@ import './tombol-cetak.css';
 
 export interface TombolCetakProps {
   jumlah: number;
-  /** Tanpa keterangan di bawah tombol — untuk baris yang rata bawah. */
   ringkas?: boolean;
 }
 
-/**
- * Tombol cetak: langsung `window.print()`, tanpa berkas perantara.
- *
- * Jalur PDF-lewat-iframe pernah dicoba dan dibuang — CSP aplikasi ini memblokir
- * `blob:` sebagai bingkai, dan jangan dilonggarkan demi tombol cetak.
- */
 export function TombolCetak({ jumlah, ringkas = false }: TombolCetakProps) {
   return (
     <div className="tombol-cetak">

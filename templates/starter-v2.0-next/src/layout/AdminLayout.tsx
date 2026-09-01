@@ -8,13 +8,6 @@ import { zonaPengguna } from './jam-zona';
 import { menu, saringMenu } from './menu';
 import '@/styles/admin.css';
 
-/**
- * Pengguna contoh untuk starter yang belum disambungkan ke backend.
- *
- * Begitu `AuthProvider` berhasil membaca sesi, data asli yang dipakai — nilai
- * di bawah ini cuma penambal supaya sidebar tidak kosong saat dijalankan
- * sendirian. Hapus kalau backend Anda sudah siap.
- */
 const PENGGUNA_CONTOH: SidebarUser = {
   name: 'Administrator',
   email: 'admin@dealtech-ui.com',
@@ -52,7 +45,6 @@ export default function AdminLayout() {
   }, [location.pathname]);
 
   const logout = () => {
-    // Sesinya dicabut di server; kalau permintaannya gagal orangnya tetap dibawa keluar.
     void keluar().catch(() => {});
     navigate('/login', { replace: true });
   };

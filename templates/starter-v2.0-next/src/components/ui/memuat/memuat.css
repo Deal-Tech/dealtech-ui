@@ -8,12 +8,10 @@
   color: var(--app-desc-color);
 }
 
-/* Gerbang sebelum aplikasi tampil — sidebar dan topbar belum ada. */
 .memuat--layar {
   min-height: 100vh;
 }
 
-/* Di dalam layout admin: isi area kerja, bukan seluruh layar. */
 .memuat--halaman {
   min-height: 40vh;
 }

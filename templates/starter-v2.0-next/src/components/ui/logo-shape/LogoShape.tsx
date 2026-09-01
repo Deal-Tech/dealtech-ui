@@ -7,7 +7,6 @@ const LAMBANG =
 
 interface Props {
   className?: string;
-  /** Halaman yang tidak di-scroll (mis. login) wajib false, kalau tidak lambangnya tidak pernah muncul. */
   revealOnScroll?: boolean;
 }
 
@@ -18,8 +17,6 @@ export default function LogoShape({ className, revealOnScroll = true }: Props) {
   useEffect(() => {
     if (!revealOnScroll) return;
 
-    // Yang diamati induknya, bukan SVG-nya: lambang menempel di tepi bawah dan
-    // keluar layar jauh lebih dulu daripada section-nya.
     const induk = ref.current?.parentElement;
     if (!induk) return;
 

@@ -12,17 +12,10 @@ export interface TableToolbarProps {
   placeholderCari?: string;
   perHalaman: number;
   onPerHalaman: (nilai: number) => void;
-  /** Slot penyaring per domain (status, kategori, dsb.). */
   saring?: ReactNode;
   className?: string;
 }
 
-/**
- * Baris alat di atas tabel: pencarian, penyaring, jumlah baris per halaman.
- *
- * Pencarian baru jalan SETELAH ENTER, bukan live search (Bos, 2026-08-12).
- * WAJIB dipakai di setiap halaman daftar supaya letak dan perilakunya seragam.
- */
 export function TableToolbar({
   cari,
   onCari,
@@ -34,10 +27,8 @@ export function TableToolbar({
 }: TableToolbarProps) {
   const [ketikan, setKetikan] = useState(cari);
 
-  // Ikut kalau pencarian direset dari luar (mis. setelah pindah penyaring).
   useEffect(() => setKetikan(cari), [cari]);
 
-  // Ada ketikan yang belum dijalankan — untuk petunjuk "tekan Enter".
   const tertunda = ketikan !== cari;
 
   const jalankan = () => onCari(ketikan.trim());

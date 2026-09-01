@@ -16,7 +16,6 @@ async function salin(teks: string): Promise<boolean> {
     /* jatuh ke cara lama di bawah */
   }
 
-  // navigator.clipboard hanya ada di https atau localhost.
   const kotak = document.createElement('textarea');
   kotak.value = teks;
   kotak.setAttribute('readonly', '');
@@ -58,9 +57,6 @@ export default function ModalGalat() {
 
   if (!gangguan) return null;
 
-  // Yang disalin sengaja lebih lengkap daripada yang tampil: pengguna cukup
-  // melihat kode dan halamannya, tapi yang menerima tempelan ini tim teknis —
-  // dan endpoint serta request id itulah yang membuatnya ketemu di log.
   const ringkasan = [
     `Kode Error : ${gangguan.kode}`,
     `Waktu      : ${gangguan.waktu}`,

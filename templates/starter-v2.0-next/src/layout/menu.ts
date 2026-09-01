@@ -7,7 +7,6 @@ export interface MenuItem {
   href: string;
   badge?: number | null;
   external?: boolean;
-  /** Kalau diisi, item hanya tampil untuk peran tersebut. Kosong = semua peran. */
   peran?: Peran[];
 }
 
@@ -24,13 +23,6 @@ export interface AppMenu {
   others: MenuItem[];
 }
 
-/**
- * Menu sidebar starter.
- *
- * Menu baru: tambah di sini, daftarkan rutenya di `src/layout/AdminApp.tsx`,
- * dan pastikan nama ikonnya terdaftar di `ikon-menu.ts`. Nama ikon yang tidak
- * dikenal jatuh ke ikon dashboard, bukan ke tempat kosong.
- */
 export const menu: AppMenu = {
   main: [{ key: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard', href: '/dashboard' }],
   groups: [
@@ -64,10 +56,6 @@ export const menu: AppMenu = {
   others: [],
 };
 
-/**
- * Menyaring menu sesuai peran, gagal-tertutup. Kerapian tampilan, BUKAN
- * pengaman — pemeriksaan sebenarnya tetap milik backend.
- */
 export function saringMenu(sumber: AppMenu, peran: Peran | undefined): AppMenu {
   const boleh = (item: MenuItem) => !item.peran || (!!peran && item.peran.includes(peran));
 

@@ -1,5 +1,3 @@
-/* Halaman katalog elemen. Style-nya sengaja tipis: yang harus terlihat di sini
-   adalah komponennya, bukan halamannya. */
 
 .element-page {
   display: flex;
@@ -69,7 +67,6 @@
   }
 }
 
-/* Satu kotak = satu komponen, dengan namanya sebagai kepala. */
 .element-petak {
   display: flex;
   flex-direction: column;
@@ -108,7 +105,6 @@
   padding: 14px 12px;
 }
 
-/* Baris contoh yang isinya berjajar, mis. deretan varian tombol. */
 .element-baris {
   display: flex;
   flex-wrap: wrap;
@@ -122,7 +118,6 @@
   color: var(--app-placeholder);
 }
 
-/* Kotak berlatar gelap — untuk elemen yang memang dirancang di atas hero. */
 .element-gelap {
   position: relative;
   overflow: hidden;

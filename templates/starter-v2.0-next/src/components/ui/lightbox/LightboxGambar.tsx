@@ -8,18 +8,11 @@ import 'yet-another-react-lightbox/plugins/thumbnails.css';
 
 export interface LightboxGambarProps {
   gambar: string[];
-  /** Indeks gambar yang dibuka. Nilai negatif berarti tertutup. */
   indeks: number;
   onTutup: () => void;
   alt?: string;
 }
 
-/**
- * Pembungkus lightbox. Seluruh pustaka dan CSS-nya dikurung di berkas ini supaya
- * halaman pemanggilnya bisa mengimpornya DINAMIS — lihat catatan manualChunks di
- * vite.config.ts: pustaka sebesar ini tidak boleh ikut terunduh orang yang tidak
- * pernah membuka halamannya.
- */
 export default function LightboxGambar({ gambar, indeks, onTutup, alt }: LightboxGambarProps) {
   return (
     <Lightbox

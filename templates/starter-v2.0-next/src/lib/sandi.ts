@@ -1,16 +1,6 @@
-/**
- * Kebijakan kata sandi — NIST SP 800-63B Rev 4.
- *
- * Minimum 15 karakter (boleh 8 HANYA kalau sudah ada MFA — belum ada di sini),
- * dan TIDAK ADA aturan komposisi: Rev 4 melarangnya.
- *
- * Ini validasi UX saja. Pemeriksaan terhadap daftar sandi bocor wajib di
- * backend; jangan pernah menganggap berkas ini pengaman.
- */
 
 export const PANJANG_MIN_SANDI = 15;
 
-// Batas atas supaya input raksasa tidak jadi beban hashing di backend.
 export const PANJANG_MAKS_SANDI = 128;
 
 const SANDI_TERLARANG = [
@@ -32,7 +22,6 @@ const SANDI_TERLARANG = [
   'welcome',
 ];
 
-/** Mengembalikan pesan galat, atau null kalau sandi lolos. */
 export function periksaSandi(sandi: string): string | null {
   if (!sandi) return 'Kata sandi wajib diisi.';
 
@@ -44,14 +33,12 @@ export function periksaSandi(sandi: string): string | null {
     return `Kata sandi maksimal ${PANJANG_MAKS_SANDI} karakter.`;
   }
 
-  // Spasi di awal/akhir hampir selalu salah ketik dan bikin gagal login diam-diam.
   if (sandi !== sandi.trim()) {
     return 'Kata sandi tidak boleh diawali atau diakhiri spasi.';
   }
 
   const rendah = sandi.toLowerCase();
   if (SANDI_TERLARANG.some((s) => rendah === s || rendah.includes(s))) {
-    // Kata yang cocok sengaja tidak disebut — itu membocorkan sepotong sandi.
     return (
       'Kata sandi mengandung kata yang terlalu umum ' +
       '(nama usaha, admin, password, qwerty, welcome, rahasia, atau deretan angka). ' +
@@ -59,7 +46,6 @@ export function periksaSandi(sandi: string): string | null {
     );
   }
 
-  // Satu karakter diulang-ulang ("aaaaaaaaaaaaaaa") lolos syarat panjang tapi tidak aman.
   if (new Set(sandi).size < 5) {
     return 'Kata sandi terlalu sedikit variasi karakternya.';
   }
@@ -67,7 +53,6 @@ export function periksaSandi(sandi: string): string | null {
   return null;
 }
 
-/** Indikator kekuatan untuk UI. Murni informatif, bukan gerbang kelulusan. */
 export function kekuatanSandi(sandi: string): { nilai: 0 | 1 | 2 | 3; label: string } {
   if (sandi.length < PANJANG_MIN_SANDI) return { nilai: 0, label: 'Terlalu pendek' };
   if (periksaSandi(sandi)) return { nilai: 1, label: 'Lemah' };

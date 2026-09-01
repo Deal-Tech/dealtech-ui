@@ -11,7 +11,6 @@ export interface SidebarUser {
   initials?: string;
 }
 
-
 function isItemActive(href: string, pathname: string, hash: string): boolean {
   const hashIndex = href.indexOf('#');
   if (hashIndex !== -1) {

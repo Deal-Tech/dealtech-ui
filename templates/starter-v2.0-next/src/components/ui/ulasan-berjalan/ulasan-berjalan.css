@@ -1,6 +1,3 @@
-/* Angkanya dari .reviews-marquee DealTech; warnanya diganti palet publik.
-   Sectionnya melebar penuh, bukan 1200px — pita berjalan yang berhenti di tepi
-   wadah terbaca sebagai kotak, bukan sebagai sesuatu yang terus mengalir. */
 .ulasan-berjalan {
   width: 100%;
   overflow: hidden;
@@ -16,14 +13,10 @@
   text-decoration-thickness: 2px;
 }
 
-/* Jarak judul ke pita. Dulu ada di pembungkus .__jalur yang ikut terhapus saat
-   mekanik pitanya dipindah jadi komponen — dan hilangnya baru ketahuan setelah
-   dilihat Bos. Jarak antar-bagian memang milik section, bukan milik pitanya. */
 .ulasan-berjalan__pita {
   margin-top: 24px;
 }
 
-/* Mekanik pitanya di components/pita-berjalan — di sini tinggal kartunya. */
 .ulasan-berjalan__kartu {
   display: flex;
   flex: 0 0 300px;
@@ -36,8 +29,6 @@
   padding: 18px 18px 14px;
 }
 
-/* Tiga baris supaya tinggi semua kartu sama; ulasan panjang tetap boleh ditulis
-   panjang dan potongannya diurus peramban. */
 .ulasan-berjalan__isi {
   display: -webkit-box;
   -webkit-line-clamp: 3;

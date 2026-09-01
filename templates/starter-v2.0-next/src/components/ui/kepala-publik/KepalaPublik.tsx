@@ -4,19 +4,12 @@ import { Link } from 'react-router-dom';
 import './kepala-publik.css';
 
 export interface KepalaPublikProps {
-  /** Nama halaman di remah roti — ruas terakhir, bukan tautan. */
   remah: string;
   judul: string;
   deskripsi?: string;
-  /** Isi tambahan di bawah kalimat: saringan, tombol, keterangan jumlah. */
   children?: ReactNode;
 }
 
-/**
- * Kepala halaman sisi publik. Satu bentuk untuk semua halaman (Bos 2026-08-28)
- * — sebelumnya tiap halaman memakai kartu sambutan admin dengan isi berbeda,
- * dan hasilnya empat halaman yang terlihat dari empat situs.
- */
 export function KepalaPublik({ remah, judul, deskripsi, children }: KepalaPublikProps) {
   return (
     <div className="kepala-publik">

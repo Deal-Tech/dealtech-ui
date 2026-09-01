@@ -11,7 +11,6 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
-    // 5175, bukan 5174 — supaya starter v1 dan v2 bisa jalan berdampingan.
     port: 5175,
   },
 });

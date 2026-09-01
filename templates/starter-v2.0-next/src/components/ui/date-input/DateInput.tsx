@@ -6,10 +6,6 @@ export interface DateInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
   label?: string;
   hint?: string;
   error?: string;
-  /**
-   * `tanggal` — satu hari (bawaan).
-   * `bulan` — satu bulan penuh, untuk isian yang periodenya bulanan.
-   */
   mode?: 'tanggal' | 'bulan';
 }
 
@@ -17,7 +13,6 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(function D
   { className = '', label, hint, error, mode = 'tanggal', id, ...props },
   ref,
 ) {
-  // Label wajib terhubung lewat htmlFor/id — sebelumnya cuma aria-label, jadi
   // klik label tidak memfokuskan field.
   const idOtomatis = useId();
   const idField = id ?? idOtomatis;

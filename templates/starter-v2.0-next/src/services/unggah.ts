@@ -1,6 +1,5 @@
 import { api } from '@/lib/api';
 
-/** Tipe yang diterima server. Pemeriksaan di klien cuma UX — server tetap penentu. */
 export const TIPE_GAMBAR = ['image/jpeg', 'image/png', 'image/webp'] as const;
 
 export const MAKS_UKURAN_GAMBAR = 5 * 1024 * 1024;
@@ -11,10 +10,6 @@ export interface HasilUnggah {
   url: string;
 }
 
-/**
- * Pesan kalau berkasnya jelas-jelas ditolak; `null` kalau lolos.
- * Dipisah supaya galat bisa muncul sebelum berkasnya terlanjur dikirim.
- */
 export function periksaGambar(file: File): string | null {
   if (!(TIPE_GAMBAR as readonly string[]).includes(file.type)) {
     return 'Gambar harus berformat JPG, PNG, atau WebP.';

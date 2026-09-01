@@ -9,8 +9,6 @@
   color: var(--app-body-text);
 }
 
-/* Sengaja tidak dibuat mirip field isian: latarnya rata, tanpa garis fokus, dan
-   tidak bisa diklik. Yang ini keterangan, bukan tempat mengetik. */
 .kode-otomatis__kotak {
   display: flex;
   align-items: center;

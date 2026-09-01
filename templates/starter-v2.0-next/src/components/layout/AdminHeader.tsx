@@ -19,7 +19,6 @@ import {
 import { judulHalaman } from '@/layout/judul-halaman';
 import { waktuZona, type WaktuTampil, type ZonaWaktu } from '@/layout/jam-zona';
 
-/** Portal dukungan DealTech — dipakai tombol chat dan tombol bantuan. */
 const TAUTAN_DUKUNGAN = 'https://tech.mudahdeal.com/';
 
 function JamBerjalan({ zona }: { zona: ZonaWaktu }) {
@@ -67,7 +66,6 @@ function MenuProfil({ nama, inisial, onKeluar }: MenuProfilProps) {
     if (kembalikanFokus) pemicuRef.current?.focus();
   };
 
-  /** Panel dipasang `fixed` supaya tidak terpotong `overflow-hidden` layout. */
   const tempatkan = () => {
     const kotak = pemicuRef.current?.getBoundingClientRect();
     if (!kotak) return;

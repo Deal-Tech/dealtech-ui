@@ -5,19 +5,9 @@ import { useAuth } from '@/lib/auth';
 import type { Peran } from '@/services/auth';
 
 export interface ProtectedRouteProps {
-  /**
-   * Kalau diisi, hanya peran dalam daftar ini yang boleh masuk.
-   * Kosong = cukup sudah login.
-   */
   peran?: Peran[];
 }
 
-/**
- * Gerbang rute, gagal-tertutup.
- *
- * Hanya mencegah salah klik — backend WAJIB memeriksa peran sendiri di setiap
- * endpoint. Jangan pernah menganggap ini pengaman.
- */
 export function ProtectedRoute({ peran }: ProtectedRouteProps = {}) {
   const { pengguna, memuat } = useAuth();
   const lokasi = useLocation();

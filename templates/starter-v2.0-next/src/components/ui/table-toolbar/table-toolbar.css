@@ -13,10 +13,6 @@
   min-width: 180px;
 }
 
-/*
- * Beri ruang untuk tombol silang. `className` pada SearchInput menempel di
- * pembungkusnya, bukan di <input> — jadi turunkan selectornya.
- */
 .table-toolbar__input--terisi .search-input {
   padding-right: 34px;
 }
@@ -48,10 +44,6 @@
   height: 14px;
 }
 
-/*
- * Petunjuk "tekan Enter" hanya muncul saat ada ketikan yang belum dijalankan.
- * Melayang di atas isi supaya tidak mendorong tinggi baris alat.
- */
 .table-toolbar__petunjuk {
   position: absolute;
   left: 0;

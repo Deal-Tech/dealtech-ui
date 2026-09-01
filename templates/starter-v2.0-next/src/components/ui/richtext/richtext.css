@@ -94,7 +94,6 @@
   outline: none;
 }
 
-/* Placeholder satu-satunya teks yang boleh lebih pucat (aturan 2026-08-25). */
 .richtext__konten:empty::before {
   content: attr(data-placeholder);
   color: var(--app-placeholder);
@@ -107,7 +106,6 @@
   color: var(--app-danger-text);
 }
 
-/* ---- Modal tautan (di-portal, jadi di-scope dari class-nya sendiri) ---- */
 .richtext-modal__form {
   display: flex;
   flex-direction: column;
@@ -126,7 +124,6 @@
   margin-right: auto;
 }
 
-/* ---- Gaya isi: dipakai editor maupun penampil ---- */
 .richtext__konten h2,
 .richtext-isi h2 {
   font-size: 1.25rem;
@@ -255,7 +252,6 @@
   text-align: left;
 }
 
-/* Blok kode gelap: dua-duanya warna literal, disepakati ikut aslinya. */
 .richtext__konten pre,
 .richtext-isi pre {
   background: #0f172a;
@@ -298,7 +294,6 @@
   margin-bottom: 0;
 }
 
-/* Tabel lebar tidak boleh menggeser seluruh halaman ke samping. */
 .richtext-isi table {
   display: block;
   max-width: 100%;

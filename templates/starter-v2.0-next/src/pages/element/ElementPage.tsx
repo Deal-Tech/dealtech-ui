@@ -117,7 +117,6 @@ function Petak({ nama, jalur, children }: { nama: string; jalur: string; childre
 /* Data contoh                                                                 */
 /* -------------------------------------------------------------------------- */
 
-/** Gambar contoh sebagai data URI — supaya halaman ini tidak butuh jaringan. */
 const GAMBAR_CONTOH =
   'data:image/svg+xml;utf8,' +
   encodeURIComponent(

@@ -5,7 +5,6 @@ import './checkbox.css';
 
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
-  /** Sebagian terpilih — dipakai pada kotak "pilih semua" di kepala tabel. */
   indeterminate?: boolean;
 }
 

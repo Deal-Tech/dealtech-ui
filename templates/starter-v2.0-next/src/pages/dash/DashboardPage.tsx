@@ -8,12 +8,6 @@ import { resolveIcon } from '@/layout/ikon-menu';
 import { menu, saringMenu } from '@/layout/menu';
 import './dashboard.css';
 
-/**
- * Angka contoh.
- *
- * Starter ini sengaja tidak memanggil backend — ganti blok ini dengan data
- * asli Anda (mis. lewat `src/lib/api.ts`) saat modulnya sudah siap.
- */
 const RINGKASAN = [
   { kunci: 'komponen', ikon: Component, judul: 'Komponen UI', nilai: '57 elemen', helper: null },
   { kunci: 'layout', ikon: LayoutDashboard, judul: 'Layout', nilai: '1 layout', helper: null },
@@ -21,13 +15,6 @@ const RINGKASAN = [
   { kunci: 'pengguna', ikon: Users, judul: 'Pengguna', nilai: '1 akun', helper: 'mode demo' },
 ] as const;
 
-/**
- * Akses cepat: satu tombol per halaman yang ada di menu.
- *
- * Sumbernya `saringMenu` — persis yang dipakai sidebar, bukan daftar kedua yang
- * ditulis tangan. Daftar kedua akan menua diam-diam: menu baru muncul di
- * sidebar tapi tidak di sini.
- */
 function AksesCepat() {
   const tujuan = useMemo(() => {
     const m = saringMenu(menu, undefined);

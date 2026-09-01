@@ -12,8 +12,6 @@ export interface IsiKayaProps {
 export function IsiKaya({ html, className = '' }: IsiKayaProps) {
   const bersih = useMemo(() => sanitasiHtml(html ?? ''), [html]);
 
-  // Penyaring di klien ini LAPISAN KEDUA, bukan pengaman utama: pertahanan
-  // sebenarnya di server Go, yang menyaring setiap kali isi ini ditulis.
   return (
     <div
       className={`richtext-isi ${className}`}

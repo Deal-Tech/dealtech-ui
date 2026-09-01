@@ -9,14 +9,12 @@ import './unggah-gambar.css';
 
 const TIPE_TERIMA = 'image/jpeg,image/png,image/webp';
 
-/** Berapa gambar yang boleh masuk galeri kalau pemanggilnya tidak menentukan. */
 const MAKS_GALERI_BAWAAN = 8;
 
 function pesanGalat(e: unknown, cadangan: string): string {
   return e instanceof ApiError ? e.message : cadangan;
 }
 
-/** Membatalkan unggahan yang masih jalan saat komponennya dilepas. */
 function usePengendaliUnggah() {
   const pengendali = useRef<AbortController | null>(null);
   useEffect(() => () => pengendali.current?.abort(), []);
@@ -95,7 +93,6 @@ export function UnggahGambar({ nilai, onChange, label, disabled = false }: Ungga
         disabled={disabled || memuat}
         onChange={(e) => {
           const file = e.target.files?.[0];
-          // Dikosongkan supaya memilih berkas yang sama dua kali tetap memicu onChange.
           e.target.value = '';
           if (file) void pilih(file);
         }}
@@ -123,7 +120,6 @@ export function UnggahGambar({ nilai, onChange, label, disabled = false }: Ungga
 export interface UnggahGaleriProps {
   nilai: string[];
   onChange: (urls: string[]) => void;
-  /** Batas jumlah gambar. `Infinity` berarti tanpa batas (halaman Gallery). */
   maks?: number;
   label?: string;
   disabled?: boolean;
@@ -169,7 +165,6 @@ export function UnggahGaleri({
     setGalat(kelebihan ? `Hanya ${sisa} gambar pertama yang diunggah — batasnya ${maks}.` : '');
     setMemuat(true);
 
-    // Berurutan, bukan paralel: urutan galeri mengikuti urutan penambahan.
     const terkumpul: string[] = [];
     try {
       for (const file of antre) {
@@ -178,8 +173,6 @@ export function UnggahGaleri({
       if (!baru.signal.aborted) onChange([...nilai, ...terkumpul]);
     } catch (e) {
       if (!baru.signal.aborted) {
-        // Yang sudah berhasil tetap dipakai — memaksa orang mengulang semuanya
-        // karena satu berkas gagal itu menyebalkan dan tidak perlu.
         if (terkumpul.length > 0) onChange([...nilai, ...terkumpul]);
         setGalat(pesanGalat(e, 'Ada gambar yang gagal diunggah. Coba lagi.'));
       }

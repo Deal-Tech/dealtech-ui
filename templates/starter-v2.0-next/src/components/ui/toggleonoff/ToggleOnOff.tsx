@@ -5,7 +5,6 @@ export interface ToggleOnOffProps {
   onChange?: (checked: boolean) => void;
   disabled?: boolean;
   label?: string;
-  /** Wajib diisi kalau dipakai tanpa `label` — mis. di dalam kolom tabel. */
   'aria-label'?: string;
   title?: string;
   className?: string;

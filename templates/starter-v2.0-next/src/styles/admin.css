@@ -1,10 +1,3 @@
-/* =============================================================================
-   Style layout admin DealTech UI v2.
-   Gabungan dari admin-layout.css + sidebar.css + topbar.css, disatukan di
-   src/styles/ mengikuti struktur v1 (yang juga memuat layout di satu berkas).
-   Style per-komponen TIDAK ikut ke sini — masing-masing tetap tinggal di
-   folder komponennya sendiri, itu inti dari style v2.
-   ========================================================================== */
 
 /* --- Kerangka layout ------------------------------------------------------ */
 
@@ -38,8 +31,6 @@
   text-decoration: none;
 }
 
-/* 15px, bukan 17px: "Gili Good Guide Admin" empat kata dengan white-space:
-   nowrap — ukuran lama menabrak tombol tutup sidebar di ponsel. */
 .sidebar-brand__name {
   font-size: 15px;
   font-weight: 500;
@@ -151,11 +142,6 @@
   padding: 7px 10px;
 }
 
-/*
- * Ukuran acuan seluruh aplikasi: 13px, padding 7px 10px.
- * Keputusan Bos 2026-08-12 — yang dipakai adalah ukuran item submenu, dan
- * menu utama disamakan ke situ. Tombol di src/components/button juga mengikuti.
- */
 .sidebar-menu-btn {
   display: flex;
   width: 100%;
@@ -266,8 +252,6 @@
   background: var(--app-danger-hover);
 }
 
-/* Pemisah grup menu warisan pabrik sepatu — halamannya tidak punya backend lagi,
-   ditinggal cuma sebagai contoh tampilan. */
 .sidebar-warisan-sekat {
   margin: 14px 0 6px;
   border-top: 1px solid var(--app-border);
@@ -331,8 +315,6 @@
   color: var(--app-text);
 }
 
-/* Pemisah digambar sebagai garis 1px, bukan huruf "|": warna garis boleh dari
-   token border, sedangkan teks yang diredupkan dilarang. */
 .app-topbar__pemisah {
   flex-shrink: 0;
   width: 1px;
@@ -374,10 +356,6 @@
   gap: 10px;
 }
 
-/* Menempati posisi kolom pencarian di rancangan Bos: pil melebar, isinya rata
-   kiri di belakang ikon jam. */
-/* Tanpa pil/kotak (keputusan Bos 2026-08-26): ini bacaan, bukan kontrol —
-   membingkainya membuatnya terlihat bisa diklik. */
 .app-topbar__jam {
   display: inline-flex;
   min-width: 0;
@@ -405,14 +383,11 @@
     display: none;
   }
 
-  /* Ketiga ikon disembunyikan di ponsel (Bos): ruangnya untuk jam dan profil,
-     dan ketiganya cuma tautan yang ada jalan lain menuju ke sana. */
   .app-topbar__ikon-grup {
     display: none;
   }
 }
 
-/* Ketiga ikon berdiri rapat tanpa latar; latar hanya muncul saat hover. */
 .app-topbar__ikon-grup {
   display: flex;
   flex-shrink: 0;
@@ -449,8 +424,6 @@
   flex-shrink: 0;
 }
 
-/* Tanpa border (Bos 2026-08-26): avatar + chevron saja. Tingginya tetap ikut
-   kontrol form supaya sebaris dengan ikon di sebelahnya. */
 .app-topbar__profil-tombol {
   display: flex;
   height: var(--app-control-h);

@@ -7,15 +7,12 @@ import './welcome-card-v2.css';
 export interface WelcomeCardV2Props {
   name?: string;
   badge?: string;
-  /** Menimpa kalimat sambutan bawaan. Kalau diisi, `name` tidak dipakai. */
   judul?: string;
   deskripsi?: string;
   aksiLabel?: string;
   aksiHref?: string;
-  /** Rute dalam aplikasi. Kalau diisi, aksinya jadi `<Link>`, bukan tautan luar. */
   aksiKe?: string;
   aksiIkon?: LucideIcon;
-  /** Mengganti tombol aksi bawaan — mis. sebuah select. */
   aksi?: ReactNode;
   className?: string;
 }
@@ -61,7 +58,6 @@ export function WelcomeCardV2({
           {isiAksi}
         </Link>
       ) : (
-        /* noopener+noreferrer wajib: tanpa itu halaman tujuan bisa menyetir tab ini. */
         <a className="welcome-v2__aksi" href={aksiHref} target="_blank" rel="noopener noreferrer">
           {isiAksi}
         </a>

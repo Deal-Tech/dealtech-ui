@@ -34,11 +34,6 @@
   }
 }
 
-/*
- * Ukurannya sama dengan tombol ikon di seluruh aplikasi: 32px persegi, 13px.
- * Sebelumnya 28px/12px di ponsel dan 32px/14px di layar lebar — jadi tombol
- * paginasi kelihatan beda sendiri dari tombol lain di halaman yang sama.
- */
 .pagination .pagination__page,
 .pagination .pagination__nav {
   height: 32px;

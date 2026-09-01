@@ -8,7 +8,6 @@ export class ApiError extends Error {
     message: string,
     readonly fields?: Record<string, string>,
     readonly requestId?: string,
-    // Hanya ada pada gangguan sistem, bukan salah isi form.
     readonly kode?: string,
   ) {
     super(message);
@@ -16,12 +15,6 @@ export class ApiError extends Error {
   }
 }
 
-/**
- * Sesi ada di cookie `sk_sesi` HttpOnly — berkas ini tidak bisa membacanya, dan
- * itu tujuannya: satu celah XSS tidak cukup untuk mencuri sesi.
- *
- * Yang dipegang JavaScript cuma token CSRF; sendirian ia bukan kredensial.
- */
 const NAMA_COOKIE_CSRF = 'sk_csrf';
 let csrfMemori: string | null = null;
 
@@ -49,12 +42,6 @@ export function pasangPenanganSesiHabis(fn: () => void): void {
   saatSesiHabis = fn;
 }
 
-/**
- * Sandi hasil reset admin wajib diganti; server menandainya `aksi: "ganti_sandi"`.
- *
- * Yang MEMBLOKIR servernya, bukan baris ini — di sini cuma melempar orangnya ke
- * halaman yang benar.
- */
 let saatWajibGantiSandi: (() => void) | null = null;
 export function pasangPenanganWajibGantiSandi(fn: () => void): void {
   saatWajibGantiSandi = fn;
@@ -65,9 +52,7 @@ export interface GangguanSistem {
   pesan: string;
   status: number;
   requestId?: string;
-  /** Endpoint yang gagal, mis. "POST /api/v1/batch". Untuk tim teknis. */
   jalur: string;
-  /** Halaman yang sedang dibuka pengguna, mis. "/batch-produksi". */
   halaman: string;
 }
 
@@ -80,19 +65,15 @@ const METODE_AMAN = new Set(['GET', 'HEAD', 'OPTIONS']);
 
 interface OpsiRequest {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-  /** `FormData` dikirim apa adanya (unggahan berkas); selain itu dijadikan JSON. */
   body?: unknown;
-  /** Hanya untuk login, yang memang belum punya sesi sehingga belum punya token CSRF. */
   tanpaCSRF?: boolean;
   signal?: AbortSignal;
-  /** Unggahan berkas besar tidak muat di 20 detik bawaan. */
   timeoutMs?: number;
 }
 
 export async function apiMentah<T>(path: string, opsi: OpsiRequest = {}): Promise<T> {
   const { method = 'GET', body, tanpaCSRF = false, signal, timeoutMs = TIMEOUT_MS } = opsi;
 
-  // Content-Type FormData wajib dibiarkan peramban — ia yang tahu batas multipart-nya.
   const berkas = typeof FormData !== 'undefined' && body instanceof FormData;
 
   const pengendali = new AbortController();
@@ -102,7 +83,6 @@ export async function apiMentah<T>(path: string, opsi: OpsiRequest = {}): Promis
   const headers: Record<string, string> = { Accept: 'application/json' };
   if (body !== undefined && !berkas) headers['Content-Type'] = 'application/json';
 
-  // Wajib untuk metode pengubah data; metode baca tidak perlu.
   if (!tanpaCSRF && !METODE_AMAN.has(method)) {
     const csrf = ambilCSRF();
     if (csrf) headers['X-CSRF-Token'] = csrf;
@@ -115,7 +95,6 @@ export async function apiMentah<T>(path: string, opsi: OpsiRequest = {}): Promis
       headers,
       body: body === undefined ? undefined : berkas ? (body as FormData) : JSON.stringify(body),
       signal: pengendali.signal,
-      // Cookie sesi ikut dikirim; origin dijaga daftar putih CORS_ORIGINS.
       credentials: 'include',
     });
   } catch (e) {
@@ -143,7 +122,6 @@ export async function apiMentah<T>(path: string, opsi: OpsiRequest = {}): Promis
   }
 
   if (!respons.ok) {
-    // 403 akun nonaktif juga mengakhiri sesi — cookienya sudah dibuang server.
     if ((respons.status === 401 || respons.status === 403) && !tanpaCSRF) {
       const isiAwal = (data ?? {}) as { error?: string };
       if (respons.status === 401 || /tidak aktif/i.test(isiAwal.error ?? '')) {
@@ -208,12 +186,6 @@ export async function apiDaftar<T>(path: string, signal?: AbortSignal): Promise<
   };
 }
 
-/**
- * Cadangan kalau server tidak mengirim pesan sendiri (413/502/504 dari proxy).
- *
- * Sebut apa yang terjadi dalam bahasa orang, lalu satu hal yang bisa ia lakukan.
- * Tanpa istilah HTTP dan tanpa angka status.
- */
 function pesanBawaan(status: number): string {
   switch (status) {
     case 400:

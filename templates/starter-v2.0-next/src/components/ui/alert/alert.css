@@ -1,13 +1,4 @@
 
-/*
- * Base memakai flex, BUKAN grid.
- *
- * Dulu base-nya `grid-template-columns: 0 1fr` dengan title/description
- * dipaksa ke `grid-column: 2`. Akibatnya teks polos (tanpa AlertTitle/
- * AlertDescription) jadi anonymous grid item yang jatuh ke kolom pertama
- * selebar 0px, lalu pecah satu kata per baris. Flex membuat teks polos
- * tetap selebar penuh.
- */
 .alert {
   position: relative;
   display: flex;
@@ -23,7 +14,6 @@
   color: var(--app-text);
 }
 
-/* Hanya saat ada ikon, layoutnya jadi dua kolom. */
 .alert:has(> svg) {
   display: grid;
   grid-template-columns: 16px 1fr;

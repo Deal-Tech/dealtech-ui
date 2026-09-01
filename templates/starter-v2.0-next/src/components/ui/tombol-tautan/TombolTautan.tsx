@@ -11,15 +11,10 @@ export interface TombolTautanProps extends Omit<LinkProps, 'className'> {
   varian?: TombolTautanVarian;
   ukuran?: TombolTautanUkuran;
   icon?: LucideIcon;
-  /** Ikon di KANAN teks. Untuk panah "lanjut ke sana", arahnya jadi masuk akal. */
   ikonKanan?: boolean;
   className?: string;
 }
 
-/**
- * Tautan rute yang tampil sebagai tombol pil. Sengaja `<Link>`, bukan `<Button>`:
- * tujuannya berpindah halaman, jadi harus bisa dibuka di tab baru dan di-hover URL-nya.
- */
 export function TombolTautan({
   varian = 'primary',
   ukuran = 'md',
@@ -49,11 +44,6 @@ export interface TombolAksiProps extends Omit<ButtonHTMLAttributes<HTMLButtonEle
   className?: string;
 }
 
-/**
- * Kembaran `TombolTautan` untuk aksi di halaman yang sama (muat lagi, buka,
- * tutup). Sengaja berbagi CSS yang sama persis: dua berkas gaya untuk satu
- * bentuk tombol adalah cara tercepat membuat keduanya pelan-pelan berbeda.
- */
 export function TombolAksi({
   varian = 'primary',
   ukuran = 'md',

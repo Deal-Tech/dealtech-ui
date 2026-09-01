@@ -1,11 +1,4 @@
 
-/*
- * Notifikasi baku untuk seluruh aplikasi — sukses, galat, peringatan, info.
- * Tanpa border, selebar penuh kiri-kanan. Keputusan Bos 2026-08-12.
- *
- * Ini satu-satunya bentuk notifikasi yang dipakai; jangan bikin kotak pesan
- * sendiri di halaman.
- */
 .badgeinfo {
   display: flex;
   align-items: center;

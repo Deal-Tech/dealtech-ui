@@ -1,5 +1,3 @@
-/* Opasitas akhir ditaruh di variabel, bukan langsung: nilai di dalam keyframes
-   menang atas aturan biasa dan tidak bisa ditimpa per breakpoint. */
 .logo-shape {
   --logo-shape-opacity: 0.1;
 

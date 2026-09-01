@@ -60,12 +60,6 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 
-/**
- * Nama ikon di `menu.ts` → komponennya. Dipisah dari Sidebar sejak 2026-08-28
- * karena akses cepat di Dashboard memakai daftar menu yang sama; kalau petanya
- * tinggal di Sidebar, halaman lain harus mengimpor komponen layout hanya untuk
- * mendapatkan sebuah ikon.
- */
 const ICON_MAP: Record<string, LucideIcon> = {
   'layout-dashboard': LayoutDashboard,
   component: Component,
@@ -127,7 +121,6 @@ const ICON_MAP: Record<string, LucideIcon> = {
   images: Images,
 };
 
-/** Nama yang tidak dikenal jatuh ke ikon dashboard, bukan ke tempat kosong. */
 export function resolveIcon(icon: string): LucideIcon {
   return ICON_MAP[icon] ?? LayoutDashboard;
 }

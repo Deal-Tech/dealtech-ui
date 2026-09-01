@@ -15,13 +15,9 @@ export const InputText = forwardRef<HTMLInputElement, InputTextProps>(function I
   { label, error, hint, className = '', type, currency = false, onChange, value, inputMode, pattern, required, id, ...props },
   ref,
 ) {
-  // Label wajib terhubung ke input lewat htmlFor/id — tanpa ini, klik label
-  // tidak fokus ke field dan screen reader tidak membacakan labelnya.
   const idOtomatis = useId();
   const idField = id ?? idOtomatis;
 
-  // Tombol lihat/sembunyikan otomatis untuk semua field sandi. Dibuat di sini,
-  // bukan di masing-masing halaman, supaya perilakunya seragam di seluruh app.
   const sandi = !currency && type === 'password';
   const [terlihat, setTerlihat] = useState(false);
 

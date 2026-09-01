@@ -84,7 +84,6 @@ export default function PengaturanPage() {
   const simpanKontakPublik = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Diperiksa lagi di server; yang di sini cuma supaya orangnya tahu lebih
     // cepat, bukan supaya servernya boleh percaya.
     const g: GalatKontak = {};
     const angka = kontak.whatsapp.replace(/\D/g, '');
@@ -93,16 +92,12 @@ export default function PengaturanPage() {
     if (!kontak.lokasi.trim()) g.lokasi = 'Lokasi wajib diisi.';
     if (!kontak.jam_buka.trim()) g.jam_buka = 'Jam buka wajib diisi.';
 
-    // Server memeriksanya lagi; yang di sini cuma supaya orangnya tahu lebih
-    // cepat. Kosong sah — artinya ikonnya tidak dipasang.
     for (const k of ['sosial_whatsapp', 'sosial_instagram', 'sosial_tiktok'] as const) {
       const v = kontak[k].trim();
       if (v === '' || v === '#' || v.startsWith('https://') || v.startsWith('http://')) continue;
       g[k] = 'Isi alamat lengkap berawalan https://, atau # kalau belum ada.';
     }
 
-    // Server memeriksanya lagi dan lebih ketat — termasuk mengambil koordinat
-    // dari alamat Maps yang ditempel. Yang di sini cuma supaya salah ketik
     // ketahuan sebelum permintaannya dikirim.
     const titik = kontak.maps.trim();
     const koordinat = /^-?\d{1,2}(\.\d+)?\s*,\s*-?\d{1,3}(\.\d+)?$/.test(titik);
@@ -139,7 +134,6 @@ export default function PengaturanPage() {
     }
   };
 
-  // ---- Informasi akun: nama & zona waktu ----
   const [nama, setNama] = useState(pengguna?.name ?? '');
   const [zona, setZona] = useState<ZonaWaktu>(pengguna?.zona_waktu ?? ZONA_WAKTU_BAWAAN);
   const [galatNama, setGalatNama] = useState('');
@@ -172,7 +166,6 @@ export default function PengaturanPage() {
     setZona(pengguna?.zona_waktu ?? ZONA_WAKTU_BAWAAN);
   }, [pengguna?.zona_waktu]);
 
-  // Jangan tinggalkan sandi di memori lebih lama dari perlunya.
   useEffect(
     () => () => {
       setSandiEmail('');
@@ -202,7 +195,6 @@ export default function PengaturanPage() {
     setSuksesNama('');
     try {
       const user = await perbaruiAkun({ name: bersih, zona_waktu: zona });
-      // Wajib: jam di header membaca zona dari konteks auth, bukan dari halaman ini.
       segarkan(user);
       setSuksesNama('Informasi akun berhasil disimpan.');
     } catch (err) {
@@ -235,7 +227,6 @@ export default function PengaturanPage() {
     setProsesEmail(true);
     try {
       const user = await gantiEmail(tujuan, sandiEmail);
-      // Wajib: nama dan email di sidebar membaca konteks auth, bukan halaman ini.
       segarkan(user);
       setSuksesEmail(`Email berhasil diganti menjadi ${user.email}.`);
       tutupFormEmail();

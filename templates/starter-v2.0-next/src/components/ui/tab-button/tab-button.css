@@ -98,11 +98,6 @@
   min-width: 0;
 }
 
-/*
- * Varian rata: tiap tab mengambil lebar yang sama persis.
- * Dipakai saat tabnya cuma dua-tiga dan keduanya setara pentingnya —
- * mis. Mode Harian vs Mode Bulanan.
- */
 .tab-button--rata .tab-button__nav {
   padding: 0;
 }

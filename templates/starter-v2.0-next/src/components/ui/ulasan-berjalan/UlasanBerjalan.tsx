@@ -8,12 +8,6 @@ export interface Ulasan {
   isi: string;
 }
 
-/**
- * ISINYA KARANGAN, BUKAN ULASAN SUNGGUHAN. Diminta Bos sebagai contoh tampilan
- * 2026-08-26 dan WAJIB diganti ulasan asli sebelum situs dibuka untuk umum —
- * ulasan palsu yang ditampilkan seolah asli bukan cuma soal etika, di banyak
- * negara asal tamu kita ia melanggar aturan perlindungan konsumen.
- */
 const ULASAN_ATAS: Ulasan[] = [
   {
     nama: 'Hannah Whitfield',
@@ -100,7 +94,6 @@ const ULASAN_BAWAH: Ulasan[] = [
   },
 ];
 
-/** Satu daftar untuk pita di About dan kartu ulasan di beranda. */
 export const ULASAN_SEMUA: Ulasan[] = [...ULASAN_ATAS, ...ULASAN_BAWAH];
 
 function KartuUlasan({ ulasan }: { ulasan: Ulasan }) {
@@ -119,10 +112,6 @@ function KartuUlasan({ ulasan }: { ulasan: Ulasan }) {
   );
 }
 
-/**
- * Dua pita ulasan yang berjalan berlawanan arah. Ada di `components/` karena
- * dipakai beranda dan halaman About; isinya sama di keduanya.
- */
 export function UlasanBerjalan() {
   return (
     <section className="ulasan-berjalan" aria-label="Guest reviews">

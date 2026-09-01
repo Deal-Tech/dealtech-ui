@@ -17,37 +17,25 @@ export interface TableListColumn {
 export type TableListRow = Record<string, ReactNode>;
 
 export interface PilihanTabel {
-  /** Kunci baris yang sedang terpilih (seluruh halaman, bukan cuma yang tampil). */
   terpilih: string[];
-  /** Kunci baris yang tampil di halaman ini — untuk kotak "pilih semua". */
   kunciHalaman: string[];
   onToggle: (kunci: string) => void;
   onToggleSemua: () => void;
   onBersihkan: () => void;
-  /** Baris yang tidak boleh dipilih, mis. akun sendiri. */
   terkunci?: string[];
 }
 
 export interface TableListV1Props {
-  /** Kosongkan kalau halamannya sudah punya <PageTitle> — kalau tidak, jadi pengulangan. */
   title?: string;
   subtitle?: string;
   action?: ReactNode;
-  /** Baris alat di atas tabel — pakai <TableToolbar>. */
   toolbar?: ReactNode;
   columns: TableListColumn[];
   rows: TableListRow[];
   rowKey?: (row: TableListRow, index: number) => string;
-  /**
-   * Klik di mana pun pada baris untuk membukanya. Klik pada tombol, centang,
-   * toggle, atau tautan di dalamnya tidak ikut memicu.
-   */
   onKlikBaris?: (row: TableListRow, index: number) => void;
-  /** Aktifkan kolom centang + bar aksi massal. */
   pilihan?: PilihanTabel;
-  /** Tombol-tombol yang muncul di bar saat ada baris terpilih. */
   aksiMassal?: ReactNode;
-  /** Keterangan jumlah + navigasi halaman di kaki tabel. */
   paginasi?: {
     halaman: number;
     totalHalaman: number;
@@ -195,7 +183,6 @@ export function TableListV1({
                     onClick={
                       onKlikBaris
                         ? (e) => {
-                            // Jangan terpicu kalau yang diklik kontrol di dalam baris.
                             if ((e.target as HTMLElement).closest('button, input, a, label')) return;
                             onKlikBaris(row, i);
                           }

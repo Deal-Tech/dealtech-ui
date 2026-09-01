@@ -6,8 +6,6 @@ export default {
       fontFamily: {
         sans: ['"SN Pro"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
-      // Token tema diekspos ke Tailwind agar bisa dipakai lewat utility
-      // (mis. `bg-app-surface`, `text-app-muted`). Nilainya dari CSS var di src/styles/theme.css.
       colors: {
         app: {
           bg: 'var(--app-bg)',
@@ -27,7 +25,6 @@ export default {
           'primary-tint': 'var(--app-primary-tint)',
           'on-primary': 'var(--app-on-primary)',
           neutral: 'var(--app-neutral)',
-          // Semantik status — pakai HANYA untuk Alert/Badge status.
           success: 'var(--app-success)',
           warning: 'var(--app-warning)',
           danger: 'var(--app-danger)',

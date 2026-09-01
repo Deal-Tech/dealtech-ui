@@ -3,8 +3,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* Sama dengan tombol ikon di komponen Button — satu ukuran untuk semua
-     tombol ikon di aplikasi. */
   width: 32px;
   height: 32px;
   border-radius: 6px;

@@ -16,11 +16,6 @@ export interface SelectProps {
   placeholder?: string;
   className?: string;
   triggerClassName?: string;
-  /**
-   * Kelas untuk panel yang di-portal ke <body>. Wajib dipakai kalau select ini
-   * dipasang di luar panel admin: panelnya dirender di luar pohon halaman, jadi
-   * palet yang disuntik di layout TIDAK menurun ke sana lewat `className`.
-   */
   panelClassName?: string;
   disabled?: boolean;
   searchable?: boolean;

@@ -51,10 +51,6 @@
   user-select: none;
 }
 
-/*
- * Ukuran kecil — untuk dipakai di kolom aksi tabel, sebaris dengan ActionButton.
- * Tingginya disamakan dengan tombol aksi supaya barisnya rata.
- */
 .toggleonoff--sm {
   width: 34px;
   height: 18px;

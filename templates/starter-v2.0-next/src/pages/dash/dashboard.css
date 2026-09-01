@@ -1,13 +1,4 @@
-/*
- * Dashboard: empat kartu angka, lalu akses cepat.
- *
- * Kelas lama (dashboard-panel, dashboard-toolbar, dashboard-galat) dihapus
- * 2026-08-13 bersama metrik toko online yang tidak pernah dipakai di sini.
- */
 
-/* Empat kartu angka. Turun jadi dua kolom di tablet dan satu di ponsel —
-   angka besar yang dipaksa muat bertiga jadi terlalu kecil untuk dibaca
-   sekilas, dan sekilas itulah satu-satunya cara halaman ini dipakai. */
 .dashboard .dashboard__stat {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -26,15 +17,6 @@
   }
 }
 
-/* ── Akses cepat ────────────────────────────────────────────────────────────
- *
- * Bentuknya sengaja mengikuti WelcomeCardV2 (Bos 2026-08-28): gradien, lencana,
- * judul. Yang berbeda cuma isinya — deretan tombol, bukan satu tombol di kanan.
- *
- * Nilainya disalin dari welcome-card-v2.css, tidak di-`@extend` atau dibungkus
- * kelas bersama: kalau suatu saat salah satunya diubah, yang lain tidak ikut
- * berubah diam-diam. Kartu sambutan itu juga dipakai sisi publik dengan palet
- * yang lain. */
 .dashboard .akses-cepat {
   position: relative;
   isolation: isolate;
@@ -96,8 +78,6 @@
   color: #ffffff;
 }
 
-/* Membungkus, bukan menggulir: jumlah menunya sedikit dan tetap, dan baris yang
-   bisa digulir menyembunyikan tujuan yang justru dicari orang. */
 .dashboard .akses-cepat__tombol {
   display: flex;
   flex-wrap: wrap;
@@ -108,8 +88,6 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  /* line-height 1 + align-items center: ikon dan teksnya sejajar tengah tanpa
-     geseran manual. Lihat aturan penyejajaran ikon di module-frontend. */
   line-height: 1;
   border-radius: 8px;
   background: #ffffff;
@@ -136,8 +114,6 @@
     font-size: 15px;
   }
 
-  /* Di ponsel tombolnya melebar penuh: setengah lebar layar untuk satu tujuan
-     membuat dua tombol berdempetan dan gampang salah tekan. */
   .dashboard .akses-cepat__butir {
     width: 100%;
     justify-content: center;

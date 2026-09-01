@@ -13,13 +13,6 @@ import dealhost from '@/assets/dealhost.png';
 
 const TUJUAN_BAWAAN = '/dashboard';
 
-/**
- * Cegah open redirect: hanya terima jalur internal.
- *
- * `//evil.com` dan `/\evil.com` diperlakukan browser sebagai URL protocol-relative
- * ke host lain, jadi keduanya ditolak walau diawali "/". Nilai lain apa pun
- * (URL absolut, `javascript:`, dsb.) juga jatuh ke tujuan bawaan.
- */
 function jalurAman(nilai: unknown): string {
   if (typeof nilai !== 'string') return TUJUAN_BAWAAN;
   if (!nilai.startsWith('/')) return TUJUAN_BAWAAN;
@@ -54,7 +47,6 @@ export default function AdminLogin() {
       setPassword('');
       navigate(tujuan, { replace: true });
     } catch (e) {
-      // Pesan dari server sengaja tidak membedakan "email tidak ada" vs "sandi salah"
       // supaya tidak jadi alat enumerasi akun.
       setGalat(e instanceof ApiError ? e.message : 'Tidak dapat masuk. Coba beberapa saat lagi.');
       setPassword('');

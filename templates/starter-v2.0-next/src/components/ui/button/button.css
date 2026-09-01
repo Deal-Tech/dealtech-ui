@@ -21,14 +21,6 @@
   cursor: not-allowed;
 }
 
-/*
- * Ukuran tombol mengikuti item menu di sidebar: 13px, padding 7px 10px,
- * tinggi ±32px. Keputusan Bos 2026-08-12.
- *
- * Besar hurufnya SAMA di ketiga ukuran — yang membedakan cuma tinggi dan
- * padding. Kalau besar hurufnya ikut berubah, tombol dengan peran sama
- * kelihatan berbeda antar-halaman hanya karena kebetulan dipasang ukuran lain.
- */
 .btn--sm {
   min-height: 28px;
   padding: 5px 10px;
@@ -115,9 +107,6 @@
   }
 }
 
-/* Tombol tanpa teks — padding dibuat persegi supaya ikonnya di tengah. */
-/* Lebarnya mengikuti tinggi tombol di atas, bukan token tinggi kontrol form —
-   kalau tidak, tombol ikon jadi lebih tinggi dari tombol berteks di sebelahnya. */
 .btn--icon-only {
   padding-left: 0;
   padding-right: 0;

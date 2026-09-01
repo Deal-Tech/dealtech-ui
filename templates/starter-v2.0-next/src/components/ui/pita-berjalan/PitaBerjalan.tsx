@@ -5,18 +5,9 @@ import './pita-berjalan.css';
 export interface PitaBerjalanProps {
   atas: ReactNode[];
   bawah: ReactNode[];
-  /** Untuk jarak ke elemen di atasnya — itu urusan section, bukan pita. */
   className?: string;
 }
 
-/**
- * Dua pita kartu yang berjalan berlawanan arah. Mekaniknya saja — isinya
- * terserah pemanggil (kartu ulasan, kartu foto, apa pun).
- *
- * Ada di `components/` karena dipakai lebih dari satu halaman, dan karena
- * mekanik gulir tanpa sambungan ini bukan sesuatu yang boleh disalin-tempel:
- * satu angka meleset dan lompatan baliknya langsung terlihat.
- */
 export function PitaBerjalan({ atas, bawah, className = '' }: PitaBerjalanProps) {
   return (
     <div className={`pita-berjalan ${className}`}>

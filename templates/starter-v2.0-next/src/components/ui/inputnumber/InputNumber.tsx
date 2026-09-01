@@ -8,11 +8,6 @@ export interface InputNumberProps extends Omit<InputHTMLAttributes<HTMLInputElem
   error?: string;
   hint?: string;
   currency?: boolean;
-  /**
-   * Tandai merah tanpa menampilkan pesan. Untuk sel tabel/grid rapat yang
-   * alasannya sudah kelihatan di sebelahnya — pesan di situ cuma bikin baris
-   * melompat. Kalau ada ruang untuk pesan, pakai `error`.
-   */
   invalid?: boolean;
 }
 

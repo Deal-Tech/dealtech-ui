@@ -63,8 +63,6 @@
   color: var(--app-text-faint);
 }
 
-/* Minggu merah, sama seperti kalender DealOne. Nilainya literal dan sengaja —
-   ini penanda akhir pekan, bukan warna merek. */
 .kalender__hari--minggu,
 .kalender__sel--minggu .kalender__angka {
   color: #e5484d;
@@ -102,8 +100,6 @@
   background: var(--app-fill-strong);
 }
 
-/* Hari ini cuma dicincin, tidak diisi penuh: isian penuh sudah dipakai tanggal
-   terpilih, dan dua kotak biru penuh di satu kisi bikin orang salah baca. */
 .kalender__sel--kini {
   box-shadow: inset 0 0 0 2px var(--app-primary);
 }
@@ -157,7 +153,6 @@
   color: var(--app-on-primary);
 }
 
-/* Di sel terpilih, badge biru menyatu dengan latarnya — dibalik jadi putih. */
 .kalender__sel--ujung .kalender__badge,
 .kalender__sel--aktif .kalender__badge {
   background: var(--app-surface);
@@ -176,8 +171,6 @@
   }
 }
 
-/* Tanggal yang sudah lewat: dimatikan, bukan disembunyikan — kisinya harus tetap
-   utuh supaya kolom harinya tidak bergeser. */
 .kalender__sel--lewat {
   opacity: 0.35;
 }

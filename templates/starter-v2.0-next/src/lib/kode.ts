@@ -1,15 +1,6 @@
-/**
- * Pratinjau kode barang — cerminan `backend/internal/store/kode.go`, yang jadi
- * satu-satunya pembuat kode sungguhan. Hasil di sini tidak pernah dikirim.
- *
- * Bisa meleset kalau kode dasarnya sudah dipakai (server menambah pembeda),
- * karena itu ditampilkan sebagai perkiraan. **Kalau aturan di server berubah,
- * berkas ini ikut diubah.**
- */
 
 const VOKAL = new Set(['A', 'E', 'I', 'O', 'U']);
 
-/** Memecah nama jadi kata berisi A–Z dan 0–9 saja; selain itu jadi pemisah. */
 function kataKode(nama: string): string[] {
   return nama
     .toUpperCase()
@@ -17,14 +8,6 @@ function kataKode(nama: string): string[] {
     .filter(Boolean);
 }
 
-/**
- * Singkatan dari kata pertama sebuah nama.
- *
- *   Hitam              → HTM   huruf awal + konsonan berikutnya
- *   Biru               → BIR   konsonannya kurang, jadi huruf awalnya apa adanya
- *   Lem Kuning         → LEM
- *   Kulit Sapi Grade A → KLT
- */
 export function singkatNama(nama: string, maks: number): string {
   const kata = kataKode(nama);
   if (kata.length === 0 || maks < 1) return '';
@@ -37,13 +20,11 @@ export function singkatNama(nama: string, maks: number): string {
 
   if (hasil.length < maks) hasil = utama.length > maks ? utama.slice(0, maks) : utama;
 
-  // Kata pertama satu huruf: sambung kata berikutnya, biar tidak menabrak.
   for (let i = 1; i < kata.length && hasil.length < 2; i++) hasil += kata[i];
 
   return hasil.slice(0, maks);
 }
 
-/** Kata terakhir nama kategori — "Sepatu Formal" → FORMAL. Maks 10, selebar kolomnya. */
 export function pratinjauKodeKategori(nama: string): string {
   const kata = kataKode(nama);
   for (let i = kata.length - 1; i >= 0; i--) {
@@ -52,10 +33,6 @@ export function pratinjauKodeKategori(nama: string): string {
   return 'KTG';
 }
 
-/**
- * Cerminan `dasarSpot` di store/kode.go: 4 huruf kata pertama + 3 huruf
- * tiap kata berikutnya, maks 10. "Gili Trawangan" → GILITRA.
- */
 export function pratinjauKodeSpot(nama: string): string {
   const kata = kataKode(nama);
   if (kata.length === 0) return 'SPOT';
@@ -66,11 +43,6 @@ export function pratinjauKodeSpot(nama: string): string {
   return hasil.slice(0, 10);
 }
 
-/**
- * Sama seperti spot: 4 huruf kata pertama + 3 huruf tiap kata berikutnya, maks 10.
- * Cerminan `dasarSeluruhKata` di store/kode.go — kalau salah satunya berubah, yang
- * lain WAJIB ikut, kalau tidak kode di layar beda dari yang ditulis server.
- */
 function seluruhKata(nama: string, cadangan: string): string {
   const kata = kataKode(nama);
   if (kata.length === 0) return cadangan;
@@ -89,21 +61,15 @@ export function pratinjauKodePaket(nama: string): string {
   return seluruhKata(nama, 'PAKET');
 }
 
-/** 3 huruf — kode warna ikut menyusun kode varian yang dicetak jadi QR. */
 export function pratinjauKodeWarna(nama: string): string {
   const s = singkatNama(nama, 3);
   return s.length < 2 ? 'WR' : s;
 }
 
-/** BB- + singkatan, supaya kode bahan langsung beda bentuk dari kode model sepatu. */
 export function pratinjauKodeBahan(nama: string): string {
   return 'BB-' + (singkatNama(nama, 3) || 'X');
 }
 
-/**
- * Nomor urut model berikutnya. Bukan singkatan nama: kode ini jadi awalan kode
- * varian di QR (SP-001-40-HTM), dan nomor urut membuat panjang labelnya tetap.
- */
 export function pratinjauKodeSepatu(kodeYangAda: string[]): string {
   let tertinggi = 0;
   for (const k of kodeYangAda) {

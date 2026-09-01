@@ -20,7 +20,6 @@ import { InputText } from '@/components/ui/inputtext/InputText';
 import { Modal } from '@/components/ui/modal/Modal';
 import './richtext.css';
 
-// Tag yang boleh tersimpan; sisanya di-unwrap (isinya tetap, pembungkusnya buang).
 const DIIZINKAN = new Set([
   'H2', 'H3', 'P', 'STRONG', 'B', 'EM', 'I', 'U', 'UL', 'OL', 'LI', 'BLOCKQUOTE', 'A', 'BR',
   'IMG', 'FIGURE', 'FIGCAPTION',
@@ -28,7 +27,6 @@ const DIIZINKAN = new Set([
   'PRE', 'CODE',
 ]);
 
-// Ini dibuang berikut isinya — di-unwrap malah menumpahkan kodenya jadi teks terbaca.
 const DIBUANG_TOTAL = new Set(['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED', 'NOSCRIPT', 'TEMPLATE', 'SVG']);
 
 const ATRIBUT_DIIZINKAN: Record<string, string[]> = {
@@ -39,11 +37,7 @@ const ATRIBUT_DIIZINKAN: Record<string, string[]> = {
   COL: ['span'],
 };
 
-// `javascript:` di href/src adalah XSS yang lolos kalau atributnya cuma di-allowlist
-// per nama. Skema wajib diperiksa terpisah dari nama atributnya.
 const SKEMA_TAUTAN = /^(?:https?:\/\/|mailto:|tel:|\/|#|\.\/)/i;
-// data: sengaja TIDAK diizinkan — penyaring server juga menolaknya, dan dua
-// lapisan yang berbeda pendapat membuat gambar lenyap diam-diam saat disimpan.
 const SKEMA_GAMBAR = /^(?:https?:\/\/|\/)/i;
 
 function urlAman(nilai: string, pola: RegExp): boolean {
@@ -52,7 +46,6 @@ function urlAman(nilai: string, pola: RegExp): boolean {
   return pola.test(bersih);
 }
 
-/** Buang komentar, tag tak dikenal, atribut di luar allowlist, dan URL berskema aneh. */
 export function sanitasiHtml(html: string): string {
   if (!html) return '';
   const dok = new DOMParser().parseFromString(html, 'text/html');
@@ -86,7 +79,6 @@ export function sanitasiHtml(html: string): string {
         if (nama === 'src' && !urlAman(attr.value, SKEMA_GAMBAR)) el.removeAttribute(attr.name);
       });
 
-      // Tautan baru tab wajib rel-nya, walau HTML asalnya tidak menulisnya.
       if (tag === 'A' && el.getAttribute('target') === '_blank') {
         el.setAttribute('rel', 'noopener noreferrer');
       }
@@ -166,7 +158,6 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
   const [teksTautan, setTeksTautan] = useState('');
   const [urlTautan, setUrlTautan] = useState('');
 
-  // Sinkron nilai dari luar (buka form ubah), sekaligus membuang sisa paste lama.
   useEffect(() => {
     if (!ref.current || value === htmlTerakhir.current) return;
     const bersih = sanitasiHtml(value || '');
@@ -190,7 +181,6 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
         insertOrderedList: document.queryCommandState('insertOrderedList'),
       });
     } catch {
-      /* peramban lama bisa melempar di sini; indikator saja, abaikan */
     }
   }, []);
 
@@ -221,7 +211,6 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
     setModalBuka(true);
   };
 
-  // Klik tautan yang sudah ada membuka modal yang sama untuk mengubahnya.
   const klikIsi = (e: MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
     const tautan = (e.target as HTMLElement).closest('a');

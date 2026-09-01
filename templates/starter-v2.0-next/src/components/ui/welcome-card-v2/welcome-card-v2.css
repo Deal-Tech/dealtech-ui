@@ -16,7 +16,6 @@
   );
 }
 
-/* Bidang miring terang di kanan — bentuk yang sama dengan kartu rujukan Bos. */
 .welcome-v2::after {
   content: '';
   position: absolute;
@@ -62,8 +61,6 @@
   color: #ffffff;
 }
 
-/* Baris deskripsi opsional — cuma dipakai pemanggil yang mengoper deskripsi.
-   Putih beropasitas, bukan token teks: latarnya gradien gelap. */
 .welcome-v2__teks {
   margin: 0;
   max-width: 62ch;
@@ -71,8 +68,6 @@
   color: rgba(255, 255, 255, 0.82);
 }
 
-/* Slot untuk aksi selain tombol (mis. select). Lebarnya tidak ikut memanjang
-   supaya kartunya tetap terbaca judul-di-kiri, aksi-di-kanan. */
 .welcome-v2__slot {
   flex: 0 0 auto;
   min-width: 200px;
@@ -94,8 +89,6 @@
   transition: background 0.2s ease;
 }
 
-/* Diturunkan dari --color-primary, bukan biru yang dipatok: kartu ini dipakai
-   panel admin DAN sisi publik, dan yang kedua paletnya lain. */
 .welcome-v2__aksi:hover {
   background: color-mix(in srgb, #ffffff 88%, var(--color-primary));
 }

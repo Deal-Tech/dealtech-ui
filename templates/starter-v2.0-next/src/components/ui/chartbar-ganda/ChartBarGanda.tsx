@@ -32,10 +32,6 @@ export interface ChartBarGandaProps {
   className?: string;
 }
 
-/**
- * Dua batang bersebelahan per titik, bukan bertumpuk: pertanyaannya "berapa yang
- * gagal dibanding yang jadi" — perbandingan dua nilai, bukan pembagian satu.
- */
 export function ChartBarGanda({
   title,
   subtitle,

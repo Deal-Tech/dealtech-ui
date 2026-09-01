@@ -3,13 +3,11 @@ import { Clock, MapPin } from 'lucide-react';
 
 import './kartu-katalog.css';
 
-/** Rupiah tanpa sen — sisi publik memakai format Indonesia walau teksnya Inggris. */
 function rupiah(n: number): string {
   return `Rp ${n.toLocaleString('id-ID')}`;
 }
 
 export interface KartuKatalogProps {
-  /** Tujuan klik. Tour ke halaman detailnya, paket langsung ke checkout. */
   ke: string;
   nama: string;
   gambar: string;
@@ -18,23 +16,12 @@ export interface KartuKatalogProps {
   /** Lencana kiri bawah gambar. */
   durasi?: string;
   lokasi?: string;
-  /** Baris keterangan di bawah lokasi — kartu paket memakainya untuk nama tour. */
   keterangan?: string;
-  /** null berarti belum ada harga; kartunya menulisnya apa adanya. */
   harga: number | null;
-  /** `From Rp x` untuk tour (harga termurah), tanpa awalan untuk paket. */
   hargaAwalan?: string;
   tombolLabel?: string;
 }
 
-/**
- * Kartu katalog — dipakai tour DAN paket. Bentuknya satu (Bos 2026-08-28: "card
- * juga sama gak beda"); yang berbeda cuma isinya dan ke mana ia menuju.
- *
- * Propnya eksplisit, bukan satu objek domain: tour dan paket bentuk datanya
- * berbeda, dan mengoper keduanya lewat satu tipe berarti kartunya harus tahu
- * dua bentuk sekaligus.
- */
 export function KartuKatalog({
   ke,
   nama,

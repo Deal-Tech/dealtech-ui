@@ -145,8 +145,6 @@
   gap: 4px;
 }
 
-/* ---- Kolom pilih + bar aksi massal ---- */
-
 .tablelist-v1__th--pilih,
 .tablelist-v1__td--pilih {
   padding-left: 16px;
@@ -225,7 +223,6 @@
   color: var(--app-text-muted);
 }
 
-/* Baris yang bisa diklik untuk membuka detailnya. */
 .tablelist-v1__row--klik {
   cursor: pointer;
 }

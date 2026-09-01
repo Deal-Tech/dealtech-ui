@@ -1,5 +1,3 @@
-/* Latar tint yang memudar ke putih, jadi batasnya dengan isi halaman di
-   bawahnya tidak terasa seperti garis (rancangan klien 2026-08-28). */
 .kepala-publik {
   width: 100%;
   background: linear-gradient(
@@ -37,13 +35,9 @@
   text-underline-offset: 3px;
 }
 
-/* h1 halaman: font dan gaya miringnya sudah diatur aturan global sisi publik,
-   di sini tinggal ukurannya. */
 .kepala-publik__judul {
   margin: 18px 0 0;
   font-size: clamp(2rem, 4vw, 3rem);
-  /* Longgar dari -0.03em: fontnya Sriracha, huruf sambung yang bertabrakan
-     kalau dirapatkan sekuat itu. */
   letter-spacing: -0.01em;
 }
 
