@@ -119,3 +119,11 @@
     justify-content: center;
   }
 }
+
+/* Tombol aksi rata kanan di kolom terakhir tabel. */
+.dashboard__aksi {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}

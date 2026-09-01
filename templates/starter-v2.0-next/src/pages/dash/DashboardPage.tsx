@@ -1,11 +1,28 @@
-import { useMemo } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { Boxes, Component, LayoutDashboard, Sparkles, Users } from 'lucide-react';
+import {
+  Boxes,
+  Check,
+  CircleAlert,
+  Component,
+  Eye,
+  LayoutDashboard,
+  Package,
+  Pencil,
+  Sparkles,
+  Trash2,
+  Users,
+} from 'lucide-react';
 
+import ActionButton from '@/components/ui/action-button/ActionButton';
+import { Badge } from '@/components/ui/badge/Badge';
 import { StatCard } from '@/components/ui/stat-card/StatCard';
+import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
+import { TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
 import { resolveIcon } from '@/layout/ikon-menu';
 import { menu, saringMenu } from '@/layout/menu';
+import { PER_HALAMAN_BAWAAN } from '@/lib/daftar';
 import './dashboard.css';
 
 const RINGKASAN = [
@@ -14,6 +31,128 @@ const RINGKASAN = [
   { kunci: 'token', ikon: Boxes, judul: 'Token Tema', nilai: '60+ variabel', helper: null },
   { kunci: 'pengguna', ikon: Users, judul: 'Pengguna', nilai: '1 akun', helper: 'mode demo' },
 ] as const;
+
+const KOLOM = [
+  { key: 'kode', label: 'Kode', width: '120px' },
+  { key: 'nama', label: 'Nama Item' },
+  { key: 'tanggal', label: 'Tanggal', width: '130px' },
+  { key: 'jumlah', label: 'Jumlah', align: 'right' as const },
+  { key: 'status', label: 'Status', align: 'center' as const },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '130px' },
+];
+
+type Status = 'aktif' | 'baru' | 'tinjau' | 'arsip';
+
+/** Ganti dengan data dari backend Anda. */
+const DATA: { kode: string; nama: string; tanggal: string; jumlah: number; status: Status }[] = [
+  { kode: 'TRX-1001', nama: 'Paket Langganan Pro', tanggal: '01 Sep 2026', jumlah: 4500000, status: 'aktif' },
+  { kode: 'TRX-1002', nama: 'Tambahan Penyimpanan', tanggal: '01 Sep 2026', jumlah: 750000, status: 'baru' },
+  { kode: 'TRX-1003', nama: 'Dukungan Prioritas', tanggal: '31 Agu 2026', jumlah: 1200000, status: 'aktif' },
+  { kode: 'TRX-1004', nama: 'Integrasi API', tanggal: '31 Agu 2026', jumlah: 2400000, status: 'tinjau' },
+  { kode: 'TRX-1005', nama: 'Paket Langganan Dasar', tanggal: '30 Agu 2026', jumlah: 1800000, status: 'aktif' },
+  { kode: 'TRX-1006', nama: 'Pelatihan Tim', tanggal: '30 Agu 2026', jumlah: 3200000, status: 'baru' },
+  { kode: 'TRX-1007', nama: 'Migrasi Data', tanggal: '29 Agu 2026', jumlah: 5600000, status: 'arsip' },
+  { kode: 'TRX-1008', nama: 'Domain Kustom', tanggal: '29 Agu 2026', jumlah: 400000, status: 'aktif' },
+  { kode: 'TRX-1009', nama: 'Modul Laporan Lanjutan', tanggal: '28 Agu 2026', jumlah: 2100000, status: 'tinjau' },
+  { kode: 'TRX-1010', nama: 'Cadangan Harian', tanggal: '28 Agu 2026', jumlah: 950000, status: 'aktif' },
+];
+
+const LENCANA: Record<Status, ReactNode> = {
+  aktif: (
+    <Badge icon={Check} variant="green">
+      Selesai
+    </Badge>
+  ),
+  baru: (
+    <Badge icon={Sparkles} variant="blue">
+      Baru
+    </Badge>
+  ),
+  tinjau: (
+    <Badge icon={CircleAlert} variant="amber">
+      Tinjau
+    </Badge>
+  ),
+  arsip: (
+    <Badge icon={Package} variant="gray">
+      Arsip
+    </Badge>
+  ),
+};
+
+const rupiah = (n: number) =>
+  new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    maximumFractionDigits: 0,
+  }).format(n);
+
+function TabelTerbaru() {
+  const [cari, setCari] = useState('');
+  const [perHalaman, setPerHalaman] = useState(PER_HALAMAN_BAWAAN);
+  const [halaman, setHalaman] = useState(1);
+
+  const cocok = useMemo(() => {
+    const k = cari.toLowerCase();
+    return DATA.filter((d) => d.nama.toLowerCase().includes(k) || d.kode.toLowerCase().includes(k));
+  }, [cari]);
+
+  // perHalaman 0 = "Semua" pada TableToolbar.
+  const ukuran = perHalaman > 0 ? perHalaman : cocok.length || 1;
+  const totalHalaman = Math.max(1, Math.ceil(cocok.length / ukuran));
+  const halamanAman = Math.min(halaman, totalHalaman);
+  const mulai = (halamanAman - 1) * ukuran;
+  const terlihat = cocok.slice(mulai, mulai + ukuran);
+
+  const baris = terlihat.map((d) => ({
+    kode: d.kode,
+    nama: d.nama,
+    tanggal: d.tanggal,
+    jumlah: rupiah(d.jumlah),
+    status: LENCANA[d.status],
+    aksi: (
+      <div className="dashboard__aksi">
+        <ActionButton icon={Eye} aria-label={`Lihat ${d.kode}`} />
+        <ActionButton icon={Pencil} aria-label={`Ubah ${d.kode}`} />
+        <ActionButton icon={Trash2} variant="danger" aria-label={`Hapus ${d.kode}`} />
+      </div>
+    ),
+  }));
+
+  return (
+    <TableListV1
+      title="Transaksi Terbaru"
+      subtitle="Sepuluh transaksi terakhir yang tercatat"
+      columns={KOLOM}
+      rows={baris}
+      rowKey={(row) => String(row.kode)}
+      toolbar={
+        <TableToolbar
+          cari={cari}
+          onCari={(v) => {
+            setCari(v);
+            setHalaman(1);
+          }}
+          perHalaman={perHalaman}
+          onPerHalaman={(v) => {
+            setPerHalaman(v);
+            setHalaman(1);
+          }}
+          placeholderCari="Cari kode atau nama item…"
+        />
+      }
+      paginasi={{
+        halaman: halamanAman,
+        totalHalaman,
+        info: `Menampilkan ${cocok.length === 0 ? 0 : mulai + 1}–${mulai + terlihat.length} dari ${
+          cocok.length
+        } data`,
+        onNavigasi: setHalaman,
+      }}
+      emptyText="Tidak ada transaksi yang cocok."
+    />
+  );
+}
 
 function AksesCepat() {
   const tujuan = useMemo(() => {
@@ -61,6 +200,8 @@ export default function DashboardPage() {
           <StatCard key={kunci} icon={ikon} title={judul} value={nilai} helper={helper} />
         ))}
       </div>
+
+      <TabelTerbaru />
 
       <AksesCepat />
     </div>

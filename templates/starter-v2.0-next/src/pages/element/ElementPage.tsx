@@ -71,6 +71,7 @@ import { ToggleOnOff } from '@/components/ui/toggleonoff/ToggleOnOff';
 import { UlasanBerjalan } from '@/components/ui/ulasan-berjalan/UlasanBerjalan';
 import { UnggahGambar } from '@/components/ui/unggah-gambar/UnggahGambar';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
+import { PER_HALAMAN_BAWAAN } from '@/lib/daftar';
 import './element.css';
 
 /* -------------------------------------------------------------------------- */
@@ -170,7 +171,46 @@ const KOLOM_TABEL = [
   { key: 'nama', label: 'Nama Item' },
   { key: 'jumlah', label: 'Jumlah', align: 'right' as const },
   { key: 'status', label: 'Status', align: 'center' as const },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '130px' },
 ];
+
+type StatusItem = 'aktif' | 'baru' | 'tinjau' | 'arsip';
+
+const ITEM_CONTOH: { kode: string; nama: string; jumlah: number; status: StatusItem }[] = [
+  { kode: 'ITM-001', nama: 'Paket Langganan Dasar', jumlah: 128, status: 'aktif' },
+  { kode: 'ITM-002', nama: 'Paket Langganan Pro', jumlah: 64, status: 'baru' },
+  { kode: 'ITM-003', nama: 'Tambahan Penyimpanan', jumlah: 19, status: 'tinjau' },
+  { kode: 'ITM-004', nama: 'Dukungan Prioritas', jumlah: 42, status: 'aktif' },
+  { kode: 'ITM-005', nama: 'Modul Laporan Lanjutan', jumlah: 31, status: 'aktif' },
+  { kode: 'ITM-006', nama: 'Integrasi API', jumlah: 8, status: 'tinjau' },
+  { kode: 'ITM-007', nama: 'Pelatihan Tim', jumlah: 12, status: 'baru' },
+  { kode: 'ITM-008', nama: 'Migrasi Data', jumlah: 5, status: 'arsip' },
+  { kode: 'ITM-009', nama: 'Domain Kustom', jumlah: 23, status: 'aktif' },
+  { kode: 'ITM-010', nama: 'Cadangan Harian', jumlah: 57, status: 'aktif' },
+];
+
+const LENCANA: Record<StatusItem, ReactNode> = {
+  aktif: (
+    <Badge icon={Check} variant="green">
+      Aktif
+    </Badge>
+  ),
+  baru: (
+    <Badge icon={Sparkles} variant="blue">
+      Baru
+    </Badge>
+  ),
+  tinjau: (
+    <Badge icon={CircleAlert} variant="amber">
+      Tinjau
+    </Badge>
+  ),
+  arsip: (
+    <Badge icon={Package} variant="gray">
+      Arsip
+    </Badge>
+  ),
+};
 
 const NAVIGASI = [
   { id: 'tombol', label: 'Tombol & Navigasi' },
@@ -194,7 +234,8 @@ export default function ElementPage() {
   const [status, setStatus] = useState('aktif');
   const [pencarian, setPencarian] = useState('');
   const [cariTabel, setCariTabel] = useState('');
-  const [perHalaman, setPerHalaman] = useState(10);
+  const [perHalaman, setPerHalaman] = useState(PER_HALAMAN_BAWAAN);
+  const [halamanTabel, setHalamanTabel] = useState(1);
   const [setuju, setSetuju] = useState(true);
   const [aktif, setAktif] = useState(true);
   const [fitur, setFitur] = useState<string[]>(['notifikasi', 'ekspor']);
@@ -209,38 +250,31 @@ export default function ElementPage() {
   const [lightbox, setLightbox] = useState(-1);
   const [tugas, setTugas] = useState<TugasProses | null>(null);
 
-  const barisTabel = [
-    {
-      kode: 'ITM-001',
-      nama: 'Paket Langganan Dasar',
-      jumlah: '128',
-      status: (
-        <Badge icon={Check} variant="green">
-          Aktif
-        </Badge>
-      ),
-    },
-    {
-      kode: 'ITM-002',
-      nama: 'Paket Langganan Pro',
-      jumlah: '64',
-      status: (
-        <Badge icon={Sparkles} variant="blue">
-          Baru
-        </Badge>
-      ),
-    },
-    {
-      kode: 'ITM-003',
-      nama: 'Tambahan Penyimpanan',
-      jumlah: '19',
-      status: (
-        <Badge icon={CircleAlert} variant="amber">
-          Tinjau
-        </Badge>
-      ),
-    },
-  ];
+  const cocok = ITEM_CONTOH.filter(
+    (i) =>
+      i.nama.toLowerCase().includes(cariTabel.toLowerCase()) ||
+      i.kode.toLowerCase().includes(cariTabel.toLowerCase()),
+  );
+  // perHalaman 0 = "Semua" pada TableToolbar.
+  const ukuran = perHalaman > 0 ? perHalaman : cocok.length || 1;
+  const totalHalaman = Math.max(1, Math.ceil(cocok.length / ukuran));
+  const halamanAman = Math.min(halamanTabel, totalHalaman);
+  const mulai = (halamanAman - 1) * ukuran;
+  const terlihat = cocok.slice(mulai, mulai + ukuran);
+
+  const barisTabel = terlihat.map((i) => ({
+    kode: i.kode,
+    nama: i.nama,
+    jumlah: i.jumlah.toLocaleString('id-ID'),
+    status: LENCANA[i.status],
+    aksi: (
+      <div className="element-baris" style={{ justifyContent: 'flex-end' }}>
+        <ActionButton icon={Eye} aria-label={`Lihat ${i.nama}`} />
+        <ActionButton icon={Pencil} aria-label={`Ubah ${i.nama}`} />
+        <ActionButton icon={Trash2} variant="danger" aria-label={`Hapus ${i.nama}`} />
+      </div>
+    ),
+  }));
 
   return (
     <div className="element-page">
@@ -530,17 +564,25 @@ export default function ElementPage() {
             toolbar={
               <TableToolbar
                 cari={cariTabel}
-                onCari={setCariTabel}
+                onCari={(v) => {
+                  setCariTabel(v);
+                  setHalamanTabel(1);
+                }}
                 perHalaman={perHalaman}
-                onPerHalaman={setPerHalaman}
+                onPerHalaman={(v) => {
+                  setPerHalaman(v);
+                  setHalamanTabel(1);
+                }}
                 placeholderCari="Cari item…"
               />
             }
             paginasi={{
-              halaman: 1,
-              totalHalaman: 4,
-              info: 'Menampilkan 1–3 dari 12 data',
-              onNavigasi: () => {},
+              halaman: halamanAman,
+              totalHalaman,
+              info: `Menampilkan ${cocok.length === 0 ? 0 : mulai + 1}–${
+                mulai + terlihat.length
+              } dari ${cocok.length} data`,
+              onNavigasi: setHalamanTabel,
             }}
           />
         </Petak>
