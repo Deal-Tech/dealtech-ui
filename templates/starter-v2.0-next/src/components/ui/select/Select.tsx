@@ -2,6 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
+import { SearchInput } from '@/components/ui/search-input/SearchInput';
+
 import './select.css';
 
 export interface SelectOption {
@@ -178,15 +180,12 @@ export function Select({
             >
               {searchable ? (
                 <div className="select__search-wrap">
-                  <input
-                    type="text"
-                    placeholder="Cari..."
+                  <SearchInput
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onClick={(e) => e.stopPropagation()}
                     onKeyDown={(e) => e.stopPropagation()}
                     autoFocus
-                    className="select__search"
                   />
                 </div>
               ) : null}

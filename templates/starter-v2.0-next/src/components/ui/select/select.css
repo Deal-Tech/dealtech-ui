@@ -65,21 +65,9 @@
   flex-shrink: 0;
   padding: 4px;
 }
-.select__search {
-  width: 100%;
-  border-radius: 4px;
-  border: 1px solid var(--app-border-strong);
-  background: var(--app-fill);
-  padding: 6px 10px;
-  font-size: 14px;
-  color: var(--app-text);
-}
-.select__search::placeholder {
-  color: var(--app-placeholder);
-}
-.select__search:focus {
-  outline: none;
-  border-color: var(--app-primary);
+
+.select__search-wrap .search-input-wrap {
+  min-width: 0;
 }
 
 .select__scroll-btn {
