@@ -1,0 +1,94 @@
+.pengaturan-page .pengaturan-bagian {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Judul section tanpa ikon — keputusan Bos, berlaku untuk semua page. */
+.pengaturan-page .pengaturan-bagian__kepala {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pengaturan-page .pengaturan-bagian__judul {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.pengaturan-page .pengaturan-bagian__sub {
+  margin: 0;
+  font-size: 12px;
+  color: var(--app-text-muted);
+}
+
+/* Lebarnya mengikuti kolom — halaman ini dua kolom 50/50 di ≥1024px. */
+.pengaturan-page .pengaturan-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pengaturan-page .pengaturan-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Label manual untuk Select — ukurannya wajib ikut token label field lain. */
+.pengaturan-page .pengaturan-form__label {
+  font-size: var(--app-field-label-size);
+  font-weight: var(--app-field-label-weight);
+  color: var(--app-body-text);
+}
+
+.pengaturan-page .pengaturan-aksi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.pengaturan-page .pengaturan-garis {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--app-border);
+}
+
+.pengaturan-page .pengaturan-catatan {
+  margin: 0;
+  border-radius: 6px;
+  background: var(--app-primary-soft);
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--app-body-text);
+}
+
+/* ---- Email ---- */
+
+/* Field selebar penuh; hanya tombol dan notifikasi yang selebar isinya. */
+.pengaturan-page .pengaturan-email {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pengaturan-page .pengaturan-email > button,
+.pengaturan-page .pengaturan-email > .badgeinfo {
+  align-self: flex-start;
+}
+
+/* readOnly: tetap bisa disorot dan disalin, tapi kursornya bukan kursor ketik. */
+.pengaturan-page .pengaturan-email__field[readonly] {
+  cursor: default;
+}
+
+/* Kalimat penjelas di bawah judul bagian. Warnanya token teks biasa —
+   aturan "tidak ada teks abu nanggung" berlaku penuh di panel admin. */
+.pengaturan-bagian__teks {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--app-text);
+}

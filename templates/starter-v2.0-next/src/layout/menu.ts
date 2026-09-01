@@ -47,6 +47,19 @@ export const menu: AppMenu = {
         },
       ],
     },
+    {
+      key: 'sistem',
+      label: 'Sistem',
+      open: true,
+      items: [
+        {
+          key: 'pengaturan',
+          label: 'Pengaturan',
+          icon: 'settings',
+          href: '/dashboard/pengaturan',
+        },
+      ],
+    },
   ],
   others: [],
 };

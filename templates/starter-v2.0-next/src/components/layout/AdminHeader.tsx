@@ -5,13 +5,14 @@ import {
   useState,
   type KeyboardEvent as KeyboardEventReact,
 } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   AlignLeft,
   ChevronDown,
   CircleAlert,
   LogOut,
   MessageCircle,
+  Settings,
   UserRound,
 } from 'lucide-react';
 
@@ -145,6 +146,15 @@ function MenuProfil({ nama, inisial, onKeluar }: MenuProfilProps) {
           style={{ top: posisi?.top, right: posisi?.right, minWidth: posisi?.minWidth }}
           onKeyDown={padaTombolPanel}
         >
+          <Link
+            to="/dashboard/pengaturan"
+            role="menuitem"
+            className="app-topbar__panel-item"
+            onClick={() => tutup()}
+          >
+            <Settings className="app-topbar__panel-ikon" aria-hidden="true" />
+            <span>Pengaturan</span>
+          </Link>
           <button
             type="button"
             role="menuitem"
@@ -228,6 +238,15 @@ export default function AdminHeader({ nama, inisial, zona, onBukaSidebar, onKelu
           >
             <MessageCircle className="app-topbar__ikon-gambar" />
           </a>
+
+          <Link
+            to="/dashboard/pengaturan"
+            className="app-topbar__ikon"
+            aria-label="Pengaturan"
+            title="Pengaturan"
+          >
+            <Settings className="app-topbar__ikon-gambar" />
+          </Link>
         </div>
 
         <MenuProfil nama={nama} inisial={inisial} onKeluar={onKeluar} />

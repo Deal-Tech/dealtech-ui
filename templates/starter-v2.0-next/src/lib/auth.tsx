@@ -107,8 +107,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Servernya yang menolak; ini cuma memindahkan orangnya ke halaman yang benar.
     pasangPenanganWajibGantiSandi(() => {
-      if (window.location.pathname !== '/pengaturan') {
-        window.location.replace('/pengaturan');
+      if (window.location.pathname !== '/dashboard/pengaturan') {
+        window.location.replace('/dashboard/pengaturan');
       }
     });
   }, []);
