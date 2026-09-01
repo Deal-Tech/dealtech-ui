@@ -199,8 +199,8 @@
   gap: 12px;
   overflow: hidden;
   border-radius: 8px;
-  background: transparent;
-  border: 1px solid var(--app-border-strong);
+  background: #e6f0fa;
+  border: 0;
   padding: 8px 12px;
 }
 
@@ -250,17 +250,6 @@
 
 .sidebar-logout-btn:hover {
   background: var(--app-danger-hover);
-}
-
-.sidebar-warisan-sekat {
-  margin: 14px 0 6px;
-  border-top: 1px solid var(--app-border);
-  padding: 10px 10px 0;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--app-text-faint);
 }
 
 /* --- Topbar / header ------------------------------------------------------ */
