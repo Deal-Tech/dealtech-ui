@@ -1,10 +1,11 @@
 {
   "name": "dealtech-ui",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "description": "DealTech UI starter CLI with installable UI elements and layouts for React + Vite + Tailwind",
   "bin": {
-    "dealtech-ui": "./cli/install.js"
+    "dealtech-ui": "./cli/install.js",
+    "dealtech-ui-v2-next": "./cli/install.js"
   },
   "keywords": [
     "react",

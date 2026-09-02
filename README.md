@@ -2,17 +2,44 @@
 
 `dealtech-ui` adalah CLI untuk generate `UI Panel Starter` dan menambahkan UI element atau layout secara terpisah ke project React Anda.
 
-Core `dealtech-ui` v2.0.0:
+## Dua starter, dua perintah
+
+Nama perintah menentukan starter mana yang dipakai:
+
+| Perintah | Starter | Gaya |
+| --- | --- | --- |
+| `dealtech-ui` | `templates/starter` | v1 — Tailwind inline, 28 komponen |
+| `dealtech-ui-v2-next` | `templates/starter-v2.0-next` | v2.0-next — token CSS + CSS per komponen, 54 komponen |
+
+```bash
+npx dealtech-ui install my-admin-app             # starter v1
+npx dealtech-ui-v2-next install my-admin-app     # starter v2.0-next
+```
+
+Bendera `--v1` / `--v2` menimpa pilihan berdasarkan nama perintah — berguna saat
+menguji lokal lewat `npm link`, dan berlaku untuk semua sub-perintah:
+
+```bash
+npx dealtech-ui install my-admin-app --v2
+npx dealtech-ui add tablelist-v1 --v2
+```
+
+Semua sub-perintah (`add`, `add-layout`, `add-page`) mengikuti varian yang sama,
+jadi `add button` mengambil Button v1 atau v2 sesuai perintah yang dipakai.
+
+## Perintah
+
 - `install` untuk starter admin panel lengkap
 - `add` untuk copy UI element siap pakai
 - `add-layout` untuk copy layout beserta style CSS pendukungnya
+- `add-page` untuk membuat halaman baru sekaligus mendaftarkan rutenya
 
 ## Usage
 
 ### Install starter app
 
 ```bash
-npx dealtech-ui install my-admin-app
+npx dealtech-ui-v2-next install my-admin-app
 ```
 
 Command ini akan:

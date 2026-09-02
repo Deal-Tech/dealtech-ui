@@ -16,12 +16,57 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT = resolve(__dirname, '..');
-const STARTER_TEMPLATE_DIR = join(ROOT, 'templates', 'starter');
-const TEMPLATE_SRC_DIR = join(STARTER_TEMPLATE_DIR, 'src');
-const TEMPLATE_UI_DIR = join(TEMPLATE_SRC_DIR, 'components', 'ui');
-const TEMPLATE_LAYOUT_DIR = join(TEMPLATE_SRC_DIR, 'layout');
-const TEMPLATE_LAYOUT_COMPONENT_DIR = join(TEMPLATE_SRC_DIR, 'components', 'layout');
-const TEMPLATE_STYLE_DIR = join(TEMPLATE_SRC_DIR, 'styles');
+
+/**
+ * Dua starter hidup berdampingan. Yang dipakai ditentukan nama perintahnya:
+ *
+ *   dealtech-ui          -> templates/starter          (v1, Tailwind inline)
+ *   dealtech-ui-v2-next  -> templates/starter-v2.0-next (v2, token CSS + CSS per komponen)
+ *
+ * Bendera --v1 / --v2 menimpanya, berguna saat menguji lokal lewat `npm link`.
+ */
+const VARIAN = {
+  v1: {
+    kunci: 'v1',
+    perintah: 'dealtech-ui',
+    label: 'v1',
+    folder: 'starter',
+  },
+  v2: {
+    kunci: 'v2',
+    perintah: 'dealtech-ui-v2-next',
+    label: 'v2.0-next',
+    folder: 'starter-v2.0-next',
+  },
+};
+
+function namaPerintah() {
+  const jalur = process.argv[1] ?? '';
+  return basename(jalur).replace(/\.(js|cjs|mjs|cmd|ps1)$/i, '');
+}
+
+function pilihVarian(bendera) {
+  if (bendera.has('--v2')) return VARIAN.v2;
+  if (bendera.has('--v1')) return VARIAN.v1;
+  const nama = namaPerintah();
+  for (const v of Object.values(VARIAN)) {
+    if (nama === v.perintah) return v;
+  }
+  return VARIAN.v1;
+}
+
+function jalurTemplate(varian) {
+  const akar = join(ROOT, 'templates', varian.folder);
+  const src = join(akar, 'src');
+  return {
+    akar,
+    src,
+    ui: join(src, 'components', 'ui'),
+    layout: join(src, 'layout'),
+    komponenLayout: join(src, 'components', 'layout'),
+    style: join(src, 'styles'),
+  };
+}
 
 const colors = {
   green: (text) => `\x1b[32m${text}\x1b[0m`,
@@ -43,33 +88,49 @@ const UI_ALIASES = {
   scrolltotop: 'scroltotop',
 };
 
-const LAYOUT_REGISTRY = [
-  {
-    name: 'admin-layout',
-    aliases: ['admin'],
-    files: [
+/**
+ * Berkas layout per varian. v2 ikut membawa theme.css dan fontnya — tanpa itu
+ * layoutnya kehilangan seluruh token warna dan huruf.
+ */
+function daftarLayout(varian, jalur) {
+  const berkas = [
+    { source: join(jalur.layout, 'AdminLayout.tsx'), destination: 'src/layout/AdminLayout.tsx' },
+    {
+      source: join(jalur.komponenLayout, 'AdminHeader.tsx'),
+      destination: 'src/components/layout/AdminHeader.tsx',
+    },
+    {
+      source: join(jalur.komponenLayout, 'AdminSidebar.tsx'),
+      destination: 'src/components/layout/AdminSidebar.tsx',
+    },
+    { source: join(jalur.style, 'admin.css'), destination: 'src/styles/admin.css' },
+  ];
+
+  if (varian.kunci === 'v2') {
+    berkas.push(
+      { source: join(jalur.layout, 'menu.ts'), destination: 'src/layout/menu.ts' },
+      { source: join(jalur.layout, 'ikon-menu.ts'), destination: 'src/layout/ikon-menu.ts' },
+      { source: join(jalur.layout, 'jam-zona.ts'), destination: 'src/layout/jam-zona.ts' },
       {
-        source: join(TEMPLATE_LAYOUT_DIR, 'AdminLayout.tsx'),
-        destination: 'src/layout/AdminLayout.tsx',
+        source: join(jalur.layout, 'judul-halaman.ts'),
+        destination: 'src/layout/judul-halaman.ts',
       },
-      {
-        source: join(TEMPLATE_LAYOUT_COMPONENT_DIR, 'AdminHeader.tsx'),
-        destination: 'src/components/layout/AdminHeader.tsx',
-      },
-      {
-        source: join(TEMPLATE_LAYOUT_COMPONENT_DIR, 'AdminSidebar.tsx'),
-        destination: 'src/components/layout/AdminSidebar.tsx',
-      },
-      {
-        source: join(TEMPLATE_STYLE_DIR, 'admin.css'),
-        destination: 'src/styles/admin.css',
-      },
-    ],
-  },
-];
+      { source: join(jalur.style, 'theme.css'), destination: 'src/styles/theme.css' },
+      { source: join(jalur.style, 'fonts'), destination: 'src/styles/fonts', direktori: true },
+    );
+  }
+
+  return [{ name: 'admin-layout', aliases: ['admin'], files: berkas }];
+}
 
 const [, , command, ...rawArgs] = process.argv;
 const { flags, positional } = parseArgs(rawArgs);
+
+const VARIAN_AKTIF = pilihVarian(flags);
+const JALUR = jalurTemplate(VARIAN_AKTIF);
+const STARTER_TEMPLATE_DIR = JALUR.akar;
+const TEMPLATE_UI_DIR = JALUR.ui;
+const LAYOUT_REGISTRY = daftarLayout(VARIAN_AKTIF, JALUR);
 
 function parseArgs(args) {
   const parsedFlags = new Set();
@@ -214,7 +275,11 @@ function getUiDependencies(folderName) {
     }
 
     const fileContent = readFileSync(filePath, 'utf-8');
-    const matches = fileContent.matchAll(/from ['"]\.\.\/([^/'"]+)\/[^'"]+['"]/g);
+    // v1 memakai jalur relatif (`../button/Button`), v2 memakai alias
+    // (`@/components/ui/button/Button`). Keduanya harus terbaca.
+    const matches = fileContent.matchAll(
+      /from ['"](?:\.\.\/|@\/components\/ui\/)([^/'"]+)\/[^'"]+['"]/g,
+    );
 
     for (const match of matches) {
       const dependencyFolder = match[1];
@@ -277,22 +342,30 @@ function installDependencies(targetDir) {
 }
 
 function showHelp() {
+  const cmd = VARIAN_AKTIF.perintah;
   console.log(`
-${colors.bold('dealtech-ui')} - DealTech UI Starter CLI
+${colors.bold(cmd)} - DealTech UI Starter CLI ${colors.dim(`(starter ${VARIAN_AKTIF.label})`)}
 
 ${colors.bold('Usage:')}
-  npx dealtech-ui ${colors.cyan('install')} ${colors.dim('[project-name]')} ${colors.dim('[--no-install] [--force]')}
-  npx dealtech-ui ${colors.cyan('add')} ${colors.dim('<ui-name> [...ui-name] [--force]')}
-  npx dealtech-ui ${colors.cyan('add-layout')} ${colors.dim('<layout-name> [...layout-name] [--force]')}
-  npx dealtech-ui ${colors.cyan('add-page')} ${colors.dim('<page-name>')}
-  npx dealtech-ui ${colors.cyan('help')}
+  npx ${cmd} ${colors.cyan('install')} ${colors.dim('[project-name]')} ${colors.dim('[--no-install] [--force]')}
+  npx ${cmd} ${colors.cyan('add')} ${colors.dim('<ui-name> [...ui-name] [--force]')}
+  npx ${cmd} ${colors.cyan('add-layout')} ${colors.dim('<layout-name> [...layout-name] [--force]')}
+  npx ${cmd} ${colors.cyan('add-page')} ${colors.dim('<page-name>')}
+  npx ${cmd} ${colors.cyan('help')}
+
+${colors.bold('Starter:')}
+  ${colors.cyan('dealtech-ui')}          ${colors.dim('v1 - Tailwind inline')}
+  ${colors.cyan('dealtech-ui-v2-next')}  ${colors.dim('v2.0-next - token CSS, style per komponen')}
+  ${colors.dim('Bendera --v1 / --v2 menimpa pilihan berdasarkan nama perintah.')}
 
 ${colors.bold('Examples:')}
-  npx dealtech-ui install my-admin-app
-  npx dealtech-ui add button badge modal
-  npx dealtech-ui add tabledata-v2
-  npx dealtech-ui add-layout admin-layout
-  npx dealtech-ui add-page reports
+  npx dealtech-ui-v2-next install my-admin-app
+  npx ${cmd} add button badge modal
+  npx ${cmd} add-layout admin-layout
+  npx ${cmd} add-page reports
+
+${colors.bold(`Available UI (${VARIAN_AKTIF.label}):`)}
+  ${colors.dim(getTemplateUiFolders().join(', ') || '-')}
 
 ${colors.bold('Available layout:')}
   ${colors.dim(LAYOUT_REGISTRY.map((layout) => layout.name).join(', '))}
@@ -331,10 +404,10 @@ function installStarter(projectArg) {
 
   copyDirectory(STARTER_TEMPLATE_DIR, targetDir);
 
-  const projectName = toPackageName(useCurrentDirectory ? basename(targetDir) : projectArg);
+  const projectName = toPackageName(basename(targetDir));
   updatePackageName(targetDir, projectName);
 
-  console.log(colors.green('\n[ok] Starter app created successfully.'));
+  console.log(colors.green(`\n[ok] Starter app created successfully (${VARIAN_AKTIF.label}).`));
   console.log(colors.dim(`      Path: ${targetDir}`));
 
   if (skipInstall) {
@@ -399,6 +472,12 @@ function insertBlockBeforeMarker(content, marker, block) {
 function resolvePageScaffold(sourceDir, routeName, componentName) {
   const adminAppPath = join(sourceDir, 'layout', 'AdminApp.tsx');
   if (existsSync(adminAppPath)) {
+    // Gaya impor mengikuti berkas yang ada, bukan varian CLI-nya — perintah ini
+    // bisa saja dijalankan di project yang sudah berpindah gaya.
+    const isiRouter = readFileSync(adminAppPath, 'utf-8');
+    const pakaiAlias = isiRouter.includes("from '@/pages/");
+    const awalan = pakaiAlias ? '@/pages' : '../pages';
+
     return {
       pageDirectory: join(sourceDir, 'pages', routeName),
       pageFilePath: join(sourceDir, 'pages', routeName, `${componentName}.tsx`),
@@ -407,10 +486,10 @@ function resolvePageScaffold(sourceDir, routeName, componentName) {
       displayRoute: `/dashboard/${routeName}`,
       importMarker: '// [dealtech:auto-imports]',
       routeMarker: '{/* [dealtech:auto-routes] */}',
-      importStatement: `import ${componentName} from '../pages/${routeName}/${componentName}';`,
-      fallbackImport: "import ConfirmModalPage from '../pages/komponent/ConfirmModalPage';",
+      importStatement: `import ${componentName} from '${awalan}/${routeName}/${componentName}';`,
+      fallbackImport: `import AdminLayout from './AdminLayout';`,
       routeBlock: `<Route path="${routeName}" element={<${componentName} />} />`,
-      fallbackRoute: '      <Route path="komponent/confirm-modal" element={<ConfirmModalPage />} />',
+      fallbackRoute: '    <Route path="*" element={<Navigate to="/dashboard" replace />} />',
       routerLabel: 'src/layout/AdminApp.tsx',
     };
   }
@@ -570,7 +649,11 @@ function addLayout(layoutArgs) {
         continue;
       }
 
-      copyFileWithParents(file.source, destinationPath);
+      if (file.direktori) {
+        copyDirectory(file.source, destinationPath);
+      } else {
+        copyFileWithParents(file.source, destinationPath);
+      }
       copiedFiles.push(file.destination);
     }
   }
