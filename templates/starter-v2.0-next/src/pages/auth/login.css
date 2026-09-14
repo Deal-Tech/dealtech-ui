@@ -158,11 +158,13 @@
   width: auto;
 }
 
+/* Tanpa garis tepi dan tanpa bayangan: kartunya dikenali semata dari beda
+   permukaannya terhadap dasar halaman. */
 .login-page .login-card {
   background: var(--app-surface);
   border-radius: 14px;
   border: 0;
-  box-shadow: 0 24px 60px rgba(var(--color-hitam-rgb), 0.38);
+  box-shadow: none;
 }
 
 .login-page .login-btn {
