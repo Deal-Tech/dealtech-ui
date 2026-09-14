@@ -42,3 +42,51 @@
     flex-direction: column-reverse;
   }
 }
+
+/* --- Detail produk -------------------------------------------------------- */
+
+/* Kepala kartu detail: ikon, judul, dan nama produk sebagai anak judul. */
+.produk-page .produk-detail__kepala {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.produk-page .produk-detail__judul {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.produk-page .produk-detail__nama {
+  margin: 0;
+  font-size: 12px;
+  color: var(--app-text-muted);
+}
+
+/* Kisi keterangan berpasangan label-isi. Melebar mengikuti ruang, bukan jumlah
+   kolom tetap — di ponsel jadi satu lajur, di layar lebar sampai empat. */
+.produk-page .produk-detail__kisi {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.produk-page .produk-detail__label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 11px;
+  color: var(--app-text-muted);
+}
+
+.produk-page .produk-detail__isi {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--app-text);
+}

@@ -1,0 +1,58 @@
+.bilah-lipat {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: var(--app-chip-bg);
+  color: var(--app-chip-fg);
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.bilah-lipat:hover {
+  background: color-mix(in srgb, var(--app-primary) 18%, transparent);
+}
+
+.bilah-lipat:focus-visible {
+  outline: 2px solid var(--app-primary);
+  outline-offset: 1px;
+}
+
+.bilah-lipat__ikon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+/* Tertutup: panah menunjuk ke kanan. Terbuka: kembali menunjuk ke bawah. */
+.bilah-lipat__ikon--tutup {
+  transform: rotate(-90deg);
+}
+
+/* Keterangannya yang mengalah saat sempit — kata aksinya harus tetap utuh,
+   karena itu yang memberi tahu apa yang terjadi kalau bilahnya diklik. */
+.bilah-lipat__teks {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bilah-lipat__aksi {
+  flex-shrink: 0;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bilah-lipat__ikon {
+    transition: none;
+  }
+}

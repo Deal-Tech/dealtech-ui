@@ -19,6 +19,7 @@ import ActionButton from '@/components/ui/action-button/ActionButton';
 import { Badge } from '@/components/ui/badge/Badge';
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { BadgeV2 } from '@/components/ui/badgev2/BadgeV2';
+import { BilahLipat } from '@/components/ui/bilah-lipat/BilahLipat';
 import { Button } from '@/components/ui/button/Button';
 import { CardBarChart } from '@/components/ui/cardbar-chart/CardBarChart';
 import { CardBarList } from '@/components/ui/cardbar-list/CardBarList';
@@ -217,6 +218,7 @@ const NAVIGASI = [
 /* -------------------------------------------------------------------------- */
 
 export default function ElementPage() {
+  const [lipat, setLipat] = useState(true);
   const [teks, setTeks] = useState('Paket Langganan Pro');
   const [angka, setAngka] = useState('450000');
   const [panjang, setPanjang] = useState('');
@@ -273,7 +275,7 @@ export default function ElementPage() {
       <PageTitle
         title="Semua Element"
         subtitle="Katalog komponen DealTech UI v2. Setiap kotak menampilkan satu komponen beserta letak berkasnya di src/components/ui/."
-        action={<span className="element-hitung">47 komponen</span>}
+        action={<span className="element-hitung">48 komponen</span>}
       />
 
       <nav className="element-nav" aria-label="Lompat ke seksi">
@@ -285,7 +287,7 @@ export default function ElementPage() {
       </nav>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="tombol" judul="Tombol & Navigasi" jumlah={4}>
+      <Seksi id="tombol" judul="Tombol & Navigasi" jumlah={5}>
         <Petak nama="Button" jalur="button/">
           <p className="element-catatan">Satu ukuran, empat keadaan.</p>
           <div className="element-baris">
@@ -333,6 +335,20 @@ export default function ElementPage() {
             ]}
           />
           <p className="element-catatan">Tab aktif: {tab}</p>
+        </Petak>
+
+        <Petak nama="BilahLipat" jalur="bilah-lipat/">
+          <BilahLipat
+            terbuka={lipat}
+            onToggle={() => setLipat((v) => !v)}
+            teks={lipat ? 'Tutup detail produk?' : 'Paket Langganan Pro. Buka detailnya?'}
+            aksi={lipat ? 'Tutup Sekarang' : 'Buka Sekarang'}
+          />
+          {lipat ? (
+            <p className="element-catatan">
+              Bagian yang dilipat muncul di sini. Saat tertutup, ringkasannya pindah ke bilahnya.
+            </p>
+          ) : null}
         </Petak>
 
         <Petak nama="Pagination" jalur="pagination/">
