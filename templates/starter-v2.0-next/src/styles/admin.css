@@ -51,9 +51,9 @@ html:has(.app-shell) body {
 
 .sidebar-brand__logo {
   display: block;
-  width: 154px;
+  width: 192px;
   max-width: 100%;
-  height: 28px;
+  height: 35px;
   background: var(--app-text);
   mask-repeat: no-repeat;
   mask-position: left center;
