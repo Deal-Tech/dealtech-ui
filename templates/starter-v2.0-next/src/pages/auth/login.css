@@ -165,13 +165,13 @@
   width: auto;
 }
 
-/* Tanpa garis tepi dan tanpa bayangan: kartunya dikenali semata dari beda
-   permukaannya terhadap dasar halaman. */
+/* Kartunya diperlakukan sama seperti isian form di dalamnya: tepi putih yang
+   sama dan cincin diam yang sama, jadi keduanya terbaca satu bahasa. */
 .login-page .login-card {
   background: var(--app-surface);
   border-radius: 14px;
-  border: 0;
-  box-shadow: none;
+  border: 1px solid var(--app-border-strong);
+  box-shadow: var(--app-control-ring);
 }
 
 /*
