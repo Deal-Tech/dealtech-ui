@@ -62,12 +62,6 @@ export default function AdminLogin() {
 
       <div className="relative z-10 flex w-full max-w-[30rem] flex-col items-center">
         <form onSubmit={submit} className="login-card w-full space-y-3 p-6">
-          <div className="login-brand">
-            <span className="login-brand__name">
-              DealTech UI <strong>Admin</strong>
-            </span>
-          </div>
-
           <InputText
             label="Email"
             name="email"

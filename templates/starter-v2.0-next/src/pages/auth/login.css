@@ -15,6 +15,51 @@
     var(--color-hero-base) 45%,
     color-mix(in srgb, var(--color-hero-base) 55%, var(--color-hitam)) 100%
   );
+
+  /*
+    Halaman ini satu-satunya bidang gelap di starter yang temanya terang. Alih-alih
+    menimpa tiap komponen, tokennya yang diganti di sini — persis cara DealOne
+    membalik seluruh aplikasinya ke gelap. InputText, Button, dan BadgeInfo ikut
+    menyesuaikan sendiri tanpa satu baris pun disentuh.
+
+    surface sedikit terangkat dari dasar, dan bg (isian form) sedikit tenggelam:
+    itulah yang memberi kartu bentuk tanpa perlu garis tepi sama sekali.
+  */
+  --app-surface: color-mix(in srgb, var(--color-hero-base) 93%, #ffffff);
+  --app-bg: color-mix(in srgb, var(--color-hero-base) 62%, var(--color-hitam));
+  --app-elevated: var(--app-surface);
+  --app-option-bg: var(--app-surface);
+
+  --app-text: #ffffff;
+  --app-body-text: rgba(255, 255, 255, 0.88);
+  --app-text-muted: rgba(255, 255, 255, 0.72);
+  --app-text-faint: rgba(255, 255, 255, 0.6);
+  --app-placeholder: rgba(255, 255, 255, 0.42);
+
+  /* Kartu di bidang gelap tidak bergaris: batasnya murni dari beda permukaan. */
+  --app-card-border: transparent;
+  --app-border: rgba(255, 255, 255, 0.08);
+  --app-border-strong: rgba(255, 255, 255, 0.16);
+  --app-border-focus: rgba(255, 255, 255, 0.42);
+  --app-fill: rgba(255, 255, 255, 0.06);
+  --app-fill-strong: rgba(255, 255, 255, 0.12);
+  --app-control-ring: 0 0 0 3px transparent;
+  --app-control-ring-focus: 0 0 0 3px rgba(255, 255, 255, 0.16);
+
+  /* Primary bawaan terlalu dekat dengan biru kartunya; dinaikkan ke aksen supaya
+     tombol Masuk tetap terbaca sebagai tombol. */
+  --app-primary: var(--color-accent);
+  --app-primary-hover: color-mix(in srgb, var(--color-accent) 82%, #ffffff);
+  --app-on-primary: #ffffff;
+
+  /* Merah/hijau/kuning bawaan dipilih untuk teks di atas putih; di bidang gelap
+     ketiganya nyaris tak terbaca. Diangkat, bukan diganti, supaya tetap ikut
+     warna semantik tema. Kena ke BadgeInfo galat dan tanda wajib isi. */
+  --app-danger-text: color-mix(in srgb, var(--app-danger) 55%, #ffffff);
+  --app-success-text: color-mix(in srgb, var(--app-success) 55%, #ffffff);
+  --app-warning-text: color-mix(in srgb, var(--app-warning) 62%, #ffffff);
+
+  --app-input-scheme: dark;
 }
 
 /* Dua pijar lembut yang mengambang di belakang kartu — memecah bidang biru yang
@@ -117,36 +162,7 @@
   background: var(--app-surface);
   border-radius: 14px;
   border: 0;
-  box-shadow: 0 24px 60px rgba(var(--color-hitam-rgb), 0.3);
-}
-
-.login-page .login-brand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 6px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--app-border);
-}
-
-.login-page .login-brand__name {
-  font-size: 21px;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: var(--app-text);
-  white-space: nowrap;
-}
-
-.login-page .login-brand__name strong {
-  font-weight: 700;
-  color: var(--app-primary);
-}
-
-@media (max-width: 480px) {
-  .login-page .login-brand__name {
-    font-size: 16px;
-  }
+  box-shadow: 0 24px 60px rgba(var(--color-hitam-rgb), 0.38);
 }
 
 .login-page .login-btn {
@@ -157,8 +173,8 @@
 .login-page input:-webkit-autofill:hover,
 .login-page input:-webkit-autofill:focus,
 .login-page input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px var(--app-surface) inset !important;
-  box-shadow: 0 0 0 30px var(--app-surface) inset !important;
+  -webkit-box-shadow: 0 0 0 30px var(--app-bg) inset !important;
+  box-shadow: 0 0 0 30px var(--app-bg) inset !important;
   -webkit-text-fill-color: var(--app-text) !important;
   caret-color: var(--app-text);
 }
