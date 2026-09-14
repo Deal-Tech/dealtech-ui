@@ -84,20 +84,19 @@ export default function AdminSidebar({
   const { pathname, hash } = useLocation();
 
   const mainItems = menu.main ?? [];
+  /* Butir lepas: dirender apa adanya di bawah semua grup, tanpa kepala grup. */
+  const otherItems = menu.others ?? [];
 
   const groups = useMemo(
     () =>
-      [
-        ...(menu.groups ?? []).map((group) => ({
+      (menu.groups ?? [])
+        .map((group) => ({
           key: group.key,
           title: group.label,
           open: group.open,
           items: group.items ?? [],
-        })),
-        ...((menu.others ?? []).length
-          ? [{ key: '__others', title: 'Lainnya', open: false, items: menu.others }]
-          : []),
-      ].filter((group) => group.items.length > 0),
+        }))
+        .filter((group) => group.items.length > 0),
     [menu],
   );
 
@@ -222,6 +221,19 @@ export default function AdminSidebar({
               </div>
             );
           })}
+
+          {otherItems.length > 0 && (
+            <ul className="m-0 mt-1 flex list-none flex-col gap-1 p-0">
+              {otherItems.map((item) => (
+                <SidebarMenuItem
+                  key={item.key}
+                  item={item}
+                  active={isItemActive(item.href, pathname, hash)}
+                  onNavigate={onClose}
+                />
+              ))}
+            </ul>
+          )}
         </nav>
 
         <div className="sidebar-footer">
