@@ -267,16 +267,6 @@
     animation: petaGeser 60s ease-in-out infinite alternate;
   }
 
-  @keyframes petaGeser {
-    from {
-      transform: translateX(calc(var(--peta-geser) * -1)) translateY(-6%)
-        scale(var(--peta-skala));
-    }
-    to {
-      transform: translateX(var(--peta-geser)) translateY(-6%) scale(var(--peta-skala));
-    }
-  }
-
   .peta-titik__peta.is-redup {
     /* Petanya menyapu seluruh layar, tak lagi duduk diam di sudut lambang. */
     -webkit-mask-image: none;
@@ -285,6 +275,18 @@
 
   .peta-titik__titik {
     fill: rgba(255, 255, 255, 0.22);
+  }
+}
+
+/* Ditulis di tingkat atas, bukan di dalam @media: @keyframes yang dibungkus
+   @media membuat PostCSS mengosongkan seluruh berkas ini. Animasinya sendiri
+   tetap hanya dipasang pada layar sempit. */
+@keyframes petaGeser {
+  from {
+    transform: translateX(calc(var(--peta-geser) * -1)) translateY(-6%) scale(var(--peta-skala));
+  }
+  to {
+    transform: translateX(var(--peta-geser)) translateY(-6%) scale(var(--peta-skala));
   }
 }
 
