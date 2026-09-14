@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
+import panelDealtech from '@/assets/panel-dealtechui.png';
 import { ChevronDown, LogOut, UserRound, X } from 'lucide-react';
 
 import { resolveIcon } from '@/layout/ikon-menu';
@@ -165,9 +167,19 @@ export default function AdminSidebar({
       >
         <div className="sidebar-header flex h-14 items-center justify-between px-4">
           <Link to="/dashboard" className="sidebar-brand" onClick={onClose}>
-            <span className="sidebar-brand__name">
-              DealTech <strong>UI</strong>
-            </span>
+            {/* Lambangnya putih di atas transparan, jadi dipakai sebagai mask dan
+                dicat ulang dengan warna teks tema — bukan difilter jadi hitam
+                murni, supaya hitamnya sama dengan hitam yang dipakai di seluruh
+                panel dan ikut berubah kalau temanya digeser. */}
+            <span
+              role="img"
+              aria-label="ui.dealtech | Deal Tech"
+              className="sidebar-brand__logo"
+              style={{
+                maskImage: `url(${panelDealtech})`,
+                WebkitMaskImage: `url(${panelDealtech})`,
+              }}
+            />
           </Link>
           <button type="button" onClick={onClose} className="sidebar-close-btn md:hidden">
             <X className="h-4 w-4" />
