@@ -165,12 +165,14 @@
   width: auto;
 }
 
-/* Kartunya diperlakukan sama seperti isian form di dalamnya: tepi putih yang
-   sama dan cincin diam yang sama, jadi keduanya terbaca satu bahasa. */
+/* Kartunya dapat perlakuan yang sama seperti isian form di dalamnya: bergaris
+   dan bercincin diam. Tepinya pakai --app-border, bukan varian strong milik
+   isian — kartunya jauh lebih besar, dan tepi seterang itu di keliling sepanjang
+   ini jadi terlalu menuntut perhatian. */
 .login-page .login-card {
   background: var(--app-surface);
   border-radius: 14px;
-  border: 1px solid var(--app-border-strong);
+  border: 1px solid var(--app-border);
   box-shadow: var(--app-control-ring);
 }
 
