@@ -11,7 +11,7 @@ import { useAuth } from '@/lib/auth';
 import LoginBg from './LoginBg';
 import './login.css';
 
-import dealhost from '@/assets/dealhost.png';
+import panelDealtech from '@/assets/panel-dealtechui.png';
 
 const TUJUAN_BAWAAN = '/dashboard';
 
@@ -119,7 +119,12 @@ export default function AdminLogin() {
             rel="noopener noreferrer"
             className="login-footnote__tautan"
           >
-            <img src={dealhost} alt="DealHost" className="login-footnote__logo" loading="lazy" />
+            <img
+              src={panelDealtech}
+              alt="ui.dealtech | Deal Tech"
+              className="login-footnote__logo"
+              loading="lazy"
+            />
           </a>
         </span>
       </p>
