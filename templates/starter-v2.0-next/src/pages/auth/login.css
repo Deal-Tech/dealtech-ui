@@ -38,13 +38,20 @@
 
   /* Kartu di bidang gelap tidak bergaris: batasnya murni dari beda permukaan. */
   --app-card-border: transparent;
-  --app-border: rgba(255, 255, 255, 0.08);
-  --app-border-strong: rgba(255, 255, 255, 0.16);
-  --app-border-focus: rgba(255, 255, 255, 0.42);
+  --app-border: rgba(255, 255, 255, 0.12);
+  --app-border-strong: rgba(255, 255, 255, 0.32);
+  --app-border-focus: rgba(255, 255, 255, 0.62);
   --app-fill: rgba(255, 255, 255, 0.06);
   --app-fill-strong: rgba(255, 255, 255, 0.12);
-  --app-control-ring: 0 0 0 3px transparent;
-  --app-control-ring-focus: 0 0 0 3px rgba(255, 255, 255, 0.16);
+
+  /*
+    Isian form tidak lagi bergaris samar: di atas biru, tepinya putih supaya
+    kotaknya terbaca sebagai kotak. Cincin diamnya versi redup dari cincin
+    fokus — bentuk yang sama, cuma lebih pelan — jadi saat diklik ia menguat,
+    bukan muncul dari ketiadaan.
+  */
+  --app-control-ring: 0 0 0 3px rgba(255, 255, 255, 0.06);
+  --app-control-ring-focus: 0 0 0 3px rgba(255, 255, 255, 0.2);
 
   /* Primary bawaan terlalu dekat dengan biru kartunya; dinaikkan ke aksen supaya
      tombol Masuk tetap terbaca sebagai tombol. */
@@ -167,8 +174,24 @@
   box-shadow: none;
 }
 
+/*
+  Tombol bawaan setinggi 28px, lebih pendek daripada isian form yang 34px. Di
+  halaman ini ia satu-satunya aksi, jadi dibuat sedikit lebih tinggi daripada
+  isiannya — bukan sekadar sama — supaya jelas ia tujuan akhir form-nya.
+  Dilingkupi .login-page saja; Button di sisa panel tetap satu ukuran.
+*/
 .login-page .login-btn {
   width: 100%;
+  min-height: 38px;
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+.login-page .login-btn .btn__icon,
+.login-page .login-btn .btn__spinner {
+  width: 17px;
+  height: 17px;
 }
 
 .login-page input:-webkit-autofill,
