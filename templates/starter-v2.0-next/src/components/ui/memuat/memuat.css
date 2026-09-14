@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
 }

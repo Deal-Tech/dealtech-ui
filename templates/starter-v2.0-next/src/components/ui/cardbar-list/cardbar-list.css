@@ -26,13 +26,13 @@
 }
 .cardbar-list__title {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 1.09375rem;
   font-weight: 700;
   color: var(--app-text);
 }
 .cardbar-list__subtitle {
   margin: 2px 0 0;
-  font-size: 13px;
+  font-size: 12.5px;
   line-height: 1.4;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
@@ -55,12 +55,12 @@
   margin-bottom: 6px;
 }
 .cardbar-list__label {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   color: var(--app-text);
 }
 .cardbar-list__value {
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--app-text-muted);
 }
 

@@ -6,6 +6,8 @@ import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/counter.css';
 import 'yet-another-react-lightbox/plugins/thumbnails.css';
 
+import './lightbox.css';
+
 export interface LightboxGambarProps {
   gambar: string[];
   indeks: number;

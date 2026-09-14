@@ -25,13 +25,13 @@
 }
 .charttoplist__title {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 1.09375rem;
   font-weight: 700;
   color: var(--app-text);
 }
 .charttoplist__subtitle {
   margin: 2px 0 0;
-  font-size: 13px;
+  font-size: 12.5px;
   line-height: 1.4;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
@@ -62,7 +62,7 @@
   border-radius: 999px;
   background: var(--app-fill-strong);
   color: var(--app-text);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
 }
 .charttoplist__info {
@@ -71,7 +71,7 @@
 }
 .charttoplist__name {
   margin: 0;
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--app-text);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -79,13 +79,13 @@
 }
 .charttoplist__meta {
   margin: 2px 0 0;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
 }
 .charttoplist__value {
   flex-shrink: 0;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   color: var(--app-text);
 }
@@ -93,6 +93,6 @@
 .charttoplist__empty {
   padding: 24px;
   text-align: center;
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--app-text-muted);
 }

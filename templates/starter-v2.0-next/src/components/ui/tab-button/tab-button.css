@@ -27,7 +27,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 12px;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   white-space: nowrap;
   color: var(--app-text-muted);
@@ -75,13 +75,13 @@
   flex-shrink: 0;
   background: var(--app-count-bg);
   color: var(--app-count-fg);
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 .tab-button__count[data-long] {
-  font-size: 8px;
+  font-size: 7.5px;
 }
 
 .tab-button__indicator {
@@ -110,5 +110,5 @@
 
 /* Ukuran hurufnya ikut aturan tombol: 13px. */
 .tab-button__item {
-  font-size: 13px;
+  font-size: 12.5px;
 }

@@ -3,7 +3,7 @@
   isolation: isolate;
   overflow: hidden;
   color: var(--app-body-text);
-  font-family: 'SN Pro', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Inter', 'SN Pro', 'Segoe UI', system-ui, sans-serif;
   background-color: var(--color-hero-base);
 }
 
@@ -46,7 +46,7 @@
   background: var(--app-surface);
   border-radius: 14px;
   border: 0;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 24px 60px rgba(var(--color-hitam-rgb), 0.3);
 }
 
 .login-page .login-brand {
@@ -60,7 +60,7 @@
 }
 
 .login-page .login-brand__name {
-  font-size: 22px;
+  font-size: 21.5px;
   font-weight: 500;
   letter-spacing: -0.02em;
   color: var(--app-text);
@@ -74,7 +74,7 @@
 
 @media (max-width: 480px) {
   .login-page .login-brand__name {
-    font-size: 17px;
+    font-size: 16.5px;
   }
 }
 

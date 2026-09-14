@@ -37,7 +37,7 @@
   overflow: hidden;
   flex: 1;
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.84375rem;
   line-height: 1.4;
   color: var(--color-publik-subteks);
 }
@@ -53,7 +53,7 @@
 
 .ulasan-berjalan__nama {
   overflow: hidden;
-  font-size: 0.8rem;
+  font-size: 0.76875rem;
   line-height: 1;
   font-weight: 700;
   white-space: nowrap;

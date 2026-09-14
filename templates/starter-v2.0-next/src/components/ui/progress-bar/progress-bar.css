@@ -13,13 +13,13 @@
 }
 
 .progress-bar__label {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
 }
 
 .progress-bar__value {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--app-text);
   font-variant-numeric: tabular-nums;

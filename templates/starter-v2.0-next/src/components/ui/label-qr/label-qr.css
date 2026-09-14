@@ -9,7 +9,7 @@
   height: calc(var(--label-lebar) * 15 / 33);
   padding: calc(var(--label-lebar) * 1 / 33);
   background: #ffffff;
-  color: #000000;
+  color: var(--color-hitam);
   overflow: hidden;
 }
 

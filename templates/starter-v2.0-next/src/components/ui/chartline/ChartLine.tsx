@@ -51,23 +51,23 @@ export function ChartLine({
             <CartesianGrid strokeDasharray="3 3" stroke={c.grid} vertical={false} />
             <XAxis
               dataKey={xKey}
-              tick={{ fill: c.axis, fontSize: 12 }}
+              tick={{ fill: c.axis, fontSize: 11.5 }}
               axisLine={{ stroke: c.grid }}
               tickLine={false}
             />
-            <YAxis tick={{ fill: c.axis, fontSize: 12 }} axisLine={false} tickLine={false} width={40} />
+            <YAxis tick={{ fill: c.axis, fontSize: 11.5 }} axisLine={false} tickLine={false} width={40} />
             <Tooltip
               contentStyle={{
                 background: c.tooltipBg,
                 border: `1px solid ${c.grid}`,
                 borderRadius: 8,
-                fontSize: 12,
+                fontSize: 11.5,
                 color: c.tooltipText,
               }}
               labelStyle={{ color: c.axis }}
               cursor={{ stroke: c.grid }}
             />
-            <Legend wrapperStyle={{ fontSize: 12 }} />
+            <Legend wrapperStyle={{ fontSize: 11.5 }} />
             {series.map((s, i) => {
               const stroke = s.color ?? SERIES_COLORS[i % SERIES_COLORS.length];
               return (

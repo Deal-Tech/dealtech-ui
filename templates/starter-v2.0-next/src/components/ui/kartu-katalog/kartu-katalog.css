@@ -45,7 +45,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.94);
   padding: 6px 14px;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1;
@@ -63,7 +63,7 @@
   border-radius: 999px;
   background: rgba(15, 23, 42, 0.72);
   padding: 6px 12px;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   line-height: 1;
   color: #ffffff;
@@ -89,7 +89,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.01875rem;
   font-weight: 700;
 }
 
@@ -114,7 +114,7 @@
   align-items: center;
   gap: 6px;
   margin: 0;
-  font-size: 13px;
+  font-size: 12.5px;
   line-height: 1;
   color: var(--color-publik-subteks);
 }
@@ -135,7 +135,7 @@
 .kartu-katalog__keterangan {
   overflow: hidden;
   margin: 0;
-  font-size: 12px;
+  font-size: 11.5px;
   line-height: 1.3;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -160,7 +160,7 @@
 }
 
 .kartu-katalog__harga-awalan {
-  font-size: 12px;
+  font-size: 11.5px;
   line-height: 1;
   color: var(--color-publik-subteks);
 }
@@ -173,18 +173,18 @@
 }
 
 .kartu-katalog__harga-nilai {
-  font-size: 1.15rem;
+  font-size: 1.11875rem;
   font-weight: 700;
   color: var(--app-primary);
 }
 
 .kartu-katalog__harga-satuan {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--color-publik-subteks);
 }
 
 .kartu-katalog__harga-kosong {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--color-publik-subteks);
 }
@@ -196,7 +196,7 @@
   border-radius: 10px;
   background: var(--color-publik);
   padding: 11px 18px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   line-height: 1;
   color: var(--app-on-primary);

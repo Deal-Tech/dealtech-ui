@@ -64,7 +64,7 @@ export function ChartPie({
                   background: c.tooltipBg,
                   border: `1px solid ${c.grid}`,
                   borderRadius: 8,
-                  fontSize: 12,
+                  fontSize: 11.5,
                   color: c.tooltipText,
                 }}
                 labelStyle={{ color: c.axis }}

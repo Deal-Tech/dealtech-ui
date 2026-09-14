@@ -1,4 +1,24 @@
 @font-face {
+  font-family: 'Inter';
+  src: url('./fonts/Inter-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('./fonts/Inter-latin-ext.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
   font-family: 'Sriracha';
   src: url('./fonts/Sriracha-latin.woff2') format('woff2');
   font-weight: 400;
@@ -85,6 +105,10 @@
   --color-primary-darker: #0a3f73;
   --color-accent: #1184df;
 
+  /* Dasar semua warna "hitam" — teks, garis, isian, bayangan, dan tirai modal. */
+  --color-hitam: #13263a;
+  --color-hitam-rgb: 19, 38, 58;
+
   --app-primary: var(--color-primary);
   --app-primary-hover: var(--color-primary-dark);
   --app-primary-active: var(--color-primary-darker);
@@ -94,14 +118,15 @@
   --app-primary-ring: color-mix(in srgb, var(--color-primary) 32%, transparent);
   --app-accent: var(--color-accent);
 
-  --font-judul: 'Google Sans', 'SN Pro', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-judul: 'Inter', 'Google Sans', 'SN Pro', system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
   --font-judul-publik: 'Sriracha', 'SN Pro', ui-sans-serif, system-ui, sans-serif;
 
   --color-publik: #0a3b45;
   --color-publik-sorot: #4fd8c8;
   --color-publik-coret: #f2a13c;
   --color-publik-aksi: #0e9490;
-  --color-publik-teks: #13263a;
+  --color-publik-teks: var(--color-hitam);
   --color-publik-subteks: #4b5563;
 
   --color-hero-base: #074787;
@@ -110,31 +135,31 @@
   --color-hero-glow-2: rgba(31, 127, 206, 0.5);
   --app-on-primary: #ffffff;
 
-  --app-text: #000000;
-  --app-body-text: #000000;
-  --app-text-muted: #000000;
-  --app-text-faint: #000000;
-  --app-placeholder: rgba(0, 0, 0, 0.42);
-  --app-border: rgba(0, 0, 0, 0.14);
-  --app-border-strong: rgba(0, 0, 0, 0.2);
-  --app-border-focus: rgba(0, 0, 0, 0.42);
-  --app-card-border: rgba(0, 0, 0, 0.14);
-  --app-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --app-fill: rgba(0, 0, 0, 0.04);
-  --app-fill-strong: rgba(0, 0, 0, 0.08);
+  --app-text: var(--color-hitam);
+  --app-body-text: var(--color-hitam);
+  --app-text-muted: var(--color-hitam);
+  --app-text-faint: var(--color-hitam);
+  --app-placeholder: rgba(var(--color-hitam-rgb), 0.42);
+  --app-border: rgba(var(--color-hitam-rgb), 0.14);
+  --app-border-strong: rgba(var(--color-hitam-rgb), 0.2);
+  --app-border-focus: rgba(var(--color-hitam-rgb), 0.42);
+  --app-card-border: rgba(var(--color-hitam-rgb), 0.14);
+  --app-shadow-card: 0 2px 8px rgba(var(--color-hitam-rgb), 0.05);
+  --app-fill: rgba(var(--color-hitam-rgb), 0.04);
+  --app-fill-strong: rgba(var(--color-hitam-rgb), 0.08);
   --app-neutral: #4a4a4a;
   --app-neutral-soft: #9ca3af;
 
   --app-chip-bg: color-mix(in srgb, var(--color-primary) 12%, transparent);
   --app-chip-fg: var(--color-primary-dark);
-  --app-secondary-border: rgba(0, 0, 0, 0.14);
-  --app-secondary-text: #000000;
+  --app-secondary-border: rgba(var(--color-hitam-rgb), 0.14);
+  --app-secondary-text: var(--color-hitam);
   --app-link: var(--color-primary);
   --app-link-hover: var(--color-primary-dark);
   --app-count-bg: var(--color-primary);
   --app-count-fg: #ffffff;
-  --app-scroll-thumb: rgba(0, 0, 0, 0.2);
-  --app-scroll-thumb-hover: rgba(0, 0, 0, 0.36);
+  --app-scroll-thumb: rgba(var(--color-hitam-rgb), 0.2);
+  --app-scroll-thumb-hover: rgba(var(--color-hitam-rgb), 0.36);
   --app-input-scheme: light;
 
   --app-desc-weight: 600;
@@ -144,11 +169,11 @@
   --app-control-h: 34px;
   --app-control-h-lg: 38px;
 
-  --app-field-label-size: 14px;
+  --app-field-label-size: 13.5px;
   --app-field-label-weight: 500;
 
   --app-control-ring: 0 0 0 3px var(--app-fill-strong);
-  --app-control-ring-focus: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  --app-control-ring-focus: 0 0 0 3px rgba(var(--color-hitam-rgb), 0.12);
   --app-control-ring-error: 0 0 0 3px color-mix(in srgb, var(--app-danger-text) 25%, transparent);
 
   --app-success: #16a34a;
@@ -161,7 +186,7 @@
 
   --app-success-solid: #15803d;
   --app-warning-solid: #d29922;
-  --app-warning-solid-fg: #000000;
+  --app-warning-solid-fg: var(--color-hitam);
   --app-danger-solid: #b91c1c;
 }
 
@@ -170,7 +195,8 @@ body {
   min-height: 100vh;
   background-color: var(--app-bg);
   color: var(--app-body-text);
-  font-family: var(--font-sans, 'SN Pro', 'Inter', ui-sans-serif, system-ui, sans-serif);
+  font-family: var(--font-sans, 'Inter', 'SN Pro', ui-sans-serif, system-ui, sans-serif);
+  font-size: 15.5px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -258,7 +284,7 @@ body * {
 .layout-publik .seksi-judul {
   margin: 0;
   text-align: center;
-  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-size: clamp(1.36875rem, 2.6vw, 1.96875rem);
   letter-spacing: -0.02em;
 }
 
@@ -266,7 +292,7 @@ body * {
   margin: 10px auto 0;
   max-width: 640px;
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.96875rem;
   color: var(--color-publik-subteks);
 }
 

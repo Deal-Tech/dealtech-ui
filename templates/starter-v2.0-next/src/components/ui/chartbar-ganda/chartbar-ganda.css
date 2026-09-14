@@ -11,13 +11,13 @@
 }
 .chartbar-ganda__title {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 1.09375rem;
   font-weight: 700;
   color: var(--app-text);
 }
 .chartbar-ganda__subtitle {
   margin: 2px 0 0;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
 }

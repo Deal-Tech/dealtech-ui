@@ -57,12 +57,12 @@ export function ChartBarGanda({
             <CartesianGrid strokeDasharray="3 3" stroke={c.grid} vertical={false} />
             <XAxis
               dataKey="label"
-              tick={{ fill: c.axis, fontSize: 12 }}
+              tick={{ fill: c.axis, fontSize: 11.5 }}
               axisLine={{ stroke: c.grid }}
               tickLine={false}
             />
             <YAxis
-              tick={{ fill: c.axis, fontSize: 12 }}
+              tick={{ fill: c.axis, fontSize: 11.5 }}
               axisLine={false}
               tickLine={false}
               width={40}
@@ -73,13 +73,13 @@ export function ChartBarGanda({
                 background: c.tooltipBg,
                 border: `1px solid ${c.grid}`,
                 borderRadius: 8,
-                fontSize: 12,
+                fontSize: 11.5,
                 color: c.tooltipText,
               }}
               labelStyle={{ color: c.axis }}
               cursor={{ fill: c.cursor }}
             />
-            <Legend wrapperStyle={{ fontSize: 12, color: c.axis }} />
+            <Legend wrapperStyle={{ fontSize: 11.5, color: c.axis }} />
             <Bar dataKey="a" name={namaA} fill={warnaA ?? c.primary} radius={[4, 4, 0, 0]} />
             <Bar dataKey="b" name={namaB} fill={warnaB ?? '#9ca3af'} radius={[4, 4, 0, 0]} />
           </BarChart>

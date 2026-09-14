@@ -20,7 +20,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--color-publik-subteks);
 }
 
@@ -37,14 +37,14 @@
 
 .kepala-publik__judul {
   margin: 18px 0 0;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.96875rem, 4vw, 2.96875rem);
   letter-spacing: -0.01em;
 }
 
 .kepala-publik__teks {
   margin: 16px 0 0;
   max-width: 52ch;
-  font-size: 1rem;
+  font-size: 0.96875rem;
   color: var(--color-publik-subteks);
 }
 

@@ -26,13 +26,13 @@
 }
 .cardbar-chart__title {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 1.09375rem;
   font-weight: 700;
   color: var(--app-text);
 }
 .cardbar-chart__subtitle {
   margin: 2px 0 0;
-  font-size: 13px;
+  font-size: 12.5px;
   line-height: 1.4;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
@@ -91,7 +91,7 @@
   border: 1px solid var(--app-border-strong);
   background: var(--app-bg);
   color: var(--app-text);
-  font-size: 11px;
+  font-size: 10.5px;
   white-space: nowrap;
 }
 .cardbar-chart__col:hover .cardbar-chart__tip {
@@ -99,6 +99,6 @@
 }
 
 .cardbar-chart__label {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--app-text-muted);
 }
