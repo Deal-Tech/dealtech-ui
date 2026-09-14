@@ -758,7 +758,6 @@ export default function ElementPage() {
         <Petak nama="MenuAksi" jalur="menu-aksi/">
           <div className="element-baris">
             <MenuAksi
-              label="Aksi"
               item={[
                 { kunci: 'lihat', label: 'Lihat Detail', ikon: Eye, onClick: () => {} },
                 { kunci: 'ubah', label: 'Ubah', ikon: Pencil, onClick: () => {} },
@@ -766,6 +765,7 @@ export default function ElementPage() {
               ]}
             />
             <MenuAksi
+              hanyaIkon
               ariaLabel="Aksi baris"
               item={[
                 { kunci: 'ubah', label: 'Ubah', ikon: Pencil, onClick: () => {} },
@@ -774,8 +774,8 @@ export default function ElementPage() {
             />
           </div>
           <p className="element-catatan">
-            Tombol berteks dan tombol ikon saja. Panelnya fixed, jadi tidak terpotong kartu
-            berpenggal.
+            Pemicunya menyebut apa yang akan muncul; varian hanyaIkon dipakai di tempat sempit.
+            Panelnya fixed dan membuka ke atas kalau ruang bawahnya kurang.
           </p>
         </Petak>
 

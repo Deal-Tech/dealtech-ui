@@ -115,7 +115,7 @@ export default function ProdukDetailPage() {
               </div>
             </div>
             <MenuAksi
-              ariaLabel={`Aksi untuk ${produk.nama}`}
+              ariaLabel={`Tampilkan tombol aksi untuk ${produk.nama}`}
               item={[
                 {
                   kunci: 'ubah',
