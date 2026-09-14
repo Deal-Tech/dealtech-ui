@@ -55,6 +55,18 @@ export async function tambahProduk(baru: Produk): Promise<Produk> {
   return api<Produk>('/api/v1/produk', { method: 'POST', body: baru });
 }
 
+export async function ubahProduk(kode: string, data: Produk): Promise<Produk> {
+  if (MODE_DEMO) {
+    await jeda();
+    simpanData(
+      KUNCI,
+      bacaData<Produk[]>(KUNCI, AWAL).map((p) => (p.kode === kode ? data : p)),
+    );
+    return data;
+  }
+  return api<Produk>(`/api/v1/produk/${encodeURIComponent(kode)}`, { method: 'PUT', body: data });
+}
+
 export async function hapusProduk(kode: string[]): Promise<void> {
   if (MODE_DEMO) {
     await jeda(200);

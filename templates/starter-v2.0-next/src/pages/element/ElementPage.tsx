@@ -44,6 +44,7 @@ import { LembarCetak } from '@/components/ui/lembar-cetak/LembarCetak';
 import { TombolCetak } from '@/components/ui/lembar-cetak/TombolCetak';
 import LightboxGambar from '@/components/ui/lightbox/LightboxGambar';
 import { Memuat } from '@/components/ui/memuat/Memuat';
+import { MenuAksi } from '@/components/ui/menu-aksi/MenuAksi';
 import { Modal } from '@/components/ui/modal/Modal';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { Pagination } from '@/components/ui/pagination/Pagination';
@@ -275,7 +276,7 @@ export default function ElementPage() {
       <PageTitle
         title="Semua Element"
         subtitle="Katalog komponen DealTech UI v2. Setiap kotak menampilkan satu komponen beserta letak berkasnya di src/components/ui/."
-        action={<span className="element-hitung">48 komponen</span>}
+        action={<span className="element-hitung">49 komponen</span>}
       />
 
       <nav className="element-nav" aria-label="Lompat ke seksi">
@@ -753,7 +754,31 @@ export default function ElementPage() {
       </Seksi>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="overlay" judul="Overlay" jumlah={3}>
+      <Seksi id="overlay" judul="Overlay" jumlah={4}>
+        <Petak nama="MenuAksi" jalur="menu-aksi/">
+          <div className="element-baris">
+            <MenuAksi
+              label="Aksi"
+              item={[
+                { kunci: 'lihat', label: 'Lihat Detail', ikon: Eye, onClick: () => {} },
+                { kunci: 'ubah', label: 'Ubah', ikon: Pencil, onClick: () => {} },
+                { kunci: 'hapus', label: 'Hapus', ikon: Trash2, bahaya: true, onClick: () => {} },
+              ]}
+            />
+            <MenuAksi
+              ariaLabel="Aksi baris"
+              item={[
+                { kunci: 'ubah', label: 'Ubah', ikon: Pencil, onClick: () => {} },
+                { kunci: 'hapus', label: 'Hapus', ikon: Trash2, bahaya: true, onClick: () => {} },
+              ]}
+            />
+          </div>
+          <p className="element-catatan">
+            Tombol berteks dan tombol ikon saja. Panelnya fixed, jadi tidak terpotong kartu
+            berpenggal.
+          </p>
+        </Petak>
+
         <Petak nama="Modal" jalur="modal/">
           <div className="element-baris">
             <Button onClick={() => setModalBuka(true)}>Buka Modal</Button>

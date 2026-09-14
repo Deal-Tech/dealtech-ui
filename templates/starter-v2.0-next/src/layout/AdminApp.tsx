@@ -18,6 +18,7 @@ const AdminApp = () => (
       <Route path="produk" element={<ProdukPage />} />
       <Route path="produk/tambah" element={<ProdukTambahPage />} />
       <Route path="produk/:kode" element={<ProdukDetailPage />} />
+      <Route path="produk/:kode/ubah" element={<ProdukTambahPage />} />
       <Route path="member" element={<MemberPage />} />
       <Route path="pengaturan" element={<PengaturanPage />} />
       {/* [dealtech:auto-routes] */}
