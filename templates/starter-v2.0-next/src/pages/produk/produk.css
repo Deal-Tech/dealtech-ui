@@ -90,3 +90,9 @@
   font-weight: 500;
   color: var(--app-text);
 }
+
+.produk-page .produk-detail__kosong {
+  margin: 0;
+  font-size: 13px;
+  color: var(--app-text-muted);
+}

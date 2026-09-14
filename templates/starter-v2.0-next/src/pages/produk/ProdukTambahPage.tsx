@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button/Button';
 import { InputNumber } from '@/components/ui/inputnumber/InputNumber';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
+import { RichText } from '@/components/ui/richtext/RichText';
 import { Select } from '@/components/ui/select/Select';
 import {
   KATEGORI,
@@ -24,9 +25,10 @@ interface Isian {
   kategori: string;
   harga: string;
   stok: string;
+  deskripsi: string;
 }
 
-const KOSONG: Isian = { kode: '', nama: '', kategori: '', harga: '', stok: '' };
+const KOSONG: Isian = { kode: '', nama: '', kategori: '', harga: '', stok: '', deskripsi: '' };
 
 const OPSI_KATEGORI = KATEGORI.map((k) => ({ value: k, label: k }));
 
@@ -84,6 +86,7 @@ export default function ProdukTambahPage() {
             kategori: ada.kategori,
             harga: String(ada.harga),
             stok: String(ada.stok),
+            deskripsi: ada.deskripsi ?? '',
           });
         } else {
           setGagal(`Produk ${kodeAwal} tidak ditemukan.`);
@@ -122,6 +125,7 @@ export default function ProdukTambahPage() {
         kategori: isian.kategori,
         harga: Number(isian.harga),
         stok: Number(isian.stok),
+        deskripsi: isian.deskripsi,
       };
       if (modeUbah && kodeAwal) await ubahProduk(kodeAwal, data);
       else await tambahProduk(data);
@@ -209,6 +213,16 @@ export default function ProdukTambahPage() {
               placeholder="0"
               error={galat.stok}
               required
+            />
+
+            {/* Deskripsi sengaja tanpa tanda wajib: produk boleh disimpan dulu
+                lalu dilengkapi belakangan. */}
+            <RichText
+              label="Deskripsi Produk"
+              value={isian.deskripsi}
+              onChange={(html) => ubah('deskripsi', html)}
+              placeholder="Tulis rincian produk di sini…"
+              disabled={proses}
             />
 
             <div className="produk-form__aksi">

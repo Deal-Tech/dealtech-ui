@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Boxes, Check, Package, Pencil, Trash2 } from 'lucide-react';
+import { ArrowLeft, Boxes, Check, FileText, Package, Pencil, Trash2 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge/Badge';
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button/Button';
 import { MenuAksi } from '@/components/ui/menu-aksi/MenuAksi';
 import { Modal } from '@/components/ui/modal/Modal';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
+import { IsiKaya } from '@/components/ui/richtext/IsiKaya';
+import { TabButton } from '@/components/ui/tab-button/TabButton';
 import { ambilProdukSatu, hapusProduk, rupiah, type Produk } from '@/services/produk';
 import './produk.css';
 
@@ -34,6 +36,7 @@ export default function ProdukDetailPage() {
      yang mudah tersenggol, jadi dikonfirmasi dulu. */
   const [tanyaHapus, setTanyaHapus] = useState(false);
   const [prosesHapus, setProsesHapus] = useState(false);
+  const [tab, setTab] = useState('deskripsi');
 
   useEffect(() => {
     let hidup = true;
@@ -163,6 +166,27 @@ export default function ProdukDetailPage() {
                 {habis ? 'Habis' : 'Tersedia'}
               </Badge>
             </Keterangan>
+          </div>
+        </section>
+      ) : null}
+
+      <TabButton
+        tabs={[{ key: 'deskripsi', label: 'Deskripsi Produk', icon: FileText }]}
+        value={tab}
+        onChange={setTab}
+      />
+
+      {tab === 'deskripsi' ? (
+        <section className="app-section-card">
+          <div className="app-section-body">
+            {/* IsiKaya menyaring HTML-nya sebelum dirender, jadi apa pun yang
+                tersimpan dari RichText — atau nanti dari backend — aman
+                ditampilkan apa adanya di sini. */}
+            {produk.deskripsi?.trim() ? (
+              <IsiKaya html={produk.deskripsi} />
+            ) : (
+              <p className="produk-detail__kosong">Produk ini belum punya deskripsi.</p>
+            )}
           </div>
         </section>
       ) : null}
