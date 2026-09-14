@@ -1,6 +1,5 @@
 import { useState, type ReactNode } from 'react';
 import {
-  Building2,
   Check,
   CircleAlert,
   Clock,
@@ -20,7 +19,6 @@ import ActionButton from '@/components/ui/action-button/ActionButton';
 import { Badge } from '@/components/ui/badge/Badge';
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { BadgeV2 } from '@/components/ui/badgev2/BadgeV2';
-import { BlokTentang } from '@/components/ui/blok-tentang/BlokTentang';
 import { Button } from '@/components/ui/button/Button';
 import { CardBarChart } from '@/components/ui/cardbar-chart/CardBarChart';
 import { CardBarList } from '@/components/ui/cardbar-list/CardBarList';
@@ -35,29 +33,22 @@ import { ChartTopList } from '@/components/ui/charttoplist/ChartTopList';
 import { Checkbox } from '@/components/ui/checkbox/Checkbox';
 import { DateInput } from '@/components/ui/date-input/DateInput';
 import { Heatmap } from '@/components/ui/heatmap/Heatmap';
-import HexBackdrop from '@/components/ui/hex-backdrop/HexBackdrop';
 import { InputLongText } from '@/components/ui/inputlongtext/InputLongText';
 import { InputNumber } from '@/components/ui/inputnumber/InputNumber';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { Kalender } from '@/components/ui/kalender/Kalender';
-import { KartuKatalog } from '@/components/ui/kartu-katalog/KartuKatalog';
-import { KepalaPublik } from '@/components/ui/kepala-publik/KepalaPublik';
 import { KodeOtomatis } from '@/components/ui/kode-otomatis/KodeOtomatis';
 import { LabelQR } from '@/components/ui/label-qr/LabelQR';
 import { LembarCetak } from '@/components/ui/lembar-cetak/LembarCetak';
 import { TombolCetak } from '@/components/ui/lembar-cetak/TombolCetak';
 import LightboxGambar from '@/components/ui/lightbox/LightboxGambar';
-import LogoShape from '@/components/ui/logo-shape/LogoShape';
-import PetaTitik from '@/components/ui/peta-titik/PetaTitik';
 import { Memuat } from '@/components/ui/memuat/Memuat';
 import { Modal } from '@/components/ui/modal/Modal';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { Pagination } from '@/components/ui/pagination/Pagination';
 import { PilihBanyak } from '@/components/ui/pilih-banyak/PilihBanyak';
-import { PitaBerjalan } from '@/components/ui/pita-berjalan/PitaBerjalan';
 import { ProgressBar } from '@/components/ui/progress-bar/ProgressBar';
 import { ProsesModal, type TugasProses } from '@/components/ui/proses-modal/ProsesModal';
-import { IsiKaya } from '@/components/ui/richtext/IsiKaya';
 import { RichText } from '@/components/ui/richtext/RichText';
 import { SearchInput } from '@/components/ui/search-input/SearchInput';
 import { SearchSelect } from '@/components/ui/search-select/SearchSelect';
@@ -68,7 +59,6 @@ import { TabelCardV1 } from '@/components/ui/tabelcardv1/TabelCardV1';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
 import { TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
 import { ToggleOnOff } from '@/components/ui/toggleonoff/ToggleOnOff';
-import { UlasanBerjalan } from '@/components/ui/ulasan-berjalan/UlasanBerjalan';
 import { UnggahGambar } from '@/components/ui/unggah-gambar/UnggahGambar';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
 import { PER_HALAMAN_BAWAAN, usePilihan } from '@/lib/daftar';
@@ -283,7 +273,7 @@ export default function ElementPage() {
       <PageTitle
         title="Semua Element"
         subtitle="Katalog komponen DealTech UI v2. Setiap kotak menampilkan satu komponen beserta letak berkasnya di src/components/ui/."
-        action={<span className="element-hitung">55 komponen</span>}
+        action={<span className="element-hitung">47 komponen</span>}
       />
 
       <nav className="element-nav" aria-label="Lompat ke seksi">
@@ -822,7 +812,7 @@ export default function ElementPage() {
       </Seksi>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="publik" judul="Publik & Cetak" jumlah={11}>
+      <Seksi id="publik" judul="Publik & Cetak" jumlah={3}>
         <Petak nama="WelcomeCardV2" jalur="welcome-card-v2/">
           <WelcomeCardV2
             name="Administrator"
@@ -830,79 +820,6 @@ export default function ElementPage() {
             aksiLabel="Ke Dashboard"
             aksiKe="/dashboard"
           />
-        </Petak>
-
-        <Petak nama="KartuKatalog" jalur="kartu-katalog/">
-          <KartuKatalog
-            ke="/dashboard"
-            nama="Paket Langganan Pro"
-            gambar={GAMBAR_CONTOH}
-            kategori="Langganan"
-            durasi="12 bulan"
-            lokasi="Semua wilayah"
-            harga={450000}
-            hargaAwalan="Mulai"
-          />
-        </Petak>
-
-        <Petak nama="KepalaPublik" jalur="kepala-publik/">
-          <KepalaPublik
-            remah="Katalog"
-            judul="Semua Produk Kami"
-            deskripsi="Telusuri seluruh paket dan layanan yang tersedia."
-          />
-        </Petak>
-
-        <Petak nama="BlokTentang" jalur="blok-tentang/">
-          <BlokTentang
-            judul="Tentang Kami"
-            ikon={Building2}
-            isi={<p>Tim lokal yang membangun perangkat lunak untuk usaha di Indonesia.</p>}
-            angka={[
-              { nilai: '12+', label: 'Tahun' },
-              { nilai: '8.400', label: 'Klien' },
-            ]}
-          />
-        </Petak>
-
-        <Petak nama="PitaBerjalan" jalur="pita-berjalan/">
-          <PitaBerjalan
-            atas={['Dashboard', 'Laporan', 'Inventori', 'Penggajian']}
-            bawah={['Retail', 'Manufaktur', 'Jasa', 'Distribusi']}
-          />
-        </Petak>
-
-        <Petak nama="UlasanBerjalan" jalur="ulasan-berjalan/">
-          <UlasanBerjalan />
-        </Petak>
-
-        <Petak nama="LogoShape" jalur="logo-shape/">
-          <div className="element-gelap">
-            <LogoShape revealOnScroll={false} />
-          </div>
-        </Petak>
-
-        <Petak nama="HexBackdrop" jalur="hex-backdrop/">
-          <div className="element-gelap">
-            <HexBackdrop />
-          </div>
-          <p className="element-catatan">Hiasan latar; dipakai di halaman masuk dan hero.</p>
-        </Petak>
-
-        <Petak nama="PetaTitik" jalur="peta-titik/">
-          <div className="element-gelap">
-            <PetaTitik />
-          </div>
-          <p className="element-catatan">
-            Peta Indonesia bertitik dengan lompatan data antar kota; dipakai di halaman masuk.
-          </p>
-        </Petak>
-
-        <Petak nama="IsiKaya" jalur="richtext/IsiKaya">
-          <IsiKaya html={isiKaya} />
-          <p className="element-catatan">
-            Penampil HTML dari RichText di atas — isinya disaring sebelum dirender.
-          </p>
         </Petak>
 
         <Petak nama="LabelQR" jalur="label-qr/">
