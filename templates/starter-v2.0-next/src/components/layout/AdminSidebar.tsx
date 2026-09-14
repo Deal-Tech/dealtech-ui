@@ -13,7 +13,7 @@ export interface SidebarUser {
   initials?: string;
 }
 
-function isItemActive(href: string, pathname: string, hash: string): boolean {
+function cocokJalur(href: string, pathname: string, hash: string): boolean {
   const hashIndex = href.indexOf('#');
   if (hashIndex !== -1) {
     const path = href.slice(0, hashIndex);
@@ -21,6 +21,23 @@ function isItemActive(href: string, pathname: string, hash: string): boolean {
   }
   if (href === '/') return pathname === '/';
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+/*
+ * Semua butir menu berawalan /dashboard, jadi aturan "cocok kalau jadi awalan"
+ * saja membuat Dashboard ikut menyala di setiap halaman. Yang menang butir
+ * dengan jalur terpanjang yang masih cocok.
+ *
+ * Awalan tetap dipakai, bukan diganti kecocokan persis: /dashboard/produk harus
+ * tetap menyala saat membuka /dashboard/produk/tambah dan halaman detailnya.
+ * Aturan ini juga sudah benar untuk butir bersarang yang ditambahkan nanti.
+ */
+function buatPenentuAktif(semuaHref: string[], pathname: string, hash: string) {
+  const terpanjang = semuaHref
+    .filter((href) => cocokJalur(href, pathname, hash))
+    .reduce((a, b) => (b.length > a.length ? b : a), '');
+
+  return (href: string) => terpanjang !== '' && href === terpanjang;
 }
 
 interface MenuItemProps {
@@ -89,6 +106,14 @@ export default function AdminSidebar({
   /* Butir lepas: dirender apa adanya di bawah semua grup, tanpa kepala grup. */
   const otherItems = menu.others ?? [];
 
+  const aktif = buatPenentuAktif(
+    [...mainItems, ...(menu.groups ?? []).flatMap((g) => g.items ?? []), ...otherItems].map(
+      (i) => i.href,
+    ),
+    pathname,
+    hash,
+  );
+
   const groups = useMemo(
     () =>
       (menu.groups ?? [])
@@ -107,7 +132,7 @@ export default function AdminSidebar({
       Object.fromEntries(
         groups.map((g) => [
           g.key,
-          !!g.open || g.items.some((i) => isItemActive(i.href, pathname, hash)),
+          !!g.open || g.items.some((i) => aktif(i.href)),
         ]),
       ),
     [groups, pathname, hash],
@@ -139,7 +164,7 @@ export default function AdminSidebar({
     setOpenGroups((prev) => {
       const next = { ...prev };
       groups.forEach((g) => {
-        if (g.items.some((i) => isItemActive(i.href, pathname, hash))) next[g.key] = true;
+        if (g.items.some((i) => aktif(i.href))) next[g.key] = true;
       });
       return next;
     });
@@ -193,7 +218,7 @@ export default function AdminSidebar({
                 <SidebarMenuItem
                   key={item.key}
                   item={item}
-                  active={isItemActive(item.href, pathname, hash)}
+                  active={aktif(item.href)}
                   onNavigate={onClose}
                 />
               ))}
@@ -224,7 +249,7 @@ export default function AdminSidebar({
                       <SidebarMenuItem
                         key={item.key}
                         item={item}
-                        active={isItemActive(item.href, pathname, hash)}
+                        active={aktif(item.href)}
                         onNavigate={onClose}
                       />
                     ))}
@@ -240,7 +265,7 @@ export default function AdminSidebar({
                 <SidebarMenuItem
                   key={item.key}
                   item={item}
-                  active={isItemActive(item.href, pathname, hash)}
+                  active={aktif(item.href)}
                   onNavigate={onClose}
                 />
               ))}
