@@ -247,27 +247,53 @@
 
 @media (max-width: 639px) {
   /*
-    Petanya nyaris 3:1, jadi di layar potret ia menyusut jadi pita setinggi
-    seperlima layar — titiknya ikut mengecil sampai hampir tak terlihat.
-    Diperbesar sedikit (sisi kiri-kanan terpotong seadanya) dan ditegaskan supaya
-    masih terbaca sebagai peta, bukan sekadar bintik.
+    Petanya nyaris 3:1; dipasang apa adanya di layar potret ia menyusut jadi pita
+    tipis di tengah layar. Diperbesar sampai mengisi layar, jadi lebarnya
+    melampaui lebar layar — dan kelebihan itulah yang digeser pelan-pelan
+    bolak-balik, supaya seluruh kepulauannya tetap kebagian terlihat.
 
-    Dinaikkan juga: di tengah layar ia tertutup kartu login hampir seluruhnya,
-    sedangkan di atas kartu ruangnya kosong. Bagian bawah tetap terisi lambang,
-    jadi dua-duanya kebagian tempat.
+    Kedua lapisnya memakai aturan dan animasi yang sama persis. Kalau lapis jalur
+    bergeser beda sedikit saja dari lapis titiknya, busur lompatannya lepas dari
+    petanya.
   */
   .peta-titik__peta,
   .peta-titik__jalur {
-    transform: translateY(-20%) scale(1.6);
+    --peta-skala: 3.4;
+    /* Setengah kelebihan lebarnya, dalam satuan lebar layar: (3.4 - 1) / 2. */
+    --peta-geser: 120%;
+
+    transform: translateX(calc(var(--peta-geser) * -1)) translateY(-6%)
+      scale(var(--peta-skala));
+    animation: petaGeser 90s ease-in-out infinite alternate;
+  }
+
+  @keyframes petaGeser {
+    from {
+      transform: translateX(calc(var(--peta-geser) * -1)) translateY(-6%)
+        scale(var(--peta-skala));
+    }
+    to {
+      transform: translateX(var(--peta-geser)) translateY(-6%) scale(var(--peta-skala));
+    }
   }
 
   .peta-titik__peta.is-redup {
-    /* Petanya naik ke atas layar, tak lagi bertumpuk dengan lambang. */
+    /* Petanya menyapu seluruh layar, tak lagi duduk diam di sudut lambang. */
     -webkit-mask-image: none;
     mask-image: none;
   }
 
   .peta-titik__titik {
-    fill: rgba(255, 255, 255, 0.26);
+    fill: rgba(255, 255, 255, 0.22);
+  }
+}
+
+/* Gerak dikurangi: petanya berhenti di tengah, bukan di ujung kiri tempat
+   animasinya kebetulan dimulai. */
+@media (max-width: 639px) and (prefers-reduced-motion: reduce) {
+  .peta-titik__peta,
+  .peta-titik__jalur {
+    transform: translateY(-6%) scale(var(--peta-skala));
+    animation: none;
   }
 }
