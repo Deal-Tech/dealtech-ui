@@ -264,7 +264,7 @@
 
     transform: translateX(calc(var(--peta-geser) * -1)) translateY(-6%)
       scale(var(--peta-skala));
-    animation: petaGeser 90s ease-in-out infinite alternate;
+    animation: petaGeser 60s ease-in-out infinite alternate;
   }
 
   @keyframes petaGeser {
