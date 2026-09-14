@@ -44,6 +44,12 @@ export const menu: AppMenu = {
      kepala yang bisa dilipat. */
   others: [
     {
+      key: 'produk',
+      label: 'Daftar Produk',
+      icon: 'package',
+      href: '/dashboard/produk',
+    },
+    {
       key: 'member',
       label: 'Daftar Member',
       icon: 'users',
