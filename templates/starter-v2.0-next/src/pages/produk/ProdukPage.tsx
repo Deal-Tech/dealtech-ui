@@ -74,7 +74,11 @@ export default function ProdukPage() {
     stok: d.stok,
     aksi: (
       <div className="tablelist-v1__aksi">
-        <ActionButton icon={Eye} aria-label={`Lihat ${d.nama}`} />
+        <ActionButton
+          icon={Eye}
+          aria-label={`Lihat ${d.nama}`}
+          onClick={() => navigate(`/dashboard/produk/${encodeURIComponent(d.kode)}`)}
+        />
         <ActionButton icon={Pencil} aria-label={`Ubah ${d.nama}`} />
         <ActionButton
           icon={Trash2}

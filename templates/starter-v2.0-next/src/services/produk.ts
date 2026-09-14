@@ -38,6 +38,14 @@ export async function ambilProduk(): Promise<Produk[]> {
   return api<Produk[]>('/api/v1/produk');
 }
 
+export async function ambilProdukSatu(kode: string): Promise<Produk | null> {
+  if (MODE_DEMO) {
+    await jeda(200);
+    return bacaData<Produk[]>(KUNCI, AWAL).find((p) => p.kode === kode) ?? null;
+  }
+  return api<Produk>(`/api/v1/produk/${encodeURIComponent(kode)}`);
+}
+
 export async function tambahProduk(baru: Produk): Promise<Produk> {
   if (MODE_DEMO) {
     await jeda();
