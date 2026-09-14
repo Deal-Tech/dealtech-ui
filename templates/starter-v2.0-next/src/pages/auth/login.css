@@ -175,17 +175,17 @@
 }
 
 /*
-  Tombol bawaan setinggi 28px, lebih pendek daripada isian form yang 34px. Di
-  halaman ini ia satu-satunya aksi, jadi dibuat sedikit lebih tinggi daripada
-  isiannya — bukan sekadar sama — supaya jelas ia tujuan akhir form-nya.
+  Tombol bawaan setinggi 28px, lebih pendek daripada isian form. Di sini
+  tingginya disamakan dengan isian lewat --app-control-h, jadi kalau tinggi
+  kendali temanya digeser, tombol dan isiannya bergeser bersama.
   Dilingkupi .login-page saja; Button di sisa panel tetap satu ukuran.
 */
 .login-page .login-btn {
   width: 100%;
-  min-height: 38px;
-  padding: 8px 14px;
+  min-height: var(--app-control-h);
+  padding: 6px 14px;
   font-size: 13px;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .login-page .login-btn .btn__icon,
