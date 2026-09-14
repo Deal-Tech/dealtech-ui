@@ -19,8 +19,6 @@ export interface ChartLineSeries {
 }
 
 export interface ChartLineProps {
-  title: string;
-  subtitle?: string;
   data: Array<Record<string, string | number>>;
   xKey: string;
   series: ChartLineSeries[];
@@ -29,8 +27,6 @@ export interface ChartLineProps {
 }
 
 export function ChartLine({
-  title,
-  subtitle,
   data,
   xKey,
   series,
@@ -41,33 +37,29 @@ export function ChartLine({
 
   return (
     <section className={`chartline ${className}`}>
-      <div className="chartline__header">
-        <h2 className="chartline__title">{title}</h2>
-        {subtitle ? <p className="chartline__subtitle">{subtitle}</p> : null}
-      </div>
       <div className="chartline__body" style={{ height }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke={c.grid} vertical={false} />
             <XAxis
               dataKey={xKey}
-              tick={{ fill: c.axis, fontSize: 11.5 }}
+              tick={{ fill: c.axis, fontSize: 11 }}
               axisLine={{ stroke: c.grid }}
               tickLine={false}
             />
-            <YAxis tick={{ fill: c.axis, fontSize: 11.5 }} axisLine={false} tickLine={false} width={40} />
+            <YAxis tick={{ fill: c.axis, fontSize: 11 }} axisLine={false} tickLine={false} width={40} />
             <Tooltip
               contentStyle={{
                 background: c.tooltipBg,
                 border: `1px solid ${c.grid}`,
                 borderRadius: 8,
-                fontSize: 11.5,
+                fontSize: 11,
                 color: c.tooltipText,
               }}
               labelStyle={{ color: c.axis }}
               cursor={{ stroke: c.grid }}
             />
-            <Legend wrapperStyle={{ fontSize: 11.5 }} />
+            <Legend wrapperStyle={{ fontSize: 11 }} />
             {series.map((s, i) => {
               const stroke = s.color ?? SERIES_COLORS[i % SERIES_COLORS.length];
               return (

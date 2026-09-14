@@ -125,8 +125,6 @@ function TabelTerbaru() {
 
   return (
     <TableListV1
-      title="Transaksi Terbaru"
-      subtitle="Sepuluh transaksi terakhir yang tercatat"
       columns={KOLOM}
       rows={baris}
       rowKey={(row) => String(row.kode)}

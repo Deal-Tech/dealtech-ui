@@ -279,15 +279,6 @@ export default function PengaturanPage() {
       {peranAdmin ? (
         <section className="app-section-card">
           <div className="app-section-body pengaturan-bagian">
-            <header className="pengaturan-bagian__kepala">
-              <h2 className="pengaturan-bagian__judul">Kontak Publik</h2>
-            </header>
-
-            <p className="pengaturan-bagian__teks">
-              Dipakai di footer, halaman Contact, dan tombol konfirmasi WhatSApp di checkout.
-              Nomor yang salah di sini berarti pesanan tamu tidak sampai ke mana-mana.
-            </p>
-
             <form onSubmit={simpanKontakPublik} className="pengaturan-form">
               <InputText
                 label="WhatsApp"
@@ -366,10 +357,6 @@ export default function PengaturanPage() {
         {/* ---------- Informasi akun ---------- */}
         <section className="app-section-card">
           <div className="app-section-body pengaturan-bagian">
-            <header className="pengaturan-bagian__kepala">
-              <h2 className="pengaturan-bagian__judul">Informasi Akun</h2>
-            </header>
-
             <form onSubmit={simpanProfil} className="pengaturan-form">
               <InputText
                 label="Nama"
@@ -479,10 +466,6 @@ export default function PengaturanPage() {
         {/* ---------- Ganti kata sandi ---------- */}
         <section className="app-section-card">
           <div className="app-section-body pengaturan-bagian">
-            <header className="pengaturan-bagian__kepala">
-              <h2 className="pengaturan-bagian__judul">Ubah Kata Sandi</h2>
-            </header>
-
             <form onSubmit={submitSandi} className="pengaturan-form">
               <InputText
                 label="Kata sandi saat ini"

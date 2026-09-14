@@ -18,8 +18,6 @@ export interface ChartBarHorDatum {
 }
 
 export interface ChartBarHorProps {
-  title: string;
-  subtitle?: string;
   data: ChartBarHorDatum[];
   color?: string;
   height?: number;
@@ -27,8 +25,6 @@ export interface ChartBarHorProps {
 }
 
 export function ChartBarHor({
-  title,
-  subtitle,
   data,
   color,
   height = 280,
@@ -39,18 +35,14 @@ export function ChartBarHor({
 
   return (
     <section className={`chartbarhor ${className}`}>
-      <div className="chartbarhor__header">
-        <h2 className="chartbarhor__title">{title}</h2>
-        {subtitle ? <p className="chartbarhor__subtitle">{subtitle}</p> : null}
-      </div>
       <div className="chartbarhor__body" style={{ height }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} layout="vertical" margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
-            <XAxis type="number" tick={{ fill: c.axis, fontSize: 11.5 }} axisLine={false} tickLine={false} />
+            <XAxis type="number" tick={{ fill: c.axis, fontSize: 11 }} axisLine={false} tickLine={false} />
             <YAxis
               type="category"
               dataKey="label"
-              tick={{ fill: c.axis, fontSize: 11.5 }}
+              tick={{ fill: c.axis, fontSize: 11 }}
               axisLine={false}
               tickLine={false}
               width={92}
@@ -60,7 +52,7 @@ export function ChartBarHor({
                 background: c.tooltipBg,
                 border: `1px solid ${c.grid}`,
                 borderRadius: 8,
-                fontSize: 11.5,
+                fontSize: 11,
                 color: c.tooltipText,
               }}
               labelStyle={{ color: c.axis }}

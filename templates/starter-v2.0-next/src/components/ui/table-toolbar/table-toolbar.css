@@ -57,7 +57,7 @@
   background: var(--app-surface);
   box-shadow: 0 4px 10px color-mix(in srgb, var(--app-text) 12%, transparent);
   padding: 4px 9px;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 600;
   white-space: nowrap;
   color: var(--app-primary-hover);

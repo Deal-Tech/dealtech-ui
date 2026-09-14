@@ -259,7 +259,7 @@
 
 .blok-tentang__angka-nilai {
   margin: 0;
-  font-size: clamp(1.41875rem, 2.2vw, 1.71875rem);
+  font-size: clamp(1.3875rem, 2.2vw, 1.6875rem);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -268,13 +268,13 @@
 
 .blok-tentang__angka-label {
   margin: 4px 0 0;
-  font-size: 0.81875rem;
+  font-size: 0.7875rem;
   color: var(--color-publik-subteks);
 }
 
 .blok-tentang__teks {
   margin: 14px 0 0;
-  font-size: 0.96875rem;
+  font-size: 0.9375rem;
   color: var(--color-publik-subteks);
 }
 

@@ -17,7 +17,7 @@
   border-radius: 6px;
   background: var(--app-surface);
   padding: 5px 10px;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 500;
   color: var(--app-text);
   text-decoration: none;
@@ -41,7 +41,7 @@
 
 .element-seksi__judul {
   margin: 0;
-  font-size: 15.5px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -50,7 +50,7 @@
   border-radius: 999px;
   background: var(--app-chip-bg);
   padding: 1px 8px;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--app-chip-fg);
 }
@@ -82,13 +82,13 @@
 
 .element-petak__nama {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 600;
 }
 
 .element-petak__jalur {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--app-placeholder);
 }
 
@@ -108,7 +108,7 @@
 
 .element-catatan {
   margin: 0;
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--app-placeholder);
 }
 
@@ -127,7 +127,7 @@
   border-radius: 999px;
   background: var(--app-chip-bg);
   padding: 4px 12px;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--app-chip-fg);
 }

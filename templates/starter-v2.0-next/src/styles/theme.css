@@ -169,7 +169,7 @@
   --app-control-h: 34px;
   --app-control-h-lg: 38px;
 
-  --app-field-label-size: 13.5px;
+  --app-field-label-size: 13px;
   --app-field-label-weight: 500;
 
   --app-control-ring: 0 0 0 3px var(--app-fill-strong);
@@ -196,7 +196,7 @@ body {
   background-color: var(--app-bg);
   color: var(--app-body-text);
   font-family: var(--font-sans, 'Inter', 'SN Pro', ui-sans-serif, system-ui, sans-serif);
-  font-size: 15.5px;
+  font-size: 15px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -284,7 +284,7 @@ body * {
 .layout-publik .seksi-judul {
   margin: 0;
   text-align: center;
-  font-size: clamp(1.36875rem, 2.6vw, 1.96875rem);
+  font-size: clamp(1.3375rem, 2.6vw, 1.9375rem);
   letter-spacing: -0.02em;
 }
 
@@ -292,7 +292,7 @@ body * {
   margin: 10px auto 0;
   max-width: 640px;
   text-align: center;
-  font-size: 0.96875rem;
+  font-size: 0.9375rem;
   color: var(--color-publik-subteks);
 }
 

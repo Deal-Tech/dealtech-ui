@@ -11,8 +11,6 @@ export interface ChartListBarItem {
 }
 
 export interface ChartListBarProps {
-  title: string;
-  subtitle?: string;
   action?: ReactNode;
   items: ChartListBarItem[];
   emptyText?: string;
@@ -20,8 +18,6 @@ export interface ChartListBarProps {
 }
 
 export function ChartListBar({
-  title,
-  subtitle,
   action,
   items,
   emptyText = 'Tidak ada data.',
@@ -30,13 +26,11 @@ export function ChartListBar({
   const max = Math.max(...items.map((i) => i.value), 1);
   return (
     <section className={`chartlistbar ${className}`}>
-      <div className="chartlistbar__header">
-        <div className="chartlistbar__heading">
-          <h2 className="chartlistbar__title">{title}</h2>
-          {subtitle ? <p className="chartlistbar__subtitle">{subtitle}</p> : null}
+      {action ? (
+        <div className="chartlistbar__header">
+          <div className="chartlistbar__action">{action}</div>
         </div>
-        {action ? <div className="chartlistbar__action">{action}</div> : null}
-      </div>
+      ) : null}
 
       <div className="chartlistbar__body">
         {items.length === 0 ? (

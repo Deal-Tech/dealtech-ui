@@ -8,33 +8,14 @@
 
 .tabelcardv1__header {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
   gap: 12px;
   padding: 12px 20px;
   border-bottom: 1px solid var(--app-border-strong);
 }
-@media (min-width: 768px) {
-  .tabelcardv1__header {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-.tabelcardv1__heading {
-  min-width: 0;
-}
-.tabelcardv1__title-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.tabelcardv1__title {
-  margin: 0;
-  font-size: 1.09375rem;
-  font-weight: 700;
-  color: var(--app-text);
-}
 .tabelcardv1__count {
+  margin-right: auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -44,16 +25,9 @@
   border-radius: 999px;
   background: var(--app-count-bg);
   color: var(--app-count-fg);
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 700;
   line-height: 1;
-}
-.tabelcardv1__subtitle {
-  margin: 2px 0 0;
-  font-size: 12.5px;
-  line-height: 1.4;
-  font-weight: var(--app-desc-weight);
-  color: var(--app-desc-color);
 }
 .tabelcardv1__action {
   flex-shrink: 0;
@@ -74,7 +48,7 @@
 }
 .tabelcardv1__item-title {
   margin: 0;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--app-text);
   overflow: hidden;
@@ -83,7 +57,7 @@
 }
 .tabelcardv1__item-subtitle {
   margin: 4px 0 0;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
   overflow: hidden;
@@ -97,7 +71,7 @@
   margin-top: 8px;
 }
 .tabelcardv1__item-date {
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--app-text-faint);
 }
 .tabelcardv1__avatar {
@@ -111,7 +85,7 @@
   border-radius: 999px;
   background: var(--app-count-bg);
   color: var(--app-count-fg);
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 700;
 }
 
@@ -121,6 +95,6 @@
   background: var(--app-fill-strong);
   padding: 24px;
   text-align: center;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--app-text-muted);
 }

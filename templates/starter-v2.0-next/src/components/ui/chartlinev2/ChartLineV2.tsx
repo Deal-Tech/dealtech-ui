@@ -18,8 +18,6 @@ export interface ChartLineV2Series {
 }
 
 export interface ChartLineV2Props {
-  title: string;
-  subtitle?: string;
   data: Array<Record<string, string | number>>;
   xKey: string;
   series: ChartLineV2Series[];
@@ -29,8 +27,6 @@ export interface ChartLineV2Props {
 }
 
 export function ChartLineV2({
-  title,
-  subtitle,
   data,
   xKey,
   series,
@@ -57,10 +53,6 @@ export function ChartLineV2({
 
   return (
     <section className={`chartlinev2 ${className}`}>
-      <div className="chartlinev2__header">
-        <h2 className="chartlinev2__title">{title}</h2>
-        {subtitle ? <p className="chartlinev2__subtitle">{subtitle}</p> : null}
-      </div>
 
       <div className="chartlinev2__body">
         <div className="chartlinev2__legend">
@@ -78,12 +70,12 @@ export function ChartLineV2({
               <CartesianGrid strokeDasharray="3 3" stroke={c.grid} />
               <XAxis
                 dataKey={xKey}
-                tick={{ fill: c.axis, fontSize: 10.5 }}
+                tick={{ fill: c.axis, fontSize: 10 }}
                 axisLine={{ stroke: c.grid }}
                 tickLine={{ stroke: c.grid }}
               />
               <YAxis
-                tick={{ fill: c.axis, fontSize: 10.5 }}
+                tick={{ fill: c.axis, fontSize: 10 }}
                 axisLine={{ stroke: c.grid }}
                 tickLine={{ stroke: c.grid }}
                 width={40}
@@ -93,7 +85,7 @@ export function ChartLineV2({
                   background: c.tooltipBg,
                   border: `1px solid ${c.grid}`,
                   borderRadius: 8,
-                  fontSize: 11.5,
+                  fontSize: 11,
                   color: c.tooltipText,
                 }}
                 labelStyle={{ color: c.axis, fontWeight: 600 }}

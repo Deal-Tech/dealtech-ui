@@ -41,7 +41,7 @@
   background: var(--app-surface);
   padding: 6px 12px;
   text-align: center;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--app-text);
 }
@@ -56,7 +56,7 @@
 .kalender__hari {
   padding: 2px 0;
   text-align: center;
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -128,7 +128,7 @@
 }
 
 .kalender__angka {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   color: var(--app-text);
@@ -146,7 +146,7 @@
   border-radius: 999px;
   background: var(--app-primary);
   padding: 0 4px;
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -161,13 +161,13 @@
 
 @media (max-width: 480px) {
   .kalender__angka {
-    font-size: 11.5px;
+    font-size: 11px;
   }
 
   .kalender__badge {
     height: 15px;
     min-width: 15px;
-    font-size: 8.5px;
+    font-size: 8px;
   }
 }
 

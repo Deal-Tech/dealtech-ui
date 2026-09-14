@@ -18,14 +18,14 @@
 }
 .pagetitle__title {
   margin: 0;
-  font-size: 1.09375rem;
+  font-size: 1.0625rem;
   font-weight: 700;
   line-height: 1.4;
   color: var(--app-text);
 }
 .pagetitle__subtitle {
   margin: 2px 0 0;
-  font-size: 11.5px;
+  font-size: 11px;
   line-height: 1.4;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);

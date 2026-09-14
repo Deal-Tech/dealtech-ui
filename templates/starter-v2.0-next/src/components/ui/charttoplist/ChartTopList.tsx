@@ -9,8 +9,6 @@ export interface ChartTopListItem {
 }
 
 export interface ChartTopListProps {
-  title: string;
-  subtitle?: string;
   action?: ReactNode;
   items: ChartTopListItem[];
   emptyText?: string;
@@ -18,8 +16,6 @@ export interface ChartTopListProps {
 }
 
 export function ChartTopList({
-  title,
-  subtitle,
   action,
   items,
   emptyText = 'Tidak ada data.',
@@ -27,13 +23,11 @@ export function ChartTopList({
 }: ChartTopListProps) {
   return (
     <section className={`charttoplist ${className}`}>
-      <div className="charttoplist__header">
-        <div className="charttoplist__heading">
-          <h2 className="charttoplist__title">{title}</h2>
-          {subtitle ? <p className="charttoplist__subtitle">{subtitle}</p> : null}
+      {action ? (
+        <div className="charttoplist__header">
+          <div className="charttoplist__action">{action}</div>
         </div>
-        {action ? <div className="charttoplist__action">{action}</div> : null}
-      </div>
+      ) : null}
 
       <div className="charttoplist__body">
         {items.length === 0 ? (

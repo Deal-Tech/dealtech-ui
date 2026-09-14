@@ -13,8 +13,6 @@ export interface TabelCardItem {
 }
 
 export interface TabelCardV1Props {
-  title: string;
-  subtitle?: string;
   count?: number | null;
   action?: ReactNode;
   items: TabelCardItem[];
@@ -23,8 +21,6 @@ export interface TabelCardV1Props {
 }
 
 export function TabelCardV1({
-  title,
-  subtitle,
   count = null,
   action,
   items,
@@ -33,16 +29,12 @@ export function TabelCardV1({
 }: TabelCardV1Props) {
   return (
     <section className={`tabelcardv1 ${className}`}>
-      <div className="tabelcardv1__header">
-        <div className="tabelcardv1__heading">
-          <div className="tabelcardv1__title-row">
-            <h2 className="tabelcardv1__title">{title}</h2>
-            {count !== null ? <span className="tabelcardv1__count">{count}</span> : null}
-          </div>
-          {subtitle ? <p className="tabelcardv1__subtitle">{subtitle}</p> : null}
+      {count !== null || action ? (
+        <div className="tabelcardv1__header">
+          {count !== null ? <span className="tabelcardv1__count">{count}</span> : null}
+          {action ? <div className="tabelcardv1__action">{action}</div> : null}
         </div>
-        {action ? <div className="tabelcardv1__action">{action}</div> : null}
-      </div>
+      ) : null}
 
       <div className="tabelcardv1__body">
         {items.length === 0 ? (

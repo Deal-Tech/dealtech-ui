@@ -8,33 +8,11 @@
 
 .charttoplist__header {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
   gap: 12px;
   padding: 12px 20px;
   border-bottom: 1px solid var(--app-border-strong);
-}
-@media (min-width: 768px) {
-  .charttoplist__header {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-.charttoplist__heading {
-  min-width: 0;
-}
-.charttoplist__title {
-  margin: 0;
-  font-size: 1.09375rem;
-  font-weight: 700;
-  color: var(--app-text);
-}
-.charttoplist__subtitle {
-  margin: 2px 0 0;
-  font-size: 12.5px;
-  line-height: 1.4;
-  font-weight: var(--app-desc-weight);
-  color: var(--app-desc-color);
 }
 .charttoplist__action {
   flex-shrink: 0;
@@ -62,7 +40,7 @@
   border-radius: 999px;
   background: var(--app-fill-strong);
   color: var(--app-text);
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
 }
 .charttoplist__info {
@@ -71,7 +49,7 @@
 }
 .charttoplist__name {
   margin: 0;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--app-text);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -79,13 +57,13 @@
 }
 .charttoplist__meta {
   margin: 2px 0 0;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
 }
 .charttoplist__value {
   flex-shrink: 0;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--app-text);
 }
@@ -93,6 +71,6 @@
 .charttoplist__empty {
   padding: 24px;
   text-align: center;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--app-text-muted);
 }

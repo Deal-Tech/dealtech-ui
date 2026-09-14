@@ -5,22 +5,6 @@
   border: 1px solid var(--app-card-border);
   background: var(--app-surface);
 }
-.chartpie__header {
-  padding: 12px 20px;
-  border-bottom: 1px solid var(--app-border-strong);
-}
-.chartpie__title {
-  margin: 0;
-  font-size: 1.09375rem;
-  font-weight: 700;
-  color: var(--app-text);
-}
-.chartpie__subtitle {
-  margin: 2px 0 0;
-  font-size: 12.5px;
-  font-weight: var(--app-desc-weight);
-  color: var(--app-desc-color);
-}
 .chartpie__body {
   padding: 16px 20px;
 }
@@ -50,7 +34,7 @@
   flex-shrink: 0;
 }
 .chartpie__legend-name {
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
   white-space: nowrap;
@@ -80,17 +64,17 @@
   flex-shrink: 0;
 }
 .chartpie__summary-name {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--app-text-muted);
 }
 .chartpie__summary-value {
   margin: 6px 0 0;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--app-text);
 }
 .chartpie__summary-pct {
   margin: 2px 0 0;
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--app-text-muted);
 }

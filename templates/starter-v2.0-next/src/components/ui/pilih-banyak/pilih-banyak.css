@@ -18,7 +18,7 @@
   border: 1px solid var(--app-border);
   background: var(--app-bg);
   padding: 5px 10px;
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--app-text);
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease;
@@ -60,6 +60,6 @@
 
 .pilih-banyak__kosong {
   margin: 0;
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--app-text-faint);
 }

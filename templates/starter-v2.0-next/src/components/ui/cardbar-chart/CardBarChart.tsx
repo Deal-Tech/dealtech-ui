@@ -8,8 +8,6 @@ export interface CardBarChartDatum {
 }
 
 export interface CardBarChartProps {
-  title: string;
-  subtitle?: string;
   action?: ReactNode;
   data: CardBarChartDatum[];
   max?: number;
@@ -18,8 +16,6 @@ export interface CardBarChartProps {
 }
 
 export function CardBarChart({
-  title,
-  subtitle,
   action,
   data,
   max,
@@ -30,13 +26,11 @@ export function CardBarChart({
 
   return (
     <section className={`cardbar-chart ${className}`}>
-      <div className="cardbar-chart__header">
-        <div className="cardbar-chart__heading">
-          <h2 className="cardbar-chart__title">{title}</h2>
-          {subtitle ? <p className="cardbar-chart__subtitle">{subtitle}</p> : null}
+      {action ? (
+        <div className="cardbar-chart__header">
+          <div className="cardbar-chart__action">{action}</div>
         </div>
-        {action ? <div className="cardbar-chart__action">{action}</div> : null}
-      </div>
+      ) : null}
 
       <div className="cardbar-chart__body">
         <div className="cardbar-chart__bars">

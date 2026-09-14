@@ -45,7 +45,7 @@
 
 .modal__title {
   margin: 0;
-  font-size: 1.09375rem;
+  font-size: 1.0625rem;
   font-weight: 700;
   color: var(--app-text);
 }
@@ -117,7 +117,7 @@
 .modal-detail__label {
   display: block;
   margin-bottom: 6px;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
 }
@@ -130,7 +130,7 @@
   border-radius: 6px;
   border: 1px solid var(--app-border);
   background: var(--app-fill);
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--app-text);
   word-break: break-word;

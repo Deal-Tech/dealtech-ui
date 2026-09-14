@@ -16,7 +16,7 @@
 .inputlongtext__field {
   width: 100%;
   padding: 8px 12px;
-  font-size: 13.5px;
+  font-size: 13px;
   border-radius: 6px;
   border: 1px solid var(--app-border-strong);
   box-shadow: var(--app-control-ring);
@@ -49,12 +49,12 @@
 }
 .inputlongtext__hint {
   margin: 6px 0 0;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
 }
 .inputlongtext__error {
   margin: 6px 0 0;
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--app-danger-text);
 }

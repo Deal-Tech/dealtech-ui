@@ -3,21 +3,22 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      // Skala Tailwind bawaan, tiap ukuran dikurangi 0,5px (0.03125rem).
+      // Skala Tailwind bawaan, tiap ukuran dikurangi 1px (0.0625rem).
+      // Tinggi baris dibiarkan seperti bawaan.
       fontSize: {
-        xs: ['0.71875rem', { lineHeight: '1rem' }],
-        sm: ['0.84375rem', { lineHeight: '1.25rem' }],
-        base: ['0.96875rem', { lineHeight: '1.5rem' }],
-        lg: ['1.09375rem', { lineHeight: '1.75rem' }],
-        xl: ['1.21875rem', { lineHeight: '1.75rem' }],
-        '2xl': ['1.46875rem', { lineHeight: '2rem' }],
-        '3xl': ['1.84375rem', { lineHeight: '2.25rem' }],
-        '4xl': ['2.21875rem', { lineHeight: '2.5rem' }],
-        '5xl': ['2.96875rem', { lineHeight: '1' }],
-        '6xl': ['3.71875rem', { lineHeight: '1' }],
-        '7xl': ['4.46875rem', { lineHeight: '1' }],
-        '8xl': ['5.96875rem', { lineHeight: '1' }],
-        '9xl': ['7.96875rem', { lineHeight: '1' }],
+        xs: ['0.6875rem', { lineHeight: '1rem' }],
+        sm: ['0.8125rem', { lineHeight: '1.25rem' }],
+        base: ['0.9375rem', { lineHeight: '1.5rem' }],
+        lg: ['1.0625rem', { lineHeight: '1.75rem' }],
+        xl: ['1.1875rem', { lineHeight: '1.75rem' }],
+        '2xl': ['1.4375rem', { lineHeight: '2rem' }],
+        '3xl': ['1.8125rem', { lineHeight: '2.25rem' }],
+        '4xl': ['2.1875rem', { lineHeight: '2.5rem' }],
+        '5xl': ['2.9375rem', { lineHeight: '1' }],
+        '6xl': ['3.6875rem', { lineHeight: '1' }],
+        '7xl': ['4.4375rem', { lineHeight: '1' }],
+        '8xl': ['5.9375rem', { lineHeight: '1' }],
+        '9xl': ['7.9375rem', { lineHeight: '1' }],
       },
       fontFamily: {
         sans: ['Inter', '"SN Pro"', 'ui-sans-serif', 'system-ui', 'sans-serif'],

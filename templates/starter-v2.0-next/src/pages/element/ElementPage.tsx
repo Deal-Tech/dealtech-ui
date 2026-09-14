@@ -592,8 +592,6 @@ export default function ElementPage() {
 
         <Petak nama="TabelCardV1" jalur="tabelcardv1/">
           <TabelCardV1
-            title="Tim Paling Aktif"
-            subtitle="Tiga anggota dengan tugas terbanyak"
             count={3}
             items={[
               {
@@ -634,8 +632,6 @@ export default function ElementPage() {
 
         <Petak nama="Heatmap" jalur="heatmap/">
           <Heatmap
-            title="Kepadatan Aktivitas"
-            subtitle="Jumlah transaksi per shift"
             rows={['Pagi', 'Siang', 'Sore']}
             cols={['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min']}
             values={[
@@ -651,8 +647,6 @@ export default function ElementPage() {
       <Seksi id="chart" judul="Chart" jumlah={10}>
         <Petak nama="ChartLine" jalur="chartline/">
           <ChartLine
-            title="Kunjungan & Transaksi"
-            subtitle="Enam bulan terakhir"
             data={DATA_GARIS}
             xKey="bulan"
             series={[
@@ -664,8 +658,6 @@ export default function ElementPage() {
 
         <Petak nama="ChartLineV2" jalur="chartlinev2/">
           <ChartLineV2
-            title="Tren Transaksi"
-            subtitle="Dengan tabel rincian"
             data={DATA_GARIS}
             xKey="bulan"
             series={[{ key: 'transaksi', label: 'Transaksi' }]}
@@ -674,12 +666,11 @@ export default function ElementPage() {
         </Petak>
 
         <Petak nama="ChartBarVer" jalur="chartbarver/">
-          <ChartBarVer title="Transaksi per Hari" subtitle="Minggu ini" data={DATA_BATANG} />
+          <ChartBarVer data={DATA_BATANG} />
         </Petak>
 
         <Petak nama="ChartBarHor" jalur="chartbarhor/">
           <ChartBarHor
-            title="Produk Terlaris"
             data={[
               { label: 'Paket Langganan Pro', value: 128 },
               { label: 'Paket Langganan Dasar', value: 94 },
@@ -691,7 +682,6 @@ export default function ElementPage() {
 
         <Petak nama="ChartBarGanda" jalur="chartbar-ganda/">
           <ChartBarGanda
-            title="Selesai vs Batal"
             data={[
               { label: 'Jun', a: 82, b: 6 },
               { label: 'Jul', a: 96, b: 11 },
@@ -705,7 +695,6 @@ export default function ElementPage() {
 
         <Petak nama="ChartPie" jalur="chartpie/">
           <ChartPie
-            title="Sumber Trafik"
             data={[
               { name: 'Organik', value: 420 },
               { name: 'Iklan', value: 310 },
@@ -719,7 +708,6 @@ export default function ElementPage() {
 
         <Petak nama="ChartListBar" jalur="chartlistbar/">
           <ChartListBar
-            title="Kanal Penjualan"
             items={[
               { label: 'Website', value: 62, valueLabel: '62%', meta: '740 transaksi' },
               { label: 'Aplikasi', value: 24, valueLabel: '24%', meta: '286 transaksi' },
@@ -730,8 +718,6 @@ export default function ElementPage() {
 
         <Petak nama="ChartTopList" jalur="charttoplist/">
           <ChartTopList
-            title="Staf Terbaik"
-            subtitle="Berdasarkan penilaian bulan ini"
             items={[
               { name: 'Dewi Anggraini', meta: 'Operasional', value: '4.9' },
               { name: 'Bagus Prasetyo', meta: 'Keuangan', value: '4.8' },
@@ -742,8 +728,6 @@ export default function ElementPage() {
 
         <Petak nama="CardBarChart" jalur="cardbar-chart/">
           <CardBarChart
-            title="Transaksi Harian"
-            subtitle="Tujuh hari terakhir"
             data={DATA_BATANG}
             unit="transaksi"
           />
@@ -751,7 +735,6 @@ export default function ElementPage() {
 
         <Petak nama="CardBarList" jalur="cardbar-list/">
           <CardBarList
-            title="Kategori Produk"
             items={[
               { label: 'Langganan', value: 48 },
               { label: 'Add-on', value: 26 },

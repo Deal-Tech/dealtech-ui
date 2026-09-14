@@ -1,8 +1,6 @@
 import './heatmap.css';
 
 export interface HeatmapProps {
-  title: string;
-  subtitle?: string;
   rows: string[];
   cols: string[];
   values: number[][];
@@ -11,8 +9,6 @@ export interface HeatmapProps {
 }
 
 export function Heatmap({
-  title,
-  subtitle,
   rows,
   cols,
   values,
@@ -28,10 +24,6 @@ export function Heatmap({
 
   return (
     <section className={`heatmap ${className}`}>
-      <div className="heatmap__header">
-        <h2 className="heatmap__title">{title}</h2>
-        {subtitle ? <p className="heatmap__subtitle">{subtitle}</p> : null}
-      </div>
 
       <div className="heatmap__body">
         <div className="heatmap__scroll">

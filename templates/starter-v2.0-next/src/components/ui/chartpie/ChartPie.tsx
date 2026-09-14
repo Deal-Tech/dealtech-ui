@@ -10,8 +10,6 @@ export interface ChartPieDatum {
 }
 
 export interface ChartPieProps {
-  title: string;
-  subtitle?: string;
   data: ChartPieDatum[];
   height?: number;
   valueFormatter?: (v: number) => string;
@@ -21,8 +19,6 @@ export interface ChartPieProps {
 }
 
 export function ChartPie({
-  title,
-  subtitle,
   data,
   height = 240,
   valueFormatter = (v) => String(v),
@@ -36,10 +32,6 @@ export function ChartPie({
 
   return (
     <section className={`chartpie ${className}`}>
-      <div className="chartpie__header">
-        <h2 className="chartpie__title">{title}</h2>
-        {subtitle ? <p className="chartpie__subtitle">{subtitle}</p> : null}
-      </div>
 
       <div className="chartpie__body">
         <div className="chartpie__chart" style={{ height }}>
@@ -64,7 +56,7 @@ export function ChartPie({
                   background: c.tooltipBg,
                   border: `1px solid ${c.grid}`,
                   borderRadius: 8,
-                  fontSize: 11.5,
+                  fontSize: 11,
                   color: c.tooltipText,
                 }}
                 labelStyle={{ color: c.axis }}

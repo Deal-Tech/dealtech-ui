@@ -34,8 +34,6 @@ export interface PilihanTabel {
 }
 
 export interface TableListV1Props {
-  title?: string;
-  subtitle?: string;
   action?: ReactNode;
   toolbar?: ReactNode;
   columns: TableListColumn[];
@@ -180,8 +178,6 @@ function useSeretGulir(pemicu: unknown) {
 }
 
 export function TableListV1({
-  title,
-  subtitle,
   action,
   toolbar,
   columns,
@@ -216,13 +212,9 @@ export function TableListV1({
 
   return (
     <section className={`tablelist-v1 ${className}`}>
-      {title || subtitle || action ? (
+      {action ? (
         <div className="tablelist-v1__header">
-          <div className="tablelist-v1__heading">
-            {title ? <h2 className="tablelist-v1__title">{title}</h2> : null}
-            {subtitle ? <p className="tablelist-v1__subtitle">{subtitle}</p> : null}
-          </div>
-          {action ? <div className="tablelist-v1__action">{action}</div> : null}
+          <div className="tablelist-v1__action">{action}</div>
         </div>
       ) : null}
 
