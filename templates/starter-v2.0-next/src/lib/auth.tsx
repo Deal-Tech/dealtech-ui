@@ -23,7 +23,7 @@ export type { Pengguna, Peran };
 interface KonteksAuth {
   pengguna: Pengguna | null;
   memuat: boolean;
-  masuk: (email: string, sandi: string) => Promise<void>;
+  masuk: (email: string, sandi: string, ingat?: boolean) => Promise<void>;
   keluar: () => Promise<void>;
   boleh: (...peran: Peran[]) => boolean;
   segarkan: (u: Pengguna) => void;
@@ -76,14 +76,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [pasang]);
 
   const masuk = useCallback(
-    async (email: string, sandi: string) => {
+    async (email: string, sandi: string, ingat = false) => {
       if (MODE_DEMO) {
         const u = penggunaDemo(email);
-        simpanSesi(u);
+        simpanSesi(u, ingat);
         pasang(u);
         return;
       }
-      pasang(await masukLayanan(email, sandi));
+      pasang(await masukLayanan(email, sandi, ingat));
     },
     [pasang],
   );

@@ -33,17 +33,41 @@ export function penggunaDemo(email: string): Pengguna {
 
 export function bacaSesi(): Pengguna | null {
   try {
-    const mentah = window.sessionStorage.getItem(KUNCI_SESI);
+    const mentah =
+      window.localStorage.getItem(KUNCI_SESI) ?? window.sessionStorage.getItem(KUNCI_SESI);
     return mentah ? (JSON.parse(mentah) as Pengguna) : null;
   } catch {
     return null;
   }
 }
 
-export function simpanSesi(u: Pengguna | null): void {
+/** Sesi yang sedang berjalan disimpan permanen atau tidak. */
+export function sesiDiingat(): boolean {
   try {
-    if (u) window.sessionStorage.setItem(KUNCI_SESI, JSON.stringify(u));
-    else window.sessionStorage.removeItem(KUNCI_SESI);
+    return window.localStorage.getItem(KUNCI_SESI) !== null;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * "Ingat saya" cuma memilih tempat: localStorage bertahan sesudah jendelanya
+ * ditutup, sessionStorage ikut hilang bersama tabnya.
+ *
+ * Bawaan `ingat` sengaja membaca keadaan sekarang, bukan false — supaya
+ * penyuntingan profil lewat ubahSesi tidak diam-diam menurunkan sesi yang sudah
+ * diingat jadi sesi setab.
+ */
+export function simpanSesi(u: Pengguna | null, ingat: boolean = sesiDiingat()): void {
+  try {
+    // Dibersihkan dari dua-duanya dulu; kalau tidak, sesi lama tertinggal di
+    // tempat yang satunya saat pilihannya berubah.
+    window.localStorage.removeItem(KUNCI_SESI);
+    window.sessionStorage.removeItem(KUNCI_SESI);
+    if (u) {
+      const gudang = ingat ? window.localStorage : window.sessionStorage;
+      gudang.setItem(KUNCI_SESI, JSON.stringify(u));
+    }
   } catch {
     // Penyimpanan diblokir.
   }

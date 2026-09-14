@@ -4,6 +4,7 @@ import { LogIn } from 'lucide-react';
 
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { Button } from '@/components/ui/button/Button';
+import { Checkbox } from '@/components/ui/checkbox/Checkbox';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { ApiError } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
@@ -28,6 +29,7 @@ export default function AdminLogin() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [ingat, setIngat] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [galat, setGalat] = useState('');
 
@@ -44,7 +46,7 @@ export default function AdminLogin() {
     setProcessing(true);
     setGalat('');
     try {
-      await masuk(email.trim(), password);
+      await masuk(email.trim(), password, ingat);
       setPassword('');
       navigate(tujuan, { replace: true });
     } catch (e) {
@@ -84,6 +86,13 @@ export default function AdminLogin() {
             placeholder="Kata sandi"
             autoComplete="current-password"
             required
+          />
+
+          <Checkbox
+            label="Ingat saya"
+            name="ingat"
+            checked={ingat}
+            onChange={(e) => setIngat(e.target.checked)}
           />
 
           {galat ? <BadgeInfo variant="error">{galat}</BadgeInfo> : null}

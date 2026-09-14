@@ -22,10 +22,12 @@ interface JawabanMasuk {
   kedaluwarsa: string;
 }
 
-export async function masuk(email: string, sandi: string): Promise<Pengguna> {
+export async function masuk(email: string, sandi: string, ingat = false): Promise<Pengguna> {
   const hasil = await api<JawabanMasuk>('/api/v1/auth/login', {
     method: 'POST',
-    body: { email, password: sandi },
+    // `remember` diteruskan supaya backend bisa memberi cookie sesi berumur
+    // panjang; tanpa itu sesinya ikut habis saat peramban ditutup.
+    body: { email, password: sandi, remember: ingat },
     tanpaCSRF: true,
   });
   simpanCSRF(hasil.csrf_token);
