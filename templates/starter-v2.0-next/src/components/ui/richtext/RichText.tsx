@@ -40,10 +40,10 @@ const ATRIBUT_DIIZINKAN: Record<string, string[]> = {
 const SKEMA_TAUTAN = /^(?:https?:\/\/|mailto:|tel:|\/|#|\.\/)/i;
 const SKEMA_GAMBAR = /^(?:https?:\/\/|\/)/i;
 
-function urlAman(nilai: string, pola: RegExp): boolean {
+function urlBersih(nilai: string, pola: RegExp): string {
   // Karakter kendali dipakai untuk menyelundupkan "javascript:".
   const bersih = nilai.replace(/[\u0000-\u001F\u007F]/g, '').trim();
-  return pola.test(bersih);
+  return pola.test(bersih) ? bersih : '';
 }
 
 export function sanitasiHtml(html: string): string {
@@ -75,8 +75,12 @@ export function sanitasiHtml(html: string): string {
           el.removeAttribute(attr.name);
           return;
         }
-        if (nama === 'href' && !urlAman(attr.value, SKEMA_TAUTAN)) el.removeAttribute(attr.name);
-        if (nama === 'src' && !urlAman(attr.value, SKEMA_GAMBAR)) el.removeAttribute(attr.name);
+        if (nama === 'href' || nama === 'src') {
+          const pola = nama === 'href' ? SKEMA_TAUTAN : SKEMA_GAMBAR;
+          const bersih = urlBersih(attr.value, pola);
+          if (bersih === '') el.removeAttribute(attr.name);
+          else el.setAttribute(attr.name, bersih);
+        }
       });
 
       if (tag === 'A' && el.getAttribute('target') === '_blank') {
@@ -110,10 +114,7 @@ const normalkanUrl = (u: string): string => {
 const eksternal = (u: string): boolean => /^https?:\/\//i.test(u);
 
 // Tolak skema di luar allowlist.
-const urlTautanAman = (u: string): string => {
-  const v = normalkanUrl(u);
-  return v !== '' && urlAman(v, SKEMA_TAUTAN) ? v : '';
-};
+const urlTautanAman = (u: string): string => urlBersih(normalkanUrl(u), SKEMA_TAUTAN);
 
 type TombolAlat = {
   cmd: string;
@@ -221,7 +222,7 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
       tautanDiedit.current = tautan as HTMLAnchorElement;
       setSedangEdit(true);
       setTeksTautan(tautan.textContent ?? '');
-      setUrlTautan(tautan.getAttribute('href') ?? '');
+      setUrlTautan(urlBersih(tautan.getAttribute('href') ?? '', SKEMA_TAUTAN));
       rentangTersimpan.current = null;
       setModalBuka(true);
     }
