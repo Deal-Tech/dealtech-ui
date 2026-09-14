@@ -163,14 +163,17 @@ export default function MemberPage() {
 
   return (
     <div className="space-y-6">
-      <PageTitle title="Daftar Member" subtitle="Semua akun member yang terdaftar." />
-
-      <TableListV1
+      <PageTitle
+        title="Daftar Member"
+        subtitle="Semua akun member yang terdaftar."
         action={
           <Button icon={Plus} onClick={bukaTambah}>
             Tambah Member
           </Button>
         }
+      />
+
+      <TableListV1
         columns={KOLOM}
         rows={baris}
         rowKey={(row) => String(row.kode)}

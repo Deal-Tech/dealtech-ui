@@ -101,10 +101,6 @@ export function sanitasiHtml(html: string): string {
   return dok.body.innerHTML.trim();
 }
 
-const escHtml = (s: string): string =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const escAttr = (s: string): string => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-
 const normalkanUrl = (u: string): string => {
   const v = u.trim();
   if (v === '') return '';
@@ -112,6 +108,12 @@ const normalkanUrl = (u: string): string => {
   return `https://${v}`;
 };
 const eksternal = (u: string): boolean => /^https?:\/\//i.test(u);
+
+// Tolak skema di luar allowlist.
+const urlTautanAman = (u: string): string => {
+  const v = normalkanUrl(u);
+  return v !== '' && urlAman(v, SKEMA_TAUTAN) ? v : '';
+};
 
 type TombolAlat = {
   cmd: string;
@@ -233,7 +235,7 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
   };
 
   const terapkanTautan = () => {
-    const url = normalkanUrl(urlTautan);
+    const url = urlTautanAman(urlTautan);
     const teks = teksTautan.trim();
 
     if (tautanDiedit.current) {
@@ -270,12 +272,25 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
       sel.addRange(rentangTersimpan.current);
     }
     const nama = teks !== '' ? teks : rentangTersimpan.current?.toString() || url;
-    const tambahan = eksternal(url) ? ' target="_blank" rel="noopener noreferrer"' : '';
-    document.execCommand(
-      'insertHTML',
-      false,
-      `<a href="${escAttr(url)}"${tambahan}>${escHtml(nama)}</a>`,
-    );
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    if (eksternal(url)) {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
+    }
+    a.textContent = nama;
+
+    const rentang = sel && sel.rangeCount > 0 ? sel.getRangeAt(0) : null;
+    if (rentang) {
+      rentang.deleteContents();
+      rentang.insertNode(a);
+      rentang.setStartAfter(a);
+      rentang.collapse(true);
+      sel?.removeAllRanges();
+      sel?.addRange(rentang);
+    } else {
+      ref.current?.appendChild(a);
+    }
     kirim();
     tutupModal();
   };
@@ -361,7 +376,7 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
               document.execCommand('insertHTML', false, sanitasiHtml(html));
             } else {
               const teks = e.clipboardData.getData('text/plain');
-              document.execCommand('insertHTML', false, escHtml(teks).replace(/\n/g, '<br>'));
+              document.execCommand('insertText', false, teks);
             }
             kirim();
           }}
