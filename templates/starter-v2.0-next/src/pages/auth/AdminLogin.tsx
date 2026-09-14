@@ -59,11 +59,11 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="login-page flex min-h-screen items-center justify-center px-4">
+    <div className="login-page flex min-h-screen flex-col px-4">
       <LoginBg />
 
-      <div className="relative z-10 flex w-full max-w-[30rem] flex-col items-center">
-        <form onSubmit={submit} className="login-card w-full space-y-3 p-6">
+      <div className="relative z-10 flex flex-1 items-center justify-center py-10">
+        <form onSubmit={submit} className="login-card w-full max-w-[30rem] space-y-3 p-6">
           <InputText
             label="Email"
             name="email"
@@ -107,27 +107,22 @@ export default function AdminLogin() {
           </Button>
 
         </form>
-
-        <p className="login-footnote mt-5 text-center text-xs">
-          &copy; {new Date().getFullYear()} DealTech UI
-          <span className="login-footnote__powered mt-1">
-            Panel Admin Di Tenagai serta Di Suport
-            <a
-              href="https://tech.mudahdeal.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="login-footnote__tautan"
-            >
-              <img
-                src={dealhost}
-                alt="DealHost"
-                className="login-footnote__logo"
-                loading="lazy"
-              />
-            </a>
-          </span>
-        </p>
       </div>
+
+      <p className="login-footnote relative z-10 pb-6 text-center text-xs">
+        &copy; {new Date().getFullYear()} DealTech UI
+        <span className="login-footnote__powered mt-1">
+          Panel Admin Di Tenagai serta Di Suport
+          <a
+            href="https://tech.mudahdeal.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="login-footnote__tautan"
+          >
+            <img src={dealhost} alt="DealHost" className="login-footnote__logo" loading="lazy" />
+          </a>
+        </span>
+      </p>
     </div>
   );
 }
