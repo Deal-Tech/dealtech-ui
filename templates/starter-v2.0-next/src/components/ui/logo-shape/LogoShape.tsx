@@ -2,8 +2,73 @@ import { useEffect, useRef, useState } from 'react';
 
 import './logo-shape.css';
 
-const LAMBANG =
-  'M156.4 0.3L140.9 4.7L125.1 14.1L14.8 124.8A46.22 46.22 0 0 0 32.2 202.8A51.75 51.75 0 0 0 90.1 186.2L141.9 134.9A21.39 21.39 0 0 1 169 139L254.3 225.6A13.62 13.62 0 0 1 237 244.1A27.54 27.54 0 0 1 226.9 235.1L183.1 191.8L176 188.8L167.6 189.6A16.92 16.92 0 0 0 163.8 220.1L210.2 266.8A12.69 12.69 0 1 1 188.9 281.2L139.1 231.9A16.98 16.98 0 0 0 119.8 260.1L169.9 310.1A46.5 46.5 0 0 0 245.1 280A3.11 3.11 0 0 1 249.7 276.9A46.3 46.3 0 0 0 269.3 192.7L238.2 161.8L185.2 108.8L172.3 101.5L157 97.8L143.5 98.3L127.9 103.8L118.2 111.1L61.2 168.2L53.1 172.2L43.6 171.5A13.43 13.43 0 0 1 40.8 146.9L146.8 40.7L158.3 35.2A34.93 34.93 0 0 1 193.1 47.9L278.2 133.8L299.9 155.1A17.16 17.16 0 0 0 328.4 138.7L324.9 132.2L281.5 88.5L222.9 30.1L204.5 12.5A63.57 63.57 0 0 0 157.2 0.3L156.4 0.3Z';
+/*
+ * Lambang DealTech UI — tiga keping luar dan tiga keping dalam yang saling
+ * mengunci jadi satu heksagon berputar.
+ *
+ * Bentuknya tidak ditulis sebagai path buram, tapi dihitung dari lima tetapan
+ * di bawah: semua kepingnya turunan dari satu heksagon, jadi simetri tiga
+ * sisinya dijamin tepat dan proporsinya bisa disetel tanpa menggambar ulang.
+ *
+ * Tiap keping cuma garis patah bertitik-sudut satu. Ketebalan dan sudut
+ * tumpulnya datang dari stroke: `stroke-linecap` dan `stroke-linejoin` yang
+ * bulat membentuk ujung dan sikunya — itu sebabnya path-nya sependek ini.
+ */
+
+/* Jari-jari heksagon luar. Semua ukuran lain kelipatan angka ini, jadi nilainya
+   sendiri tidak penting — yang penting perbandingannya. */
+const JARI = 100;
+
+/* Tebal batang, dalam satuan yang sama. */
+const TEBAL = 30;
+
+/* Heksagon bagian dalam sebesar 62% yang luar. Inilah yang mengatur lebar celah
+   diagonal antar keping: makin kecil, makin lebar celahnya dan makin besar
+   lubang tengahnya. */
+const SKALA_DALAM = 0.62;
+
+/* Panjang dua lengan tiap keping, sebagai pecahan dari satu sisi heksagon.
+   Sengaja tidak sama panjang — ketimpangan inilah yang membuat lambangnya
+   terbaca berputar, bukan diam simetris. */
+const LENGAN_LUAR = [0.55, 0.82];
+const LENGAN_DALAM = [0.58, 0.9];
+
+/* Simpul heksagon bertepi datar: sudut 0, 60, ... 300 derajat. Koordinat layar,
+   jadi sumbu y menunjuk ke bawah. */
+function simpul(jari: number) {
+  return Array.from({ length: 6 }, (_, k) => {
+    const sudut = (Math.PI / 180) * 60 * k;
+    return { x: jari * Math.cos(sudut), y: jari * Math.sin(sudut) };
+  });
+}
+
+/* Satu keping: dari sebagian sisi sebelumnya, membelok di simpul ke-k, lalu
+   turun sebagian sisi berikutnya. */
+function keping(titik: ReturnType<typeof simpul>, k: number, [a, b]: number[]) {
+  const lalu = titik[(k + 5) % 6];
+  const kini = titik[k];
+  const nanti = titik[(k + 1) % 6];
+  const geser = (ke: { x: number; y: number }, f: number) =>
+    `${(kini.x + f * (ke.x - kini.x)).toFixed(2)} ${(kini.y + f * (ke.y - kini.y)).toFixed(2)}`;
+
+  return `M ${geser(lalu, a)} L ${kini.x.toFixed(2)} ${kini.y.toFixed(2)} L ${geser(nanti, b)}`;
+}
+
+const LUAR = simpul(JARI);
+const DALAM = simpul(JARI * SKALA_DALAM);
+
+/* Keping luar duduk di simpul genap, keping dalam di simpul ganjil — selang
+   seling itulah yang menganyam keduanya. */
+const LAMBANG = [
+  ...[0, 2, 4].map((k) => keping(LUAR, k, LENGAN_LUAR)),
+  ...[1, 3, 5].map((k) => keping(DALAM, k, LENGAN_DALAM)),
+].join(' ');
+
+/* Kotak pandang dihitung dari simpul terluar ditambah separuh tebal batang,
+   supaya ujung bulatnya tidak terpotong tepi SVG. */
+const SISI = JARI + TEBAL / 2;
+const TINGGI = JARI * Math.sin(Math.PI / 3) + TEBAL / 2;
+const KOTAK = `${-SISI} ${-TINGGI} ${SISI * 2} ${TINGGI * 2}`;
 
 interface Props {
   className?: string;
@@ -32,8 +97,12 @@ export default function LogoShape({ className, revealOnScroll = true }: Props) {
     <svg
       ref={ref}
       className={`logo-shape${tampil ? ' is-visible' : ''}${className ? ` ${className}` : ''}`}
-      viewBox="0 0 329 320"
-      fill="currentColor"
+      viewBox={KOTAK}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={TEBAL}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       aria-hidden="true"
       focusable="false"
     >

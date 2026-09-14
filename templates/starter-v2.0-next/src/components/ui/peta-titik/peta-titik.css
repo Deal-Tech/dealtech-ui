@@ -1,0 +1,273 @@
+/* ============================================================
+ * Peta Indonesia bertitik + lompatan data antar kota.
+ * Bentuk petanya ada di PetaTitik.tsx (peta karakter).
+ * ============================================================ */
+
+.peta-titik {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/*
+  Dua lapis sebangun dan setumpuk: titik di bawah, jalur di atas.
+
+  Keduanya dipasang `meet`, bukan `slice`: yang penting siluet Indonesianya utuh
+  terbaca, bukan memenuhi layar. Di layar lebar ia melebar penuh dan menyisakan
+  ruang atas-bawah; di layar sempit ia mengecil mengikuti lebarnya.
+*/
+.peta-titik__peta,
+.peta-titik__jalur {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Pancaran berkasnya melebar keluar garis — tanpa ini ujung glow-nya terpotong
+   rapi oleh tepi kotak SVG. */
+.peta-titik__jalur {
+  overflow: visible;
+}
+
+/*
+  Sudut kanan-bawah diredupkan kuat: di situ lambang duduk, dan titik yang tetap
+  seterang sisanya membuat keduanya tampak berada di satu bidang. Dipakai mask,
+  bukan opacity satu nilai untuk seluruh peta — yang dipudarkan hanya yang
+  tertimpa lambang, sisanya utuh. Jalurnya sengaja tidak ikut: berkas yang padam
+  di tengah rute membuat jaringannya tampak putus.
+*/
+.peta-titik__peta.is-redup {
+  --peta-bayang: radial-gradient(
+    66% 50% at 100% 100%,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.18) 45%,
+    rgba(0, 0, 0, 0.55) 72%,
+    #000 100%
+  );
+
+  -webkit-mask-image: var(--peta-bayang);
+  mask-image: var(--peta-bayang);
+}
+
+.peta-titik__titik {
+  fill: rgba(255, 255, 255, 0.2);
+}
+
+/* Pin kota: titik diam yang selalu ada, sedikit lebih tegas daripada titik peta
+   — inilah simpul jaringannya. */
+.peta-titik__pin {
+  fill: rgba(255, 255, 255, 0.5);
+}
+
+/*
+  Kilatan pin — cuma dipasang pada dua pin yang sedang terlibat: yang mengirim
+  saat berkas berangkat, yang menerima saat berkas tiba. Jedanya diatur inline
+  dari TSX karena tiap lompatan beda waktu tempuh.
+
+  Berakhir di opacity 0, bukan balik ke redup: pin diamnya sudah digambar di
+  bawahnya, jadi kalau kilatannya menyisakan warna, pin itu akan lebih terang
+  daripada pin lain sampai kapan pun.
+*/
+.peta-titik__nyala,
+.peta-titik__denyut {
+  animation-duration: 0.9s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  /* Jeda diambil dari <g> induknya supaya satu angka mengatur dua lapisan. */
+  animation-delay: inherit;
+}
+
+.peta-titik__nyala {
+  fill: #ffffff;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+  animation-name: petaKedip;
+}
+
+/*
+  Denyutnya melebar dari titiknya sendiri, jadi titik acuan transform harus kotak
+  isi elemen — bawaan SVG adalah titik nol viewBox, yang membuat lingkaran
+  melesat ke pojok kiri atas saat diperbesar.
+*/
+.peta-titik__denyut {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: petaDenyut;
+}
+
+@keyframes petaKedip {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes petaDenyut {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3.4);
+  }
+}
+
+/* ============================================================
+ * Lompatan data — sekali jalan dari satu pin acak ke pin acak
+ * lain, lalu berhenti dan ganti pasangan. Bukan rute keliling:
+ * tiap lompatan berdiri sendiri.
+ *
+ * Panjang busurnya dinormalkan lewat pathLength="1000" di TSX,
+ * jadi angka dasharray/dashoffset di sini permil busur, bukan
+ * piksel — satu setelan berlaku baik untuk lompatan sependek
+ * Surabaya-Denpasar maupun sepanjang Medan-Jayapura. Yang beda
+ * cuma lamanya, dan itu dipasang inline dari TSX.
+ * ============================================================ */
+
+/* Relnya: datang bersama lompatannya lalu ikut pergi. Sengaja dijaga nyaris tak
+   terlihat — yang jadi tontonan berkasnya, bukan garisnya. Putus-putus bergaris
+   supaya tidak tertukar dengan deret titik peta. */
+.peta-titik__rel {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 1.2;
+  stroke-dasharray: 6 5;
+  animation-name: petaRel;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+}
+
+/*
+  Tiga lapis berkas berbagi satu gerak; bedanya cuma di mana mereka mulai. Pijar
+  dan ekor sama-sama sepanjang 90 permil dan dimundurkan 45 permil supaya ujung
+  depannya bertemu persis dengan kepala — itu yang membuat ketiganya terbaca
+  sebagai satu berkas, bukan tiga garis beriringan.
+
+  Geraknya berhenti tepat saat ujung depan menyentuh ujung busur (offset -910 dan
+  -955), bukan melewatinya. Kalau dilewatkan, kepalanya diam di titik tujuan
+  sementara ekornya masih terserap masuk — dan diamnya itu terbaca sebagai
+  hentakan. Yang menutup kedatangannya justru opacity: berkasnya larut di
+  sepertujuh terakhir perjalanan, lalu kilatan pin tujuan yang mengambil alih.
+*/
+.peta-titik__pijar,
+.peta-titik__ekor,
+.peta-titik__kepala {
+  fill: none;
+  stroke-linecap: round;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+}
+
+.peta-titik__pijar,
+.peta-titik__ekor {
+  stroke-dasharray: 90 1000;
+  stroke-dashoffset: 90;
+  animation-name: petaBerkasEkor;
+}
+
+/* Pancarannya: lebar, tipis sekali, dan dikaburkan — ini yang bikin jalurnya
+   terasa menyala dari dalam, bukan sekadar garis putih yang lewat. */
+.peta-titik__pijar {
+  stroke: color-mix(in srgb, var(--color-hero-line) 45%, transparent);
+  stroke-width: 6;
+  filter: blur(3px);
+}
+
+.peta-titik__ekor {
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 1.6;
+}
+
+.peta-titik__kepala {
+  stroke: rgba(255, 255, 255, 0.6);
+  stroke-width: 2.2;
+  stroke-dasharray: 45 1000;
+  stroke-dashoffset: 45;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--color-hero-line) 60%, transparent));
+  animation-name: petaBerkasKepala;
+}
+
+@keyframes petaRel {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes petaBerkasEkor {
+  0% {
+    stroke-dashoffset: 90;
+    opacity: 1;
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -910;
+    opacity: 0;
+  }
+}
+
+@keyframes petaBerkasKepala {
+  0% {
+    stroke-dashoffset: 45;
+    opacity: 1;
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -955;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  /*
+    Petanya nyaris 3:1, jadi di layar potret ia menyusut jadi pita setinggi
+    seperlima layar — titiknya ikut mengecil sampai hampir tak terlihat.
+    Diperbesar sedikit (sisi kiri-kanan terpotong seadanya) dan ditegaskan supaya
+    masih terbaca sebagai peta, bukan sekadar bintik.
+
+    Dinaikkan juga: di tengah layar ia tertutup kartu login hampir seluruhnya,
+    sedangkan di atas kartu ruangnya kosong. Bagian bawah tetap terisi lambang,
+    jadi dua-duanya kebagian tempat.
+  */
+  .peta-titik__peta,
+  .peta-titik__jalur {
+    transform: translateY(-20%) scale(1.6);
+  }
+
+  .peta-titik__peta.is-redup {
+    /* Petanya naik ke atas layar, tak lagi bertumpuk dengan lambang. */
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .peta-titik__titik {
+    fill: rgba(255, 255, 255, 0.26);
+  }
+}

@@ -1,10 +1,81 @@
+/*
+  Dasar biru, bukan hitam: warna mendalam ke tepi supaya peta bertitik dan kartu
+  login sama-sama menonjol. Ketiga hentinya diturunkan dari --color-hero-base,
+  jadi mengganti satu warna tema sudah cukup untuk menggeser seluruh latarnya.
+*/
 .login-page {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  color: var(--app-body-text);
+  color: rgba(255, 255, 255, 0.82);
   font-family: 'Inter', 'SN Pro', 'Segoe UI', system-ui, sans-serif;
-  background-color: var(--color-hero-base);
+  background: radial-gradient(
+    125% 125% at 50% 0%,
+    color-mix(in srgb, var(--color-hero-base) 82%, var(--color-accent)) 0%,
+    var(--color-hero-base) 45%,
+    color-mix(in srgb, var(--color-hero-base) 55%, var(--color-hitam)) 100%
+  );
+}
+
+/* Dua pijar lembut yang mengambang di belakang kartu — memecah bidang biru yang
+   rata tanpa menambah bentuk apa pun yang terbaca. */
+.login-page::before,
+.login-page::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(12px);
+}
+
+.login-page::before {
+  top: -10%;
+  left: -8%;
+  width: 42vw;
+  height: 42vw;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 70%);
+  animation: loginPijar1 11s ease-in-out infinite;
+}
+
+.login-page::after {
+  bottom: -14%;
+  right: -10%;
+  width: 48vw;
+  height: 48vw;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-hero-line) 22%, transparent) 0%,
+    transparent 70%
+  );
+  animation: loginPijar2 13s ease-in-out infinite;
+}
+
+@keyframes loginPijar1 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(6%, 8%);
+  }
+}
+
+@keyframes loginPijar2 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-7%, -6%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-page::before,
+  .login-page::after {
+    animation: none;
+  }
 }
 
 .login-page input,

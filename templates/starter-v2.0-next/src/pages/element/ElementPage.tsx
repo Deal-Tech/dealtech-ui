@@ -48,6 +48,7 @@ import { LembarCetak } from '@/components/ui/lembar-cetak/LembarCetak';
 import { TombolCetak } from '@/components/ui/lembar-cetak/TombolCetak';
 import LightboxGambar from '@/components/ui/lightbox/LightboxGambar';
 import LogoShape from '@/components/ui/logo-shape/LogoShape';
+import PetaTitik from '@/components/ui/peta-titik/PetaTitik';
 import { Memuat } from '@/components/ui/memuat/Memuat';
 import { Modal } from '@/components/ui/modal/Modal';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
@@ -282,7 +283,7 @@ export default function ElementPage() {
       <PageTitle
         title="Semua Element"
         subtitle="Katalog komponen DealTech UI v2. Setiap kotak menampilkan satu komponen beserta letak berkasnya di src/components/ui/."
-        action={<span className="element-hitung">54 komponen</span>}
+        action={<span className="element-hitung">55 komponen</span>}
       />
 
       <nav className="element-nav" aria-label="Lompat ke seksi">
@@ -886,6 +887,15 @@ export default function ElementPage() {
             <HexBackdrop />
           </div>
           <p className="element-catatan">Hiasan latar; dipakai di halaman masuk dan hero.</p>
+        </Petak>
+
+        <Petak nama="PetaTitik" jalur="peta-titik/">
+          <div className="element-gelap">
+            <PetaTitik />
+          </div>
+          <p className="element-catatan">
+            Peta Indonesia bertitik dengan lompatan data antar kota; dipakai di halaman masuk.
+          </p>
         </Petak>
 
         <Petak nama="IsiKaya" jalur="richtext/IsiKaya">
