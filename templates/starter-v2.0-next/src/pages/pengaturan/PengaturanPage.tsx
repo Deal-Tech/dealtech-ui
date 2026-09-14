@@ -12,7 +12,14 @@ import { useAuth } from '@/lib/auth';
 import { PANJANG_MIN_SANDI, periksaSandi } from '@/lib/sandi';
 import { gantiEmail, gantiSandi, perbaruiAkun } from '@/services/akun';
 import { ZONA_WAKTU_BAWAAN, type ZonaWaktu } from '@/services/auth';
-import { ambilKontak, simpanKontak, type InputKontak } from '@/services/pengaturan';
+import {
+  SOSIAL,
+  SOSIAL_KOSONG,
+  ambilKontak,
+  keInputKontak,
+  simpanKontak,
+  type InputKontak,
+} from '@/services/pengaturan';
 import './pengaturan.css';
 
 const POLA_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,13 +33,11 @@ const OPSI_ZONA: { value: ZonaWaktu; label: string }[] = [
 type TahapEmail = 'diam' | 'form';
 
 const KONTAK_KOSONG: InputKontak = {
+  ...SOSIAL_KOSONG,
   whatsapp: '',
   email: '',
   lokasi: '',
   jam_buka: '',
-  sosial_whatsapp: '',
-  sosial_instagram: '',
-  sosial_tiktok: '',
   maps: '',
 };
 
@@ -70,16 +75,7 @@ export default function PengaturanPage() {
     ambilKontak(p.signal)
       .then((k) => {
         if (p.signal.aborted) return;
-        setKontak({
-          whatsapp: k.whatsapp,
-          email: k.email,
-          lokasi: k.lokasi,
-          jam_buka: k.jam_buka,
-          sosial_whatsapp: k.sosial_whatsapp,
-          sosial_instagram: k.sosial_instagram,
-          sosial_tiktok: k.sosial_tiktok,
-          maps: k.maps,
-        });
+        setKontak(keInputKontak(k));
       })
       .catch(() => {
         if (!p.signal.aborted) setGalatKontak({ umum: 'Kontak gagal dimuat. Muat ulang halaman.' });
@@ -107,7 +103,7 @@ export default function PengaturanPage() {
     if (!kontak.lokasi.trim()) g.lokasi = 'Lokasi wajib diisi.';
     if (!kontak.jam_buka.trim()) g.jam_buka = 'Jam buka wajib diisi.';
 
-    for (const k of ['sosial_whatsapp', 'sosial_instagram', 'sosial_tiktok'] as const) {
+    for (const { kunci: k } of SOSIAL) {
       const v = kontak[k].trim();
       if (v === '' || v === '#' || v.startsWith('https://') || v.startsWith('http://')) continue;
       g[k] = 'Isi alamat lengkap berawalan https://, atau # kalau belum ada.';
@@ -128,16 +124,7 @@ export default function PengaturanPage() {
     setProsesKontak(true);
     try {
       const k = await simpanKontak(kontak);
-      setKontak({
-        whatsapp: k.whatsapp,
-        email: k.email,
-        lokasi: k.lokasi,
-        jam_buka: k.jam_buka,
-        sosial_whatsapp: k.sosial_whatsapp,
-        sosial_instagram: k.sosial_instagram,
-        sosial_tiktok: k.sosial_tiktok,
-        maps: k.maps,
-      });
+      setKontak(keInputKontak(k));
       setGalatKontak({});
       setSuksesKontak('Kontak publik tersimpan.');
     } catch (err) {
@@ -354,25 +341,26 @@ export default function PengaturanPage() {
         <section className="app-section-card">
           <div className="app-section-body pengaturan-bagian">
             <form onSubmit={simpanKontakPublik} className="pengaturan-form">
-              <InputText
-                label="Tautan WhatsApp"
-                value={kontak.sosial_whatsapp}
-                onChange={(e) => ubahKontak('sosial_whatsapp', e.target.value)}
-                error={galatKontak.sosial_whatsapp}
-                hint="Ikon di footer. Kosongkan kalau tidak mau ditampilkan; isi # kalau akunnya belum ada."
-              />
-              <InputText
-                label="Tautan Instagram"
-                value={kontak.sosial_instagram}
-                onChange={(e) => ubahKontak('sosial_instagram', e.target.value)}
-                error={galatKontak.sosial_instagram}
-              />
-              <InputText
-                label="Tautan TikTok"
-                value={kontak.sosial_tiktok}
-                onChange={(e) => ubahKontak('sosial_tiktok', e.target.value)}
-                error={galatKontak.sosial_tiktok}
-              />
+              {/* Semua platform dirender dari satu daftar di services/pengaturan.
+                  Menambah platform cukup menambah satu baris di sana — medan,
+                  pemeriksaan, dan isian kosongnya ikut sendiri. */}
+              {SOSIAL.map(({ kunci, label, contoh }) => (
+                <InputText
+                  key={kunci}
+                  label={label}
+                  value={kontak[kunci]}
+                  onChange={(e) => ubahKontak(kunci, e.target.value)}
+                  error={galatKontak[kunci]}
+                  placeholder={contoh}
+                  autoCapitalize="none"
+                  spellCheck={false}
+                />
+              ))}
+
+              <p className="pengaturan-catatan">
+                Kosongkan kalau tidak ingin ikonnya ditampilkan; isi <code>#</code> kalau akunnya
+                belum ada tapi tetap mau tampil.
+              </p>
 
               <div className="pengaturan-aksi">
                 <Button type="submit" icon={Save} loading={prosesKontak} disabled={memuatKontak}>
