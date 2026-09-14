@@ -143,8 +143,12 @@
   --app-border: rgba(var(--color-hitam-rgb), 0.14);
   --app-border-strong: rgba(var(--color-hitam-rgb), 0.2);
   --app-border-focus: rgba(var(--color-hitam-rgb), 0.42);
-  --app-card-border: rgba(var(--color-hitam-rgb), 0.14);
-  --app-shadow-card: 0 2px 8px rgba(var(--color-hitam-rgb), 0.05);
+  /* Kartu dan seksi memakai perlakuan yang sama persis dengan isian form:
+     tepi yang sama dan cincin diam yang sama, bukan bayangan jatuh. Ditulis
+     sebagai rujukan, bukan angka tersendiri — begitu tampilan isian form
+     digeser, semua kartu ikut bergeser bersamanya. */
+  --app-card-border: var(--app-border-strong);
+  --app-shadow-card: var(--app-control-ring);
   --app-fill: rgba(var(--color-hitam-rgb), 0.04);
   --app-fill-strong: rgba(var(--color-hitam-rgb), 0.08);
   --app-neutral: #4a4a4a;
