@@ -17,6 +17,7 @@ import {
 
 import ActionButton from '@/components/ui/action-button/ActionButton';
 import { Badge } from '@/components/ui/badge/Badge';
+import { BilahLipat } from '@/components/ui/bilah-lipat/BilahLipat';
 import { Button } from '@/components/ui/button/Button';
 import { StatCard } from '@/components/ui/stat-card/StatCard';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
@@ -202,16 +203,35 @@ function AksesCepat() {
 }
 
 export default function DashboardPage() {
+  /* Terbuka sejak awal: sambutan dan ringkasan angka memang yang pertama dilihat.
+     Bilah lipatnya untuk yang datang ke sini demi tabelnya, bukan demi angkanya. */
+  const [ringkasTerbuka, setRingkasTerbuka] = useState(true);
+
   return (
     <div className="dashboard space-y-6">
-      {/* Aksi dibiarkan bawaan: Hubungi Pengembang. */}
-      <WelcomeCardV2 name="Administrator" badge="DealTech UI 2.0 Next" />
+      <BilahLipat
+        terbuka={ringkasTerbuka}
+        onToggle={() => setRingkasTerbuka((v) => !v)}
+        teks={
+          ringkasTerbuka
+            ? 'Tutup sambutan dan ringkasan?'
+            : `Sambutan dan ${RINGKASAN.length} ringkasan angka disembunyikan. Tampilkan lagi?`
+        }
+        aksi={ringkasTerbuka ? 'Tutup Sekarang' : 'Buka Sekarang'}
+      />
 
-      <div className="dashboard__stat">
-        {RINGKASAN.map(({ kunci, ikon, judul, nilai, helper }) => (
-          <StatCard key={kunci} icon={ikon} title={judul} value={nilai} helper={helper} />
-        ))}
-      </div>
+      {ringkasTerbuka ? (
+        <>
+          {/* Aksi dibiarkan bawaan: Hubungi Pengembang. */}
+          <WelcomeCardV2 name="Administrator" badge="DealTech UI 2.0 Next" />
+
+          <div className="dashboard__stat">
+            {RINGKASAN.map(({ kunci, ikon, judul, nilai, helper }) => (
+              <StatCard key={kunci} icon={ikon} title={judul} value={nilai} helper={helper} />
+            ))}
+          </div>
+        </>
+      ) : null}
 
       <TabelTerbaru />
 
