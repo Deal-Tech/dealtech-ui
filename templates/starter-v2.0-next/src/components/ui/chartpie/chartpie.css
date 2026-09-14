@@ -6,7 +6,7 @@
   background: var(--app-surface);
 }
 .chartpie__body {
-  padding: 16px 20px;
+  padding: 16px;
 }
 .chartpie__chart {
   width: 100%;
