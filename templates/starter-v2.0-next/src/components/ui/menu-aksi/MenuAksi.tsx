@@ -21,16 +21,19 @@ export interface ItemAksi {
 
 export interface MenuAksiProps {
   item: ItemAksi[];
-  /** Teks di tombol pemicu. Kosongkan untuk tombol ikon saja. */
+  /** Teks di tombol pemicu. Bawaannya menyebut apa yang akan muncul. */
   label?: string;
   ikon?: LucideIcon;
+  /** Ciutkan jadi tombol ikon saja, mis. di dalam baris tabel yang sempit. */
+  hanyaIkon?: boolean;
   /** Dibaca pembaca layar saat tombolnya tanpa teks. */
   ariaLabel?: string;
   className?: string;
 }
 
 interface Posisi {
-  top: number;
+  top?: number;
+  bottom?: number;
   right: number;
   minWidth: number;
 }
@@ -45,7 +48,15 @@ interface Posisi {
  * digantung di induknya: kalau tidak, ia akan terpotong oleh kartu mana pun yang
  * punya `overflow: hidden` — dan semua kartu di starter ini punya.
  */
-export function MenuAksi({ item, label, ikon: Ikon, ariaLabel, className = '' }: MenuAksiProps) {
+export function MenuAksi({
+  item,
+  label = 'Tampilkan Tombol Aksi',
+  ikon: Ikon,
+  hanyaIkon = false,
+  ariaLabel,
+  className = '',
+}: MenuAksiProps) {
+  const teksPemicu = hanyaIkon ? null : label;
   const [terbuka, setTerbuka] = useState(false);
   const [posisi, setPosisi] = useState<Posisi | null>(null);
   const wadahRef = useRef<HTMLDivElement>(null);
@@ -63,10 +74,18 @@ export function MenuAksi({ item, label, ikon: Ikon, ariaLabel, className = '' }:
   const tempatkan = () => {
     const kotak = pemicuRef.current?.getBoundingClientRect();
     if (!kotak) return;
+
+    /* Buka ke atas kalau ruang di bawahnya tidak cukup dan di atas lebih lega —
+       tanpa ini panelnya tergunting tepi layar saat pemicunya dekat dasar. */
+    const perkiraanTinggi = 36 * item.length + 8;
+    const ruangBawah = window.innerHeight - kotak.bottom;
+    const keAtas = perkiraanTinggi > ruangBawah && kotak.top > ruangBawah;
+
     setPosisi({
-      top: kotak.bottom + 6,
+      top: keAtas ? undefined : kotak.bottom + 6,
+      bottom: keAtas ? window.innerHeight - kotak.top + 6 : undefined,
       right: Math.max(8, window.innerWidth - kotak.right),
-      minWidth: Math.max(kotak.width, 180),
+      minWidth: Math.max(kotak.width, 200),
     });
   };
 
@@ -113,22 +132,22 @@ export function MenuAksi({ item, label, ikon: Ikon, ariaLabel, className = '' }:
     daftar[(kini + arah + daftar.length) % daftar.length]?.focus();
   };
 
-  const IkonPemicu = Ikon ?? (label ? null : MoreHorizontal);
+  const IkonPemicu = Ikon ?? (teksPemicu ? null : MoreHorizontal);
 
   return (
     <div className={`menu-aksi ${className}`} ref={wadahRef}>
       <button
         ref={pemicuRef}
         type="button"
-        className={`menu-aksi__pemicu${label ? '' : ' menu-aksi__pemicu--ikon'}`}
+        className={`menu-aksi__pemicu${teksPemicu ? '' : ' menu-aksi__pemicu--ikon'}`}
         aria-haspopup="menu"
         aria-expanded={terbuka}
-        aria-label={label ? undefined : (ariaLabel ?? 'Menu aksi')}
+        aria-label={teksPemicu ? undefined : (ariaLabel ?? label)}
         onClick={() => (terbuka ? tutup() : setTerbuka(true))}
       >
         {IkonPemicu ? <IkonPemicu className="menu-aksi__ikon" aria-hidden="true" /> : null}
-        {label ? <span>{label}</span> : null}
-        {label ? (
+        {teksPemicu ? <span>{teksPemicu}</span> : null}
+        {teksPemicu ? (
           <ChevronDown
             className={`menu-aksi__chevron${terbuka ? ' menu-aksi__chevron--buka' : ''}`}
             aria-hidden="true"
@@ -140,9 +159,14 @@ export function MenuAksi({ item, label, ikon: Ikon, ariaLabel, className = '' }:
         <div
           ref={panelRef}
           role="menu"
-          aria-label={ariaLabel ?? label ?? 'Menu aksi'}
+          aria-label={ariaLabel ?? label}
           className="menu-aksi__panel"
-          style={{ top: posisi?.top, right: posisi?.right, minWidth: posisi?.minWidth }}
+          style={{
+            top: posisi?.top,
+            bottom: posisi?.bottom,
+            right: posisi?.right,
+            minWidth: posisi?.minWidth,
+          }}
           onKeyDown={padaTombolPanel}
         >
           {item.map((it) => {
