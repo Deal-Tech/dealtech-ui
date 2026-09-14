@@ -243,19 +243,16 @@ body {
   box-shadow: var(--app-shadow-card);
 }
 
+/* Mendatar dan tegak disamakan. Sebelumnya sisi kiri-kanan 20-24px sementara
+   atas-bawah 16px, dan selisih itu terbaca sebagai kartu yang terlalu lapang di
+   sisinya. */
 .app-section-body {
-  padding: 16px 20px;
-}
-
-@media (min-width: 640px) {
-  .app-section-body {
-    padding: 16px 24px;
-  }
+  padding: 16px;
 }
 
 @media (max-width: 639px) {
   .app-section-body {
-    padding: 10px 12px;
+    padding: 10px;
   }
 }
 
