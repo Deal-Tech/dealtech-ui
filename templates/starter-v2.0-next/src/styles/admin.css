@@ -49,17 +49,18 @@ html:has(.app-shell) body {
   text-decoration: none;
 }
 
-.sidebar-brand__name {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--app-text);
-  white-space: nowrap;
-}
-
-.sidebar-brand__name strong {
-  font-weight: 700;
-  color: var(--app-primary);
+.sidebar-brand__logo {
+  display: block;
+  width: 154px;
+  max-width: 100%;
+  height: 28px;
+  background: var(--app-text);
+  mask-repeat: no-repeat;
+  mask-position: left center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: left center;
+  -webkit-mask-size: contain;
 }
 
 .sidebar-overlay {
