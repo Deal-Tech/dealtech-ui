@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import AdminLayout from './AdminLayout';
 import DashboardPage from '@/pages/dash/DashboardPage';
 import ElementPage from '@/pages/element/ElementPage';
+import MemberPage from '@/pages/member/MemberPage';
 import PengaturanPage from '@/pages/pengaturan/PengaturanPage';
 // [dealtech:auto-imports]
 
@@ -11,6 +12,7 @@ const AdminApp = () => (
     <Route element={<AdminLayout />}>
       <Route index element={<DashboardPage />} />
       <Route path="element" element={<ElementPage />} />
+      <Route path="member" element={<MemberPage />} />
       <Route path="pengaturan" element={<PengaturanPage />} />
       {/* [dealtech:auto-routes] */}
     </Route>
