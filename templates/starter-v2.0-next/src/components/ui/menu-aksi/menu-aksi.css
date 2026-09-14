@@ -1,0 +1,114 @@
+.menu-aksi {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Bentuknya mengikuti Button varian ghost supaya sebaris dengan tombol lain. */
+.menu-aksi__pemicu {
+  display: inline-flex;
+  min-height: var(--app-control-h-sm);
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--app-secondary-border);
+  border-radius: 8px;
+  padding: 5px 10px;
+  background: transparent;
+  color: var(--app-secondary-text);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.menu-aksi__pemicu:hover {
+  background: var(--app-fill);
+}
+
+.menu-aksi__pemicu:focus-visible {
+  outline: 2px solid var(--app-primary);
+  outline-offset: 1px;
+}
+
+/* Tanpa teks: dijadikan bujur sangkar supaya tidak jadi tombol pipih. */
+.menu-aksi__pemicu--ikon {
+  width: var(--app-control-h-sm);
+  padding: 0;
+}
+
+.menu-aksi__ikon,
+.menu-aksi__item-ikon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.menu-aksi__chevron {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.menu-aksi__chevron--buka {
+  transform: rotate(180deg);
+}
+
+.menu-aksi__panel {
+  position: fixed;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 8px;
+  border: 1px solid var(--app-border-strong);
+  background: var(--app-elevated);
+  padding: 4px;
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--app-text) 22%, transparent);
+}
+
+.menu-aksi__item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 4px;
+  padding: 7px 10px;
+  background: transparent;
+  color: var(--app-text);
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.menu-aksi__item:hover {
+  background: var(--app-fill);
+}
+
+.menu-aksi__item:focus-visible {
+  outline: none;
+  background: var(--app-fill-strong);
+  box-shadow: var(--app-control-ring-focus);
+}
+
+.menu-aksi__item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.menu-aksi__item--bahaya {
+  color: var(--app-danger-text);
+}
+
+.menu-aksi__item--bahaya:hover {
+  background: color-mix(in srgb, var(--app-danger) 12%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-aksi__chevron {
+    transition: none;
+  }
+}

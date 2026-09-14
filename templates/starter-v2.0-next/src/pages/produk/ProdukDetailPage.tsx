@@ -1,13 +1,15 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Boxes, Check, Package, Pencil } from 'lucide-react';
+import { ArrowLeft, Boxes, Check, Package, Pencil, Trash2 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge/Badge';
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { BilahLipat } from '@/components/ui/bilah-lipat/BilahLipat';
 import { Button } from '@/components/ui/button/Button';
+import { MenuAksi } from '@/components/ui/menu-aksi/MenuAksi';
+import { Modal } from '@/components/ui/modal/Modal';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
-import { ambilProdukSatu, rupiah, type Produk } from '@/services/produk';
+import { ambilProdukSatu, hapusProduk, rupiah, type Produk } from '@/services/produk';
 import './produk.css';
 
 function Keterangan({ nama, children }: { nama: string; children: ReactNode }) {
@@ -28,6 +30,10 @@ export default function ProdukDetailPage() {
   /* Terbuka sejak awal: detailnya isi utama halaman ini, bukan tambahan. Bilah
      lipatnya ada supaya bisa disingkirkan saat yang dicari ada di bawahnya. */
   const [terbuka, setTerbuka] = useState(true);
+  /* Menghapus tidak bisa dibatalkan dan pemicunya sekarang cuma satu butir menu
+     yang mudah tersenggol, jadi dikonfirmasi dulu. */
+  const [tanyaHapus, setTanyaHapus] = useState(false);
+  const [prosesHapus, setProsesHapus] = useState(false);
 
   useEffect(() => {
     let hidup = true;
@@ -108,9 +114,25 @@ export default function ProdukDetailPage() {
                 </p>
               </div>
             </div>
-            <Button variant="ghost" icon={Pencil}>
-              Ubah
-            </Button>
+            <MenuAksi
+              ariaLabel={`Aksi untuk ${produk.nama}`}
+              item={[
+                {
+                  kunci: 'ubah',
+                  label: 'Ubah Produk',
+                  ikon: Pencil,
+                  onClick: () =>
+                    navigate(`/dashboard/produk/${encodeURIComponent(produk.kode)}/ubah`),
+                },
+                {
+                  kunci: 'hapus',
+                  label: 'Hapus Produk',
+                  ikon: Trash2,
+                  bahaya: true,
+                  onClick: () => setTanyaHapus(true),
+                },
+              ]}
+            />
           </div>
 
           <div className="app-section-body produk-detail__kisi">
@@ -144,6 +166,39 @@ export default function ProdukDetailPage() {
           </div>
         </section>
       ) : null}
+
+      <Modal
+        open={tanyaHapus}
+        onClose={() => (prosesHapus ? undefined : setTanyaHapus(false))}
+        title="Hapus produk ini?"
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setTanyaHapus(false)} disabled={prosesHapus}>
+              Batal
+            </Button>
+            <Button
+              icon={Trash2}
+              loading={prosesHapus}
+              onClick={async () => {
+                setProsesHapus(true);
+                try {
+                  await hapusProduk([produk.kode]);
+                  navigate('/dashboard/produk');
+                } catch {
+                  setProsesHapus(false);
+                }
+              }}
+            >
+              {prosesHapus ? 'Menghapus…' : 'Hapus Sekarang'}
+            </Button>
+          </>
+        }
+      >
+        <p className="produk-detail__isi">
+          {produk.nama} ({produk.kode}) akan dihapus dari daftar. Tindakan ini tidak bisa
+          dibatalkan.
+        </p>
+      </Modal>
     </div>
   );
 }

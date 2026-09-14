@@ -9,7 +9,7 @@ Nama perintah menentukan starter mana yang dipakai:
 | Perintah | Starter | Gaya |
 | --- | --- | --- |
 | `dealtech-ui` | `templates/starter` | v1 — Tailwind inline, 28 komponen |
-| `dealtech-ui-v2-next` | `templates/starter-v2.0-next` | v2.0-next — token CSS + CSS per komponen, 56 komponen |
+| `dealtech-ui-v2-next` | `templates/starter-v2.0-next` | v2.0-next — token CSS + CSS per komponen, 57 komponen |
 
 ```bash
 npx dealtech-ui install my-admin-app             # starter v1

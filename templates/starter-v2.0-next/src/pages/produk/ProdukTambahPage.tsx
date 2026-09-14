@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Save } from 'lucide-react';
 
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
@@ -8,7 +8,14 @@ import { InputNumber } from '@/components/ui/inputnumber/InputNumber';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { Select } from '@/components/ui/select/Select';
-import { KATEGORI, ambilProduk, kodeBerikutnya, tambahProduk, type Produk } from '@/services/produk';
+import {
+  KATEGORI,
+  ambilProduk,
+  kodeBerikutnya,
+  tambahProduk,
+  ubahProduk,
+  type Produk,
+} from '@/services/produk';
 import './produk.css';
 
 interface Isian {
@@ -43,8 +50,13 @@ function periksa(isian: Isian, terpakai: string[]): Partial<Record<keyof Isian, 
   return galat;
 }
 
+/* Satu halaman untuk dua peran. Rute `produk/tambah` datang tanpa kode, rute
+   `produk/:kode/ubah` membawanya — form, aturan, dan pesan galatnya sama persis,
+   jadi memisahkannya jadi dua berkas cuma menggandakan yang harus dirawat. */
 export default function ProdukTambahPage() {
   const navigate = useNavigate();
+  const { kode: kodeAwal } = useParams();
+  const modeUbah = Boolean(kodeAwal);
 
   const [isian, setIsian] = useState<Isian>(KOSONG);
   const [galat, setGalat] = useState<Partial<Record<keyof Isian, string>>>({});
@@ -58,13 +70,33 @@ export default function ProdukTambahPage() {
     let hidup = true;
     ambilProduk().then((daftar: Produk[]) => {
       if (!hidup) return;
-      setTerpakai(daftar.map((p) => p.kode));
+
+      /* Saat mengubah, kode miliknya sendiri dikeluarkan dari daftar terpakai —
+         kalau tidak, menyimpan tanpa mengganti kode akan ditolak sebagai kembar. */
+      setTerpakai(daftar.filter((p) => p.kode !== kodeAwal).map((p) => p.kode));
+
+      if (modeUbah) {
+        const ada = daftar.find((p) => p.kode === kodeAwal);
+        if (ada) {
+          setIsian({
+            kode: ada.kode,
+            nama: ada.nama,
+            kategori: ada.kategori,
+            harga: String(ada.harga),
+            stok: String(ada.stok),
+          });
+        } else {
+          setGagal(`Produk ${kodeAwal} tidak ditemukan.`);
+        }
+        return;
+      }
+
       setIsian((s) => (s.kode ? s : { ...s, kode: kodeBerikutnya(daftar) }));
     });
     return () => {
       hidup = false;
     };
-  }, []);
+  }, [kodeAwal, modeUbah]);
 
   const ubah = (kunci: keyof Isian, nilai: string) => {
     setIsian((s) => ({ ...s, [kunci]: nilai }));
@@ -84,14 +116,18 @@ export default function ProdukTambahPage() {
     setProses(true);
     setGagal('');
     try {
-      await tambahProduk({
+      const data: Produk = {
         kode: isian.kode.trim(),
         nama: isian.nama.trim(),
         kategori: isian.kategori,
         harga: Number(isian.harga),
         stok: Number(isian.stok),
-      });
-      navigate('/dashboard/produk');
+      };
+      if (modeUbah && kodeAwal) await ubahProduk(kodeAwal, data);
+      else await tambahProduk(data);
+      /* Sesudah mengubah, kembali ke detailnya — kodenya bisa saja ikut berganti,
+         jadi yang dipakai kode baru, bukan kode rutenya. */
+      navigate(modeUbah ? `/dashboard/produk/${encodeURIComponent(data.kode)}` : '/dashboard/produk');
     } catch {
       setGagal('Produk tidak bisa disimpan. Coba lagi sebentar lagi.');
       setProses(false);
@@ -101,8 +137,8 @@ export default function ProdukTambahPage() {
   return (
     <div className="produk-page space-y-6">
       <PageTitle
-        title="Tambah Produk"
-        subtitle="Isi rincian produk baru, lalu simpan."
+        title={modeUbah ? 'Ubah Produk' : 'Tambah Produk'}
+        subtitle={modeUbah ? isian.nama || kodeAwal : 'Isi rincian produk baru, lalu simpan.'}
         action={
           <Button variant="ghost" icon={ArrowLeft} onClick={() => navigate('/dashboard/produk')}>
             Kembali
@@ -121,7 +157,11 @@ export default function ProdukTambahPage() {
               value={isian.kode}
               onChange={(e) => ubah('kode', e.target.value)}
               error={galat.kode}
-              hint="Terisi otomatis dari nomor terakhir; boleh diganti."
+              hint={
+                modeUbah
+                  ? 'Mengganti kode akan mengubah alamat halaman detailnya.'
+                  : 'Terisi otomatis dari nomor terakhir; boleh diganti.'
+              }
               required
             />
 
@@ -181,7 +221,7 @@ export default function ProdukTambahPage() {
                 Batal
               </Button>
               <Button type="submit" icon={Save} loading={proses}>
-                {proses ? 'Menyimpan…' : 'Simpan Produk'}
+                {proses ? 'Menyimpan…' : modeUbah ? 'Simpan Perubahan' : 'Simpan Produk'}
               </Button>
             </div>
           </form>
