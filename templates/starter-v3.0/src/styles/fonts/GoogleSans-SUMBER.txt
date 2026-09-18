@@ -1,0 +1,15 @@
+Google Sans — dipakai untuk judul pada pratinjau detail tour.
+
+Sumber   : Google Fonts, keluarga "Google Sans" versi v70
+Diambil  : 2026-08-26 dari fonts.googleapis.com/css2?family=Google+Sans
+Berkas   : GoogleSans-latin.woff2, GoogleSans-latin-ext.woff2
+           Keduanya font VARIABEL — satu berkas melayani bobot 400-700.
+Lisensi  : SIL Open Font License (OFL). Metadata Google Fonts untuk keluarga ini
+           melaporkan "license": "ofl" dan "isOpenSource": true.
+           Teks lisensinya: https://fonts.google.com/specimen/Google+Sans/license
+
+Alasan self-host, bukan menautkan ke Google Fonts: CSP proyek ini `font-src 'self'`,
+dan panel admin tidak perlu memanggil server pihak ketiga setiap kali dibuka.
+
+Memperbarui: ambil ulang CSS-nya dengan User-Agent peramban modern (kalau tidak,
+Google mengirim format lama), lalu unduh URL woff2 subset latin dan latin-ext.

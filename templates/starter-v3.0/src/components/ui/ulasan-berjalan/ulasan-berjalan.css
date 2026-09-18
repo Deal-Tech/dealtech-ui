@@ -1,0 +1,86 @@
+.ulasan-berjalan {
+  width: 100%;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-publik) 5%, #ffffff);
+  padding: 40px 0 44px;
+}
+
+.ulasan-berjalan__garis {
+  display: inline-block;
+  color: var(--app-primary);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+.ulasan-berjalan__pita {
+  margin-top: 24px;
+}
+
+.ulasan-berjalan__kartu {
+  display: flex;
+  flex: 0 0 300px;
+  flex-direction: column;
+  gap: 14px;
+  width: 300px;
+  border: 1px solid color-mix(in srgb, var(--color-publik) 16%, #ffffff);
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 18px 18px 14px;
+}
+
+.ulasan-berjalan__isi {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--color-publik-subteks);
+}
+
+.ulasan-berjalan__kaki {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--color-publik) 10%, #ffffff);
+  padding-top: 10px;
+}
+
+.ulasan-berjalan__nama {
+  overflow: hidden;
+  font-size: 0.7375rem;
+  line-height: 1;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ulasan-berjalan__bintang {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 2px;
+  color: #f5a524;
+}
+
+.ulasan-berjalan__bintang-ikon {
+  height: 13px;
+  width: 13px;
+  fill: currentColor;
+}
+
+@media (max-width: 600px) {
+  .ulasan-berjalan {
+    padding: 30px 0 32px;
+  }
+
+  .ulasan-berjalan__kartu {
+    flex-basis: 260px;
+    width: 260px;
+  }
+}

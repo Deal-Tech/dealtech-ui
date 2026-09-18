@@ -1,0 +1,63 @@
+.pengaturan-page .pengaturan-bagian {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pengaturan-page .pengaturan-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pengaturan-page .pengaturan-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pengaturan-page .pengaturan-form__label {
+  font-size: var(--app-field-label-size);
+  font-weight: var(--app-field-label-weight);
+  color: var(--app-body-text);
+}
+
+.pengaturan-page .pengaturan-aksi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.pengaturan-page .pengaturan-garis {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--app-border);
+}
+
+.pengaturan-page .pengaturan-catatan {
+  margin: 0;
+  border-radius: 6px;
+  background: var(--app-primary-soft);
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--app-body-text);
+}
+
+/* ---- Email ---- */
+
+.pengaturan-page .pengaturan-email {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pengaturan-page .pengaturan-email > button,
+.pengaturan-page .pengaturan-email > .badgeinfo {
+  align-self: flex-start;
+}
+
+.pengaturan-page .pengaturan-email__field[readonly] {
+  cursor: default;
+}
+

@@ -1,0 +1,72 @@
+
+.chartlistbar {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+}
+
+.chartlistbar__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--app-border-strong);
+}
+.chartlistbar__action {
+  flex-shrink: 0;
+}
+
+.chartlistbar__body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+}
+
+.chartlistbar__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.chartlistbar__label {
+  font-size: 13px;
+  color: var(--app-text);
+}
+.chartlistbar__meta {
+  font-size: 12px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+.chartlistbar__track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--app-fill-strong);
+  overflow: hidden;
+}
+.chartlistbar__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--app-primary);
+  transition: width 0.4s ease;
+}
+.chartlistbar__value {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: var(--app-text-muted);
+}
+
+.chartlistbar__empty {
+  padding: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--app-text-muted);
+}
+
+.chartlistbar__row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

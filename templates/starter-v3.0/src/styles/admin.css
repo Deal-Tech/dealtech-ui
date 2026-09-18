@@ -1,0 +1,681 @@
+
+/* --- Kerangka layout ------------------------------------------------------ */
+
+/* Hanya .app-main yang boleh menggulir. Tanpa penguncian ini, apa pun yang
+   membuat dokumen lebih tinggi dari layar akan menggeser seluruh kerangka —
+   sidebar ikut naik dan menyisakan ruang kosong di bawahnya.
+   Dibatasi dengan :has() supaya halaman non-admin tetap bisa menggulir. */
+html:has(.app-shell),
+html:has(.app-shell) body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-shell {
+  /* dvh mengikuti bilah alamat peramban seluler yang bisa menyusut; vh tidak. */
+  height: 100vh;
+  height: 100dvh;
+  background: var(--app-bg);
+  color: var(--app-text);
+}
+
+.app-sidebar {
+  height: 100vh;
+  height: 100dvh;
+}
+
+.app-main {
+  background: var(--app-bg-gradient);
+}
+
+/* --- Sidebar -------------------------------------------------------------- */
+
+.app-sidebar {
+  background: var(--app-bg);
+  border-right: 1px solid var(--app-border-strong);
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-header {
+  border-bottom: 1px solid var(--app-border-strong);
+  background: var(--app-bg);
+}
+
+.sidebar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.sidebar-brand__logo {
+  display: block;
+  width: 220px;
+  max-width: 100%;
+  height: 40px;
+  background: var(--app-text);
+  mask-repeat: no-repeat;
+  mask-position: left center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: left center;
+  -webkit-mask-size: contain;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(var(--color-hitam-rgb), 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.sidebar-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar-close-btn {
+  display: flex;
+  height: 32px;
+  width: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--app-fill);
+  color: var(--app-text);
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-close-btn:hover {
+  background: var(--app-fill-strong);
+}
+
+@media (min-width: 768px) {
+  .sidebar-close-btn {
+    display: none;
+  }
+}
+
+.sidebar-nav-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sidebar-nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-section-title {
+  color: var(--app-text-muted);
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 14px 12px 6px;
+}
+
+.sidebar-group-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  border-radius: 8px;
+  padding: 7px 10px;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  color: var(--app-text);
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.sidebar-group-toggle:hover {
+  background: var(--app-fill-strong);
+  color: var(--app-text);
+}
+
+.sidebar-group-toggle[aria-expanded='true'] {
+  background: var(--app-fill);
+}
+
+.sidebar-submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 2px 0 2px 22px;
+  padding-left: 10px;
+  border-left: 1px solid var(--app-border);
+  list-style: none;
+}
+
+.sidebar-submenu .sidebar-menu-btn {
+  font-size: 12px;
+  padding: 7px 10px;
+}
+
+.sidebar-menu-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  border-radius: 8px;
+  padding: 7px 10px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--app-text);
+  background: transparent;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.sidebar-menu-btn:hover {
+  background: var(--app-fill-strong);
+  color: var(--app-text);
+}
+
+.sidebar-menu-btn.active {
+  background: var(--app-primary);
+  color: var(--app-on-primary);
+}
+
+.sidebar-menu-badge {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--app-fill-strong);
+  color: var(--app-text);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.sidebar-menu-btn.active .sidebar-menu-badge {
+  background: color-mix(in srgb, var(--app-on-primary) 14%, transparent);
+  color: var(--app-on-primary);
+}
+
+.sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--app-border-strong);
+  padding: 12px;
+}
+
+.sidebar-user-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #e6f0fa;
+  border: 0;
+  padding: 8px 12px;
+}
+
+.sidebar-user-avatar {
+  display: flex;
+  height: 34px;
+  width: 34px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-border-strong);
+  background: var(--app-primary);
+  color: var(--app-on-primary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sidebar-user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.sidebar-user-email {
+  font-size: 11px;
+  color: var(--app-text-muted);
+}
+
+.sidebar-logout-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  border-radius: 8px;
+  background: var(--app-danger);
+  padding: 7px 10px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--app-on-primary);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-logout-btn:hover {
+  background: var(--app-danger-hover);
+}
+
+/* --- Topbar / header ------------------------------------------------------ */
+.app-topbar {
+  height: 56px;
+  border-bottom: 1px solid var(--app-border-strong);
+  background: var(--app-bg);
+}
+
+.app-topbar__kiri {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-topbar__burger {
+  display: flex;
+  height: 32px;
+  width: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--app-text);
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+.app-topbar__burger:hover {
+  background: var(--app-fill-strong);
+}
+.app-topbar__burger:focus-visible {
+  outline: none;
+  box-shadow: var(--app-control-ring-focus);
+}
+@media (min-width: 768px) {
+  .app-topbar__burger {
+    display: none;
+  }
+}
+
+.app-topbar__merek {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--app-text);
+}
+
+.app-topbar__pemisah {
+  flex-shrink: 0;
+  width: 1px;
+  height: 18px;
+  background: var(--app-border-strong);
+}
+
+.app-topbar__halaman {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--app-text);
+}
+.app-topbar__halaman-kode {
+  font-weight: 400;
+}
+
+@media (max-width: 1023px) {
+  .app-topbar__pemisah,
+  .app-topbar__halaman {
+    display: none;
+  }
+}
+@media (max-width: 639px) {
+  .app-topbar__merek {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+}
+
+.app-topbar__kanan {
+  display: flex;
+  min-width: 0;
+  flex-shrink: 1;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-topbar__jam {
+  display: inline-flex;
+  min-width: 0;
+  flex-shrink: 1;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--app-text);
+}
+.app-topbar__jam-angka,
+.app-topbar__jam-zona {
+  flex-shrink: 0;
+  font-weight: 600;
+}
+.app-topbar__jam-tanggal {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 767px) {
+  .app-topbar__jam-tanggal {
+    display: none;
+  }
+
+  .app-topbar__ikon-grup {
+    display: none;
+  }
+}
+
+.app-topbar__ikon-grup {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0;
+}
+
+.app-topbar__ikon {
+  display: inline-flex;
+  height: 28px;
+  width: 28px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--app-text);
+  transition: background-color 0.15s ease;
+}
+.app-topbar__ikon:hover {
+  background: var(--app-fill-strong);
+}
+.app-topbar__ikon:focus-visible {
+  outline: none;
+  box-shadow: var(--app-control-ring-focus);
+}
+.app-topbar__ikon-gambar {
+  width: 16px;
+  height: 16px;
+}
+
+.app-topbar__profil {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.app-topbar__profil-tombol {
+  display: flex;
+  height: var(--app-control-h);
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  border: 0;
+  background: transparent;
+  padding: 0 4px;
+  font-size: 13px;
+  color: var(--app-text);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.app-topbar__profil-tombol:hover {
+  background: var(--app-fill-strong);
+}
+.app-topbar__profil-tombol:focus-visible {
+  outline: none;
+  box-shadow: var(--app-control-ring-focus);
+}
+
+.app-topbar__profil-avatar {
+  display: inline-flex;
+  height: 26px;
+  width: 26px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--app-primary-soft);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--app-primary);
+}
+.app-topbar__profil-chevron {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--app-text);
+  transition: transform 0.2s ease;
+}
+.app-topbar__profil-chevron--buka {
+  transform: rotate(180deg);
+}
+
+.app-topbar__panel {
+  position: fixed;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 8px;
+  border: 1px solid var(--app-border-strong);
+  background: var(--app-elevated);
+  padding: 4px;
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--app-text) 22%, transparent);
+}
+
+.app-topbar__panel-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  padding: 7px 10px;
+  font-size: 12px;
+  text-align: left;
+  text-decoration: none;
+  background: transparent;
+  color: var(--app-text);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.app-topbar__panel-item:hover {
+  background: var(--app-fill);
+}
+.app-topbar__panel-item:focus-visible {
+  outline: none;
+  background: var(--app-fill-strong);
+  box-shadow: var(--app-control-ring-focus);
+}
+.app-topbar__panel-ikon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+
+/* ==========================================================================
+ * Tampilan v3 — sidebar biru, header bergaya ikon dokumen, tanpa garis tepi.
+ *
+ * Ditaruh di akhir berkas supaya menimpa aturan di atasnya tanpa perlu
+ * menyunting bagian v2 satu per satu: yang berubah cuma lapisan tampilan,
+ * strukturnya tetap sama.
+ * ========================================================================== */
+
+/* --- Tanpa border --------------------------------------------------------- */
+
+.app-sidebar {
+  border-right: 0;
+}
+
+.app-topbar {
+  border-bottom: 0;
+}
+
+/* --- Sidebar: kepala putih, badan biru ------------------------------------ */
+
+.app-sidebar {
+  background: #ffffff;
+}
+
+.sidebar-header {
+  border-bottom: 0;
+  background: #ffffff;
+}
+
+.sidebar-nav-scroll,
+.sidebar-footer {
+  background: var(--color-primary);
+}
+
+/* Lengkung di pojok kanan atas area biru */
+.sidebar-nav-scroll {
+  border-top-right-radius: 22px;
+}
+
+.sidebar-section-title {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+/* --- Butir menu ----------------------------------------------------------- */
+
+.sidebar-menu-btn,
+.sidebar-group-toggle {
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 500;
+}
+
+.sidebar-menu-btn:hover,
+.sidebar-group-toggle:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.sidebar-group-toggle[aria-expanded='true'] {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Menu aktif: dasar putih, teks biru */
+.sidebar-menu-btn.active {
+  background: #ffffff;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.sidebar-menu-badge {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.sidebar-menu-btn.active .sidebar-menu-badge {
+  background: color-mix(in srgb, var(--color-primary) 12%, #ffffff);
+  color: var(--color-primary);
+}
+
+.sidebar-submenu {
+  border-left-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-close-btn {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.sidebar-close-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+/* Lambang di kepala sidebar duduk di atas putih, jadi dicat warna teks tema */
+.sidebar-brand__logo {
+  background: var(--app-text);
+}
+
+/* --- Kaki sidebar --------------------------------------------------------- */
+
+.sidebar-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.sidebar-user-card {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-user-avatar {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: #ffffff;
+  color: var(--color-primary);
+}
+
+.sidebar-user-name {
+  color: #ffffff;
+}
+
+.sidebar-user-email {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.sidebar-logout-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.sidebar-logout-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Sisi kanan top header ------------------------------------------------ */
+
+/* Blok jam + ikon + profil. Sisi kirinya dibulatkan penuh sehingga terbaca
+   sebagai lipatan ikon dokumen.
+
+   Tepi kanannya harus sejajar dengan card di .app-main. Karena .app-main
+   punya scrollbar 6px di dalam kotaknya, gutter-nya dipesan tetap lalu
+   padding header ditambah selebar itu — tanpa ini keduanya selisih 6px. */
+.app-main {
+  scrollbar-gutter: stable;
+}
+
+.app-topbar {
+  padding-right: calc(12px + 6px);
+}
+
+@media (min-width: 768px) {
+  .app-topbar {
+    padding-right: calc(24px + 6px);
+  }
+}
+
+.app-topbar__kanan {
+  align-self: stretch;
+  height: 100%;
+  padding: 0 16px;
+  background: #ededed;
+  border-radius: 35px 14px 14px 5px;
+}

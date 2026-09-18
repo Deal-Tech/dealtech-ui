@@ -1,0 +1,302 @@
+/* Login v3: dua panel — form di kiri, ilustrasi di kanan. */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #e9edf2;
+}
+
+.login-shell {
+  width: min(960px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 24px 60px -20px rgba(15, 23, 42, 0.25);
+}
+
+/* --- Panel kiri ----------------------------------------------------------- */
+
+.login-form-panel {
+  padding: clamp(28px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-brand {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Lambangnya putih di atas transparan, jadi dipakai sebagai mask lalu dicat
+   ulang dengan warna teks tema. */
+.login-brand__logo {
+  display: block;
+  width: 170px;
+  max-width: 100%;
+  height: 32px;
+  background: var(--app-text);
+  mask-repeat: no-repeat;
+  mask-position: left center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: left center;
+  -webkit-mask-size: contain;
+}
+
+.login-title {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: var(--app-text);
+}
+
+.login-subtitle {
+  margin: 0 0 11px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--app-text-muted);
+}
+
+/* Proporsi tombol disamakan dengan isian form di bawahnya */
+.login-page .login-google {
+  width: 100%;
+  min-height: 46px;
+  gap: 10px;
+  padding: 0 20px;
+  border-radius: 10px;
+  border: 1px solid var(--app-border-strong);
+  background: #ffffff;
+  color: var(--app-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.login-page .login-google:hover:not(:disabled) {
+  background: var(--app-fill);
+  transform: translateY(-1px);
+}
+
+/* Tailwind preflight membuat svg jadi block — ikon perlu sebaris dengan teks */
+.login-page .login-google > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-google__mark {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0 18px;
+  color: var(--app-text-faint);
+  font-size: 0.74rem;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--app-border);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-field .inputtext__field {
+  min-height: 46px;
+  padding-left: 40px;
+  border-radius: 10px;
+  background-repeat: no-repeat;
+  background-position: 13px center;
+  background-size: 15px 15px;
+}
+
+.login-field--email .inputtext__field {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='4' width='20' height='16' rx='2'/><path d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'/></svg>");
+}
+
+.login-field--password .inputtext__field {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='11' width='18' height='11' rx='2'/><path d='M7 11V7a5 5 0 0 1 10 0v4'/></svg>");
+}
+
+.login-baris-bantu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.login-forgot {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.login-forgot:hover {
+  text-decoration: underline;
+}
+
+.login-page .login-submit {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 10px;
+  padding: 0 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.login-page .login-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.login-footnote {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--app-text-faint);
+}
+
+/* --- Panel kanan ---------------------------------------------------------- */
+
+.login-art-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  padding: clamp(28px, 4vw, 48px);
+  background: linear-gradient(160deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: #ffffff;
+  text-align: center;
+  overflow: hidden;
+}
+
+.login-art-panel::before {
+  content: '';
+  position: absolute;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  top: 12%;
+}
+
+.login-art {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+}
+
+.login-art-title {
+  position: relative;
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.login-art-text {
+  position: relative;
+  margin: -16px 0 0;
+  max-width: 300px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.login-dots {
+  position: relative;
+  display: flex;
+  gap: 7px;
+}
+
+.login-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.38);
+}
+
+.login-dots span.is-active {
+  background: #ffffff;
+}
+
+@media (max-width: 860px) {
+  .login-shell {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin-inline: auto;
+  }
+
+  .login-art-panel {
+    display: none;
+  }
+}
+
+/* Di mobile ukuran isian dan tombol kembali ke ukuran bawaan kendali tema */
+@media (max-width: 640px) {
+  .login-form-panel {
+    padding: 21px;
+  }
+
+  .login-brand {
+    display: none;
+  }
+
+  .login-title {
+    font-size: 1rem;
+  }
+
+  .login-field .inputtext__field {
+    height: var(--app-control-h);
+    min-height: var(--app-control-h);
+    padding-left: 32px;
+    border-radius: 6px;
+    font-size: 13px;
+    background-position: 10px center;
+    background-size: 14px 14px;
+  }
+
+  .login-page .login-google,
+  .login-page .login-submit {
+    min-height: 28px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+
+  .login-page .login-google > span {
+    gap: 8px;
+  }
+
+  .login-google__mark {
+    width: 16px;
+    height: 16px;
+  }
+}

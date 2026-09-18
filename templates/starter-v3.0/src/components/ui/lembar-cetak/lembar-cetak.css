@@ -1,0 +1,114 @@
+.lembar-cetak__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+@media (min-width: 640px) {
+  .lembar-cetak__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .lembar-cetak__grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+.lembar-cetak__sel {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.lembar-cetak__sel .label-qr {
+  --label-lebar: 100cqw;
+}
+
+.lembar-cetak__kepala {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: auto;
+    margin: 5mm;
+  }
+
+  body :not(:has(.lembar-cetak)):not(.lembar-cetak):not(.lembar-cetak *) {
+    display: none !important;
+  }
+
+  html,
+  body {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  body :has(.lembar-cetak) {
+    display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    transform: none !important;
+    float: none !important;
+  }
+
+  .lembar-cetak {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .lembar-cetak__kepala {
+    display: block;
+    margin-bottom: 3mm;
+    text-align: center;
+    color: #1f2937;
+  }
+
+  .lembar-cetak__judul {
+    display: block;
+    font-size: 12pt;
+    font-weight: 700;
+  }
+
+  .lembar-cetak__subjudul {
+    display: block;
+    margin-top: 1mm;
+    font-size: 9pt;
+    color: #5a5a5a;
+  }
+
+  .lembar-cetak__grid {
+    display: block;
+    font-size: 0;
+  }
+
+  .lembar-cetak__sel {
+    display: inline-block;
+    vertical-align: top;
+    container-type: normal;
+    margin: 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .lembar-cetak__sel .label-qr {
+    --label-lebar: 33mm;
+    /* Garis potong. */
+    border: 1px dashed #9ca3af;
+  }
+}
