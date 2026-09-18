@@ -18,12 +18,13 @@ const __dirname = dirname(__filename);
 const ROOT = resolve(__dirname, '..');
 
 /**
- * Dua starter hidup berdampingan. Yang dipakai ditentukan nama perintahnya:
+ * Tiga starter hidup berdampingan. Yang dipakai ditentukan nama perintahnya:
  *
- *   dealtech-ui          -> templates/starter          (v1, Tailwind inline)
+ *   dealtech-ui          -> templates/starter           (v1, Tailwind inline)
  *   dealtech-ui-v2-next  -> templates/starter-v2.0-next (v2, token CSS + CSS per komponen)
+ *   dealtech-ui-v3       -> templates/starter-v3.0      (v3, set element sama dengan v2, shell baru)
  *
- * Bendera --v1 / --v2 menimpanya, berguna saat menguji lokal lewat `npm link`.
+ * Bendera --v1 / --v2 / --v3 menimpanya, berguna saat menguji lokal lewat `npm link`.
  */
 const VARIAN = {
   v1: {
@@ -38,6 +39,12 @@ const VARIAN = {
     label: 'v2.0-next',
     folder: 'starter-v2.0-next',
   },
+  v3: {
+    kunci: 'v3',
+    perintah: 'dealtech-ui-v3',
+    label: 'v3.0',
+    folder: 'starter-v3.0',
+  },
 };
 
 function namaPerintah() {
@@ -46,6 +53,7 @@ function namaPerintah() {
 }
 
 function pilihVarian(bendera) {
+  if (bendera.has('--v3')) return VARIAN.v3;
   if (bendera.has('--v2')) return VARIAN.v2;
   if (bendera.has('--v1')) return VARIAN.v1;
   const nama = namaPerintah();
@@ -89,8 +97,8 @@ const UI_ALIASES = {
 };
 
 /**
- * Berkas layout per varian. v2 ikut membawa theme.css dan fontnya — tanpa itu
- * layoutnya kehilangan seluruh token warna dan huruf.
+ * Berkas layout per varian. v2 dan v3 ikut membawa theme.css dan fontnya — tanpa
+ * itu layoutnya kehilangan seluruh token warna dan huruf.
  */
 function daftarLayout(varian, jalur) {
   const berkas = [
@@ -106,7 +114,7 @@ function daftarLayout(varian, jalur) {
     { source: join(jalur.style, 'admin.css'), destination: 'src/styles/admin.css' },
   ];
 
-  if (varian.kunci === 'v2') {
+  if (varian.kunci !== 'v1') {
     berkas.push(
       { source: join(jalur.layout, 'menu.ts'), destination: 'src/layout/menu.ts' },
       { source: join(jalur.layout, 'ikon-menu.ts'), destination: 'src/layout/ikon-menu.ts' },
@@ -192,11 +200,22 @@ function ensureDirectory(targetDir) {
   }
 }
 
+/**
+ * Artefak dev milik folder template, bukan bagian dari starter. Kalau ikut
+ * tersalin, `install` lokal (lewat `npm link`) menyeret ribuan berkas
+ * node_modules milik template ke project baru.
+ */
+const DILEWATI_SALIN = new Set(['node_modules', 'dist', '.vite', '.turbo', '.git']);
+
 function copyDirectory(sourceDir, destinationDir) {
   ensureDirectory(destinationDir);
 
   const entries = readdirSync(sourceDir, { withFileTypes: true });
   for (const entry of entries) {
+    if (DILEWATI_SALIN.has(entry.name)) {
+      continue;
+    }
+
     const sourcePath = join(sourceDir, entry.name);
     const destinationPath = join(destinationDir, entry.name);
 
@@ -254,7 +273,14 @@ function getUiLookupMap() {
     map.set(compactKey(folderName), folderName);
   }
 
+  // Alias hanya didaftarkan kalau foldernya benar-benar ada di varian ini.
+  // Tanpa penjaga ini `add progressbarv1` pada v2/v3 lolos validasi lalu gagal
+  // saat menyalin folder yang tidak pernah ada.
   for (const [alias, folderName] of Object.entries(UI_ALIASES)) {
+    if (!existsSync(join(TEMPLATE_UI_DIR, folderName))) {
+      continue;
+    }
+
     map.set(compactKey(alias), folderName);
   }
 
@@ -354,12 +380,13 @@ ${colors.bold('Usage:')}
   npx ${cmd} ${colors.cyan('help')}
 
 ${colors.bold('Starter:')}
-  ${colors.cyan('dealtech-ui')}          ${colors.dim('v1 - Tailwind inline')}
-  ${colors.cyan('dealtech-ui-v2-next')}  ${colors.dim('v2.0-next - token CSS, style per komponen')}
-  ${colors.dim('Bendera --v1 / --v2 menimpa pilihan berdasarkan nama perintah.')}
+  ${colors.cyan('dealtech-ui')}          ${colors.dim('v1 - Tailwind inline, 29 element')}
+  ${colors.cyan('dealtech-ui-v2-next')}  ${colors.dim('v2.0-next - token CSS, style per komponen, 58 element')}
+  ${colors.cyan('dealtech-ui-v3')}       ${colors.dim('v3.0 - element sama dengan v2, shell & tema baru')}
+  ${colors.dim('Bendera --v1 / --v2 / --v3 menimpa pilihan berdasarkan nama perintah.')}
 
 ${colors.bold('Examples:')}
-  npx dealtech-ui-v2-next install my-admin-app
+  npx dealtech-ui-v3 install my-admin-app
   npx ${cmd} add button badge modal
   npx ${cmd} add-layout admin-layout
   npx ${cmd} add-page reports
