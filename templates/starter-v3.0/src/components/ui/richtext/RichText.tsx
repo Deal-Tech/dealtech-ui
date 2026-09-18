@@ -37,13 +37,22 @@ const ATRIBUT_DIIZINKAN: Record<string, string[]> = {
   COL: ['span'],
 };
 
-const SKEMA_TAUTAN = /^(?:https?:\/\/|mailto:|tel:|\/|#|\.\/)/i;
-const SKEMA_GAMBAR = /^(?:https?:\/\/|\/)/i;
+// Pola ditulis literal di dalam tiap penjaga, bukan dioper sebagai parameter,
+// supaya pemindai statik mengenalinya sebagai barrier (CodeQL js/xss-through-dom).
+function hrefAman(nilai: string): string {
+  const bersih = hapusKendali(nilai);
+  return /^(?:https?:\/\/|mailto:|tel:|\/|#|\.\/)/i.test(bersih) ? bersih : '';
+}
 
-function urlBersih(nilai: string, pola: RegExp): string {
+function srcAman(nilai: string): string {
+  const bersih = hapusKendali(nilai);
+  return /^(?:https?:\/\/|\/)/i.test(bersih) ? bersih : '';
+}
+
+function hapusKendali(nilai: string): string {
   // Karakter kendali dipakai untuk menyelundupkan "javascript:".
   const bersih = nilai.replace(/[\u0000-\u001F\u007F]/g, '').trim();
-  return pola.test(bersih) ? bersih : '';
+  return bersih;
 }
 
 export function sanitasiHtml(html: string): string {
@@ -76,8 +85,7 @@ export function sanitasiHtml(html: string): string {
           return;
         }
         if (nama === 'href' || nama === 'src') {
-          const pola = nama === 'href' ? SKEMA_TAUTAN : SKEMA_GAMBAR;
-          const bersih = urlBersih(attr.value, pola);
+          const bersih = nama === 'href' ? hrefAman(attr.value) : srcAman(attr.value);
           if (bersih === '') el.removeAttribute(attr.name);
           else el.setAttribute(attr.name, bersih);
         }
@@ -114,7 +122,7 @@ const normalkanUrl = (u: string): string => {
 const eksternal = (u: string): boolean => /^https?:\/\//i.test(u);
 
 // Tolak skema di luar allowlist.
-const urlTautanAman = (u: string): string => urlBersih(normalkanUrl(u), SKEMA_TAUTAN);
+const urlTautanAman = (u: string): string => hrefAman(normalkanUrl(u));
 
 type TombolAlat = {
   cmd: string;
@@ -222,7 +230,7 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
       tautanDiedit.current = tautan as HTMLAnchorElement;
       setSedangEdit(true);
       setTeksTautan(tautan.textContent ?? '');
-      setUrlTautan(urlBersih(tautan.getAttribute('href') ?? '', SKEMA_TAUTAN));
+      setUrlTautan(hrefAman(tautan.getAttribute('href') ?? ''));
       rentangTersimpan.current = null;
       setModalBuka(true);
     }
