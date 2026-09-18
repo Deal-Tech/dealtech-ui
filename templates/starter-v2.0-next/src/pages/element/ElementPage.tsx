@@ -55,6 +55,7 @@ import { RichText } from '@/components/ui/richtext/RichText';
 import { SearchInput } from '@/components/ui/search-input/SearchInput';
 import { SearchSelect } from '@/components/ui/search-select/SearchSelect';
 import { Select } from '@/components/ui/select/Select';
+import { KartuPaket, type PaketItem } from '@/components/ui/kartu-paket/KartuPaket';
 import { StatCard } from '@/components/ui/stat-card/StatCard';
 import { TabButton } from '@/components/ui/tab-button/TabButton';
 import { TabelCardV1 } from '@/components/ui/tabelcardv1/TabelCardV1';
@@ -76,6 +77,51 @@ interface SeksiProps {
   jumlah: number;
   children: ReactNode;
 }
+
+
+/* Contoh paket untuk demo KartuPaket. Urutan larik menentukan jenjangnya:
+   yang di bawah paket aktif tampil redup, yang di atasnya jadi tombol upgrade. */
+const PAKET_CONTOH: PaketItem[] = [
+  {
+    kunci: 'free',
+    nama: 'Free',
+    harga: 'Gratis',
+    deskripsi: 'Untuk mencoba seluruh fitur dasar tanpa biaya.',
+    ctaLabel: 'Mulai Gratis',
+    fiturTitle: 'Yang sudah termasuk:',
+    fitur: ['1 pengguna', 'Dasbor ringkas', 'Riwayat 1 bulan'],
+  },
+  {
+    kunci: 'dasar',
+    nama: 'Dasar',
+    hargaLabel: 'Mulai dari',
+    harga: 'Rp149rb',
+    satuan: '/bulan',
+    deskripsi: 'Untuk tim kecil yang butuh laporan rutin.',
+    fiturTitle: 'Semua fitur Free, plus:',
+    fitur: ['5 pengguna', 'Ekspor data', 'Riwayat 1 tahun'],
+  },
+  {
+    kunci: 'pro',
+    nama: 'Pro',
+    badge: 'Paling populer',
+    hargaLabel: 'Mulai dari',
+    harga: 'Rp349rb',
+    satuan: '/bulan',
+    deskripsi: 'Untuk tim yang sudah berjalan penuh.',
+    fiturTitle: 'Semua fitur Dasar, plus:',
+    fitur: ['Pengguna tanpa batas', 'Hak akses per peran', 'Integrasi API'],
+  },
+  {
+    kunci: 'enterprise',
+    nama: 'Enterprise',
+    harga: 'Hubungi kami',
+    deskripsi: 'Untuk kebutuhan khusus dan banyak unit.',
+    ctaLabel: 'Ajukan Penawaran',
+    fiturTitle: 'Semua fitur Pro, plus:',
+    fitur: ['Domain sendiri', 'Migrasi data penuh', 'Prioritas dukungan'],
+  },
+];
 
 function Seksi({ id, judul, jumlah, children }: SeksiProps) {
   return (
@@ -533,7 +579,14 @@ export default function ElementPage() {
       </Seksi>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="data" judul="Data & Tabel" jumlah={7}>
+      <Seksi id="data" judul="Data & Tabel" jumlah={8}>
+        <Petak nama="KartuPaket" jalur="kartu-paket/">
+          <KartuPaket
+            paket={PAKET_CONTOH}
+            aktif="pro"
+          />
+        </Petak>
+
         <Petak nama="StatCard" jalur="stat-card/">
           <div
             style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(2, minmax(0,1fr))' }}

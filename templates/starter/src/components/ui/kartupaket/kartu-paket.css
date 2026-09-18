@@ -1,0 +1,248 @@
+/*
+ * Kartu paket harga.
+ *
+ * Tokennya ditulis berlapis (--color-* lalu --admin-* lalu nilai tetap) supaya
+ * berkas yang sama bisa dipakai di starter v1, v2, maupun v3 tanpa disunting.
+ */
+
+.kartu-paket {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.kartu-paket__item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 22px 20px 24px;
+  border-radius: 12px;
+  border: 1px solid var(--app-card-border, var(--admin-border, #e5e7eb));
+  background: var(--app-surface, var(--admin-panel, #ffffff));
+}
+
+/* Kartu tersorot dibuat gelap supaya terbaca sebagai pilihan utama */
+.kartu-paket__item--sorot {
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+}
+
+.kartu-paket__kepala {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 26px;
+}
+
+.kartu-paket__nama {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--app-text, #0f172a);
+}
+
+.kartu-paket__item--sorot .kartu-paket__nama {
+  color: #ffffff;
+}
+
+.kartu-paket__badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.kartu-paket__item:not(.kartu-paket__item--sorot) .kartu-paket__badge {
+  background: var(--app-chip-bg, rgba(1, 73, 139, 0.12));
+  color: var(--color-primary, var(--admin-accent, #01498b));
+}
+
+.kartu-paket__harga-label {
+  margin: 16px 0 0;
+  font-size: 0.78rem;
+  color: var(--app-text-muted, var(--admin-muted, #64748b));
+}
+
+.kartu-paket__item--sorot .kartu-paket__harga-label {
+  color: #cbd5e1;
+}
+
+.kartu-paket__harga-label + .kartu-paket__harga {
+  margin-top: 4px;
+}
+
+.kartu-paket__harga {
+  margin: 16px 0 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--app-text, #0f172a);
+}
+
+.kartu-paket__item--sorot .kartu-paket__harga {
+  color: #ffffff;
+}
+
+.kartu-paket__harga-satuan {
+  margin-left: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--app-text-muted, var(--admin-muted, #64748b));
+}
+
+.kartu-paket__item--sorot .kartu-paket__harga-satuan {
+  color: #cbd5e1;
+}
+
+.kartu-paket__deskripsi {
+  margin: 12px 0 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--app-text-muted, var(--admin-muted, #64748b));
+}
+
+.kartu-paket__item--sorot .kartu-paket__deskripsi {
+  color: #cbd5e1;
+}
+
+/* --- Tombol --------------------------------------------------------------- */
+
+.kartu-paket__cta {
+  margin: 18px 0 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.kartu-paket__cta:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.kartu-paket__cta--pilih,
+.kartu-paket__cta--upgrade {
+  background: var(--color-primary, var(--admin-accent, #01498b));
+  border-color: var(--color-primary, var(--admin-accent, #01498b));
+  color: #ffffff;
+}
+
+.kartu-paket__cta--pilih:hover:not(:disabled),
+.kartu-paket__cta--upgrade:hover:not(:disabled) {
+  background: var(--color-primary-dark, #013a6f);
+  border-color: var(--color-primary-dark, #013a6f);
+}
+
+.kartu-paket__item--sorot .kartu-paket__cta--pilih,
+.kartu-paket__item--sorot .kartu-paket__cta--upgrade {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #0f172a;
+}
+
+/* Paket yang sedang dipakai: ditandai, bukan diredupkan */
+.kartu-paket__cta--sekarang {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.36);
+  color: #ffffff;
+  cursor: default;
+}
+
+.kartu-paket__item:not(.kartu-paket__item--sorot) .kartu-paket__cta--sekarang {
+  background: var(--app-chip-bg, rgba(1, 73, 139, 0.12));
+  border-color: var(--color-primary, var(--admin-accent, #01498b));
+  color: var(--color-primary, var(--admin-accent, #01498b));
+}
+
+/* Paket di bawah paket aktif: redup, tidak bisa dipilih */
+.kartu-paket__cta--turun {
+  background: transparent;
+  border-color: var(--app-border, #e5e7eb);
+  color: var(--app-text-faint, var(--admin-muted, #94a3b8));
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* --- Daftar fitur --------------------------------------------------------- */
+
+.kartu-paket__fitur-judul {
+  margin: 20px 0 0;
+  padding-top: 18px;
+  border-top: 1px dashed var(--app-border, #e5e7eb);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--app-text, #0f172a);
+}
+
+.kartu-paket__item--sorot .kartu-paket__fitur-judul {
+  border-top-color: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.kartu-paket__fitur {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.kartu-paket__fitur li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--app-body-text, var(--admin-muted, #1f2937));
+}
+
+.kartu-paket__item--sorot .kartu-paket__fitur li {
+  color: #e2e8f0;
+}
+
+.kartu-paket__centang {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  background: var(--color-primary, var(--admin-accent, #01498b));
+  color: #ffffff;
+}
+
+.kartu-paket__item--sorot .kartu-paket__centang {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+@media (max-width: 1100px) {
+  .kartu-paket {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .kartu-paket {
+    grid-template-columns: 1fr;
+  }
+}
