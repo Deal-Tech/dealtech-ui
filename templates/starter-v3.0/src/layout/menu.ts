@@ -39,6 +39,25 @@ export const menu: AppMenu = {
         },
       ],
     },
+    {
+      key: 'transaksi',
+      label: 'Template Transaksi',
+      open: true,
+      items: [
+        {
+          key: 'checkout',
+          label: 'Checkout',
+          icon: 'shopping-cart',
+          href: '/dashboard/checkout',
+        },
+        {
+          key: 'pembayaran',
+          label: 'Pembayaran',
+          icon: 'receipt-text',
+          href: '/dashboard/pembayaran',
+        },
+      ],
+    },
   ],
   /* Butir lepas yang duduk di bawah semua grup — bukan grup, jadi tidak punya
      kepala yang bisa dilipat. */

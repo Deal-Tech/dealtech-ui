@@ -8,6 +8,7 @@ import ProdukPage from '@/pages/produk/ProdukPage';
 import ProdukDetailPage from '@/pages/produk/ProdukDetailPage';
 import ProdukTambahPage from '@/pages/produk/ProdukTambahPage';
 import PengaturanPage from '@/pages/pengaturan/PengaturanPage';
+import { CheckoutPage, PembayaranPage } from '@/pages/checkout/CheckoutPages';
 // [dealtech:auto-imports]
 
 const AdminApp = () => (
@@ -21,6 +22,8 @@ const AdminApp = () => (
       <Route path="produk/:kode/ubah" element={<ProdukTambahPage />} />
       <Route path="member" element={<MemberPage />} />
       <Route path="pengaturan" element={<PengaturanPage />} />
+      <Route path="checkout" element={<CheckoutPage />} />
+      <Route path="pembayaran" element={<PembayaranPage />} />
       {/* [dealtech:auto-routes] */}
     </Route>
     <Route path="*" element={<Navigate to="/dashboard" replace />} />
