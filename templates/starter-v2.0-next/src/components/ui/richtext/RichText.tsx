@@ -37,8 +37,7 @@ const ATRIBUT_DIIZINKAN: Record<string, string[]> = {
   COL: ['span'],
 };
 
-// Pola ditulis literal di dalam tiap penjaga, bukan dioper sebagai parameter,
-// supaya pemindai statik mengenalinya sebagai barrier (CodeQL js/xss-through-dom).
+// Pola literal, bukan parameter.
 function hrefAman(nilai: string): string {
   const bersih = hapusKendali(nilai);
   return /^(?:https?:\/\/|mailto:|tel:|\/|#|\.\/)/i.test(bersih) ? bersih : '';

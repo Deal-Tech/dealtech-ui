@@ -17,15 +17,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT = resolve(__dirname, '..');
 
-/**
- * Tiga starter hidup berdampingan. Yang dipakai ditentukan nama perintahnya:
- *
- *   dealtech-ui          -> templates/starter           (v1, Tailwind inline)
- *   dealtech-ui-v2-next  -> templates/starter-v2.0-next (v2, token CSS + CSS per komponen)
- *   dealtech-ui-v3       -> templates/starter-v3.0      (v3, set element sama dengan v2, shell baru)
- *
- * Bendera --v1 / --v2 / --v3 menimpanya, berguna saat menguji lokal lewat `npm link`.
- */
+// Varian dipilih dari nama perintah.
 const VARIAN = {
   v1: {
     kunci: 'v1',
@@ -96,10 +88,7 @@ const UI_ALIASES = {
   scrolltotop: 'scroltotop',
 };
 
-/**
- * Berkas layout per varian. v2 dan v3 ikut membawa theme.css dan fontnya — tanpa
- * itu layoutnya kehilangan seluruh token warna dan huruf.
- */
+// v2 dan v3 butuh theme.css dan font.
 function daftarLayout(varian, jalur) {
   const berkas = [
     { source: join(jalur.layout, 'AdminLayout.tsx'), destination: 'src/layout/AdminLayout.tsx' },
@@ -200,12 +189,8 @@ function ensureDirectory(targetDir) {
   }
 }
 
-/**
- * Artefak dev milik folder template, bukan bagian dari starter. Kalau ikut
- * tersalin, `install` lokal (lewat `npm link`) menyeret ribuan berkas
- * node_modules milik template ke project baru.
- */
-const DILEWATI_SALIN = new Set(['node_modules', 'dist', '.vite', '.turbo', '.git']);
+// Artefak dev, bukan isi starter.
+const DILEWATI_SALIN =new Set(['node_modules', 'dist', '.vite', '.turbo', '.git']);
 
 function copyDirectory(sourceDir, destinationDir) {
   ensureDirectory(destinationDir);
@@ -273,9 +258,7 @@ function getUiLookupMap() {
     map.set(compactKey(folderName), folderName);
   }
 
-  // Alias hanya didaftarkan kalau foldernya benar-benar ada di varian ini.
-  // Tanpa penjaga ini `add progressbarv1` pada v2/v3 lolos validasi lalu gagal
-  // saat menyalin folder yang tidak pernah ada.
+  // Lewati alias milik varian lain.
   for (const [alias, folderName] of Object.entries(UI_ALIASES)) {
     if (!existsSync(join(TEMPLATE_UI_DIR, folderName))) {
       continue;
