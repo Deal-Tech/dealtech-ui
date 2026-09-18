@@ -603,13 +603,15 @@ html:has(.app-shell) body {
   border-left-color: rgba(255, 255, 255, 0.2);
 }
 
+/* Tombol close duduk di header putih, jadi warnanya ikut teks tema */
 .sidebar-close-btn {
-  color: rgba(255, 255, 255, 0.86);
+  color: var(--app-text);
+  background: var(--app-fill);
 }
 
 .sidebar-close-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
+  background: var(--app-fill-strong);
+  color: var(--app-text);
 }
 
 /* Lambang di kepala sidebar duduk di atas putih, jadi dicat warna teks tema */
