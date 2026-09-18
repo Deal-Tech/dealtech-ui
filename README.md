@@ -2,6 +2,10 @@
 
 `dealtech-ui` adalah CLI untuk generate `UI Panel Starter` dan menambahkan UI element atau layout secara terpisah ke project React Anda.
 
+![Dashboard admin starter v3.0 — sidebar biru, header putih, kartu paket](docs/tampilan-v3.png)
+
+<p align="center"><em>Tampilan starter v3.0 — tema terbaru.</em></p>
+
 ## Tiga starter, tiga perintah
 
 Nama perintah menentukan starter mana yang dipakai:
