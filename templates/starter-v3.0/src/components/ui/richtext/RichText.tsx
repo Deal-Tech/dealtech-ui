@@ -37,15 +37,27 @@ const ATRIBUT_DIIZINKAN: Record<string, string[]> = {
   COL: ['span'],
 };
 
-// Pola literal, bukan parameter.
+// Awalan literal, bukan pola.
 function hrefAman(nilai: string): string {
   const bersih = hapusKendali(nilai);
-  return /^(?:https?:\/\/|mailto:|tel:|\/|#|\.\/)/i.test(bersih) ? bersih : '';
+  const kecil = bersih.toLowerCase();
+  if (kecil.startsWith('https://')) return 'https://' + bersih.slice(8);
+  if (kecil.startsWith('http://')) return 'http://' + bersih.slice(7);
+  if (kecil.startsWith('mailto:')) return 'mailto:' + bersih.slice(7);
+  if (kecil.startsWith('tel:')) return 'tel:' + bersih.slice(4);
+  if (kecil.startsWith('./')) return './' + bersih.slice(2);
+  if (kecil.startsWith('/')) return '/' + bersih.slice(1);
+  if (kecil.startsWith('#')) return '#' + bersih.slice(1);
+  return '';
 }
 
 function srcAman(nilai: string): string {
   const bersih = hapusKendali(nilai);
-  return /^(?:https?:\/\/|\/)/i.test(bersih) ? bersih : '';
+  const kecil = bersih.toLowerCase();
+  if (kecil.startsWith('https://')) return 'https://' + bersih.slice(8);
+  if (kecil.startsWith('http://')) return 'http://' + bersih.slice(7);
+  if (kecil.startsWith('/')) return '/' + bersih.slice(1);
+  return '';
 }
 
 function hapusKendali(nilai: string): string {
