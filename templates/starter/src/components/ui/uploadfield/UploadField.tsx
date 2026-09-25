@@ -17,6 +17,12 @@ type PreviewItem = {
   previewUrl: string | null;
 };
 
+// Hanya blob lokal yang dipakai.
+const pratinjauAman = (file: File): string | null => {
+  const url = URL.createObjectURL(file);
+  return url.startsWith('blob:') ? 'blob:' + url.slice(5) : null;
+};
+
 const formatFileSize = (bytes: number) => {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -62,7 +68,7 @@ const UploadField = ({
       return {
         file,
         isImage,
-        previewUrl: isImage ? URL.createObjectURL(file) : null,
+        previewUrl: isImage ? pratinjauAman(file) : null,
       };
     });
 

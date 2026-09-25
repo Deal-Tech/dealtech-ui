@@ -232,7 +232,12 @@ export function PembayaranPage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [bukti, setBukti] = useState<File | null>(null);
   const [terkirim, setTerkirim] = useState(false);
-  const urlBukti = useMemo(() => (bukti ? URL.createObjectURL(bukti) : ''), [bukti]);
+  const urlBukti = useMemo(() => {
+    if (!bukti) return '';
+    // Hanya blob lokal yang dipakai.
+    const url = URL.createObjectURL(bukti);
+    return url.startsWith('blob:') ? 'blob:' + url.slice(5) : '';
+  }, [bukti]);
 
   useEffect(() => () => {
     if (urlBukti) URL.revokeObjectURL(urlBukti);
