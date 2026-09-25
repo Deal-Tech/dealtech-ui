@@ -615,7 +615,6 @@ export default function ElementPage() {
             columns={KOLOM_TABEL}
             rows={barisTabel}
             rowKey={(row) => String(row.kode)}
-            minBaris={8}
             pilihan={pilihanTabel}
             aksiMassal={
               <>

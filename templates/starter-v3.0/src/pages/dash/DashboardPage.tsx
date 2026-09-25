@@ -161,7 +161,6 @@ function TabelTerbaru() {
         } data`,
         onNavigasi: setHalaman,
       }}
-      minBaris={8}
       emptyText="Tidak ada transaksi yang cocok."
     />
   );

@@ -140,7 +140,6 @@ export default function ProdukPage() {
           } produk`,
           onNavigasi: setHalaman,
         }}
-        minBaris={8}
         emptyText={memuat ? 'Memuat produk…' : 'Tidak ada produk yang cocok.'}
       />
     </div>
