@@ -218,7 +218,6 @@ export default function MemberPage() {
           } member`,
           onNavigasi: setHalaman,
         }}
-        minBaris={8}
         emptyText="Tidak ada member yang cocok."
       />
 
