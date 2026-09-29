@@ -20,7 +20,16 @@ type PreviewItem = {
 // Hanya blob lokal yang dipakai.
 const pratinjauAman = (file: File): string | null => {
   const url = URL.createObjectURL(file);
-  return url.startsWith('blob:') ? 'blob:' + url.slice(5) : null;
+  if (!url.startsWith('blob:')) {
+    URL.revokeObjectURL(url);
+    return null;
+  }
+  try {
+    return encodeURI('blob:' + url.slice(5));
+  } catch {
+    URL.revokeObjectURL(url);
+    return null;
+  }
 };
 
 const formatFileSize = (bytes: number) => {

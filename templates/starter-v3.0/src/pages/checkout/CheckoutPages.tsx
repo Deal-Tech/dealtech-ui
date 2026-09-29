@@ -236,7 +236,16 @@ export function PembayaranPage() {
     if (!bukti) return '';
     // Hanya blob lokal yang dipakai.
     const url = URL.createObjectURL(bukti);
-    return url.startsWith('blob:') ? 'blob:' + url.slice(5) : '';
+    if (!url.startsWith('blob:')) {
+      URL.revokeObjectURL(url);
+      return '';
+    }
+    try {
+      return encodeURI('blob:' + url.slice(5));
+    } catch {
+      URL.revokeObjectURL(url);
+      return '';
+    }
   }, [bukti]);
 
   useEffect(() => () => {
