@@ -37,27 +37,38 @@ const ATRIBUT_DIIZINKAN: Record<string, string[]> = {
   COL: ['span'],
 };
 
+function encodeUriAman(nilai: string): string {
+  try {
+    // Pertahankan escape persen yang sudah valid agar sanitasi tetap idempoten.
+    return encodeURI(nilai).replace(/%25([0-9a-f]{2})/gi, '%$1');
+  } catch {
+    return '';
+  }
+}
+
 // Awalan literal, bukan pola.
 function hrefAman(nilai: string): string {
   const bersih = hapusKendali(nilai);
   const kecil = bersih.toLowerCase();
-  if (kecil.startsWith('https://')) return 'https://' + bersih.slice(8);
-  if (kecil.startsWith('http://')) return 'http://' + bersih.slice(7);
-  if (kecil.startsWith('mailto:')) return 'mailto:' + bersih.slice(7);
-  if (kecil.startsWith('tel:')) return 'tel:' + bersih.slice(4);
-  if (kecil.startsWith('./')) return './' + bersih.slice(2);
-  if (kecil.startsWith('/')) return '/' + bersih.slice(1);
-  if (kecil.startsWith('#')) return '#' + bersih.slice(1);
-  return '';
+  let aman = '';
+  if (kecil.startsWith('https://')) aman = 'https://' + bersih.slice(8);
+  else if (kecil.startsWith('http://')) aman = 'http://' + bersih.slice(7);
+  else if (kecil.startsWith('mailto:')) aman = 'mailto:' + bersih.slice(7);
+  else if (kecil.startsWith('tel:')) aman = 'tel:' + bersih.slice(4);
+  else if (kecil.startsWith('./')) aman = './' + bersih.slice(2);
+  else if (kecil.startsWith('/')) aman = '/' + bersih.slice(1);
+  else if (kecil.startsWith('#')) aman = '#' + bersih.slice(1);
+  return aman ? encodeUriAman(aman) : '';
 }
 
 function srcAman(nilai: string): string {
   const bersih = hapusKendali(nilai);
   const kecil = bersih.toLowerCase();
-  if (kecil.startsWith('https://')) return 'https://' + bersih.slice(8);
-  if (kecil.startsWith('http://')) return 'http://' + bersih.slice(7);
-  if (kecil.startsWith('/')) return '/' + bersih.slice(1);
-  return '';
+  let aman = '';
+  if (kecil.startsWith('https://')) aman = 'https://' + bersih.slice(8);
+  else if (kecil.startsWith('http://')) aman = 'http://' + bersih.slice(7);
+  else if (kecil.startsWith('/')) aman = '/' + bersih.slice(1);
+  return aman ? encodeUriAman(aman) : '';
 }
 
 function hapusKendali(nilai: string): string {
