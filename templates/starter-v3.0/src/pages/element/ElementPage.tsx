@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import {
   Check,
   CircleAlert,
@@ -56,12 +56,13 @@ import { SearchInput } from '@/components/ui/search-input/SearchInput';
 import { SearchSelect } from '@/components/ui/search-select/SearchSelect';
 import { Select } from '@/components/ui/select/Select';
 import { KartuPaket, type PaketItem } from '@/components/ui/kartu-paket/KartuPaket';
-import { StatCard } from '@/components/ui/stat-card/StatCard';
+import { StatCard, StatGrid } from '@/components/ui/stat-card/StatCard';
 import { TabButton } from '@/components/ui/tab-button/TabButton';
 import { TabelCardV1 } from '@/components/ui/tabelcardv1/TabelCardV1';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
 import { TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
 import { ToggleOnOff } from '@/components/ui/toggleonoff/ToggleOnOff';
+import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { UnggahGambar } from '@/components/ui/unggah-gambar/UnggahGambar';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
 import { PER_HALAMAN_BAWAAN, usePilihan } from '@/lib/daftar';
@@ -146,6 +147,46 @@ function Petak({ nama, jalur, children }: { nama: string; jalur: string; childre
       </div>
       <div className="element-petak__isi">{children}</div>
     </div>
+  );
+}
+
+const JEDA_DETAK_MS = 100;
+const LANGKAH_PROGRES = 0.08;
+
+type DemoTuangProps = Omit<
+  ComponentProps<typeof TombolTuang>,
+  'children' | 'status' | 'progres' | 'onClick'
+> & {
+  label: string;
+  gagal?: boolean;
+  unggah?: boolean;
+};
+
+/** Proses tiruan untuk TombolTuang. */
+function DemoTuang({ label, gagal = false, unggah = false, ...props }: DemoTuangProps) {
+  const [status, setStatus] = useState<StatusTuang>('idle');
+  const [progres, setProgres] = useState(0);
+  const detak = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearInterval(detak.current), []);
+
+  const jalankan = () => {
+    let p = 0;
+    setProgres(0);
+    setStatus('pending');
+    detak.current = window.setInterval(() => {
+      p = Math.min(1, p + LANGKAH_PROGRES);
+      setProgres(p);
+      if (p < 1) return;
+      window.clearInterval(detak.current);
+      setStatus(gagal ? 'error' : 'success');
+    }, JEDA_DETAK_MS);
+  };
+
+  return (
+    <TombolTuang {...props} status={status} progres={unggah ? progres : null} onClick={jalankan}>
+      {label}
+    </TombolTuang>
   );
 }
 
@@ -322,7 +363,7 @@ export default function ElementPage() {
       <PageTitle
         title="Semua Element"
         subtitle="Katalog komponen DealTech UI v2. Setiap kotak menampilkan satu komponen beserta letak berkasnya di src/components/ui/."
-        action={<span className="element-hitung">49 komponen</span>}
+        action={<span className="element-hitung">50 komponen</span>}
       />
 
       <nav className="element-nav" aria-label="Lompat ke seksi">
@@ -334,7 +375,7 @@ export default function ElementPage() {
       </nav>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="tombol" judul="Tombol & Navigasi" jumlah={5}>
+      <Seksi id="tombol" judul="Tombol & Navigasi" jumlah={6}>
         <Petak nama="Button" jalur="button/">
           <p className="element-catatan">Satu ukuran, empat keadaan.</p>
           <div className="element-baris">
@@ -358,6 +399,30 @@ export default function ElementPage() {
             <Button variant="ghost" icon={Pencil} aria-label="Ubah" />
             <Button icon={Download} disabled aria-label="Unduh" />
           </div>
+        </Petak>
+
+        <Petak nama="TombolTuang" jalur="tombol-tuang/">
+          <p className="element-catatan">
+            Teks dituang ke ikon selama proses. Status: idle → pending → success / error.
+          </p>
+          <div className="element-baris">
+            <DemoTuang ikon="simpan" label="Simpan" />
+            <DemoTuang ikon="unggah" variant="ghost" label="Unggah Berkas" unggah />
+            <DemoTuang ikon="file" variant="ghost" label="Cetak PDF" />
+            <DemoTuang ikon="hapus" label="Hapus" gagal />
+          </div>
+          <div className="element-baris">
+            <DemoTuang ikon="kunci" label="Masuk" samarkan teksBerhasil="Authorized" />
+            <DemoTuang
+              ikon="kunci"
+              variant="ghost"
+              label="Masuk"
+              samarkan
+              teksGagal="Unauthorized"
+              gagal
+            />
+          </div>
+          <p className="element-catatan">Hapus dan Masuk kedua sengaja disimulasikan gagal.</p>
         </Petak>
 
         <Petak nama="ActionButton" jalur="action-button/">
@@ -587,15 +652,17 @@ export default function ElementPage() {
           />
         </Petak>
 
-        <Petak nama="StatCard" jalur="stat-card/">
-          <div
-            style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(2, minmax(0,1fr))' }}
-          >
+        <Petak nama="StatCard + StatGrid" jalur="stat-card/">
+          <StatGrid>
             <StatCard icon={Package} title="Produk" value="248 produk" helper="12 nonaktif" />
             <StatCard icon={ShoppingCart} title="Transaksi" value="1.860 transaksi" />
-            <StatCard icon={Wallet} title="Pendapatan" value="Rp 412 jt" />
+            <StatCard icon={Wallet} title="Pendapatan bersih bulan ini" value="Rp 412 jt" />
             <StatCard icon={Users} title="Pengguna" value="1.204 akun" helper="18 nonaktif" />
-          </div>
+          </StatGrid>
+          <p className="element-catatan">
+            Kolom, ukuran ikon, dan format kartu mengikuti lebar wadah; teks panjang dipotong
+            elipsis.
+          </p>
         </Petak>
 
         <Petak nama="PageTitle" jalur="pagetitle/">
@@ -844,9 +911,7 @@ export default function ElementPage() {
                 <Button variant="ghost" onClick={() => setModalBuka(false)}>
                   Batal
                 </Button>
-                <Button onClick={() => setModalBuka(false)}>
-                  Hapus
-                </Button>
+                <DemoTuang ikon="hapus" label="Hapus" onTuntas={() => setModalBuka(false)} />
               </>
             }
           >

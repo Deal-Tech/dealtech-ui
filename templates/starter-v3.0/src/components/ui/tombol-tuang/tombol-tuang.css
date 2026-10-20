@@ -1,0 +1,366 @@
+/* Tingkat air per fase */
+.tombol-tuang {
+  --isi: 0;
+  /* Jarak naik air sampai penuh */
+  --isi-tinggi: 25px;
+  --warna-cair: currentColor;
+  --warna-centang: var(--app-primary);
+}
+.tombol-tuang--simpan {
+  --isi-tinggi: 22px;
+}
+.tombol-tuang--kunci {
+  --isi-tinggi: 14px;
+}
+.tombol-tuang--unggah {
+  --isi-tinggi: 18px;
+}
+.tombol-tuang--hapus {
+  --isi-tinggi: 18px;
+  /* Tombol merah: centang ikut merah */
+  --warna-centang: var(--app-danger-solid);
+}
+.tombol-tuang.btn--ghost {
+  --warna-cair: var(--app-primary);
+  --warna-centang: var(--app-on-primary);
+}
+.tombol-tuang:is([data-fase='tuang'], [data-fase='tunggu']) {
+  --isi: 0.74;
+}
+/* Unggah: air mengikuti persen */
+.tombol-tuang[data-progres]:is([data-fase='tuang'], [data-fase='tunggu']) {
+  --isi: max(0.12, calc(var(--progres, 0) * 0.9));
+}
+.tombol-tuang:is([data-fase='penuh'], [data-fase='centang']) {
+  --isi: 1;
+}
+
+/* Agar kemiringan bisa dianimasikan */
+@property --miring {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+/* Ikon menangkap lalu memamerkan isi */
+.tombol-tuang__ikon {
+  overflow: visible;
+  rotate: var(--miring);
+  transition:
+    translate 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
+    scale 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
+    --miring 0.5s ease-out;
+}
+.tombol-tuang[data-fase='tuang'] .tombol-tuang__ikon {
+  --miring: 8deg;
+}
+.tombol-tuang:is([data-fase='tunggu'], [data-fase='penuh'], [data-fase='centang']) .tombol-tuang__ikon {
+  translate: var(--geser-ikon) 0;
+  scale: 1.2;
+}
+.tombol-tuang:is([data-fase='tunggu'], [data-fase='penuh']) .tombol-tuang__ikon {
+  --miring: 14deg;
+}
+.tombol-tuang[data-fase='tunggu'] .tombol-tuang__ikon {
+  animation: tombol-tuang-goyang 0.9s ease-in-out 0.5s infinite alternate;
+}
+
+.tombol-tuang__datar {
+  transform-origin: 12px 12px;
+  transform: rotate(calc(var(--miring) * -1));
+}
+
+.tombol-tuang__garis {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Gembok terbuka / tutup sampah terangkat saat berhasil */
+.tombol-tuang:is(.tombol-tuang--kunci, .tombol-tuang--hapus) .tombol-tuang__rincian {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.tombol-tuang:is(.tombol-tuang--kunci, .tombol-tuang--hapus)[data-fase='centang'] .tombol-tuang__rincian {
+  transform: translateY(-3px);
+}
+
+/* Air naik dari dasar ikon */
+.tombol-tuang__cair {
+  transform: translateY(calc(23px - var(--isi) * var(--isi-tinggi)));
+  transition:
+    transform 0.4s ease-out,
+    opacity 0.3s ease;
+}
+.tombol-tuang[data-fase='tuang'] .tombol-tuang__cair {
+  /* Mulai saat huruf pertama masuk */
+  transition-delay: 0.4s;
+  transition-duration: calc(var(--durasi-tuang) - 400ms);
+  transition-timing-function: cubic-bezier(0.3, 0.2, 0.6, 1);
+}
+.tombol-tuang[data-fase='penuh'] .tombol-tuang__cair {
+  transition-duration: 0.5s;
+  transition-delay: 0.1s;
+}
+.tombol-tuang:is([data-fase='kuras'], [data-fase='tolak']) .tombol-tuang__cair {
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in;
+}
+.tombol-tuang[data-fase='kembali'] .tombol-tuang__cair {
+  opacity: 0;
+}
+.tombol-tuang[data-fase='diam'] .tombol-tuang__cair {
+  transition: none;
+}
+
+.tombol-tuang__ombak {
+  fill: var(--warna-cair);
+}
+.tombol-tuang__ombak--belakang {
+  opacity: 0.45;
+}
+.tombol-tuang:not([data-fase='diam']) .tombol-tuang__ombak {
+  animation: tombol-tuang-ombak 1.1s linear infinite;
+}
+.tombol-tuang:not([data-fase='diam']) .tombol-tuang__ombak--belakang {
+  animation: tombol-tuang-ombak-belakang 1.7s linear infinite;
+}
+
+/* Centang setelah file diunduh */
+.tombol-tuang__centang {
+  fill: none;
+  stroke: var(--warna-centang);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 13;
+  stroke-dashoffset: 13;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.tombol-tuang[data-fase='centang'] .tombol-tuang__centang {
+  opacity: 1;
+  animation: tombol-tuang-gambar-centang 0.35s ease-out 0.1s forwards;
+}
+.tombol-tuang[data-fase='centang'] .tombol-tuang__ikon {
+  animation: tombol-tuang-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Huruf menjadi aliran air */
+.tombol-tuang__huruf {
+  display: inline-block;
+  white-space: pre;
+}
+.tombol-tuang[data-fase='tuang'] .tombol-tuang__huruf {
+  animation: tombol-tuang-tuang 560ms both;
+  animation-delay: calc(var(--i) * 65ms);
+}
+.tombol-tuang:is([data-fase='tunggu'], [data-fase='penuh'], [data-fase='centang'], [data-fase='tolak']) .tombol-tuang__huruf {
+  opacity: 0;
+}
+.tombol-tuang:is([data-fase='kuras'], [data-fase='kembali']) .tombol-tuang__huruf {
+  animation: tombol-tuang-muncul 320ms ease-out both;
+  animation-delay: calc(var(--jeda-muncul, 0ms) + var(--i) * 25ms);
+}
+/* Huruf muncul setelah ikon pulang */
+.tombol-tuang[data-fase='kembali'] {
+  --jeda-muncul: 250ms;
+}
+/* Gagal: ikon menggeleng */
+.tombol-tuang[data-fase='kuras'] .tombol-tuang__ikon {
+  animation: tombol-tuang-geleng 0.5s ease-in-out;
+}
+.tombol-tuang[data-fase='kembali'] .tombol-tuang__ikon {
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+/* Samar: huruf jadi titik kata sandi */
+.tombol-tuang__isi {
+  display: inline-block;
+}
+.tombol-tuang--samar .tombol-tuang__huruf {
+  position: relative;
+}
+.tombol-tuang--samar .tombol-tuang__huruf::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.4em;
+  height: 0.4em;
+  margin: -0.2em 0 0 -0.2em;
+  border-radius: 50%;
+  background: currentColor;
+  transform: scale(0);
+}
+.tombol-tuang--samar:is([data-fase='samar'], [data-fase='tuang']) .tombol-tuang__isi {
+  opacity: 0;
+  transform: scale(0.3);
+}
+.tombol-tuang--samar:is([data-fase='samar'], [data-fase='tuang']) .tombol-tuang__huruf::after {
+  transform: scale(1);
+}
+/* Satu per satu dari kiri */
+.tombol-tuang--samar[data-fase='samar'] .tombol-tuang__isi,
+.tombol-tuang--samar[data-fase='samar'] .tombol-tuang__huruf::after {
+  transition:
+    opacity 0.16s ease,
+    transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: calc(var(--i) * 60ms);
+}
+
+/* Isi tombol dan pengukur bertumpuk */
+.tombol-tuang__tumpuk {
+  display: inline-grid;
+  align-items: center;
+  justify-items: center;
+}
+.tombol-tuang__tumpuk > * {
+  grid-area: 1 / 1;
+}
+.tombol-tuang__baris {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tombol-tuang__ukur {
+  height: 0;
+  /* Ikon membesar plus jarak */
+  padding-left: 28px;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* Teks hasil di samping ikon */
+.tombol-tuang__hasil {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  padding-left: var(--ruang-ikon, 0px);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+.tombol-tuang[data-teks-berhasil][data-fase='centang'] .tombol-tuang__ikon {
+  translate: var(--geser-ikon-berhasil) 0;
+}
+.tombol-tuang[data-fase='centang'] .tombol-tuang__hasil--berhasil,
+.tombol-tuang[data-fase='tolak'] .tombol-tuang__hasil--gagal {
+  animation: tombol-tuang-hasil 1.2s ease both;
+}
+/* Tolak: air surut, ikon menggeleng */
+.tombol-tuang[data-fase='tolak'] .tombol-tuang__ikon {
+  translate: var(--geser-ikon-gagal) 0;
+  scale: 1.2;
+  animation: tombol-tuang-geleng 0.5s ease-in-out 0.15s;
+}
+
+@keyframes tombol-tuang-tuang {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0);
+    animation-timing-function: ease-out;
+  }
+  35% {
+    transform: translate(calc(var(--dx) * 0.35), -8px) scale(0.9) rotate(-10deg);
+    animation-timing-function: ease-in;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(0.25) rotate(-35deg);
+    opacity: 0;
+  }
+}
+/* Tunggu centang, tampil, lalu hilang */
+@keyframes tombol-tuang-hasil {
+  0%,
+  20% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+@keyframes tombol-tuang-muncul {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tombol-tuang-ombak {
+  to {
+    transform: translateX(-12px);
+  }
+}
+@keyframes tombol-tuang-ombak-belakang {
+  from {
+    transform: translate(-12px, -0.8px);
+  }
+  to {
+    transform: translate(0, -0.8px);
+  }
+}
+@keyframes tombol-tuang-gambar-centang {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes tombol-tuang-pop {
+  50% {
+    scale: 1.45;
+  }
+}
+@keyframes tombol-tuang-geleng {
+  20% {
+    --miring: -12deg;
+  }
+  40% {
+    --miring: 10deg;
+  }
+  60% {
+    --miring: -7deg;
+  }
+  80% {
+    --miring: 4deg;
+  }
+}
+@keyframes tombol-tuang-goyang {
+  from {
+    --miring: 14deg;
+  }
+  to {
+    --miring: 7deg;
+  }
+}
+
+/* Teks tetap terbaca */
+@media (prefers-reduced-motion: reduce) {
+  .tombol-tuang .tombol-tuang__huruf,
+  .tombol-tuang .tombol-tuang__ikon,
+  .tombol-tuang .tombol-tuang__ombak {
+    animation: none !important;
+  }
+  .tombol-tuang .tombol-tuang__huruf {
+    opacity: 1 !important;
+  }
+  .tombol-tuang .tombol-tuang__ikon {
+    --miring: 0deg !important;
+    translate: none !important;
+    scale: none !important;
+  }
+}

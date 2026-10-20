@@ -1,22 +1,4 @@
 
-.dashboard .dashboard__stat {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-}
-
-@media (max-width: 1100px) {
-  .dashboard .dashboard__stat {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 560px) {
-  .dashboard .dashboard__stat {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
 .dashboard .akses-cepat {
   position: relative;
   isolation: isolate;

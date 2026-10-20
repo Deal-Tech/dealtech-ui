@@ -1,46 +1,91 @@
+/* Kolom ikut lebar wadah */
+.stat-grid-wadah {
+  container: stat-grid / inline-size;
+}
 
+.stat-grid {
+  display: grid;
+  gap: 16px;
+  /* Cadangan sebelum StatGrid mengukur */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--stat-min, 150px)), 1fr));
+}
+
+@container stat-grid (max-width: 480px) {
+  .stat-grid {
+    gap: 8px;
+  }
+}
+
+/* Isi ikut lebar kartu */
 .stat-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
+  container: stat-card / inline-size;
+  /* Tetap lebar di dalam flex */
+  flex: 1 1 0%;
+  min-width: 0;
   border-radius: 8px;
   border: 0;
   background: #ededed;
   box-shadow: var(--app-shadow-card);
 }
 
+.stat-card__isi {
+  /* Lingkaran ikon menyusut perlahan */
+  --stat-ikon: clamp(28px, 16cqi, 42px);
+  display: grid;
+  height: 100%;
+  /* Judul diutamakan, lencana mengalah */
+  grid-template-columns: auto minmax(min(72px, 100%), 1fr) minmax(0, max-content);
+  /* Nilai selalu selebar kartu */
+  grid-template-areas:
+    'ikon judul lencana'
+    'ikon nilai nilai';
+  align-content: center;
+  align-items: center;
+  column-gap: clamp(8px, 4.6cqi, 12px);
+  padding: clamp(10px, 5.5cqi, 14px);
+}
+
 .stat-card__icon {
+  grid-area: ikon;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  flex-shrink: 0;
-  border-radius: 8px;
+  width: var(--stat-ikon);
+  height: var(--stat-ikon);
+  border-radius: calc(var(--stat-ikon) * 0.2);
   background: var(--app-chip-bg);
   color: var(--app-chip-fg);
 }
-
-.stat-card__body {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
+.stat-card__icon svg {
+  width: calc(var(--stat-ikon) * 0.48);
+  height: calc(var(--stat-ikon) * 0.48);
 }
 
+/* Maksimal dua baris, sisanya elipsis */
 .stat-card__title {
+  grid-area: judul;
+  align-self: end;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  line-height: 1.3;
   font-size: 0.6575rem;
   font-weight: var(--app-desc-weight);
   color: var(--app-desc-color);
 }
 
 .stat-card__value {
+  grid-area: nilai;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 1.0875rem;
   font-weight: 700;
   line-height: 1.2;
   color: var(--app-text);
-  white-space: nowrap;
 }
 .stat-card__value--sm {
   font-size: 0.9375rem;
@@ -52,51 +97,48 @@
   font-size: 0.6875rem;
 }
 
-@media (max-width: 1023px) {
-  .stat-card {
-    gap: 10px;
-    padding: 11px;
-    border-radius: 5px;
-  }
-  .stat-card__icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 5px;
-  }
-  .stat-card__icon svg {
-    width: 16px;
-    height: 16px;
-  }
-  .stat-card__title {
-    font-size: 0.5rem;
-  }
-  .stat-card__value,
-  .stat-card__value--sm,
-  .stat-card__value--xs,
-  .stat-card__value--xxs {
-    font-size: 0.8375rem;
-  }
-}
-
+/* Terpotong, tak pernah keluar kartu */
 .stat-card__badge {
-  flex-shrink: 0;
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  grid-area: lencana;
+  align-self: start;
+  justify-self: end;
+  display: block;
   min-width: 18px;
+  max-width: 100%;
   height: 18px;
   padding: 0 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
   border-radius: 999px;
   background: var(--app-count-bg);
   color: var(--app-count-fg);
   font-size: 10px;
   font-weight: 700;
-  line-height: 1;
+  line-height: 18px;
 }
 .stat-card__badge--naik {
   background: var(--app-success-solid);
 }
 .stat-card__badge--turun {
   background: var(--app-danger-solid);
+}
+
+/* Kartu sempit: format kolom */
+@container stat-card (max-width: 200px) {
+  .stat-card__isi {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      'ikon lencana'
+      'judul judul'
+      'nilai nilai';
+    align-content: start;
+  }
+  .stat-card__title {
+    margin-top: 8px;
+  }
+  .stat-card__badge {
+    align-self: center;
+  }
 }

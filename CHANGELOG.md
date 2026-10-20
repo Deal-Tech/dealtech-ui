@@ -1,5 +1,14 @@
 # Changelog
 
+## Belum dirilis
+
+### Starter v3.0
+
+- Tambah element `tombol-tuang`: teks tombol dituang ke ikon selama proses (ikon simpan, unggah, hapus, file, kunci), mengikuti status `idle` / `pending` / `success` / `error`, dengan progres unggah, titik kata sandi, dan label hasil seperti Authorized / Unauthorized.
+- Tombol masuk, tombol simpan di pengaturan, produk, dan member, tombol unggah di `unggah-gambar` dan pembayaran, serta tombol hapus produk kini memakai `tombol-tuang`. Form dan modal baru ditutup sesudah animasi centang.
+- `StatCard` lebih dinamis: ukuran ikon, padding, dan jarak mengikuti lebar kartu (container query), kartu sempit beralih ke format kolom, judul dibatasi dua baris, dan nilai serta lencana dipotong elipsis tanpa keluar kartu.
+- Tambah `StatGrid`: jumlah kolom mengikuti lebar wadah dengan baris seimbang (4 → 2 → 1, tanpa sisa 3 + 1), dipakai di dashboard dan katalog element.
+
 ## v2.2.0 - 2026-09-18
 
 ### Starter dan CLI

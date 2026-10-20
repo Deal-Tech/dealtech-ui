@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { LogIn } from 'lucide-react';
 
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { Button } from '@/components/ui/button/Button';
 import { Checkbox } from '@/components/ui/checkbox/Checkbox';
 import { InputText } from '@/components/ui/inputtext/InputText';
+import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ApiError } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import GoogleMark from './GoogleMark';
@@ -31,31 +31,32 @@ export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [ingat, setIngat] = useState(false);
-  const [processing, setProcessing] = useState(false);
+  const [status, setStatus] = useState<StatusTuang>('idle');
   const [galat, setGalat] = useState('');
 
   const tujuan = jalurAman((lokasi.state as { dari?: unknown } | null)?.dari);
+  // Animasi masuk masih berjalan
+  const sedangMasuk = status === 'pending' || status === 'success';
 
   useEffect(() => () => setPassword(''), []);
 
-  if (!memuat && pengguna) return <Navigate to={tujuan} replace />;
+  if (!memuat && pengguna && !sedangMasuk) return <Navigate to={tujuan} replace />;
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (processing) return;
+    if (sedangMasuk) return;
 
-    setProcessing(true);
+    setStatus('pending');
     setGalat('');
     try {
       await masuk(email.trim(), password, ingat);
       setPassword('');
-      navigate(tujuan, { replace: true });
+      setStatus('success');
     } catch (e) {
       // Pesannya disamakan supaya tidak jadi alat enumerasi akun.
       setGalat(e instanceof ApiError ? e.message : 'Tidak dapat masuk. Coba beberapa saat lagi.');
       setPassword('');
-    } finally {
-      setProcessing(false);
+      setStatus('error');
     }
   };
 
@@ -126,9 +127,18 @@ export default function AdminLogin() {
 
             {galat ? <BadgeInfo variant="error">{galat}</BadgeInfo> : null}
 
-            <Button type="submit" icon={LogIn} loading={processing} className="login-submit">
-              {processing ? 'Memproses…' : 'Masuk'}
-            </Button>
+            <TombolTuang
+              type="submit"
+              ikon="kunci"
+              status={status}
+              className="login-submit"
+              samarkan
+              teksBerhasil="Authorized"
+              teksGagal="Unauthorized"
+              onSelesai={(berhasil) => berhasil && navigate(tujuan, { replace: true })}
+            >
+              Masuk
+            </TombolTuang>
           </form>
 
           <p className="login-footnote">

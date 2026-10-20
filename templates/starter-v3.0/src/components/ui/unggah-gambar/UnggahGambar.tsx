@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { Ban, ImagePlus, RotateCw } from 'lucide-react';
+import { Ban } from 'lucide-react';
 
 import { ActionButton } from '@/components/ui/action-button/ActionButton';
-import { Button } from '@/components/ui/button/Button';
+import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ApiError } from '@/lib/api';
 import { periksaGambar, unggahGambar } from '@/services/unggah';
 import './unggah-gambar.css';
@@ -32,8 +32,9 @@ export function UnggahGambar({ nilai, onChange, label, disabled = false }: Ungga
   const idBerkas = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const pengendali = usePengendaliUnggah();
-  const [memuat, setMemuat] = useState(false);
+  const [status, setStatus] = useState<StatusTuang>('idle');
   const [galat, setGalat] = useState('');
+  const memuat = status === 'pending';
 
   const pilih = useCallback(async (file: File) => {
     const tolak = periksaGambar(file);
@@ -47,14 +48,16 @@ export function UnggahGambar({ nilai, onChange, label, disabled = false }: Ungga
     pengendali.current = baru;
 
     setGalat('');
-    setMemuat(true);
+    setStatus('pending');
     try {
       const url = await unggahGambar(file, baru.signal);
-      if (!baru.signal.aborted) onChange(url);
+      if (baru.signal.aborted) return;
+      onChange(url);
+      setStatus('success');
     } catch (e) {
-      if (!baru.signal.aborted) setGalat(pesanGalat(e, 'Gambar gagal diunggah. Coba lagi.'));
-    } finally {
-      if (!baru.signal.aborted) setMemuat(false);
+      if (baru.signal.aborted) return;
+      setGalat(pesanGalat(e, 'Gambar gagal diunggah. Coba lagi.'));
+      setStatus('error');
     }
   }, [onChange, pengendali]);
 
@@ -98,15 +101,15 @@ export function UnggahGambar({ nilai, onChange, label, disabled = false }: Ungga
         }}
       />
 
-      <Button
-        icon={nilai ? RotateCw : ImagePlus}
+      <TombolTuang
+        ikon="unggah"
         variant="ghost"
-        loading={memuat}
+        status={status}
         disabled={disabled}
         onClick={() => inputRef.current?.click()}
       >
-        {memuat ? 'Mengunggah…' : nilai ? 'Ganti Gambar' : 'Pilih Gambar'}
-      </Button>
+        {nilai ? 'Ganti Gambar' : 'Pilih Gambar'}
+      </TombolTuang>
 
       {galat ? (
         <p role="alert" className="unggah-gambar__galat">
@@ -135,8 +138,9 @@ export function UnggahGaleri({
   const idBerkas = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const pengendali = usePengendaliUnggah();
-  const [memuat, setMemuat] = useState(false);
+  const [status, setStatus] = useState<StatusTuang>('idle');
   const [galat, setGalat] = useState('');
+  const memuat = status === 'pending';
 
   const penuh = nilai.length >= maks;
 
@@ -163,21 +167,21 @@ export function UnggahGaleri({
     pengendali.current = baru;
 
     setGalat(kelebihan ? `Hanya ${sisa} gambar pertama yang diunggah — batasnya ${maks}.` : '');
-    setMemuat(true);
+    setStatus('pending');
 
     const terkumpul: string[] = [];
     try {
       for (const file of antre) {
         terkumpul.push(await unggahGambar(file, baru.signal));
       }
-      if (!baru.signal.aborted) onChange([...nilai, ...terkumpul]);
+      if (baru.signal.aborted) return;
+      onChange([...nilai, ...terkumpul]);
+      setStatus('success');
     } catch (e) {
-      if (!baru.signal.aborted) {
-        if (terkumpul.length > 0) onChange([...nilai, ...terkumpul]);
-        setGalat(pesanGalat(e, 'Ada gambar yang gagal diunggah. Coba lagi.'));
-      }
-    } finally {
-      if (!baru.signal.aborted) setMemuat(false);
+      if (baru.signal.aborted) return;
+      if (terkumpul.length > 0) onChange([...nilai, ...terkumpul]);
+      setGalat(pesanGalat(e, 'Ada gambar yang gagal diunggah. Coba lagi.'));
+      setStatus('error');
     }
   }, [maks, nilai, onChange, pengendali]);
 
@@ -226,15 +230,15 @@ export function UnggahGaleri({
         }}
       />
 
-      <Button
-        icon={ImagePlus}
+      <TombolTuang
+        ikon="unggah"
         variant="ghost"
-        loading={memuat}
+        status={status}
         disabled={disabled || penuh}
         onClick={() => inputRef.current?.click()}
       >
-        {memuat ? 'Mengunggah…' : `Tambah Gambar (${nilai.length}/${maks})`}
-      </Button>
+        {`Tambah Gambar (${nilai.length}/${maks})`}
+      </TombolTuang>
 
       {galat ? (
         <p role="alert" className="unggah-gambar__galat">

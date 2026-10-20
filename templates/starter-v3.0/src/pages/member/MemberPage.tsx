@@ -8,6 +8,7 @@ import { Modal } from '@/components/ui/modal/Modal';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
 import { TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
+import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { PER_HALAMAN_BAWAAN, usePilihan } from '@/lib/daftar';
 
 const KOLOM = [
@@ -86,6 +87,9 @@ export default function MemberPage() {
   const [buka, setBuka] = useState(false);
   const [isian, setIsian] = useState<Member>(ISIAN_KOSONG);
   const [galat, setGalat] = useState<Partial<Record<keyof Member, string>>>({});
+  const [statusSimpan, setStatusSimpan] = useState<StatusTuang>('idle');
+  // Tahan modal sampai centang
+  const tersimpan = statusSimpan === 'success';
 
   const cocok = useMemo(() => {
     const k = cari.trim().toLowerCase();
@@ -109,6 +113,7 @@ export default function MemberPage() {
        bisa disunting kalau penomorannya mau lain. */
     setIsian({ ...ISIAN_KOSONG, kode: kodeBerikutnya(anggota) });
     setGalat({});
+    setStatusSimpan('idle');
     setBuka(true);
   };
 
@@ -119,6 +124,7 @@ export default function MemberPage() {
 
   const simpan = (e: React.FormEvent) => {
     e.preventDefault();
+    if (tersimpan) return;
 
     const hasil = periksa(isian, anggota);
     if (Object.keys(hasil).length > 0) {
@@ -139,7 +145,7 @@ export default function MemberPage() {
        seperti gagal tersimpan. */
     setCari('');
     setHalaman(1);
-    setBuka(false);
+    setStatusSimpan('success');
   };
 
   const baris = terlihat.map((d) => ({
@@ -223,16 +229,22 @@ export default function MemberPage() {
 
       <Modal
         open={buka}
-        onClose={() => setBuka(false)}
+        onClose={() => (tersimpan ? undefined : setBuka(false))}
         title="Tambah Member"
         footer={
           <>
-            <Button variant="ghost" onClick={() => setBuka(false)}>
+            <Button variant="ghost" onClick={() => setBuka(false)} disabled={tersimpan}>
               Batal
             </Button>
-            <Button type="submit" form={ID_FORM} icon={Plus}>
+            <TombolTuang
+              type="submit"
+              form={ID_FORM}
+              ikon="simpan"
+              status={statusSimpan}
+              onTuntas={() => setBuka(false)}
+            >
               Simpan
-            </Button>
+            </TombolTuang>
           </>
         }
       >

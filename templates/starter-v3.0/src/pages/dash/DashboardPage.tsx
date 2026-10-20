@@ -19,7 +19,7 @@ import ActionButton from '@/components/ui/action-button/ActionButton';
 import { Badge } from '@/components/ui/badge/Badge';
 import { BilahLipat } from '@/components/ui/bilah-lipat/BilahLipat';
 import { Button } from '@/components/ui/button/Button';
-import { StatCard } from '@/components/ui/stat-card/StatCard';
+import { StatCard, StatGrid } from '@/components/ui/stat-card/StatCard';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
 import { TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
@@ -224,11 +224,11 @@ export default function DashboardPage() {
           {/* Aksi dibiarkan bawaan: Hubungi Pengembang. */}
           <WelcomeCardV2 name="Administrator" badge="DealTech UI 3.0" />
 
-          <div className="dashboard__stat">
+          <StatGrid>
             {RINGKASAN.map(({ kunci, ikon, judul, nilai, helper }) => (
               <StatCard key={kunci} icon={ikon} title={judul} value={nilai} helper={helper} />
             ))}
-          </div>
+          </StatGrid>
         </>
       ) : null}
 

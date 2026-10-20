@@ -14,7 +14,7 @@ Nama perintah menentukan starter mana yang dipakai:
 | --- | --- | --- | --- |
 | `dealtech-ui` | `templates/starter` | v1 — Tailwind inline | 29 |
 | `dealtech-ui-v2-next` | `templates/starter-v2.0-next` | v2.0-next — token CSS + CSS per komponen | 58 |
-| `dealtech-ui-v3` | `templates/starter-v3.0` | v3.0 — element sama dengan v2, shell & tema baru | 58 |
+| `dealtech-ui-v3` | `templates/starter-v3.0` | v3.0 — element v2 + tombol tuang, shell & tema baru | 59 |
 
 ```bash
 npx dealtech-ui install my-admin-app             # starter v1
@@ -51,12 +51,19 @@ hanya ada di v1; padanannya di v2/v3 bernama `tablelist-v1`. CLI menolak nama ya
 tidak ada di varian aktif dan menampilkan daftar yang tersedia, jadi tidak ada
 penyalinan setengah jadi.
 
-**v2.0-next vs v3.0 — element-nya identik, yang berbeda hanya kulit aplikasinya.**
-Ke-58 folder di `src/components/ui/` sama persis di kedua starter (satu-satunya
-selisih: teks badge bawaan `WelcomeCardV2`). Dependensi npm-nya juga sama persis.
-Yang berbeda hanya berkas shell:
+**v2.0-next vs v3.0 — element-nya nyaris sama, yang berbeda terutama kulit aplikasinya.**
+Ke-58 folder di `src/components/ui/` milik v2.0-next juga ada di v3.0, dan
+dependensi npm-nya sama persis. Selisih di sisi element:
 
-- `src/pages/auth/` — v3 punya halaman login baru (`LoginArt.tsx`, `GoogleMark.tsx`) menggantikan `LoginBg.tsx` milik v2
+- `tombol-tuang` — khusus v3: teks tombol dituang ke ikon selama proses (ikon simpan, unggah, hapus, file, kunci), lengkap dengan progres unggah dan label hasil
+- `stat-card` — di v3 kolom, ukuran ikon, dan format kartu mengikuti lebar wadah, teks panjang dipotong elipsis, plus `StatGrid` untuk deretan kartunya
+- `unggah-gambar` — di v3 tombolnya memakai `tombol-tuang`
+- teks badge bawaan `WelcomeCardV2`
+
+Berkas shell yang berbeda:
+
+- `src/pages/auth/` — v3 punya halaman login baru (`LoginArt.tsx`, `GoogleMark.tsx`) menggantikan `LoginBg.tsx` milik v2, dengan tombol masuk beranimasi tuang
+- `src/pages/pengaturan/`, `src/pages/produk/`, `src/pages/member/`, `src/pages/checkout/` — tombol simpan, hapus, dan unggah memakai `tombol-tuang`
 - `src/pages/dash/DashboardPage.tsx` dan `src/pages/element/ElementPage.tsx`
 - `src/components/layout/AdminHeader.tsx` — header bergaya dokumen
 - `src/styles/admin.css` dan `src/styles/theme.css` — sidebar biru, palet token disetel ulang
@@ -166,6 +173,8 @@ Alias umum seperti `action-button`, `page-header`, `search-input`, `scroll-to-to
 ### v2.0-next & v3.0 — `dealtech-ui-v2-next`, `dealtech-ui-v3`
 
 `action-button`, `badge`, `badgeinfo`, `badgev2`, `bilah-lipat`, `blok-tentang`, `button`, `cardbar-chart`, `cardbar-list`, `chartbar-ganda`, `chartbarhor`, `chartbarver`, `chartline`, `chartlinev2`, `chartlistbar`, `chartpie`, `charttoplist`, `checkbox`, `date-input`, `heatmap`, `hex-backdrop`, `inputlongtext`, `inputnumber`, `inputtext`, `kalender`, `kartu-katalog`, `kartu-paket`, `kepala-publik`, `kode-otomatis`, `label-qr`, `lembar-cetak`, `lightbox`, `logo-shape`, `memuat`, `menu-aksi`, `modal`, `modal-galat`, `pagetitle`, `pagination`, `peta-titik`, `pilih-banyak`, `pita-berjalan`, `progress-bar`, `proses-modal`, `protected-route`, `richtext`, `search-input`, `search-select`, `select`, `stat-card`, `tab-button`, `tabelcardv1`, `table-toolbar`, `tablelist-v1`, `toggleonoff`, `ulasan-berjalan`, `unggah-gambar`, `welcome-card-v2`
+
+Khusus v3: `tombol-tuang`.
 
 Tanda hubung boleh dilepas: `add searchselect` sama dengan `add search-select`.
 
