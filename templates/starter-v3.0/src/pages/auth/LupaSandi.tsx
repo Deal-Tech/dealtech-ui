@@ -158,26 +158,32 @@ function LangkahKode({ email, onToken, onGantiEmail }: LangkahKodeProps) {
   const [status, setStatus] = useState<StatusTuang>('idle');
   const [galat, setGalat] = useState('');
   const tokenRef = useRef('');
+  // Ditahan sampai perisai selesai
+  const galatRef = useRef('');
   const hitung = useHitungMundur();
   const pengirim = useKirimKode(email);
 
   useEffect(() => hitung.mulai(), []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Galat tak mengubah tinggi saat animasi
   const periksa = async (kode: string) => {
-    setGalat('');
     setStatus('pending');
     try {
       tokenRef.current = await periksaKodeSandi(email, kode);
       setStatus('success');
     } catch (e) {
-      setGalat(pesanGalat(e, 'Kode tidak bisa diperiksa. Coba beberapa saat lagi.'));
+      galatRef.current = pesanGalat(e, 'Kode tidak bisa diperiksa. Coba beberapa saat lagi.');
       setStatus('error');
     }
   };
 
   const selesai = (berhasil: boolean) => {
-    if (berhasil) onToken(tokenRef.current);
-    else setStatus('idle');
+    if (berhasil) {
+      onToken(tokenRef.current);
+      return;
+    }
+    setGalat(galatRef.current);
+    setStatus('idle');
   };
 
   return (
@@ -201,7 +207,11 @@ function LangkahKode({ email, onToken, onGantiEmail }: LangkahKodeProps) {
           </p>
         ) : null}
 
-        {galat ? <BadgeInfo variant="error">{galat}</BadgeInfo> : null}
+        {galat ? (
+          <BadgeInfo variant="error" className={status === 'idle' ? '' : 'login-galat--tunggu'}>
+            {galat}
+          </BadgeInfo>
+        ) : null}
         {pengirim.galat ? <BadgeInfo variant="error">{pengirim.galat}</BadgeInfo> : null}
 
         <TombolTuang

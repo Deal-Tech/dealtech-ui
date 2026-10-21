@@ -147,18 +147,19 @@
   }
 }
 
+/* Goyang di tempat, tetap tengah */
 @keyframes kode-otp-geleng {
   20% {
-    transform: translateX(-5px) rotate(-8deg);
+    transform: rotate(-10deg);
   }
   40% {
-    transform: translateX(4px) rotate(6deg);
+    transform: rotate(8deg);
   }
   60% {
-    transform: translateX(-3px) rotate(-4deg);
+    transform: rotate(-5deg);
   }
   80% {
-    transform: translateX(2px) rotate(2deg);
+    transform: rotate(2deg);
   }
 }
 
