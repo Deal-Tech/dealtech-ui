@@ -8,7 +8,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import { SERIES_COLORS, chartColors } from '@/lib/chart';
+import { chartColors, seriesColors } from '@/lib/chart';
 import './chartlinev2.css';
 
 export interface ChartLineV2Series {
@@ -35,8 +35,9 @@ export function ChartLineV2({
   className = '',
 }: ChartLineV2Props) {
   const c = chartColors();
+  const seri = seriesColors();
   const colorAt = (s: ChartLineV2Series, i: number) =>
-    s.color ?? SERIES_COLORS[i % SERIES_COLORS.length];
+    s.color ?? seri[i % seri.length];
 
   const summary = series.map((s, i) => {
     const values = data.map((row) => Number(row[s.key] ?? 0));

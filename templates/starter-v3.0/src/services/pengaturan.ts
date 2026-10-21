@@ -1,5 +1,6 @@
 import { api } from '@/lib/api';
 import { MODE_DEMO, bacaData, jeda, simpanData } from '@/lib/demo';
+import { bacaWarnaTersimpan } from '@/lib/tema';
 
 /*
  * Daftar sosial media yang bisa diisi. Ini satu-satunya tempat yang perlu
@@ -84,4 +85,23 @@ export async function simpanKontak(data: InputKontak): Promise<Kontak> {
     return simpanData(KUNCI_DEMO, { ...data, whatsapp_nomor: nomor });
   }
   return api<Kontak>('/api/v1/pengaturan/kontak', { method: 'PUT', body: data });
+}
+
+export interface Tema {
+  /** Hex 6 digit, mis. #01498b. */
+  warna_utama: string;
+}
+
+/** GET publik: halaman login ikut berwarna. */
+export function ambilTema(signal?: AbortSignal): Promise<Tema> {
+  if (MODE_DEMO) return jeda(150).then(() => ({ warna_utama: bacaWarnaTersimpan() }));
+  return api<Tema>('/api/v1/pengaturan/tema', { signal });
+}
+
+export async function simpanTema(data: Tema): Promise<Tema> {
+  if (MODE_DEMO) {
+    await jeda();
+    return data;
+  }
+  return api<Tema>('/api/v1/pengaturan/tema', { method: 'PUT', body: data });
 }

@@ -17,6 +17,7 @@
 - Tambah element `kode-otp`: kotak kode sekali pakai yang menumpuk ke tengah jadi perisai hijau centang atau merah silang, lalu kosong lagi kalau ditolak.
 - Tambah `KerangkaMasuk`: kerangka bersama halaman masuk dan pemulihan sandi, dengan adegan 3D sendiri untuk lupa sandi (email berkode, kotak OTP terisi, gembok mengunci).
 - Tambah halaman pemeliharaan (`/maintenance`): latar biru penuh dengan lingkaran seperti login versi HP, tanpa scroll, dan adegan 3D server yang diperbaiki lalu dioptimalkan — garis pindai menyapu rak, beban turun ke hijau, progres optimasi 0–100%, jarum performa naik, gir berputar, kunci pas bergoyang, lalu muncul "Sistem optimal". Gerak berhenti saat reduced motion.
+- Warna tema admin bisa diganti di Pengaturan → Atur System: pilih dari palet atau ketik kode hex (3 atau 6 digit), pratinjau langsung ke seluruh admin, empat turunan (utama, hover, aktif, aksen) dihitung otomatis, peringatan kalau warnanya terlalu terang untuk teks putih, dan tombol kembali ke bawaan `#01498b`. Warna tersimpan dipasang sebelum render (tanpa kedip) dan ikut ke halaman login, maintenance, serta grafik. Backend cukup menyediakan `GET /api/v1/pengaturan/tema` (publik) dan `PUT` (admin) berisi `{ "warna_utama": "#rrggbb" }`.
 - Tambah `AGENTS.md` dan `CLAUDE.md` di starter v3.0: aturan tabel untuk asisten AI — satu sel satu data, isi satu baris, aksi lewat dropdown.
 
 ## v2.2.0 - 2026-09-18

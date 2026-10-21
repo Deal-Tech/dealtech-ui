@@ -129,7 +129,7 @@
   --color-publik-teks: var(--color-hitam);
   --color-publik-subteks: #4b5563;
 
-  --color-hero-base: #01498b;
+  --color-hero-base: var(--color-primary);
   --color-hero-line: #a3d0f7;
   --color-hero-glow-1: rgba(74, 159, 224, 0.42);
   --color-hero-glow-2: rgba(31, 127, 206, 0.5);

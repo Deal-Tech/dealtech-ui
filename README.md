@@ -64,6 +64,7 @@ Berkas shell yang berbeda:
 
 - `src/pages/auth/` — v3 punya halaman login baru (`LoginArt.tsx`, `KerangkaMasuk.tsx`) menggantikan `LoginBg.tsx` milik v2, dengan tombol masuk dan tombol Google beranimasi tuang, plus halaman lupa kata sandi (`/lupa-sandi`): kirim kode, verifikasi OTP, lalu sandi baru
 - `src/pages/maintenance/` — khusus v3: halaman pemeliharaan (`/maintenance`) berlatar biru penuh dengan adegan 3D server yang diperbaiki dan dioptimalkan
+- `src/lib/tema.ts` dan `src/pages/pengaturan/WarnaTema.tsx` — khusus v3: warna tema admin bisa diganti dari Pengaturan → Atur System (palet atau kode hex)
 - `src/pages/pengaturan/`, `src/pages/produk/`, `src/pages/member/`, `src/pages/checkout/` — tombol simpan, hapus, dan unggah memakai `tombol-tuang`
 - `src/pages/dash/DashboardPage.tsx` dan `src/pages/element/ElementPage.tsx`
 - `src/components/layout/AdminHeader.tsx` — header bergaya dokumen

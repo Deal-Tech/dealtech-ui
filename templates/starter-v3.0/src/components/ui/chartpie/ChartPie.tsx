@@ -1,6 +1,6 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
-import { SERIES_COLORS, chartColors } from '@/lib/chart';
+import { chartColors, seriesColors } from '@/lib/chart';
 import './chartpie.css';
 
 export interface ChartPieDatum {
@@ -27,8 +27,9 @@ export function ChartPie({
   className = '',
 }: ChartPieProps) {
   const c = chartColors();
+  const seri = seriesColors();
   const total = data.reduce((s, d) => s + d.value, 0) || 1;
-  const colorAt = (d: ChartPieDatum, i: number) => d.color ?? SERIES_COLORS[i % SERIES_COLORS.length];
+  const colorAt = (d: ChartPieDatum, i: number) => d.color ?? seri[i % seri.length];
 
   return (
     <section className={`chartpie ${className}`}>

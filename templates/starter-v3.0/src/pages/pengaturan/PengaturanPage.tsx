@@ -21,6 +21,7 @@ import {
   simpanKontak,
   type InputKontak,
 } from '@/services/pengaturan';
+import WarnaTema from './WarnaTema';
 import './pengaturan.css';
 
 const POLA_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -285,65 +286,68 @@ export default function PengaturanPage() {
       <TabButton tabs={TAB} value={tab} onChange={setTab} />
 
       {tab === 'system' && peranAdmin ? (
-        <section className="app-section-card">
-          <div className="app-section-body pengaturan-bagian">
-            <form onSubmit={simpanKontakPublik} className="pengaturan-form">
-              <InputText
-                label="WhatsApp"
-                value={kontak.whatsapp}
-                onChange={(e) => ubahKontak('whatsapp', e.target.value)}
-                error={galatKontak.whatsapp}
-                hint="Boleh ditulis bebas — yang dipakai tautan wa.me cuma angkanya."
-                required
-              />
-              <InputText
-                label="Email"
-                type="email"
-                value={kontak.email}
-                onChange={(e) => ubahKontak('email', e.target.value)}
-                error={galatKontak.email}
-                required
-              />
-              <InputText
-                label="Where we are"
-                value={kontak.lokasi}
-                onChange={(e) => ubahKontak('lokasi', e.target.value)}
-                error={galatKontak.lokasi}
-                required
-              />
-              <InputText
-                label="Open"
-                value={kontak.jam_buka}
-                onChange={(e) => ubahKontak('jam_buka', e.target.value)}
-                error={galatKontak.jam_buka}
-                required
-              />
+        <div className="space-y-4">
+          <WarnaTema />
+          <section className="app-section-card">
+            <div className="app-section-body pengaturan-bagian">
+              <form onSubmit={simpanKontakPublik} className="pengaturan-form">
+                <InputText
+                  label="WhatsApp"
+                  value={kontak.whatsapp}
+                  onChange={(e) => ubahKontak('whatsapp', e.target.value)}
+                  error={galatKontak.whatsapp}
+                  hint="Boleh ditulis bebas — yang dipakai tautan wa.me cuma angkanya."
+                  required
+                />
+                <InputText
+                  label="Email"
+                  type="email"
+                  value={kontak.email}
+                  onChange={(e) => ubahKontak('email', e.target.value)}
+                  error={galatKontak.email}
+                  required
+                />
+                <InputText
+                  label="Where we are"
+                  value={kontak.lokasi}
+                  onChange={(e) => ubahKontak('lokasi', e.target.value)}
+                  error={galatKontak.lokasi}
+                  required
+                />
+                <InputText
+                  label="Open"
+                  value={kontak.jam_buka}
+                  onChange={(e) => ubahKontak('jam_buka', e.target.value)}
+                  error={galatKontak.jam_buka}
+                  required
+                />
 
-              <InputText
-                label="Titik lokasi (Google Maps)"
-                value={kontak.maps}
-                onChange={(e) => ubahKontak('maps', e.target.value)}
-                error={galatKontak.maps}
-                hint="Tempel alamat Google Maps lokasinya — koordinatnya diambil sendiri. Tautan pendek (maps.app.goo.gl) tidak bisa; buka dulu di peramban lalu salin alamat lengkap dari bilah alamat. Kosongkan kalau tidak ingin menampilkan peta."
-              />
+                <InputText
+                  label="Titik lokasi (Google Maps)"
+                  value={kontak.maps}
+                  onChange={(e) => ubahKontak('maps', e.target.value)}
+                  error={galatKontak.maps}
+                  hint="Tempel alamat Google Maps lokasinya — koordinatnya diambil sendiri. Tautan pendek (maps.app.goo.gl) tidak bisa; buka dulu di peramban lalu salin alamat lengkap dari bilah alamat. Kosongkan kalau tidak ingin menampilkan peta."
+                />
 
-              <div className="pengaturan-aksi">
-                <TombolTuang
-                  type="submit"
-                  ikon="simpan"
-                  status={statusKontak}
-                  disabled={memuatKontak}
-                >
-                  Simpan Kontak
-                </TombolTuang>
-                {suksesKontak ? <BadgeInfo variant="success">{suksesKontak}</BadgeInfo> : null}
-                {galatKontak.umum ? (
-                  <BadgeInfo variant="error">{galatKontak.umum}</BadgeInfo>
-                ) : null}
-              </div>
-            </form>
-          </div>
-        </section>
+                <div className="pengaturan-aksi">
+                  <TombolTuang
+                    type="submit"
+                    ikon="simpan"
+                    status={statusKontak}
+                    disabled={memuatKontak}
+                  >
+                    Simpan Kontak
+                  </TombolTuang>
+                  {suksesKontak ? <BadgeInfo variant="success">{suksesKontak}</BadgeInfo> : null}
+                  {galatKontak.umum ? (
+                    <BadgeInfo variant="error">{galatKontak.umum}</BadgeInfo>
+                  ) : null}
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
       ) : null}
 
       {tab === 'sosmed' && peranAdmin ? (

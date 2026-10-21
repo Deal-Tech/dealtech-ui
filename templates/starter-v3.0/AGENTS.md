@@ -4,6 +4,21 @@ Berkas ini dibaca otomatis oleh asisten AI (Claude Code lewat `CLAUDE.md`, Codex
 Cursor, Gemini CLI, dan sejenisnya). Ikuti aturan di bawah setiap kali menambah
 atau mengubah halaman di project ini.
 
+## Warna tema
+
+Admin bisa mengganti warna utama di **Pengaturan → Atur System**, jadi warna
+merek tidak boleh ditulis langsung sebagai hex.
+
+1. Pakai variabel: `var(--color-primary)`, `var(--color-primary-dark)`,
+   `var(--color-primary-darker)`, `var(--color-accent)`, atau turunan
+   `--app-primary-*`. Jangan menulis `#01498b` dan kawan-kawannya di CSS
+   maupun komponen.
+2. Butuh versi lebih muda atau transparan? Turunkan dari variabel, misalnya
+   `color-mix(in srgb, var(--color-primary) 12%, #ffffff)`.
+3. Warna untuk grafik di JavaScript diambil lewat `chartColors()` atau
+   `seriesColors()` dari `@/lib/chart`, karena keduanya membaca warna tema yang
+   sedang aktif.
+
 ## Tabel data (`TableListV1`)
 
 1. **Satu sel, satu data.** Jangan menumpuk dua data dalam satu sel, misalnya

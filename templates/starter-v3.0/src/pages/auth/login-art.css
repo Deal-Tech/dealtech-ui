@@ -88,7 +88,11 @@
   top: 0;
   bottom: 0;
   width: 54px;
-  background: linear-gradient(165deg, #0b4f8f, var(--color-primary-darker));
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--color-primary) 96%, #ffffff),
+    var(--color-primary-darker)
+  );
 }
 
 .la-merek {
