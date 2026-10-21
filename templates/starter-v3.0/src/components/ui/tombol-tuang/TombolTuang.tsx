@@ -196,19 +196,31 @@ interface ElemenHasil {
 }
 
 // Arahkan huruf, geser ikon
-function ukurJarak(tombol: HTMLElement, ikon: SVGSVGElement, wadah: HTMLElement, teks: ElemenHasil) {
+function ukurJarak(
+  tombol: HTMLElement,
+  ikon: SVGSVGElement,
+  wadah: HTMLElement,
+  teks: ElemenHasil,
+  maju: boolean,
+) {
   const kotakTombol = tombol.getBoundingClientRect();
   const kotakIkon = ikon.getBoundingClientRect();
-  const tujuanX = kotakIkon.left + kotakIkon.width / 2;
-  const tujuanY = kotakIkon.top + kotakIkon.height * 0.35;
-  ikon.style.setProperty('--geser-ikon', `${kotakTombol.left + kotakTombol.width / 2 - tujuanX}px`);
+  const pusatX = kotakIkon.left + kotakIkon.width / 2;
+  const geser = kotakTombol.left + kotakTombol.width / 2 - pusatX;
+  const tujuanY = kotakIkon.top + kotakIkon.height * (maju ? 0.5 : 0.35);
+  ikon.style.setProperty('--geser-ikon', `${geser}px`);
   if (teks.berhasil) ukurTeksHasil(teks.berhasil, ikon, kotakIkon, '--geser-ikon-berhasil');
   if (teks.gagal) ukurTeksHasil(teks.gagal, ikon, kotakIkon, '--geser-ikon-gagal');
-  for (const huruf of Array.from(wadah.children) as HTMLElement[]) {
+  const daftar = Array.from(wadah.children) as HTMLElement[];
+  const durasi = durasiTuang(daftar.length);
+  daftar.forEach((huruf, i) => {
+    // Pesawat maju: titik menyusul posisinya
+    const bagian = maju ? Math.min(1, (i * JEDA_HURUF_MS + TERBANG_HURUF_MS) / durasi) : 0;
+    const tujuanX = pusatX + geser * bagian;
     const kotak = huruf.getBoundingClientRect();
     huruf.style.setProperty('--dx', `${tujuanX - (kotak.left + kotak.width / 2)}px`);
     huruf.style.setProperty('--dy', `${tujuanY - (kotak.top + kotak.height / 2)}px`);
-  }
+  });
 }
 
 function GambarIkon({ ref, bentuk }: { ref: Ref<SVGSVGElement>; bentuk: BentukIkon }) {
@@ -299,10 +311,14 @@ export function TombolTuang(props: Props) {
     if (tampil === 'diam' || diukurRef.current) return;
     if (!tombolRef.current || !ikonRef.current || !wadahRef.current) return;
     diukurRef.current = true;
-    ukurJarak(tombolRef.current, ikonRef.current, wadahRef.current, {
-      berhasil: teksBerhasilRef.current,
-      gagal: teksGagalRef.current,
-    });
+    ukurJarak(
+      tombolRef.current,
+      ikonRef.current,
+      wadahRef.current,
+      { berhasil: teksBerhasilRef.current, gagal: teksGagalRef.current },
+      !!BENTUK[ikon].terbang,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tampil]);
 
   return (

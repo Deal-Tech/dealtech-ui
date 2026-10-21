@@ -171,13 +171,38 @@
   stroke-linecap: round;
   opacity: 0;
 }
-.tombol-tuang--kirim[data-fase='centang'] .tombol-tuang__garis:not(.tombol-tuang__pesawat *),
-.tombol-tuang--kirim[data-fase='centang'] .tombol-tuang__cair {
+/* Pesawat menghadap kanan */
+.tombol-tuang--kirim .tombol-tuang__pesawat {
+  transform: rotate(45deg);
+}
+/* Sejak dituang: amplop diganti pesawat */
+.tombol-tuang--kirim:not([data-fase='diam'], [data-fase='samar'], [data-fase='kembali'])
+  .tombol-tuang__garis:not(.tombol-tuang__pesawat *),
+.tombol-tuang--kirim:not([data-fase='diam'], [data-fase='samar'], [data-fase='kembali'])
+  .tombol-tuang__cair {
   opacity: 0;
   transition: opacity 0.15s ease;
 }
-.tombol-tuang--kirim[data-fase='centang'] .tombol-tuang__terbang {
+.tombol-tuang--kirim:not([data-fase='diam'], [data-fase='samar'], [data-fase='kembali'])
+  .tombol-tuang__terbang {
   opacity: 1;
+}
+/* Pesawat maju ke tengah, titik tersedot */
+.tombol-tuang--kirim[data-fase='tuang'] .tombol-tuang__ikon {
+  --miring: 0deg;
+  translate: var(--geser-ikon) 0;
+  scale: 1.2;
+  transition:
+    translate var(--durasi-tuang) linear,
+    scale var(--durasi-tuang) linear;
+}
+.tombol-tuang--kirim:is([data-fase='tunggu'], [data-fase='penuh']) .tombol-tuang__ikon {
+  --miring: 0deg;
+  animation: none;
+}
+.tombol-tuang--kirim:is([data-fase='tuang'], [data-fase='tunggu'], [data-fase='penuh'])
+  .tombol-tuang__pesawat {
+  animation: tombol-tuang-melayang 0.9s ease-in-out infinite alternate;
 }
 .tombol-tuang--kirim[data-fase='centang'] .tombol-tuang__pesawat {
   animation: tombol-tuang-pesawat 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -366,18 +391,24 @@
   }
 }
 /* Masuk dari kiri bawah, melesat ke kanan atas */
+/* Melesat sedikit ke depan saat terkirim */
 @keyframes tombol-tuang-pesawat {
   0% {
-    opacity: 0;
-    transform: translate(-10px, 10px) scale(0.6) rotate(10deg);
+    transform: translate(-4px, 2px) rotate(45deg);
   }
   45% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1.15) rotate(0);
+    transform: translate(2px, -2px) scale(1.15) rotate(45deg);
   }
   100% {
-    opacity: 1;
-    transform: translate(2px, -2px) scale(1) rotate(0);
+    transform: translate(2px, -2px) rotate(45deg);
+  }
+}
+@keyframes tombol-tuang-melayang {
+  from {
+    transform: translateY(-1px) rotate(45deg);
+  }
+  to {
+    transform: translateY(1.2px) rotate(45deg);
   }
 }
 @keyframes tombol-tuang-angin {
