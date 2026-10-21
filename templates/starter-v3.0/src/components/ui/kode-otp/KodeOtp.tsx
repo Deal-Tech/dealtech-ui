@@ -27,8 +27,6 @@ export interface KodeOtpProps {
   /** Dipanggil setelah animasi hasil selesai. */
   onSelesai?: (berhasil: boolean) => void;
   panjang?: number;
-  teksBerhasil?: string;
-  teksGagal?: string;
   disabled?: boolean;
   className?: string;
 }
@@ -86,8 +84,6 @@ export function KodeOtp({
   onLengkap,
   onSelesai,
   panjang = 6,
-  teksBerhasil = 'Authorized',
-  teksGagal = 'Unauthorized',
   disabled = false,
   className = '',
 }: KodeOtpProps) {
@@ -181,8 +177,8 @@ export function KodeOtp({
           <path className="kode-otp__tanda kode-otp__tanda--centang" d="m9 12.5 2 2 4-4.5" />
           <path className="kode-otp__tanda kode-otp__tanda--silang" d="m9.5 9.5 5 5m0-5-5 5" />
         </svg>
-        <span className="kode-otp__label">
-          {fase === 'hasil' ? (hasil === 'gagal' ? teksGagal : teksBerhasil) : ''}
+        <span className="sr-only">
+          {fase === 'hasil' ? (hasil === 'gagal' ? 'Kode ditolak' : 'Kode diterima') : ''}
         </span>
       </div>
     </div>

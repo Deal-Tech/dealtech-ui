@@ -12,7 +12,7 @@
 - Halaman pembayaran: keterangan bukti pembayaran jadi `BadgeInfo` tanpa ikon.
 - Tabel: semua isi sel dipotong elipsis supaya tinggi baris seragam, dan aksi baris jadi dropdown ikon titik tiga lewat `AksiBaris` (panel sama dengan menu akun di header) di dashboard, produk, member, dan katalog element.
 - Tambah halaman lupa kata sandi (`/lupa-sandi`) tiga langkah: kirim kode (amplop berubah jadi pesawat kertas yang terbang), verifikasi OTP 6 angka, lalu kata sandi baru dengan meter kekuatan. Pesan terkirim selalu generik supaya email terdaftar tak bisa ditebak, kirim ulang berjeda 60 detik, dan selesai kembali ke login dengan pesan sukses. Mode demo menerima kode apa pun kecuali 000000.
-- Tambah element `kode-otp`: kotak kode sekali pakai yang menumpuk ke tengah jadi perisai hijau Authorized atau merah Unauthorized, lalu kosong lagi kalau ditolak.
+- Tambah element `kode-otp`: kotak kode sekali pakai yang menumpuk ke tengah jadi perisai hijau centang atau merah silang, lalu kosong lagi kalau ditolak.
 - Tambah `KerangkaMasuk`: kerangka bersama halaman masuk dan pemulihan sandi.
 - Tambah `AGENTS.md` dan `CLAUDE.md` di starter v3.0: aturan tabel untuk asisten AI — satu sel satu data, isi satu baris, aksi lewat dropdown.
 

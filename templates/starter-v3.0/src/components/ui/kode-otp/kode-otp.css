@@ -135,23 +135,6 @@
   animation: kode-otp-geleng 0.5s ease-in-out;
 }
 
-/* Label di kanan perisai, perisai tetap di tengah */
-.kode-otp__label {
-  position: absolute;
-  left: calc(50% + 24px);
-  font-size: 0.9rem;
-  font-weight: 700;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateX(-6px);
-  transition: opacity 0.25s ease 0.15s, transform 0.25s ease 0.15s;
-}
-
-.kode-otp[data-fase='hasil'] .kode-otp__label {
-  opacity: 1;
-  transform: none;
-}
-
 @keyframes kode-otp-gambar {
   to {
     stroke-dashoffset: 0;
