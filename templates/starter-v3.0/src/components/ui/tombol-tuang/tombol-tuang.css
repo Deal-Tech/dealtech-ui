@@ -211,6 +211,11 @@
   animation: tombol-tuang-angin 0.7s ease-out both;
   animation-delay: calc(0.1s + var(--i) * 0.08s);
 }
+/* Angin berulang selama pesawat maju */
+.tombol-tuang--kirim[data-fase='tuang'] .tombol-tuang__angin {
+  animation: tombol-tuang-angin 0.45s linear infinite;
+  animation-delay: calc(var(--i) * 0.12s);
+}
 
 /* Huruf menjadi aliran air */
 .tombol-tuang__huruf {
