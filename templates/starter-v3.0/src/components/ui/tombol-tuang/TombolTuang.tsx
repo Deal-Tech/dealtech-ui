@@ -7,7 +7,7 @@ import './tombol-tuang.css';
 // Sama dengan status useMutation
 export type StatusTuang = 'idle' | 'pending' | 'success' | 'error';
 // Ikon sesuai jenis aksi
-export type IkonTuang = 'file' | 'simpan' | 'kunci' | 'unggah' | 'hapus' | 'kirim';
+export type IkonTuang = 'file' | 'simpan' | 'kunci' | 'unggah' | 'hapus' | 'kirim' | 'google';
 
 // Tolak: gagal dengan teks
 type Fase = 'diam' | 'samar' | 'tuang' | 'tunggu' | 'penuh' | 'centang' | 'kuras' | 'tolak' | 'kembali';
@@ -24,6 +24,8 @@ const JEDA_MUNCUL_MS = 25;
 const MUNCUL_HURUF_MS = 320;
 const IKON_PULANG_MS = 250;
 const PENUH_MS = 650;
+// Lambang tanpa air
+const PENUH_LAMBANG_MS = 150;
 const CENTANG_MS = 900;
 const CENTANG_TEKS_MS = 1200;
 const KURAS_MS = 500;
@@ -39,7 +41,7 @@ type Durasi = (jumlahHuruf: number, gaya: Gaya) => number;
 const LANGKAH: Partial<Record<Fase, { ke: Fase; ms: Durasi }>> = {
   samar: { ke: 'tuang', ms: (n) => n * JEDA_SAMAR_MS + SAMAR_MS },
   tuang: { ke: 'tunggu', ms: (n, g) => durasiTuang(n, g.cepat) },
-  penuh: { ke: 'centang', ms: () => PENUH_MS },
+  penuh: { ke: 'centang', ms: (_n, g) => (g.lambang ? PENUH_LAMBANG_MS : PENUH_MS) },
   centang: { ke: 'kembali', ms: (_n, g) => (g.teksBerhasil ? CENTANG_TEKS_MS : CENTANG_MS) },
   // Huruf langsung kembali saat gagal
   kuras: { ke: 'diam', ms: (n) => Math.max(KURAS_MS, n * JEDA_MUNCUL_MS + MUNCUL_HURUF_MS) },
@@ -54,7 +56,16 @@ interface BentukIkon {
   centang: string;
   // Pesawat kertas pengganti centang
   terbang?: string[];
+  // Lambang merek: utuh, tanpa air
+  isi?: { d: string; fill: string }[];
 }
+
+const GOOGLE = [
+  { d: 'M23.5 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.45a5.5 5.5 0 0 1-2.39 3.62v3h3.86c2.26-2.08 3.58-5.15 3.58-8.81Z', fill: '#4285F4' },
+  { d: 'M12 24c3.24 0 5.96-1.08 7.94-2.92l-3.86-3c-1.08.72-2.45 1.15-4.08 1.15-3.13 0-5.78-2.11-6.73-4.96H1.3v3.1A12 12 0 0 0 12 24Z', fill: '#34A853' },
+  { d: 'M5.27 14.27a7.2 7.2 0 0 1 0-4.54v-3.1H1.3a12 12 0 0 0 0 10.74l3.97-3.1Z', fill: '#FBBC05' },
+  { d: 'M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.23 0 12 0A12 12 0 0 0 1.3 6.63l3.97 3.1C6.22 6.86 8.87 4.75 12 4.75Z', fill: '#EA4335' },
+];
 
 // Garis ikon dari lucide
 const BENTUK: Record<IkonTuang, BentukIkon> = {
@@ -95,6 +106,12 @@ const BENTUK: Record<IkonTuang, BentukIkon> = {
       'm21.85 2.15-10.94 10.94',
     ],
   },
+  google: {
+    wadah: '',
+    isi: GOOGLE,
+    rincian: [],
+    centang: '',
+  },
 };
 
 // Garis angin di belakang pesawat
@@ -115,8 +132,9 @@ interface Kabar {
 interface Gaya {
   // Huruf jadi titik dulu
   samarkan: boolean;
-  // Ikon pesawat: tuang lebih cepat
+  // Pesawat/lambang: tuang lebih cepat
   cepat: boolean;
+  lambang: boolean;
   teksBerhasil?: string;
   teksGagal?: string;
 }
@@ -163,7 +181,7 @@ function useFaseTuang(status: StatusTuang, jumlahHuruf: number, kabar: Kabar, ga
     if (fase === 'diam' && status !== 'idle') setFase(gaya.samarkan ? 'samar' : 'tuang');
   }
   const tampil = faseTampil(fase, status, !!gaya.teksGagal);
-  const { teksBerhasil, cepat } = gaya;
+  const { teksBerhasil, cepat, lambang } = gaya;
 
   // Hasil true: tahan di centang
   const kabari = useEffectEvent((dari: Fase, ke: Fase): boolean => {
@@ -183,9 +201,9 @@ function useFaseTuang(status: StatusTuang, jumlahHuruf: number, kabar: Kabar, ga
     if (!langkah) return;
     const timer = window.setTimeout(() => {
       if (!kabari(tampil, langkah.ke)) setFase(langkah.ke);
-    }, langkah.ms(jumlahHuruf, { samarkan: false, cepat, teksBerhasil }));
+    }, langkah.ms(jumlahHuruf, { samarkan: false, cepat, lambang, teksBerhasil }));
     return () => window.clearTimeout(timer);
-  }, [tampil, jumlahHuruf, cepat, teksBerhasil]);
+  }, [tampil, jumlahHuruf, cepat, lambang, teksBerhasil]);
 
   return { tampil, aktif: fase !== 'diam' };
 }
@@ -223,17 +241,17 @@ function ukurIkon(tombol: HTMLElement, ikon: SVGSVGElement, teks: ElemenHasil) {
 }
 
 // Arahkan huruf ke ikon
-function ukurHuruf(ikon: SVGSVGElement, wadah: HTMLElement, geser: number, maju: boolean) {
+function ukurHuruf(ikon: SVGSVGElement, wadah: HTMLElement, geser: number, cepat: boolean) {
   const kotakIkon = ikon.getBoundingClientRect();
   const pusatX = kotakIkon.left + kotakIkon.width / 2;
-  const tujuanY = kotakIkon.top + kotakIkon.height * (maju ? 0.5 : 0.35);
+  const tujuanY = kotakIkon.top + kotakIkon.height * (cepat ? 0.5 : 0.35);
   const daftar = Array.from(wadah.children) as HTMLElement[];
-  const durasi = durasiTuang(daftar.length, maju);
-  const jeda = maju ? JEDA_CEPAT_MS : JEDA_HURUF_MS;
-  const terbang = maju ? TERBANG_CEPAT_MS : TERBANG_HURUF_MS;
+  const durasi = durasiTuang(daftar.length, cepat);
+  const jeda = cepat ? JEDA_CEPAT_MS : JEDA_HURUF_MS;
+  const terbang = cepat ? TERBANG_CEPAT_MS : TERBANG_HURUF_MS;
   daftar.forEach((huruf, i) => {
     // Pesawat maju: titik menyusul posisinya
-    const bagian = maju ? Math.min(1, (i * jeda + terbang) / durasi) : 0;
+    const bagian = Math.min(1, (i * jeda + terbang) / durasi);
     const tujuanX = pusatX + geser * bagian;
     const kotak = huruf.getBoundingClientRect();
     huruf.style.setProperty('--dx', `${tujuanX - (kotak.left + kotak.width / 2)}px`);
@@ -243,6 +261,15 @@ function ukurHuruf(ikon: SVGSVGElement, wadah: HTMLElement, geser: number, maju:
 
 function GambarIkon({ ref, bentuk }: { ref: Ref<SVGSVGElement>; bentuk: BentukIkon }) {
   const idKlip = useId();
+  if (bentuk.isi) {
+    return (
+      <svg ref={ref} className="btn__icon tombol-tuang__ikon" viewBox="0 0 24 24" aria-hidden="true">
+        {bentuk.isi.map((p) => (
+          <path key={p.d} d={p.d} fill={p.fill} />
+        ))}
+      </svg>
+    );
+  }
   return (
     <svg ref={ref} className="btn__icon tombol-tuang__ikon" viewBox="0 0 24 24" aria-hidden="true">
       <clipPath id={idKlip}>
@@ -315,12 +342,15 @@ export function TombolTuang(props: Props) {
   const teksBerhasilRef = useRef<HTMLSpanElement>(null);
   const teksGagalRef = useRef<HTMLSpanElement>(null);
   const daftarHuruf = Array.from(children);
-  const cepat = !!BENTUK[ikon].terbang;
+  const maju = !!BENTUK[ikon].terbang;
+  // Lambang: jadi titik sambil tersedot
+  const lambang = !!BENTUK[ikon].isi;
+  const cepat = maju || lambang;
   const { tampil, aktif } = useFaseTuang(
     status,
     daftarHuruf.length,
     { onPenuh, onTuntas, onSelesai },
-    { samarkan, cepat, teksBerhasil, teksGagal },
+    { samarkan: samarkan && !lambang, cepat, lambang, teksBerhasil, teksGagal },
   );
 
   useLayoutEffect(() => {
@@ -338,8 +368,10 @@ export function TombolTuang(props: Props) {
         gagal: teksGagalRef.current,
       });
     }
-    if (tampil === 'tuang') ukurHuruf(ikonRef.current, wadahRef.current, geserRef.current ?? 0, cepat);
-  }, [tampil, cepat]);
+    if (tampil === 'tuang') {
+      ukurHuruf(ikonRef.current, wadahRef.current, maju ? (geserRef.current ?? 0) : 0, cepat);
+    }
+  }, [tampil, maju, cepat]);
 
   return (
     <button

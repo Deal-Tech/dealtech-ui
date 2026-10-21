@@ -4,11 +4,13 @@
 
 ### Starter v3.0
 
-- Tambah element `tombol-tuang`: teks tombol dituang ke ikon selama proses (ikon simpan, unggah, hapus, file, kunci, kirim), mengikuti status `idle` / `pending` / `success` / `error`, dengan progres unggah, titik kata sandi, dan label hasil seperti Authorized / Unauthorized.
+- Tambah element `tombol-tuang`: teks tombol dituang ke ikon selama proses (ikon simpan, unggah, hapus, file, kunci, kirim, lambang Google), mengikuti status `idle` / `pending` / `success` / `error`, dengan progres unggah, titik kata sandi, dan label hasil seperti Authorized / Unauthorized.
 - Tombol masuk, tombol simpan di pengaturan, produk, dan member, tombol unggah di `unggah-gambar` dan pembayaran, serta tombol hapus produk kini memakai `tombol-tuang`. Form dan modal baru ditutup sesudah animasi centang.
 - `StatCard` lebih dinamis: ukuran ikon, padding, dan jarak mengikuti lebar kartu (container query), kartu sempit beralih ke format kolom, judul dibatasi dua baris, dan nilai serta lencana dipotong elipsis tanpa keluar kartu.
 - Tambah `StatGrid`: jumlah kolom mengikuti lebar wadah dengan baris seimbang (4 → 2 → 1, tanpa sisa 3 + 1), dipakai di dashboard dan katalog element.
 - Halaman login: panel kanan memakai adegan dashboard 3D beranimasi — lempeng bertebal, kartu melayang, angka menghitung, kamera bergoyang (diam saat reduced motion), logo 50% lebih besar dan lebih rapat ke sambutan, sambutan jadi `BadgeInfo`, judul dihapus, tombol Google tanpa border, kontrol di PC 10% lebih kecil, dan footer baru rata kiri.
+- Tombol "Masuk dengan Google" beranimasi: huruf jadi titik sambil tersedot ke lambang G (lambang tetap utuh, tanpa air), lalu "Memproses OAuth". Mode demo langsung masuk dashboard; produksi dialihkan ke `VITE_OAUTH_GOOGLE_URL`.
+- Login dan lupa sandi di layar ≤ 860px: latar biru bergradasi dengan lingkaran seperti panel kanan, halaman tetap diam tanpa scroll.
 - Halaman pembayaran: keterangan bukti pembayaran jadi `BadgeInfo` tanpa ikon.
 - Tabel: semua isi sel dipotong elipsis supaya tinggi baris seragam, dan aksi baris jadi dropdown ikon titik tiga lewat `AksiBaris` (panel sama dengan menu akun di header) di dashboard, produk, member, dan katalog element.
 - Tambah halaman lupa kata sandi (`/lupa-sandi`) tiga langkah: kirim kode (amplop berubah jadi pesawat kertas yang terbang), verifikasi OTP 6 angka, lalu kata sandi baru dengan meter kekuatan. Pesan terkirim selalu generik supaya email terdaftar tak bisa ditebak, kirim ulang berjeda 60 detik, dan selesai kembali ke login dengan pesan sukses. Mode demo menerima kode apa pun kecuali 000000.

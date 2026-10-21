@@ -156,6 +156,17 @@
   animation: tombol-tuang-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Google: lambang menelan titik */
+.tombol-tuang--google:is([data-fase='tuang'], [data-fase='tunggu'], [data-fase='penuh']) .tombol-tuang__ikon {
+  --miring: 0deg;
+}
+.tombol-tuang--google[data-fase='tuang'] .tombol-tuang__ikon {
+  scale: 1.12;
+}
+.tombol-tuang--google[data-fase='tunggu'] .tombol-tuang__ikon {
+  animation: tombol-tuang-denyut 0.8s ease-in-out infinite alternate;
+}
+
 /* Amplop lenyap, pesawat terbang */
 .tombol-tuang__terbang {
   opacity: 0;
@@ -266,10 +277,21 @@
 .tombol-tuang--samar:is([data-fase='samar'], [data-fase='tuang']) .tombol-tuang__huruf {
   width: 0.6em;
 }
-/* Pesawat: tuang lebih cepat */
-.tombol-tuang--kirim[data-fase='tuang'] .tombol-tuang__huruf {
+/* Pesawat & Google: tuang lebih cepat */
+.tombol-tuang:is(.tombol-tuang--kirim, .tombol-tuang--google)[data-fase='tuang'] .tombol-tuang__huruf {
   animation-duration: 320ms;
   animation-delay: calc(var(--i) * 30ms);
+}
+/* Google: jadi titik sambil terbang */
+.tombol-tuang--google.tombol-tuang--samar[data-fase='tuang'] .tombol-tuang__huruf {
+  width: var(--lebar, auto);
+}
+.tombol-tuang--google[data-fase='tuang'] .tombol-tuang__isi,
+.tombol-tuang--google[data-fase='tuang'] .tombol-tuang__huruf::after {
+  transition:
+    opacity 0.12s ease,
+    transform 0.16s ease-out;
+  transition-delay: calc(var(--i) * 30ms);
 }
 .tombol-tuang--samar .tombol-tuang__huruf::after {
   content: '';
@@ -406,6 +428,11 @@
 @keyframes tombol-tuang-gambar-centang {
   to {
     stroke-dashoffset: 0;
+  }
+}
+@keyframes tombol-tuang-denyut {
+  to {
+    scale: 1.32;
   }
 }
 @keyframes tombol-tuang-pop {

@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
-import { Button } from '@/components/ui/button/Button';
 import { Checkbox } from '@/components/ui/checkbox/Checkbox';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ApiError } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
-import GoogleMark from './GoogleMark';
 import KerangkaMasuk from './KerangkaMasuk';
 
 const TUJUAN_BAWAAN = '/dashboard';
@@ -29,18 +27,20 @@ function jalurAman(nilai: unknown): string {
 export default function AdminLogin() {
   const navigate = useNavigate();
   const lokasi = useLocation();
-  const { pengguna, memuat, masuk } = useAuth();
+  const { pengguna, memuat, masuk, masukGoogle } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [ingat, setIngat] = useState(false);
   const [status, setStatus] = useState<StatusTuang>('idle');
+  const [statusGoogle, setStatusGoogle] = useState<StatusTuang>('idle');
   const [galat, setGalat] = useState('');
 
   const state = lokasi.state as StateMasuk | null;
   const tujuan = jalurAman(state?.dari);
   // Animasi masuk masih berjalan
-  const sedangMasuk = status === 'pending' || status === 'success';
+  const sibuk = (s: StatusTuang) => s === 'pending' || s === 'success';
+  const sedangMasuk = sibuk(status) || sibuk(statusGoogle);
 
   useEffect(() => () => setPassword(''), []);
 
@@ -64,6 +64,19 @@ export default function AdminLogin() {
     }
   };
 
+  const lewatGoogle = async () => {
+    if (sedangMasuk) return;
+    setStatusGoogle('pending');
+    setGalat('');
+    try {
+      await masukGoogle();
+      setStatusGoogle('success');
+    } catch {
+      setGalat('Google belum bisa dihubungi. Coba beberapa saat lagi.');
+      setStatusGoogle('error');
+    }
+  };
+
   return (
     <KerangkaMasuk
       judul="Semua kendali dalam satu panel"
@@ -79,10 +92,18 @@ export default function AdminLogin() {
         </BadgeInfo>
       )}
 
-      <Button variant="ghost" className="login-google">
-        <GoogleMark />
+      <TombolTuang
+        ikon="google"
+        variant="ghost"
+        status={statusGoogle}
+        className="login-google"
+        samarkan
+        teksBerhasil="Memproses OAuth"
+        onClick={() => void lewatGoogle()}
+        onSelesai={(berhasil) => berhasil && navigate(tujuan, { replace: true })}
+      >
         Masuk dengan Google
-      </Button>
+      </TombolTuang>
 
       <div className="login-divider">atau lanjut dengan email</div>
 

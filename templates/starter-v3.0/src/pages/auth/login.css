@@ -71,17 +71,9 @@
   transform: translateY(-1px);
 }
 
-/* Tailwind preflight membuat svg jadi block — ikon perlu sebaris dengan teks */
-.login-page .login-google > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.login-google__mark {
+.login-page .login-google .btn__icon {
   width: 16.2px;
   height: 16.2px;
-  flex: 0 0 auto;
 }
 
 .login-divider {
@@ -318,6 +310,44 @@
   .login-art-panel {
     display: none;
   }
+
+  /* Pengganti panel kanan, tidak ikut scroll */
+  .login-page {
+    position: fixed;
+    inset: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    background: linear-gradient(160deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  }
+
+  .login-page::before,
+  .login-page::after {
+    content: '';
+    position: fixed;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    pointer-events: none;
+  }
+
+  .login-page::before {
+    width: max(110vw, 420px);
+    top: -18vh;
+    right: -40vw;
+  }
+
+  .login-page::after {
+    width: max(80vw, 300px);
+    bottom: -14vh;
+    left: -32vw;
+  }
+
+  .login-shell {
+    position: relative;
+    margin: auto;
+  }
 }
 
 /* Di mobile ukuran isian dan tombol kembali ke ukuran bawaan kendali tema */
@@ -348,11 +378,7 @@
     font-size: 12px;
   }
 
-  .login-page .login-google > span {
-    gap: 8px;
-  }
-
-  .login-google__mark {
+  .login-page .login-google .btn__icon {
     width: 16px;
     height: 16px;
   }

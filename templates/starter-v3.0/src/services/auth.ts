@@ -49,6 +49,12 @@ export async function keluar(): Promise<void> {
   }
 }
 
+// Backend mengalihkan ke Google
+export const URL_OAUTH_GOOGLE: string =
+  import.meta.env.VITE_OAUTH_GOOGLE_URL ?? '/api/v1/auth/google/redirect';
+
+export const EMAIL_DEMO_GOOGLE = 'akun.google@gmail.com';
+
 export const PANJANG_KODE_SANDI = 6;
 
 // Demo: kode ini selalu ditolak
