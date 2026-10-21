@@ -26,7 +26,7 @@ import './lydia.css';
 
 const JALUR = '/dashboard/lydia';
 // Sama dengan breakpoint CSS
-const MEDIA_LEBAR = '(min-width: 1024px)';
+const MEDIA_LEBAR = '(min-width: 1280px)';
 
 const pesanLokal = (peran: PesanLydia['peran'], isi: string, lampiran?: LampiranPesan[]): PesanLydia => ({
   id: `lokal-${Date.now()}-${peran}`,

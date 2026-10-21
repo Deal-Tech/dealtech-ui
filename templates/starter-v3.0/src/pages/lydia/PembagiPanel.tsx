@@ -1,25 +1,24 @@
 import { useCallback, useState, type KeyboardEvent, type PointerEvent as ReactPointerEvent, type RefObject } from 'react';
 
-// Batas lebar panel riwayat
-export const LEBAR_MIN = 240;
-const LEBAR_MAKS = 420;
-const LEBAR_AWAL = 280;
-// Ruang chat paling sempit
-const CHAT_MIN = 420;
+// Sama dengan sipekum: lebar mobile
+export const LEBAR_MIN = 390;
+// Sama dengan --lydia-tepi di CSS
+const TEPI_PX = 12;
 const LANGKAH_PANAH_PX = 16;
 const KUNCI_SIMPAN = 'lydia:lebar-panel';
 
+// Panel dan chat ≥ mobile
 function jepitLebar(lebar: number, lebarBadan: number) {
-  const maks = Math.max(LEBAR_MIN, Math.min(LEBAR_MAKS, lebarBadan - CHAT_MIN));
+  const maks = Math.max(LEBAR_MIN, lebarBadan - TEPI_PX * 3 - LEBAR_MIN);
   return Math.round(Math.min(Math.max(lebar, LEBAR_MIN), maks));
 }
 
 function bacaLebar() {
   try {
     const v = Number(localStorage.getItem(KUNCI_SIMPAN));
-    return Number.isFinite(v) && v >= LEBAR_MIN ? v : LEBAR_AWAL;
+    return Number.isFinite(v) && v >= LEBAR_MIN ? v : LEBAR_MIN;
   } catch {
-    return LEBAR_AWAL;
+    return LEBAR_MIN;
   }
 }
 
@@ -47,7 +46,7 @@ export function useLebarPanel(badanRef: RefObject<HTMLElement | null>) {
       pegangan.setPointerCapture(e.pointerId);
       setMenggeser(true);
       const gerak = (ev: PointerEvent) => {
-        terakhir = jepitLebar(ev.clientX - kiri, lebarBadan);
+        terakhir = jepitLebar(ev.clientX - kiri - TEPI_PX, lebarBadan);
         setLebar(terakhir);
       };
       const lepas = () => {
@@ -98,7 +97,6 @@ export function PembagiPanel({
       aria-label="Geser untuk mengubah lebar riwayat"
       aria-valuenow={lebar}
       aria-valuemin={LEBAR_MIN}
-      aria-valuemax={LEBAR_MAKS}
       tabIndex={0}
       title="Tahan & geser untuk mengubah lebar"
       className={`lydia-pembagi ${menggeser ? 'is-geser' : ''}`}

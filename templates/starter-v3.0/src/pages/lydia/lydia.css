@@ -3,7 +3,9 @@
 .lydia {
   --lydia-latar: var(--app-fill-strong);
   --lydia-tepi: 12px;
-  --lydia-kolom: 820px;
+  /* Sama dengan sipekum */
+  --lydia-kolom: 64rem;
+  --lydia-chat-min: 390px;
   --lydia-kode-latar: #0f172a;
   display: flex;
   height: 100%;
@@ -162,9 +164,15 @@
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
+  /* Riwayat | pembagi | chat ≥ mobile */
   .lydia-badan--panel {
-    grid-template-columns: var(--lebar-panel, 280px) var(--lydia-tepi) minmax(0, 1fr);
+    grid-template-columns:
+      min(
+        calc(var(--lebar-panel, 390px) + var(--lydia-tepi)),
+        calc(100% - 2 * var(--lydia-tepi) - var(--lydia-chat-min))
+      )
+      var(--lydia-tepi) minmax(0, 1fr);
   }
 
   .lydia-tirai {
@@ -394,7 +402,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .lydia-badan--panel .lydia-ruang {
     margin-left: 0;
   }
@@ -406,7 +414,7 @@
   flex: 1;
   flex-direction: column;
   overflow-y: auto;
-  padding: 20px 16px 12px;
+  padding: 16px;
 }
 
 .lydia-pesan-daftar {
@@ -416,6 +424,7 @@
   flex-direction: column;
   gap: 16px;
   margin: 0 auto;
+  padding-bottom: 8px;
 }
 
 .lydia-pesan-kerangka {
@@ -737,7 +746,7 @@
 
 .lydia-sambut {
   display: flex;
-  max-width: 34rem;
+  max-width: 36rem;
   flex-direction: column;
   align-items: center;
   margin: auto;
@@ -881,7 +890,7 @@
 .lydia-tulis-wadah {
   position: relative;
   flex-shrink: 0;
-  padding: 8px 16px 14px;
+  padding: 8px 16px 12px;
 }
 
 .lydia-tulis__galat {
