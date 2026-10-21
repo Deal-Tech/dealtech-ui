@@ -46,6 +46,8 @@ interface BentukIkon {
   wadah: string;
   rincian: string[];
   centang: string;
+  // Pesawat kertas pengganti centang
+  terbang?: string[];
 }
 
 // Garis ikon dari lucide
@@ -77,13 +79,20 @@ const BENTUK: Record<IkonTuang, BentukIkon> = {
     rincian: ['M3 6h18', 'M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'],
     centang: 'M8.5 14l2.5 2.5 4.5-5',
   },
-  // Amplop, mis. kirim tautan
+  // Amplop, lalu terbang jadi pesawat
   kirim: {
     wadah: 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z',
     rincian: ['m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'],
     centang: 'M8.5 15l2.5 2.5 4.5-5',
+    terbang: [
+      'M14.5 21.7a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z',
+      'm21.85 2.15-10.94 10.94',
+    ],
   },
 };
+
+// Garis angin di belakang pesawat
+const ANGIN = ['M2 20h5', 'M1 16h3', 'M4 23.5h4'];
 
 // Ombak berulang tiap 12 unit
 const OMBAK = 'M0 1Q3-1 6 1T12 1T18 1T24 1T30 1T36 1T42 1T48 1V26H0Z';
@@ -222,7 +231,20 @@ function GambarIkon({ ref, bentuk }: { ref: Ref<SVGSVGElement>; bentuk: BentukIk
       {bentuk.rincian.map((d) => (
         <path key={d} className="tombol-tuang__garis tombol-tuang__rincian" d={d} />
       ))}
-      <path className="tombol-tuang__centang" d={bentuk.centang} />
+      {bentuk.terbang ? (
+        <g className="tombol-tuang__terbang">
+          {ANGIN.map((d, i) => (
+            <path key={d} className="tombol-tuang__angin" style={{ '--i': i } as CSSProperties} d={d} />
+          ))}
+          <g className="tombol-tuang__pesawat">
+            {bentuk.terbang.map((d) => (
+              <path key={d} className="tombol-tuang__garis" d={d} />
+            ))}
+          </g>
+        </g>
+      ) : (
+        <path className="tombol-tuang__centang" d={bentuk.centang} />
+      )}
     </svg>
   );
 }

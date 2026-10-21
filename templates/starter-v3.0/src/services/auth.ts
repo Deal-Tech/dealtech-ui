@@ -1,4 +1,4 @@
-import { api, apiMentah, simpanCSRF, hapusCSRF } from '@/lib/api';
+import { ApiError, api, apiMentah, simpanCSRF, hapusCSRF } from '@/lib/api';
 import { MODE_DEMO, jeda } from '@/lib/demo';
 
 export type Peran = 'admin' | 'operator';
@@ -49,7 +49,12 @@ export async function keluar(): Promise<void> {
   }
 }
 
-export async function mintaTautanSandi(email: string): Promise<void> {
+export const PANJANG_KODE_SANDI = 6;
+
+// Demo: kode ini selalu ditolak
+export const KODE_DEMO_SALAH = '000000';
+
+export async function mintaKodeSandi(email: string): Promise<void> {
   if (MODE_DEMO) {
     await jeda();
     return;
@@ -59,6 +64,21 @@ export async function mintaTautanSandi(email: string): Promise<void> {
     body: { email },
     tanpaCSRF: true,
   });
+}
+
+/** Kode benar menghasilkan token atur ulang. */
+export async function periksaKodeSandi(email: string, kode: string): Promise<string> {
+  if (MODE_DEMO) {
+    await jeda();
+    if (kode === KODE_DEMO_SALAH) throw new ApiError(422, 'Kode salah atau sudah kedaluwarsa.');
+    return 'demo';
+  }
+  const hasil = await api<{ token: string }>('/api/v1/auth/verify-code', {
+    method: 'POST',
+    body: { email, code: kode },
+    tanpaCSRF: true,
+  });
+  return hasil.token;
 }
 
 export interface DataAturUlang {

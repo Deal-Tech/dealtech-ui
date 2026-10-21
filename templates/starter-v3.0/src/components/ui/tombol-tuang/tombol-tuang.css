@@ -156,6 +156,37 @@
   animation: tombol-tuang-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Amplop lenyap, pesawat terbang */
+.tombol-tuang__terbang {
+  opacity: 0;
+}
+.tombol-tuang__pesawat {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+}
+.tombol-tuang__angin {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0;
+}
+.tombol-tuang--kirim[data-fase='centang'] .tombol-tuang__garis:not(.tombol-tuang__pesawat *),
+.tombol-tuang--kirim[data-fase='centang'] .tombol-tuang__cair {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.tombol-tuang--kirim[data-fase='centang'] .tombol-tuang__terbang {
+  opacity: 1;
+}
+.tombol-tuang--kirim[data-fase='centang'] .tombol-tuang__pesawat {
+  animation: tombol-tuang-pesawat 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.tombol-tuang--kirim[data-fase='centang'] .tombol-tuang__angin {
+  animation: tombol-tuang-angin 0.7s ease-out both;
+  animation-delay: calc(0.1s + var(--i) * 0.08s);
+}
+
 /* Huruf menjadi aliran air */
 .tombol-tuang__huruf {
   display: inline-block;
@@ -332,6 +363,34 @@
 @keyframes tombol-tuang-pop {
   50% {
     scale: 1.45;
+  }
+}
+/* Masuk dari kiri bawah, melesat ke kanan atas */
+@keyframes tombol-tuang-pesawat {
+  0% {
+    opacity: 0;
+    transform: translate(-10px, 10px) scale(0.6) rotate(10deg);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1.15) rotate(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(2px, -2px) scale(1) rotate(0);
+  }
+}
+@keyframes tombol-tuang-angin {
+  0% {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  40% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-8px);
   }
 }
 @keyframes tombol-tuang-geleng {

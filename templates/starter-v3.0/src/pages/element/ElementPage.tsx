@@ -39,6 +39,7 @@ import { InputNumber } from '@/components/ui/inputnumber/InputNumber';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { Kalender } from '@/components/ui/kalender/Kalender';
 import { KodeOtomatis } from '@/components/ui/kode-otomatis/KodeOtomatis';
+import { KodeOtp } from '@/components/ui/kode-otp/KodeOtp';
 import { LabelQR } from '@/components/ui/label-qr/LabelQR';
 import { LembarCetak } from '@/components/ui/lembar-cetak/LembarCetak';
 import { TombolCetak } from '@/components/ui/lembar-cetak/TombolCetak';
@@ -66,6 +67,7 @@ import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/Tomb
 import { UnggahGambar } from '@/components/ui/unggah-gambar/UnggahGambar';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
 import { PER_HALAMAN_BAWAAN, usePilihan } from '@/lib/daftar';
+import { KODE_DEMO_SALAH } from '@/services/auth';
 import './element.css';
 
 /* -------------------------------------------------------------------------- */
@@ -161,6 +163,24 @@ type DemoTuangProps = Omit<
   gagal?: boolean;
   unggah?: boolean;
 };
+
+/** Proses tiruan untuk KodeOtp. */
+function DemoOtp() {
+  const [status, setStatus] = useState<StatusTuang>('idle');
+  const timer = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  const periksa = (kode: string) => {
+    setStatus('pending');
+    timer.current = window.setTimeout(
+      () => setStatus(kode === KODE_DEMO_SALAH ? 'error' : 'success'),
+      JEDA_DETAK_MS * 5,
+    );
+  };
+
+  return <KodeOtp status={status} onLengkap={periksa} onSelesai={() => setStatus('idle')} />;
+}
 
 /** Proses tiruan untuk TombolTuang. */
 function DemoTuang({ label, gagal = false, unggah = false, ...props }: DemoTuangProps) {
@@ -371,7 +391,7 @@ export default function ElementPage() {
       <PageTitle
         title="Semua Element"
         subtitle="Katalog komponen DealTech UI v2. Setiap kotak menampilkan satu komponen beserta letak berkasnya di src/components/ui/."
-        action={<span className="element-hitung">50 komponen</span>}
+        action={<span className="element-hitung">51 komponen</span>}
       />
 
       <nav className="element-nav" aria-label="Lompat ke seksi">
@@ -417,7 +437,7 @@ export default function ElementPage() {
             <DemoTuang ikon="simpan" label="Simpan" />
             <DemoTuang ikon="unggah" variant="ghost" label="Unggah Berkas" unggah />
             <DemoTuang ikon="file" variant="ghost" label="Cetak PDF" />
-            <DemoTuang ikon="kirim" variant="ghost" label="Kirim Tautan" teksBerhasil="Terkirim" />
+            <DemoTuang ikon="kirim" variant="ghost" label="Kirim Kode" samarkan teksBerhasil="Berhasil terkirim" />
             <DemoTuang ikon="hapus" label="Hapus" gagal />
           </div>
           <div className="element-baris">
@@ -557,7 +577,7 @@ export default function ElementPage() {
       </Seksi>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="form" judul="Form" jumlah={12}>
+      <Seksi id="form" judul="Form" jumlah={13}>
         <Petak nama="InputText / InputNumber" jalur="inputtext/, inputnumber/">
           <InputText
             label="Nama Item"
@@ -650,6 +670,14 @@ export default function ElementPage() {
           <p className="element-catatan">
             Pengunggahan memerlukan backend. Tanpa itu tombolnya tetap tampil, hanya berkasnya
             yang gagal terkirim.
+          </p>
+        </Petak>
+
+        <Petak nama="KodeOtp" jalur="kode-otp/">
+          <DemoOtp />
+          <p className="element-catatan">
+            Enam kotak menumpuk jadi perisai saat diperiksa. Ketik 000000 untuk melihat yang
+            ditolak.
           </p>
         </Petak>
       </Seksi>
