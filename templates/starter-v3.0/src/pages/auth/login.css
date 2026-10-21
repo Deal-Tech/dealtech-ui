@@ -50,20 +50,8 @@
   -webkit-mask-size: contain;
 }
 
-.login-title {
-  margin: 0;
-  font-size: clamp(1.35rem, 2.4vw, 1.6rem);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-  color: var(--app-text);
-}
-
-.login-subtitle {
-  margin: 0 0 11px;
-  font-size: 0.84rem;
-  line-height: 1.45;
-  color: var(--app-text-muted);
+.login-sambutan {
+  margin-bottom: 11px;
 }
 
 /* Proporsi tombol disamakan dengan isian form di bawahnya */
@@ -73,8 +61,6 @@
   gap: 9px;
   padding: 0 18px;
   border-radius: 9px;
-  border: 1px solid var(--app-border-strong);
-  background: #ffffff;
   color: var(--app-text);
   font-size: 0.81rem;
   font-weight: 700;
@@ -82,7 +68,6 @@
 }
 
 .login-page .login-google:hover:not(:disabled) {
-  background: var(--app-fill);
   transform: translateY(-1px);
 }
 
@@ -268,10 +253,6 @@
 
   .login-brand {
     display: none;
-  }
-
-  .login-title {
-    font-size: 1rem;
   }
 
   .login-field .inputtext__field {

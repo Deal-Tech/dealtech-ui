@@ -76,8 +76,9 @@ export default function AdminLogin() {
             />
           </div>
 
-          <h1 className="login-title">Masuk ke Akun Anda</h1>
-          <p className="login-subtitle">Selamat datang kembali! Pilih metode untuk masuk:</p>
+          <BadgeInfo variant="info" icon={false} className="login-sambutan">
+            Selamat datang kembali! Pilih metode untuk masuk:
+          </BadgeInfo>
 
           <Button variant="ghost" className="login-google">
             <GoogleMark />
