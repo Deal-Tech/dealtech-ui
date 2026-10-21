@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 
 import panelDealtech from '@/assets/panel-dealtechui.png';
 import LoginArt from './LoginArt';
+import LoginArtSandi from './LoginArtSandi';
 import './login.css';
 
 const JUMLAH_TITIK = 3;
@@ -23,6 +24,8 @@ interface KerangkaMasukProps {
   teks: string;
   /** Titik aktif di panel kanan. */
   titik?: number;
+  /** Adegan 3D di panel kanan. */
+  tema?: 'dashboard' | 'sandi';
 }
 
 /** Kerangka halaman masuk dan pemulihan. */
@@ -31,6 +34,7 @@ export default function KerangkaMasuk({
   judul,
   teks,
   titik = JUMLAH_TITIK - 1,
+  tema = 'dashboard',
 }: KerangkaMasukProps) {
   return (
     <div className="login-page">
@@ -54,7 +58,7 @@ export default function KerangkaMasuk({
         </div>
 
         <div className="login-art-panel">
-          <LoginArt />
+          {tema === 'sandi' ? <LoginArtSandi /> : <LoginArt />}
           <h2 className="login-art-title">{judul}</h2>
           <p className="login-art-text">{teks}</p>
           <div className="login-dots" aria-hidden="true">

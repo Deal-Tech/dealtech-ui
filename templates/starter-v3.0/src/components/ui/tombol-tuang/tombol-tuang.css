@@ -245,8 +245,26 @@
 .tombol-tuang__isi {
   display: inline-block;
 }
+/* Lebar teks dikunci, huruf menyempit jadi titik berjarak rata */
+.tombol-tuang--samar .tombol-tuang__teks {
+  display: inline-flex;
+  justify-content: center;
+  width: var(--lebar-teks, auto);
+}
 .tombol-tuang--samar .tombol-tuang__huruf {
   position: relative;
+  width: var(--lebar, auto);
+  text-align: center;
+  transition: width 0.22s ease;
+  transition-delay: calc(var(--i) * 60ms);
+}
+.tombol-tuang--samar:is([data-fase='samar'], [data-fase='tuang']) .tombol-tuang__huruf {
+  width: 0.6em;
+}
+/* Pesawat: tuang lebih cepat */
+.tombol-tuang--kirim[data-fase='tuang'] .tombol-tuang__huruf {
+  animation-duration: 320ms;
+  animation-delay: calc(var(--i) * 30ms);
 }
 .tombol-tuang--samar .tombol-tuang__huruf::after {
   content: '';

@@ -357,7 +357,7 @@ export default function LupaSandi() {
   const emailBersih = email.trim().toLowerCase();
 
   return (
-    <KerangkaMasuk judul={PANEL[langkah].judul} teks={PANEL[langkah].teks} titik={0}>
+    <KerangkaMasuk judul={PANEL[langkah].judul} teks={PANEL[langkah].teks} titik={0} tema="sandi">
       {langkah === 'email' ? (
         <LangkahEmail email={email} onEmail={setEmail} onTerkirim={() => setLangkah('kode')} />
       ) : null}

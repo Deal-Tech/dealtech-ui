@@ -17,6 +17,9 @@ const JEDA_SAMAR_MS = 60;
 const SAMAR_MS = 220;
 const JEDA_HURUF_MS = 65;
 const TERBANG_HURUF_MS = 560;
+// Pesawat: lebih cepat
+const JEDA_CEPAT_MS = 30;
+const TERBANG_CEPAT_MS = 320;
 const JEDA_MUNCUL_MS = 25;
 const MUNCUL_HURUF_MS = 320;
 const IKON_PULANG_MS = 250;
@@ -26,15 +29,18 @@ const CENTANG_TEKS_MS = 1200;
 const KURAS_MS = 500;
 const TOLAK_MS = 1200;
 
-const durasiTuang = (jumlahHuruf: number) => jumlahHuruf * JEDA_HURUF_MS + TERBANG_HURUF_MS;
+const durasiTuang = (jumlahHuruf: number, cepat = false) =>
+  cepat
+    ? jumlahHuruf * JEDA_CEPAT_MS + TERBANG_CEPAT_MS
+    : jumlahHuruf * JEDA_HURUF_MS + TERBANG_HURUF_MS;
 
-type Durasi = (jumlahHuruf: number, adaTeksBerhasil: boolean) => number;
+type Durasi = (jumlahHuruf: number, gaya: Gaya) => number;
 
 const LANGKAH: Partial<Record<Fase, { ke: Fase; ms: Durasi }>> = {
   samar: { ke: 'tuang', ms: (n) => n * JEDA_SAMAR_MS + SAMAR_MS },
-  tuang: { ke: 'tunggu', ms: durasiTuang },
+  tuang: { ke: 'tunggu', ms: (n, g) => durasiTuang(n, g.cepat) },
   penuh: { ke: 'centang', ms: () => PENUH_MS },
-  centang: { ke: 'kembali', ms: (_n, adaTeks) => (adaTeks ? CENTANG_TEKS_MS : CENTANG_MS) },
+  centang: { ke: 'kembali', ms: (_n, g) => (g.teksBerhasil ? CENTANG_TEKS_MS : CENTANG_MS) },
   // Huruf langsung kembali saat gagal
   kuras: { ke: 'diam', ms: (n) => Math.max(KURAS_MS, n * JEDA_MUNCUL_MS + MUNCUL_HURUF_MS) },
   tolak: { ke: 'kembali', ms: () => TOLAK_MS },
@@ -109,6 +115,8 @@ interface Kabar {
 interface Gaya {
   // Huruf jadi titik dulu
   samarkan: boolean;
+  // Ikon pesawat: tuang lebih cepat
+  cepat: boolean;
   teksBerhasil?: string;
   teksGagal?: string;
 }
@@ -155,7 +163,7 @@ function useFaseTuang(status: StatusTuang, jumlahHuruf: number, kabar: Kabar, ga
     if (fase === 'diam' && status !== 'idle') setFase(gaya.samarkan ? 'samar' : 'tuang');
   }
   const tampil = faseTampil(fase, status, !!gaya.teksGagal);
-  const adaTeksBerhasil = !!gaya.teksBerhasil;
+  const { teksBerhasil, cepat } = gaya;
 
   // Hasil true: tahan di centang
   const kabari = useEffectEvent((dari: Fase, ke: Fase): boolean => {
@@ -175,9 +183,9 @@ function useFaseTuang(status: StatusTuang, jumlahHuruf: number, kabar: Kabar, ga
     if (!langkah) return;
     const timer = window.setTimeout(() => {
       if (!kabari(tampil, langkah.ke)) setFase(langkah.ke);
-    }, langkah.ms(jumlahHuruf, adaTeksBerhasil));
+    }, langkah.ms(jumlahHuruf, { samarkan: false, cepat, teksBerhasil }));
     return () => window.clearTimeout(timer);
-  }, [tampil, jumlahHuruf, adaTeksBerhasil]);
+  }, [tampil, jumlahHuruf, cepat, teksBerhasil]);
 
   return { tampil, aktif: fase !== 'diam' };
 }
@@ -195,27 +203,37 @@ interface ElemenHasil {
   gagal: HTMLElement | null;
 }
 
-// Arahkan huruf, geser ikon
-function ukurJarak(
-  tombol: HTMLElement,
-  ikon: SVGSVGElement,
-  wadah: HTMLElement,
-  teks: ElemenHasil,
-  maju: boolean,
-) {
+// Lebar asli huruf, titik dirapikan
+function ukurLebar(wadah: HTMLElement) {
+  wadah.style.setProperty('--lebar-teks', `${wadah.getBoundingClientRect().width}px`);
+  for (const huruf of Array.from(wadah.children) as HTMLElement[]) {
+    huruf.style.setProperty('--lebar', `${huruf.getBoundingClientRect().width}px`);
+  }
+}
+
+// Geser ikon ke tengah
+function ukurIkon(tombol: HTMLElement, ikon: SVGSVGElement, teks: ElemenHasil) {
   const kotakTombol = tombol.getBoundingClientRect();
   const kotakIkon = ikon.getBoundingClientRect();
-  const pusatX = kotakIkon.left + kotakIkon.width / 2;
-  const geser = kotakTombol.left + kotakTombol.width / 2 - pusatX;
-  const tujuanY = kotakIkon.top + kotakIkon.height * (maju ? 0.5 : 0.35);
+  const geser = kotakTombol.left + kotakTombol.width / 2 - (kotakIkon.left + kotakIkon.width / 2);
   ikon.style.setProperty('--geser-ikon', `${geser}px`);
   if (teks.berhasil) ukurTeksHasil(teks.berhasil, ikon, kotakIkon, '--geser-ikon-berhasil');
   if (teks.gagal) ukurTeksHasil(teks.gagal, ikon, kotakIkon, '--geser-ikon-gagal');
+  return geser;
+}
+
+// Arahkan huruf ke ikon
+function ukurHuruf(ikon: SVGSVGElement, wadah: HTMLElement, geser: number, maju: boolean) {
+  const kotakIkon = ikon.getBoundingClientRect();
+  const pusatX = kotakIkon.left + kotakIkon.width / 2;
+  const tujuanY = kotakIkon.top + kotakIkon.height * (maju ? 0.5 : 0.35);
   const daftar = Array.from(wadah.children) as HTMLElement[];
-  const durasi = durasiTuang(daftar.length);
+  const durasi = durasiTuang(daftar.length, maju);
+  const jeda = maju ? JEDA_CEPAT_MS : JEDA_HURUF_MS;
+  const terbang = maju ? TERBANG_CEPAT_MS : TERBANG_HURUF_MS;
   daftar.forEach((huruf, i) => {
     // Pesawat maju: titik menyusul posisinya
-    const bagian = maju ? Math.min(1, (i * JEDA_HURUF_MS + TERBANG_HURUF_MS) / durasi) : 0;
+    const bagian = maju ? Math.min(1, (i * jeda + terbang) / durasi) : 0;
     const tujuanX = pusatX + geser * bagian;
     const kotak = huruf.getBoundingClientRect();
     huruf.style.setProperty('--dx', `${tujuanX - (kotak.left + kotak.width / 2)}px`);
@@ -297,29 +315,31 @@ export function TombolTuang(props: Props) {
   const teksBerhasilRef = useRef<HTMLSpanElement>(null);
   const teksGagalRef = useRef<HTMLSpanElement>(null);
   const daftarHuruf = Array.from(children);
+  const cepat = !!BENTUK[ikon].terbang;
   const { tampil, aktif } = useFaseTuang(
     status,
     daftarHuruf.length,
     { onPenuh, onTuntas, onSelesai },
-    { samarkan, teksBerhasil, teksGagal },
+    { samarkan, cepat, teksBerhasil, teksGagal },
   );
 
-  // Ukur sekali di fase aktif pertama
-  const diukurRef = useRef(false);
   useLayoutEffect(() => {
-    if (tampil === 'diam') diukurRef.current = false;
-    if (tampil === 'diam' || diukurRef.current) return;
+    if (samarkan && wadahRef.current) ukurLebar(wadahRef.current);
+  }, [samarkan, children]);
+
+  // Ikon diukur sekali, huruf saat dituang
+  const geserRef = useRef<number | null>(null);
+  useLayoutEffect(() => {
+    if (tampil === 'diam') geserRef.current = null;
     if (!tombolRef.current || !ikonRef.current || !wadahRef.current) return;
-    diukurRef.current = true;
-    ukurJarak(
-      tombolRef.current,
-      ikonRef.current,
-      wadahRef.current,
-      { berhasil: teksBerhasilRef.current, gagal: teksGagalRef.current },
-      !!BENTUK[ikon].terbang,
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tampil]);
+    if (tampil !== 'diam' && geserRef.current === null) {
+      geserRef.current = ukurIkon(tombolRef.current, ikonRef.current, {
+        berhasil: teksBerhasilRef.current,
+        gagal: teksGagalRef.current,
+      });
+    }
+    if (tampil === 'tuang') ukurHuruf(ikonRef.current, wadahRef.current, geserRef.current ?? 0, cepat);
+  }, [tampil, cepat]);
 
   return (
     <button
@@ -332,7 +352,7 @@ export function TombolTuang(props: Props) {
       data-teks-berhasil={teksBerhasil ? '' : undefined}
       style={
         {
-          '--durasi-tuang': `${durasiTuang(daftarHuruf.length)}ms`,
+          '--durasi-tuang': `${durasiTuang(daftarHuruf.length, cepat)}ms`,
           ...(adaProgres ? { '--progres': Math.min(1, Math.max(0, progres)) } : {}),
         } as CSSProperties
       }
