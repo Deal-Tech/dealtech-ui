@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { Button } from '@/components/ui/button/Button';
@@ -9,12 +9,15 @@ import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/Tomb
 import { ApiError } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import GoogleMark from './GoogleMark';
-import LoginArt from './LoginArt';
-import './login.css';
-
-import panelDealtech from '@/assets/panel-dealtechui.png';
+import KerangkaMasuk from './KerangkaMasuk';
 
 const TUJUAN_BAWAAN = '/dashboard';
+
+interface StateMasuk {
+  dari?: unknown;
+  // Dari halaman atur ulang
+  sandiDiatur?: boolean;
+}
 
 function jalurAman(nilai: unknown): string {
   if (typeof nilai !== 'string') return TUJUAN_BAWAAN;
@@ -34,7 +37,8 @@ export default function AdminLogin() {
   const [status, setStatus] = useState<StatusTuang>('idle');
   const [galat, setGalat] = useState('');
 
-  const tujuan = jalurAman((lokasi.state as { dari?: unknown } | null)?.dari);
+  const state = lokasi.state as StateMasuk | null;
+  const tujuan = jalurAman(state?.dari);
   // Animasi masuk masih berjalan
   const sedangMasuk = status === 'pending' || status === 'success';
 
@@ -61,104 +65,81 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-shell">
-        <div className="login-form-panel">
-          <div className="login-brand">
-            <span
-              role="img"
-              aria-label="ui.dealtech | Deal Tech"
-              className="login-brand__logo"
-              style={{
-                maskImage: `url(${panelDealtech})`,
-                WebkitMaskImage: `url(${panelDealtech})`,
-              }}
-            />
-          </div>
+    <KerangkaMasuk
+      judul="Semua kendali dalam satu panel"
+      teks="Data, laporan, dan pengaturan tersaji rapi di satu dashboard yang bisa diubah sesuai kebutuhan."
+    >
+      {state?.sandiDiatur ? (
+        <BadgeInfo variant="success" className="login-sambutan">
+          Kata sandi baru tersimpan. Silakan masuk dengan kata sandi itu.
+        </BadgeInfo>
+      ) : (
+        <BadgeInfo variant="info" icon={false} className="login-sambutan">
+          Selamat datang kembali! Pilih metode untuk masuk:
+        </BadgeInfo>
+      )}
 
-          <BadgeInfo variant="info" icon={false} className="login-sambutan">
-            Selamat datang kembali! Pilih metode untuk masuk:
-          </BadgeInfo>
+      <Button variant="ghost" className="login-google">
+        <GoogleMark />
+        Masuk dengan Google
+      </Button>
 
-          <Button variant="ghost" className="login-google">
-            <GoogleMark />
-            Masuk dengan Google
-          </Button>
+      <div className="login-divider">atau lanjut dengan email</div>
 
-          <div className="login-divider">atau lanjut dengan email</div>
-
-          <form className="login-form" onSubmit={submit}>
-            <div className="login-field login-field--email">
-              <InputText
-                name="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                autoComplete="username"
-                autoCapitalize="none"
-                spellCheck={false}
-                required
-              />
-            </div>
-
-            <div className="login-field login-field--password">
-              <InputText
-                name="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Kata sandi"
-                autoComplete="current-password"
-                required
-              />
-            </div>
-
-            <div className="login-baris-bantu">
-              <Checkbox
-                label="Ingat saya"
-                name="ingat"
-                checked={ingat}
-                onChange={(e) => setIngat(e.target.checked)}
-              />
-              <a className="login-forgot" href="#">
-                Lupa kata sandi?
-              </a>
-            </div>
-
-            {galat ? <BadgeInfo variant="error">{galat}</BadgeInfo> : null}
-
-            <TombolTuang
-              type="submit"
-              ikon="kunci"
-              status={status}
-              className="login-submit"
-              samarkan
-              teksBerhasil="Authorized"
-              teksGagal="Unauthorized"
-              onSelesai={(berhasil) => berhasil && navigate(tujuan, { replace: true })}
-            >
-              Masuk
-            </TombolTuang>
-          </form>
-
-          <p className="login-footnote">UI Dealtech Admin - Dikembangkan tech.mudahdeal.com</p>
+      <form className="login-form" onSubmit={submit}>
+        <div className="login-field login-field--email">
+          <InputText
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            autoComplete="username"
+            autoCapitalize="none"
+            spellCheck={false}
+            required
+          />
         </div>
 
-        <div className="login-art-panel">
-          <LoginArt />
-          <h2 className="login-art-title">Semua kendali dalam satu panel</h2>
-          <p className="login-art-text">
-            Data, laporan, dan pengaturan tersaji rapi di satu dashboard yang bisa diubah sesuai
-            kebutuhan.
-          </p>
-          <div className="login-dots" aria-hidden="true">
-            <span />
-            <span />
-            <span className="is-active" />
-          </div>
+        <div className="login-field login-field--password">
+          <InputText
+            name="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Kata sandi"
+            autoComplete="current-password"
+            required
+          />
         </div>
-      </div>
-    </div>
+
+        <div className="login-baris-bantu">
+          <Checkbox
+            label="Ingat saya"
+            name="ingat"
+            checked={ingat}
+            onChange={(e) => setIngat(e.target.checked)}
+          />
+          <Link className="login-forgot" to="/lupa-sandi" state={{ email: email.trim() }}>
+            Lupa kata sandi?
+          </Link>
+        </div>
+
+        {galat ? <BadgeInfo variant="error">{galat}</BadgeInfo> : null}
+
+        <TombolTuang
+          type="submit"
+          ikon="kunci"
+          status={status}
+          className="login-submit"
+          samarkan
+          teksBerhasil="Authorized"
+          teksGagal="Unauthorized"
+          onSelesai={(berhasil) => berhasil && navigate(tujuan, { replace: true })}
+        >
+          Masuk
+        </TombolTuang>
+      </form>
+    </KerangkaMasuk>
   );
 }

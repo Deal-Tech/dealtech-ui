@@ -1,4 +1,5 @@
 import { api, apiMentah, simpanCSRF, hapusCSRF } from '@/lib/api';
+import { MODE_DEMO, jeda } from '@/lib/demo';
 
 export type Peran = 'admin' | 'operator';
 
@@ -46,4 +47,40 @@ export async function keluar(): Promise<void> {
   } finally {
     hapusCSRF();
   }
+}
+
+export async function mintaTautanSandi(email: string): Promise<void> {
+  if (MODE_DEMO) {
+    await jeda();
+    return;
+  }
+  await api<{ terkirim: boolean }>('/api/v1/auth/forgot-password', {
+    method: 'POST',
+    body: { email },
+    tanpaCSRF: true,
+  });
+}
+
+export interface DataAturUlang {
+  token: string;
+  email: string;
+  sandi: string;
+  ulang: string;
+}
+
+export async function aturUlangSandi(data: DataAturUlang): Promise<void> {
+  if (MODE_DEMO) {
+    await jeda();
+    return;
+  }
+  await api<{ diatur: boolean }>('/api/v1/auth/reset-password', {
+    method: 'POST',
+    body: {
+      token: data.token,
+      email: data.email,
+      password: data.sandi,
+      password_confirmation: data.ulang,
+    },
+    tanpaCSRF: true,
+  });
 }

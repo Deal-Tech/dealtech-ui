@@ -5,6 +5,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ModalGalat from '@/components/ui/modal-galat/ModalGalat';
 import AdminApp from '@/layout/AdminApp';
 import AdminLogin from '@/pages/auth/AdminLogin';
+import AturUlangSandi from '@/pages/auth/AturUlangSandi';
+import LupaSandi from '@/pages/auth/LupaSandi';
 import { AuthProvider } from '@/lib/auth';
 
 import './index.css';
@@ -17,6 +19,8 @@ createRoot(document.getElementById('root')!).render(
         <ModalGalat />
         <Routes>
           <Route path="/login" element={<AdminLogin />} />
+          <Route path="/lupa-sandi" element={<LupaSandi />} />
+          <Route path="/atur-ulang-sandi" element={<AturUlangSandi />} />
           <Route path="/dashboard/*" element={<AdminApp />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

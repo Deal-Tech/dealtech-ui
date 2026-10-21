@@ -6,8 +6,8 @@ import './tombol-tuang.css';
 
 // Sama dengan status useMutation
 export type StatusTuang = 'idle' | 'pending' | 'success' | 'error';
-// login, simpan, cetak, unggah, hapus
-export type IkonTuang = 'file' | 'simpan' | 'kunci' | 'unggah' | 'hapus';
+// Ikon sesuai jenis aksi
+export type IkonTuang = 'file' | 'simpan' | 'kunci' | 'unggah' | 'hapus' | 'kirim';
 
 // Tolak: gagal dengan teks
 type Fase = 'diam' | 'samar' | 'tuang' | 'tunggu' | 'penuh' | 'centang' | 'kuras' | 'tolak' | 'kembali';
@@ -76,6 +76,12 @@ const BENTUK: Record<IkonTuang, BentukIkon> = {
     wadah: 'M5 6h14v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z',
     rincian: ['M3 6h18', 'M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'],
     centang: 'M8.5 14l2.5 2.5 4.5-5',
+  },
+  // Amplop, mis. kirim tautan
+  kirim: {
+    wadah: 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z',
+    rincian: ['m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'],
+    centang: 'M8.5 15l2.5 2.5 4.5-5',
   },
 };
 

@@ -55,14 +55,14 @@ penyalinan setengah jadi.
 Ke-58 folder di `src/components/ui/` milik v2.0-next juga ada di v3.0, dan
 dependensi npm-nya sama persis. Selisih di sisi element:
 
-- `tombol-tuang` — khusus v3: teks tombol dituang ke ikon selama proses (ikon simpan, unggah, hapus, file, kunci), lengkap dengan progres unggah dan label hasil
+- `tombol-tuang` — khusus v3: teks tombol dituang ke ikon selama proses (ikon simpan, unggah, hapus, file, kunci, kirim), lengkap dengan progres unggah dan label hasil
 - `stat-card` — di v3 kolom, ukuran ikon, dan format kartu mengikuti lebar wadah, teks panjang dipotong elipsis, plus `StatGrid` untuk deretan kartunya
 - `unggah-gambar` — di v3 tombolnya memakai `tombol-tuang`
 - teks badge bawaan `WelcomeCardV2`
 
 Berkas shell yang berbeda:
 
-- `src/pages/auth/` — v3 punya halaman login baru (`LoginArt.tsx`, `GoogleMark.tsx`) menggantikan `LoginBg.tsx` milik v2, dengan tombol masuk beranimasi tuang
+- `src/pages/auth/` — v3 punya halaman login baru (`LoginArt.tsx`, `GoogleMark.tsx`) menggantikan `LoginBg.tsx` milik v2, dengan tombol masuk beranimasi tuang, plus halaman lupa kata sandi (`/lupa-sandi`) dan atur ulang sandi (`/atur-ulang-sandi`)
 - `src/pages/pengaturan/`, `src/pages/produk/`, `src/pages/member/`, `src/pages/checkout/` — tombol simpan, hapus, dan unggah memakai `tombol-tuang`
 - `src/pages/dash/DashboardPage.tsx` dan `src/pages/element/ElementPage.tsx`
 - `src/components/layout/AdminHeader.tsx` — header bergaya dokumen

@@ -15,6 +15,9 @@
 .tombol-tuang--unggah {
   --isi-tinggi: 18px;
 }
+.tombol-tuang--kirim {
+  --isi-tinggi: 20px;
+}
 .tombol-tuang--hapus {
   --isi-tinggi: 18px;
   /* Tombol merah: centang ikut merah */
