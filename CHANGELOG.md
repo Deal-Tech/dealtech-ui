@@ -10,6 +10,8 @@
 - Tambah `StatGrid`: jumlah kolom mengikuti lebar wadah dengan baris seimbang (4 → 2 → 1, tanpa sisa 3 + 1), dipakai di dashboard dan katalog element.
 - Halaman login: panel kanan memakai adegan dashboard 3D beranimasi — lempeng bertebal, kartu melayang, angka menghitung, kamera bergoyang (diam saat reduced motion), logo 50% lebih besar dan lebih rapat ke sambutan, sambutan jadi `BadgeInfo`, judul dihapus, tombol Google tanpa border, kontrol di PC 10% lebih kecil, dan footer baru rata kiri.
 - Halaman pembayaran: keterangan bukti pembayaran jadi `BadgeInfo` tanpa ikon.
+- Tabel: semua isi sel dipotong elipsis supaya tinggi baris seragam, dan aksi baris jadi dropdown ikon titik tiga lewat `AksiBaris` (panel sama dengan menu akun di header) di dashboard, produk, member, dan katalog element.
+- Tambah `AGENTS.md` dan `CLAUDE.md` di starter v3.0: aturan tabel untuk asisten AI — satu sel satu data, isi satu baris, aksi lewat dropdown.
 
 ## v2.2.0 - 2026-09-18
 

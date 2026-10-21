@@ -26,7 +26,7 @@ export interface MenuAksiProps {
   ikon?: LucideIcon;
   /** Ciutkan jadi tombol ikon saja, mis. di dalam baris tabel yang sempit. */
   hanyaIkon?: boolean;
-  /** Dibaca pembaca layar saat tombolnya tanpa teks. */
+  /** Nama tombol untuk pembaca layar. */
   ariaLabel?: string;
   className?: string;
 }
@@ -142,7 +142,7 @@ export function MenuAksi({
         className={`menu-aksi__pemicu${teksPemicu ? '' : ' menu-aksi__pemicu--ikon'}`}
         aria-haspopup="menu"
         aria-expanded={terbuka}
-        aria-label={teksPemicu ? undefined : (ariaLabel ?? label)}
+        aria-label={ariaLabel ?? (teksPemicu ? undefined : label)}
         onClick={() => (terbuka ? tutup() : setTerbuka(true))}
       >
         {IkonPemicu ? <IkonPemicu className="menu-aksi__ikon" aria-hidden="true" /> : null}

@@ -73,6 +73,15 @@ Praktisnya: pilih **v3.0** untuk project baru. Pilih **v2.0-next** kalau sudah
 terlanjur memakai tampilannya. Komponen yang Anda `add` dari salah satunya bisa
 dipakai di keduanya tanpa penyesuaian.
 
+## Aturan tabel
+
+Starter v3.0 membawa `AGENTS.md` (dan `CLAUDE.md` yang mengimpornya), jadi asisten
+AI di project hasil `install` ikut aturan tabel yang sama:
+
+- Satu sel, satu data — tidak ada nama dengan nomor HP ditumpuk di bawahnya.
+- Isi sel selalu satu baris; yang melebihi kolom dipotong elipsis dengan tooltip isi lengkap.
+- Aksi baris lewat dropdown `AksiBaris` berpemicu ikon titik tiga, bukan deretan tombol ikon.
+
 ## Perintah
 
 - `install` untuk starter admin panel lengkap

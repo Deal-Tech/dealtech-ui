@@ -9,6 +9,7 @@ import {
 } from 'react';
 
 import { Checkbox } from '@/components/ui/checkbox/Checkbox';
+import { MenuAksi, type ItemAksi } from '@/components/ui/menu-aksi/MenuAksi';
 import { Pagination } from '@/components/ui/pagination/Pagination';
 import './tablelist-v1.css';
 
@@ -22,6 +23,7 @@ export interface TableListColumn {
   width?: string;
 }
 
+// Satu sel satu data (AGENTS.md)
 export type TableListRow = Record<string, ReactNode>;
 
 export interface PilihanTabel {
@@ -175,6 +177,24 @@ function useSeretGulir(pemicu: unknown) {
   }, []);
 
   return { wadahRef, bisaSeret, menyeret, mulai, tahanKlik };
+}
+
+export interface AksiBarisProps {
+  item: ItemAksi[];
+  /** Nama baris untuk pembaca layar. */
+  nama: string;
+}
+
+/** Aksi baris tabel, selalu dropdown. */
+export function AksiBaris({ item, nama }: AksiBarisProps) {
+  return (
+    <MenuAksi
+      hanyaIkon
+      item={item}
+      ariaLabel={`Aksi untuk ${nama}`}
+      className="tablelist-v1__menu"
+    />
+  );
 }
 
 export function TableListV1({
