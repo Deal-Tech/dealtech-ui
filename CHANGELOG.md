@@ -8,7 +8,7 @@
 - Tombol masuk, tombol simpan di pengaturan, produk, dan member, tombol unggah di `unggah-gambar` dan pembayaran, serta tombol hapus produk kini memakai `tombol-tuang`. Form dan modal baru ditutup sesudah animasi centang.
 - `StatCard` lebih dinamis: ukuran ikon, padding, dan jarak mengikuti lebar kartu (container query), kartu sempit beralih ke format kolom, judul dibatasi dua baris, dan nilai serta lencana dipotong elipsis tanpa keluar kartu.
 - Tambah `StatGrid`: jumlah kolom mengikuti lebar wadah dengan baris seimbang (4 → 2 → 1, tanpa sisa 3 + 1), dipakai di dashboard dan katalog element.
-- Halaman login: panel kanan memakai ilustrasi dashboard beranimasi (diam saat reduced motion), logo 50% lebih besar dan lebih rapat ke sambutan, sambutan jadi `BadgeInfo`, judul dihapus, tombol Google tanpa border, kontrol di PC 10% lebih kecil, dan footer baru rata kiri.
+- Halaman login: panel kanan memakai adegan dashboard 3D beranimasi — lempeng bertebal, kartu melayang, angka menghitung, kamera bergoyang (diam saat reduced motion), logo 50% lebih besar dan lebih rapat ke sambutan, sambutan jadi `BadgeInfo`, judul dihapus, tombol Google tanpa border, kontrol di PC 10% lebih kecil, dan footer baru rata kiri.
 - Halaman pembayaran: keterangan bukti pembayaran jadi `BadgeInfo` tanpa ikon.
 
 ## v2.2.0 - 2026-09-18

@@ -1,187 +1,247 @@
 import type { CSSProperties } from 'react';
+import {
+  Bell,
+  Check,
+  LayoutDashboard,
+  Package,
+  Search,
+  Settings,
+  ShoppingCart,
+  Users,
+  type LucideIcon,
+} from 'lucide-react';
 
 import './login-art.css';
 
-const MENU_Y = [72, 90, 108, 126, 144];
+const MENU: LucideIcon[] = [LayoutDashboard, Package, ShoppingCart, Users, Settings];
 
-const STAT = [
-  { x: 94, label: 26, nilai: 30 },
-  { x: 168, label: 30, nilai: 24 },
-  { x: 242, label: 22, nilai: 34 },
+const STAT: { ikon: LucideIcon; nilai: number; x: number; label: number }[] = [
+  { ikon: Package, nilai: 248, x: 88, label: 24 },
+  { ikon: ShoppingCart, nilai: 186, x: 156, label: 30 },
+  { ikon: Users, nilai: 92, x: 224, label: 20 },
 ];
-
-const GARIS = 'M102 156L118 147L134 151L150 137L166 141L182 127L198 132L214 121L226 124';
-const AREA = `${GARIS}L226 162L102 162Z`;
 
 const BARIS = [
-  { y: 190, nama: 50, jumlah: 30, pudar: 0.8 },
-  { y: 208, nama: 40, jumlah: 24, pudar: 0.45 },
+  { nama: 52, jumlah: 30, warna: 'var(--color-primary)' },
+  { nama: 40, jumlah: 24, warna: '#38bdf8' },
+  { nama: 46, jumlah: 28, warna: '#a78bfa' },
 ];
+
+// Lapisan tebal lempeng dashboard
+const TEBAL = [1, 2, 3, 4, 5];
+
+const PARTIKEL = [
+  { x: 10, y: 58, z: 40, s: 5 },
+  { x: 304, y: 72, z: 90, s: 4 },
+  { x: 36, y: 214, z: 110, s: 3 },
+  { x: 290, y: 222, z: 30, s: 6 },
+  { x: 150, y: 6, z: 70, s: 3 },
+  { x: 214, y: 242, z: 60, s: 4 },
+  { x: 2, y: 132, z: -30, s: 7 },
+  { x: 314, y: 150, z: -20, s: 5 },
+];
+
+const GARIS = 'M2 30L16 24L30 27L44 17L58 20L72 10L86 14L100 6L110 8';
+const AREA = `${GARIS}L110 36L2 36Z`;
+
+const vars = (v: Record<string, string | number>) => v as CSSProperties;
 
 function Jendela() {
   return (
-    <g clipPath="url(#la-jendela)">
-      {/* Sidebar biru */}
-      <rect x="22" y="34" width="62" height="192" fill="var(--color-primary-darker)" />
-      <rect x="32" y="46" width="9" height="9" rx="2.5" fill="#ffffff" />
-      <rect x="45" y="48" width="28" height="5" rx="2.5" fill="#ffffff" opacity=".85" />
-      <rect className="la-menu" x="28" y="64" width="50" height="16" rx="5" fill="#ffffff" fillOpacity=".16" />
-      {MENU_Y.map((y) => (
-        <g key={y} opacity=".7">
-          <rect x="34" y={y - 4} width="8" height="8" rx="2" fill="#ffffff" />
-          <rect x="47" y={y - 2} width="24" height="4" rx="2" fill="#ffffff" opacity=".6" />
-        </g>
+    <div className="la-jendela">
+      <div className="la-sidebar">
+        <span className="la-merek" />
+        <span className="la-merek-teks" />
+        <span className="la-menu-aktif" />
+        {MENU.map((Ikon, i) => (
+          <span key={i} className="la-menu" style={{ top: 38 + i * 18 }}>
+            <Ikon className="la-menu__ikon" strokeWidth={2.4} />
+            <span className="la-menu__teks" />
+          </span>
+        ))}
+        <span className="la-profil" />
+      </div>
+
+      <div className="la-kepala">
+        <span className="la-kepala__judul" />
+        <span className="la-kepala__cari">
+          <Search strokeWidth={2.8} />
+        </span>
+        <Bell className="la-kepala__lonceng" strokeWidth={2.4} />
+        <span className="la-kepala__avatar" />
+      </div>
+
+      {/* Slot tempat kartu melayang */}
+      {STAT.map((s) => (
+        <span key={s.x} className="la-slot" style={{ left: s.x - 24, top: 32, width: 62, height: 30 }} />
       ))}
+      <span className="la-slot" style={{ left: 64, top: 70, width: 128, height: 56 }} />
+      <span className="la-slot" style={{ left: 200, top: 70, width: 62, height: 56 }} />
 
-      {/* Header */}
-      <path d="M84 56h234" stroke="#eef2f7" />
-      <rect x="96" y="42" width="44" height="6" rx="3" fill="#cbd5e1" />
-      <rect x="200" y="40" width="72" height="10" rx="5" fill="#f1f5f9" />
-      <circle cx="302" cy="45" r="6" fill="var(--color-accent)" opacity=".85" />
-
-      {/* Kartu ringkasan */}
-      {STAT.map((s, i) => (
-        <g key={s.x}>
-          <rect x={s.x} y="64" width="66" height="32" rx="7" fill="#f1f5f9" />
-          <circle cx={s.x + 12} cy="80" r="6.5" fill="var(--color-primary)" fillOpacity=".12" />
-          <circle cx={s.x + 12} cy="80" r="2.6" fill="var(--color-primary)" />
-          <rect x={s.x + 23} y="72" width={s.label} height="4" rx="2" fill="#cbd5e1" />
-          <rect
-            className="la-nilai"
-            style={{ '--i': i } as CSSProperties}
-            x={s.x + 23}
-            y="80"
-            width={s.nilai}
-            height="7"
-            rx="3.5"
-            fill="#334155"
-          />
-        </g>
-      ))}
-
-      {/* Grafik garis */}
-      <rect x="94.5" y="104.5" width="139" height="65" rx="8" fill="#ffffff" stroke="#e2e8f0" />
-      <rect x="102" y="111" width="36" height="4" rx="2" fill="#cbd5e1" />
-      <path d="M102 130h124M102 146h124M102 162h124" stroke="#f1f5f9" />
-      <path className="la-area" d={AREA} fill="url(#la-area)" />
-      <path
-        className="la-garis"
-        d={GARIS}
-        pathLength={100}
-        stroke="var(--color-primary)"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle className="la-titik" cx="226" cy="124" r="3.2" fill="#ffffff" stroke="var(--color-primary)" strokeWidth="2" />
-
-      {/* Donat */}
-      <rect x="242.5" y="104.5" width="65" height="65" rx="8" fill="#ffffff" stroke="#e2e8f0" />
-      <circle cx="275" cy="133" r="15" stroke="#eef2f7" strokeWidth="6" />
-      <circle
-        className="la-donat"
-        cx="275"
-        cy="133"
-        r="15"
-        pathLength={100}
-        stroke="var(--color-accent)"
-        strokeWidth="6"
-        transform="rotate(-90 275 133)"
-      />
-      <rect x="258" y="157" width="34" height="4" rx="2" fill="#cbd5e1" />
-
-      {/* Tabel */}
-      <rect x="94.5" y="178.5" width="213" height="39" rx="8" fill="#ffffff" stroke="#e2e8f0" />
-      <rect className="la-sorot" x="98" y="182" width="206" height="16" rx="5" fill="#eaf2fb" />
-      {BARIS.map((b) => (
-        <g key={b.y}>
-          <circle cx="108" cy={b.y} r="4.5" fill="var(--color-primary)" opacity={b.pudar} />
-          <rect x="118" y={b.y - 2.5} width={b.nama} height="5" rx="2.5" fill="#cbd5e1" />
-          <rect x="206" y={b.y - 2.5} width={b.jumlah} height="5" rx="2.5" fill="#e2e8f0" />
-        </g>
-      ))}
-      <rect x="274" y="185" width="26" height="10" rx="5" fill="#e2e8f0" />
-      <g className="la-lencana">
-        <rect x="274" y="185" width="26" height="10" rx="5" fill="#22c55e" />
-        <path d="M283.5 190l2.4 2.4 4.6-4.6" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      </g>
-      <rect x="274" y="203" width="26" height="10" rx="5" fill="#dcfce7" />
-    </g>
+      <div className="la-tabel">
+        <span className="la-sorot" />
+        {BARIS.map((b, i) => (
+          <span key={i} className="la-baris" style={{ top: 5 + i * 12 }}>
+            <span className="la-baris__avatar" style={{ background: b.warna }} />
+            <span className="la-baris__nama" style={{ width: b.nama }} />
+            <span className="la-baris__jumlah" style={{ width: b.jumlah }} />
+            <span className={`la-baris__status la-baris__status--${i + 1}`} />
+          </span>
+        ))}
+        <span className="la-lencana">
+          <Check strokeWidth={4} />
+        </span>
+      </div>
+    </div>
   );
 }
 
-function Saklar() {
+function KartuStat() {
   return (
-    <g>
-      <g filter="url(#la-shadow)">
-        <rect x="250" y="8" width="78" height="30" rx="10" fill="#ffffff" />
-      </g>
-      <rect x="260" y="16.5" width="28" height="5" rx="2.5" fill="#cbd5e1" />
-      <rect x="260" y="25" width="18" height="4" rx="2" fill="#e2e8f0" />
-      <rect x="296" y="16" width="24" height="14" rx="7" fill="#cbd5e1" />
-      <rect className="la-saklar-nyala" x="296" y="16" width="24" height="14" rx="7" fill="#22c55e" />
-      <circle className="la-saklar-tombol" cx="303" cy="23" r="5" fill="#ffffff" />
-    </g>
+    <>
+      {STAT.map(({ ikon: Ikon, nilai, x, label }, i) => (
+        <div
+          key={x}
+          className="la-kartu la-stat"
+          style={{ left: x, ...vars({ '--z': '26px', '--tunda': `${-i * 0.7}s` }) }}
+        >
+          <span className="la-stat__chip">
+            <Ikon strokeWidth={2.4} />
+          </span>
+          <span className="la-stat__isi">
+            <span className="la-stat__label" style={{ width: label }} />
+            <span className="la-angka" style={vars({ '--la-target': nilai })} />
+          </span>
+        </div>
+      ))}
+    </>
   );
 }
 
-function Notifikasi() {
+function KartuGrafik() {
   return (
-    <g className="la-toast">
-      <g filter="url(#la-shadow)">
-        <rect x="4" y="204" width="96" height="34" rx="10" fill="#ffffff" />
-      </g>
-      <circle cx="21" cy="221" r="8" fill="#22c55e" />
-      <path d="M17.5 221l2.5 2.5 4.6-4.8" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <rect x="35" y="214" width="50" height="5" rx="2.5" fill="#334155" />
-      <rect x="35" y="223" width="36" height="4" rx="2" fill="#cbd5e1" />
-    </g>
-  );
-}
-
-/** Ilustrasi: dashboard starter yang bekerja */
-export default function LoginArt() {
-  return (
-    <svg
-      className="login-art"
-      viewBox="0 0 340 260"
-      fill="none"
-      role="img"
-      aria-label="Ilustrasi dashboard admin: ringkasan angka, grafik, dan tabel yang diperbarui"
-    >
-      <defs>
-        <filter id="la-shadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="8" stdDeviation="12" floodColor="#001f3d" floodOpacity="0.28" />
-        </filter>
-        <clipPath id="la-jendela">
-          <rect x="22" y="34" width="296" height="192" rx="14" />
-        </clipPath>
-        <linearGradient id="la-area" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="var(--color-primary)" stopOpacity=".22" />
-          <stop offset="1" stopColor="var(--color-primary)" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-
-      <g filter="url(#la-shadow)">
-        <rect x="22" y="34" width="296" height="192" rx="14" fill="#ffffff" />
-      </g>
-      <Jendela />
-      <Saklar />
-      <Notifikasi />
-
-      {/* Riak klik */}
-      <circle className="la-riak la-riak--menu" cx="54" cy="108" r="7" stroke="#ffffff" strokeWidth="1.5" />
-      <circle className="la-riak la-riak--saklar" cx="308" cy="23" r="7" stroke="var(--color-primary)" strokeWidth="1.5" />
-
-      <g className="la-kursor">
+    <div className="la-kartu la-grafik" style={vars({ '--z': '34px', '--tunda': '-1.6s' })}>
+      <span className="la-grafik__judul" />
+      <span className="la-grafik__legenda" />
+      <svg className="la-grafik__svg" viewBox="0 0 112 38" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="la-area" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="var(--color-accent)" stopOpacity=".35" />
+            <stop offset="1" stopColor="var(--color-accent)" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path d="M2 12h108M2 24h108M2 36h108" stroke="#eef2f7" strokeWidth="1" />
+        <path className="la-area" d={AREA} fill="url(#la-area)" />
         <path
-          d="M0 0v15.5l4.3-3.9 3 6.6 2.6-1.2-3-6.4h5.9Z"
-          fill="#ffffff"
-          stroke="#0f172a"
-          strokeWidth="1.2"
+          className="la-garis"
+          d={GARIS}
+          pathLength={100}
+          stroke="var(--color-primary)"
+          strokeWidth="2"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
-      </g>
-    </svg>
+        <circle className="la-titik" cx="110" cy="8" r="2.6" fill="#ffffff" stroke="var(--color-primary)" strokeWidth="1.8" />
+      </svg>
+    </div>
+  );
+}
+
+function KartuDonat() {
+  return (
+    <div className="la-kartu la-donat" style={vars({ '--z': '30px', '--tunda': '-2.4s' })}>
+      <svg className="la-donat__svg" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="15" stroke="#eef2f7" strokeWidth="6" />
+        <circle
+          className="la-busur"
+          cx="20"
+          cy="20"
+          r="15"
+          pathLength={100}
+          stroke="var(--color-accent)"
+          strokeWidth="6"
+          transform="rotate(-90 20 20)"
+        />
+      </svg>
+      <span className="la-angka la-angka--persen" style={vars({ '--la-target': 68 })} />
+      <span className="la-donat__label" />
+    </div>
+  );
+}
+
+function Melayang() {
+  return (
+    <>
+      <div className="la-tooltip">+12%</div>
+
+      <div className="la-kartu la-saklar">
+        <span className="la-saklar__label" />
+        <span className="la-saklar__sub" />
+        <span className="la-saklar__trek">
+          <span className="la-saklar__nyala" />
+          <span className="la-saklar__tombol" />
+        </span>
+      </div>
+
+      <div className="la-kartu la-toast">
+        <span className="la-toast__ikon">
+          <Check strokeWidth={3.4} />
+        </span>
+        <span className="la-toast__isi">
+          <span className="la-toast__judul">Tersimpan</span>
+          <span className="la-toast__sub" />
+        </span>
+      </div>
+    </>
+  );
+}
+
+/** Ilustrasi: dashboard starter 3D */
+export default function LoginArt() {
+  return (
+    <div
+      className="login-art"
+      role="img"
+      aria-label="Ilustrasi dashboard admin 3D: ringkasan angka, grafik, dan tabel yang diperbarui"
+    >
+      <div className="la-panggung">
+        <span className="la-cahaya" />
+        <span className="la-lantai" />
+        {TEBAL.map((i) => (
+          <span key={i} className="la-tebal" style={vars({ '--i': i })} />
+        ))}
+        <Jendela />
+        <KartuStat />
+        <KartuGrafik />
+        <KartuDonat />
+        <Melayang />
+
+        <span className="la-riak la-riak--menu" />
+        <span className="la-riak la-riak--saklar" />
+        {PARTIKEL.map((p, i) => (
+          <span
+            key={i}
+            className="la-partikel"
+            style={{
+              left: p.x,
+              top: p.y,
+              width: p.s,
+              height: p.s,
+              ...vars({ '--z': `${p.z}px`, '--tunda': `${-i * 1.3}s` }),
+            }}
+          />
+        ))}
+
+        <svg className="la-kursor" viewBox="0 0 14 20" fill="none" aria-hidden="true">
+          <path
+            d="M1 1v15.5l4.3-3.9 3 6.6 2.6-1.2-3-6.4h5.9Z"
+            fill="#ffffff"
+            stroke="#0f172a"
+            strokeWidth="1.2"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
   );
 }
