@@ -31,23 +31,23 @@
 .login-brand {
   display: inline-flex;
   align-items: center;
-  margin-bottom: 15px;
 }
 
 /* Lambangnya putih di atas transparan, jadi dipakai sebagai mask lalu dicat
    ulang dengan warna teks tema. */
 .login-brand__logo {
   display: block;
-  width: 170px;
+  width: 255px;
   max-width: 100%;
-  height: 32px;
+  /* Pangkas ruang kosong gambar */
+  height: 42px;
   background: var(--app-text);
   mask-repeat: no-repeat;
   mask-position: left center;
-  mask-size: contain;
+  mask-size: 100% auto;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: left center;
-  -webkit-mask-size: contain;
+  -webkit-mask-size: 100% auto;
 }
 
 .login-sambutan {
@@ -166,7 +166,7 @@
 
 .login-footnote {
   margin: 20px 0 0;
-  text-align: center;
+  text-align: left;
   font-size: 0.75rem;
   color: var(--app-text-faint);
 }
@@ -214,7 +214,7 @@
 
 .login-art-text {
   position: relative;
-  margin: -16px 0 0;
+  margin: -24px 0 0;
   max-width: 300px;
   font-size: 0.8rem;
   line-height: 1.6;

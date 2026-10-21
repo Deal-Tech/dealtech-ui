@@ -142,10 +142,7 @@ export default function AdminLogin() {
             </TombolTuang>
           </form>
 
-          <p className="login-footnote">
-            Copyright &copy; 2021 &ndash; {new Date().getFullYear()} DealTech &ndash; PT MUDAHDEAL
-            DIGITAL GRUP
-          </p>
+          <p className="login-footnote">UI Dealtech Admin - Dikembangkan tech.mudahdeal.com</p>
         </div>
 
         <div className="login-art-panel">

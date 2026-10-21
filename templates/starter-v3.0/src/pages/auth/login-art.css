@@ -1,0 +1,380 @@
+/* Satu siklus: muat, navigasi, simpan */
+.login-art {
+  --la-siklus: 8s;
+}
+
+/* Tanpa animasi: keadaan akhir */
+.la-kursor,
+.la-riak {
+  opacity: 0;
+}
+
+.la-garis {
+  stroke-dasharray: 100;
+}
+
+.la-donat {
+  stroke-dasharray: 68 100;
+}
+
+.la-nilai,
+.la-titik,
+.la-lencana,
+.la-riak {
+  transform-box: fill-box;
+}
+
+.la-nilai {
+  transform-origin: left center;
+}
+
+.la-titik,
+.la-lencana,
+.la-riak {
+  transform-origin: center;
+}
+
+.la-saklar-tombol {
+  transform: translateX(10px);
+}
+
+.la-kursor {
+  transform: translate(236px, 196px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .la-nilai {
+    animation: la-nilai var(--la-siklus) ease-in-out infinite;
+    /* Bertahap tanpa lompatan awal */
+    animation-delay: calc(var(--i, 0) * 0.24s - var(--la-siklus));
+  }
+
+  .la-garis {
+    animation: la-garis var(--la-siklus) ease-in-out infinite;
+  }
+
+  .la-area {
+    animation: la-area var(--la-siklus) ease-in-out infinite;
+  }
+
+  .la-titik {
+    animation: la-titik var(--la-siklus) ease-out infinite;
+  }
+
+  .la-donat {
+    animation: la-donat var(--la-siklus) ease-in-out infinite;
+  }
+
+  .la-menu {
+    animation: la-menu var(--la-siklus) ease-in-out infinite;
+  }
+
+  .la-kursor {
+    animation: la-kursor var(--la-siklus) ease-in-out infinite;
+  }
+
+  .la-riak--menu {
+    animation: la-riak-menu var(--la-siklus) ease-out infinite;
+  }
+
+  .la-riak--saklar {
+    animation: la-riak-saklar var(--la-siklus) ease-out infinite;
+  }
+
+  .la-saklar-tombol {
+    animation: la-saklar-tombol var(--la-siklus) ease-in-out infinite;
+  }
+
+  .la-saklar-nyala {
+    animation: la-saklar-nyala var(--la-siklus) ease-in-out infinite;
+  }
+
+  .la-sorot {
+    animation: la-sorot var(--la-siklus) ease-in-out infinite;
+  }
+
+  .la-lencana {
+    animation: la-lencana var(--la-siklus) ease-out infinite;
+  }
+
+  .la-toast {
+    animation: la-toast var(--la-siklus) ease-in-out infinite;
+  }
+}
+
+/* Angka ringkasan naik */
+@keyframes la-nilai {
+  0%,
+  2% {
+    transform: scaleX(0.35);
+  }
+  14%,
+  90% {
+    transform: scaleX(1);
+  }
+  98%,
+  100% {
+    transform: scaleX(0.35);
+  }
+}
+
+/* Grafik tergambar dari kiri */
+@keyframes la-garis {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  8% {
+    stroke-dashoffset: 100;
+    opacity: 1;
+  }
+  32%,
+  89% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  94% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  95%,
+  100% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+}
+
+@keyframes la-area {
+  0%,
+  28% {
+    opacity: 0;
+  }
+  36%,
+  89% {
+    opacity: 1;
+  }
+  94%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes la-titik {
+  0%,
+  30% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  33% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+  36%,
+  89% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  94%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Busur nol disembunyikan */
+@keyframes la-donat {
+  0%,
+  9% {
+    stroke-dashoffset: 68;
+    opacity: 0;
+  }
+  10% {
+    stroke-dashoffset: 68;
+    opacity: 1;
+  }
+  30%,
+  90% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  96% {
+    stroke-dashoffset: 68;
+    opacity: 1;
+  }
+  97%,
+  100% {
+    stroke-dashoffset: 68;
+    opacity: 0;
+  }
+}
+
+/* Menu aktif pindah setelah diklik */
+@keyframes la-menu {
+  0%,
+  52% {
+    transform: translateY(0);
+  }
+  58%,
+  90% {
+    transform: translateY(36px);
+  }
+  96%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Kursor: menu, saklar, kembali */
+@keyframes la-kursor {
+  0%,
+  38% {
+    opacity: 1;
+    transform: translate(236px, 196px) scale(1);
+  }
+  50% {
+    transform: translate(54px, 108px) scale(1);
+  }
+  51.5% {
+    transform: translate(54px, 108px) scale(0.82);
+  }
+  53%,
+  58% {
+    transform: translate(54px, 108px) scale(1);
+  }
+  70% {
+    transform: translate(308px, 23px) scale(1);
+  }
+  71.5% {
+    transform: translate(308px, 23px) scale(0.82);
+  }
+  73%,
+  86% {
+    transform: translate(308px, 23px) scale(1);
+  }
+  98%,
+  100% {
+    opacity: 1;
+    transform: translate(236px, 196px) scale(1);
+  }
+}
+
+@keyframes la-riak-menu {
+  0%,
+  50% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  51% {
+    opacity: 0.9;
+    transform: scale(0.6);
+  }
+  57%,
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes la-riak-saklar {
+  0%,
+  70% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  71% {
+    opacity: 0.9;
+    transform: scale(0.6);
+  }
+  77%,
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes la-saklar-tombol {
+  0%,
+  72% {
+    transform: translateX(0);
+  }
+  76%,
+  90% {
+    transform: translateX(10px);
+  }
+  94%,
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes la-saklar-nyala {
+  0%,
+  72% {
+    opacity: 0;
+  }
+  76%,
+  90% {
+    opacity: 1;
+  }
+  94%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Baris tabel diperbarui */
+@keyframes la-sorot {
+  0%,
+  75% {
+    opacity: 0;
+  }
+  79%,
+  90% {
+    opacity: 1;
+  }
+  94%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes la-lencana {
+  0%,
+  76% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  79% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  81%,
+  90% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  94%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Notifikasi tersimpan */
+@keyframes la-toast {
+  0%,
+  74% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  79%,
+  89% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  94%,
+  100% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
