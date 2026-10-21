@@ -64,6 +64,7 @@ Berkas shell yang berbeda:
 
 - `src/pages/auth/` — v3 punya halaman login baru (`LoginArt.tsx`, `KerangkaMasuk.tsx`) menggantikan `LoginBg.tsx` milik v2, dengan tombol masuk dan tombol Google beranimasi tuang, plus halaman lupa kata sandi (`/lupa-sandi`): kirim kode, verifikasi OTP, lalu sandi baru
 - `src/pages/maintenance/` — khusus v3: halaman pemeliharaan (`/maintenance`) berlatar biru penuh dengan adegan 3D server yang diperbaiki dan dioptimalkan
+- `src/pages/lydia/` dan `src/services/lydia.ts` — khusus v3: Lydia Chat UI (`/dashboard/lydia`), halaman chat AI layar penuh dengan riwayat di kiri, chat di kanan, lampiran, dan jawaban SSE
 - `src/lib/tema.ts` dan `src/pages/pengaturan/WarnaTema.tsx` — khusus v3: warna tema admin bisa diganti dari Pengaturan → Atur System (palet atau kode hex)
 - `src/pages/pengaturan/`, `src/pages/produk/`, `src/pages/member/`, `src/pages/checkout/` — tombol simpan, hapus, dan unggah memakai `tombol-tuang`
 - `src/pages/dash/DashboardPage.tsx` dan `src/pages/element/ElementPage.tsx`

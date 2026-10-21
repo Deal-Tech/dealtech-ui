@@ -614,6 +614,20 @@ html:has(.app-shell) body {
   color: var(--app-text);
 }
 
+/* Halaman layar penuh: sidebar laci */
+.app-sidebar--laci.is-terbuka {
+  box-shadow: 0 20px 48px rgba(var(--color-hitam-rgb), 0.28);
+}
+
+.app-sidebar--laci .sidebar-close-btn {
+  display: flex;
+}
+
+.app-main--penuh {
+  padding: 0;
+  scrollbar-gutter: auto;
+}
+
 /* Lambang di kepala sidebar duduk di atas putih, jadi dicat warna teks tema */
 .sidebar-brand__logo {
   background: var(--app-text);

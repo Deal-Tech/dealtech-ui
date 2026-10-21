@@ -24,7 +24,10 @@ export interface AppMenu {
 }
 
 export const menu: AppMenu = {
-  main: [{ key: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard', href: '/dashboard' }],
+  main: [
+    { key: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard', href: '/dashboard' },
+    { key: 'lydia', label: 'Lydia Chat UI', icon: 'bot', href: '/dashboard/lydia' },
+  ],
   groups: [
     {
       key: 'ui',
