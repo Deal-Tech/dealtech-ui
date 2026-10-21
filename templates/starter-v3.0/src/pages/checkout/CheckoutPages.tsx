@@ -288,10 +288,10 @@ export function PembayaranPage() {
           <div className="app-section-body checkout-stack">
             <RincianMetode metode={metode} />
             <div className="checkout-pemisah" />
-            <div>
-              <h2 className="checkout-judul">Bukti Pembayaran</h2>
-              <p className="checkout-keterangan">Bukti tidak dapat diganti setelah dikirim.</p>
-            </div>
+            <h2 className="checkout-judul">Bukti Pembayaran</h2>
+            <BadgeInfo variant="info" icon={false}>
+              Bukti tidak dapat diganti setelah dikirim.
+            </BadgeInfo>
 
             <input
               ref={inputRef}

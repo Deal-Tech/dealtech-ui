@@ -210,15 +210,10 @@
   text-align: right;
 }
 
-.checkout-rekening p,
-.checkout-keterangan {
+.checkout-rekening p {
   margin: 0;
   font-size: 11px;
   color: var(--app-text-muted);
-}
-
-.checkout-keterangan {
-  margin-top: 5px;
 }
 
 .checkout-qris {
