@@ -1,0 +1,796 @@
+/* Adegan 3D perbaikan, siklus 8 detik */
+.mt-art {
+  --mt-siklus: 8s;
+  position: relative;
+  width: 320px;
+  height: 250px;
+  flex: none;
+  perspective: 1000px;
+  perspective-origin: 50% 30%;
+}
+
+/* Persen bisa dianimasikan */
+@property --mt-n {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+
+.mt-panggung {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(18deg) rotateY(-22deg) rotateZ(5deg);
+}
+
+.mt-panggung > * {
+  position: absolute;
+  display: block;
+}
+
+/* --- Latar: cahaya, bayangan, tebal ------------------------------------- */
+
+.mt-cahaya {
+  left: -10px;
+  top: -20px;
+  width: 340px;
+  height: 290px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(126, 188, 255, 0.5), rgba(126, 188, 255, 0) 70%);
+  transform: translateZ(-110px);
+}
+
+.mt-lantai {
+  left: 44px;
+  top: 64px;
+  width: 232px;
+  height: 160px;
+  border-radius: 40%;
+  background: rgba(0, 16, 42, 0.6);
+  filter: blur(20px);
+  transform: translateZ(-46px);
+}
+
+.mt-tebal {
+  left: 24px;
+  top: 34px;
+  width: 272px;
+  height: 182px;
+  border-radius: 14px;
+  background: color-mix(in srgb, #7f97b6 calc(var(--i) * 20%), #c6d3e4);
+  transform: translateZ(calc(var(--i) * -2.2px));
+}
+
+/* --- Lempeng server ------------------------------------------------------ */
+
+.mt-lempeng {
+  left: 24px;
+  top: 34px;
+  width: 272px;
+  height: 182px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.mt-lempeng > * {
+  position: absolute;
+  display: block;
+}
+
+.mt-lempeng::after {
+  content: '';
+  position: absolute;
+  inset: -20% -60%;
+  background: linear-gradient(115deg, transparent 44%, rgba(255, 255, 255, 0.5) 50%, transparent 56%);
+  transform: translateX(-70%);
+  pointer-events: none;
+}
+
+.mt-kepala__chip {
+  left: 14px;
+  top: 11px;
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--color-primary) 12%, #ffffff);
+  color: var(--color-primary);
+}
+
+.mt-kepala__chip svg {
+  width: 11px;
+  height: 11px;
+}
+
+.mt-kepala__judul {
+  left: 38px;
+  top: 13px;
+  width: 70px;
+  height: 5px;
+  border-radius: 3px;
+  background: #cbd5e1;
+}
+
+.mt-kepala__sub {
+  left: 38px;
+  top: 23px;
+  width: 46px;
+  height: 3.5px;
+  border-radius: 2px;
+  background: #e2e8f0;
+}
+
+.mt-pil {
+  left: 120px;
+  top: 13px;
+  width: 54px;
+  height: 14px;
+}
+
+.mt-pil > span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  font-size: 6.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.mt-pil__perbaikan {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.mt-pil__optimal {
+  background: #dcfce7;
+  color: #15803d;
+  opacity: 0;
+}
+
+/* Rak server */
+.mt-rak {
+  left: 14px;
+  width: 244px;
+  height: 24px;
+  border-radius: 6px;
+  background: #f1f5f9;
+}
+
+.mt-rak > * {
+  position: absolute;
+}
+
+.mt-led {
+  top: 9.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.mt-led--daya {
+  left: 8px;
+}
+
+.mt-led--status {
+  left: 16px;
+}
+
+/* Kuning selama perbaikan */
+.mt-led--status::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #f59e0b;
+}
+
+.mt-ventilasi {
+  top: 7px;
+  width: 2px;
+  height: 10px;
+  border-radius: 1px;
+  background: #cbd5e1;
+}
+
+.mt-rak__nama {
+  left: 62px;
+  top: 10px;
+  height: 4px;
+  border-radius: 2px;
+  background: #cbd5e1;
+}
+
+.mt-beban {
+  right: 10px;
+  top: 9.5px;
+  width: 56px;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #e2e8f0;
+}
+
+.mt-beban__isi {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #f59e0b;
+  transform-origin: left;
+  transform: scaleX(calc(var(--beban) * 0.75));
+}
+
+/* Garis pindai menyapu rak */
+.mt-pindai {
+  left: 8px;
+  top: 37px;
+  width: 256px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-accent);
+  box-shadow: 0 0 8px 2px color-mix(in srgb, var(--color-accent) 55%, transparent);
+  opacity: 0;
+}
+
+/* Progres optimasi */
+.mt-progres__label,
+.mt-persen {
+  top: 134px;
+  font-size: 7.5px;
+  font-weight: 800;
+  line-height: 10px;
+}
+
+.mt-progres__label {
+  left: 14px;
+  color: #334155;
+}
+
+.mt-persen {
+  --mt-n: 68;
+  counter-reset: mt var(--mt-n);
+  left: 52px;
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.mt-persen::after {
+  content: counter(mt) '%';
+}
+
+.mt-progres {
+  left: 14px;
+  top: 149px;
+  width: 182px;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #e2e8f0;
+}
+
+.mt-progres__isi {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  transform-origin: left;
+  transform: scaleX(0.68);
+}
+
+.mt-progres__isi::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+  transform: translateX(-100%);
+}
+
+.mt-progres__sub {
+  left: 14px;
+  top: 163px;
+  width: 96px;
+  height: 3.5px;
+  border-radius: 2px;
+  background: #e2e8f0;
+}
+
+/* --- Benda melayang ------------------------------------------------------ */
+
+.mt-kartu {
+  border-radius: 9px;
+  background: #ffffff;
+  box-shadow:
+    0 2px 0 #d5deea,
+    0 18px 26px -12px rgba(1, 25, 55, 0.6);
+  transform: translateZ(var(--z, 30px));
+}
+
+.mt-gir {
+  filter: drop-shadow(0 10px 8px rgba(1, 25, 55, 0.45));
+  transform: translateZ(var(--z));
+}
+
+.mt-gir svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mt-gir--besar {
+  --z: 62px;
+  --tunda: -0.8s;
+  --mt-gir-garis: #e2e8f0;
+  --mt-gir-poros: var(--color-primary);
+  left: 266px;
+  top: -4px;
+  width: 64px;
+  height: 64px;
+  color: #ffffff;
+}
+
+/* Berkait dengan gir besar */
+.mt-gir--kecil {
+  --z: 62px;
+  --tunda: -0.8s;
+  --mt-gir-garis: rgba(255, 255, 255, 0.7);
+  --mt-gir-poros: var(--color-primary-dark);
+  left: 292px;
+  top: 47px;
+  width: 38px;
+  height: 38px;
+  color: #7dd3fc;
+}
+
+.mt-kunci {
+  left: -10px;
+  top: 108px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  color: var(--color-primary);
+}
+
+.mt-kunci svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mt-gauge {
+  left: 234px;
+  top: 172px;
+  width: 84px;
+  height: 56px;
+  padding: 7px 8px 0;
+}
+
+.mt-gauge svg {
+  display: block;
+  width: 68px;
+  height: 36px;
+}
+
+.mt-gauge__jarum {
+  transform-box: view-box;
+  transform-origin: 34px 32px;
+  transform: rotate(20deg);
+}
+
+.mt-gauge__label {
+  display: block;
+  width: 40px;
+  height: 3.5px;
+  margin: 4px auto 0;
+  border-radius: 2px;
+  background: #cbd5e1;
+}
+
+.mt-toast {
+  left: -16px;
+  top: 2px;
+  display: flex;
+  width: 116px;
+  height: 32px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 9px;
+  opacity: 0;
+  transform: translateZ(80px);
+}
+
+.mt-toast__ikon {
+  display: grid;
+  width: 16px;
+  height: 16px;
+  flex: none;
+  place-items: center;
+  border-radius: 50%;
+  background: #22c55e;
+  color: #ffffff;
+}
+
+.mt-toast__ikon svg {
+  width: 9px;
+  height: 9px;
+}
+
+.mt-toast__judul {
+  display: block;
+  font-size: 7.5px;
+  font-weight: 800;
+  line-height: 1;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+.mt-toast__sub {
+  display: block;
+  width: 50px;
+  height: 3.5px;
+  margin-top: 4px;
+  border-radius: 2px;
+  background: #cbd5e1;
+}
+
+.mt-partikel {
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+  transform: translateZ(var(--z));
+}
+
+/* --- Gerak --------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .mt-panggung {
+    animation: mt-kamera 14s ease-in-out infinite alternate;
+  }
+
+  .mt-cahaya {
+    animation: mt-denyut 6s ease-in-out infinite alternate;
+  }
+
+  .mt-lempeng::after {
+    animation: mt-kilau var(--mt-siklus) ease-in-out infinite;
+  }
+
+  .mt-gir,
+  .mt-kunci,
+  .mt-gauge {
+    animation: mt-melayang 5s ease-in-out infinite;
+    animation-delay: var(--tunda, 0s);
+  }
+
+  .mt-gir--besar svg {
+    animation: mt-putar 6s linear infinite;
+  }
+
+  /* 12:8 gigi, putar 1,5 kali */
+  .mt-gir--kecil svg {
+    animation: mt-putar 4s linear infinite reverse;
+  }
+
+  .mt-kunci svg {
+    animation: mt-kunci 1.1s ease-in-out infinite alternate;
+  }
+
+  .mt-partikel {
+    animation: mt-partikel 9s ease-in-out infinite alternate;
+    animation-delay: var(--tunda, 0s);
+  }
+
+  .mt-pindai {
+    animation: mt-pindai var(--mt-siklus) ease-in-out infinite;
+  }
+
+  .mt-led--status::after {
+    animation:
+      mt-kedip 0.7s steps(1) infinite,
+      mt-perbaikan var(--mt-siklus) linear infinite;
+  }
+
+  .mt-beban__isi {
+    animation: mt-beban var(--mt-siklus) ease-in-out infinite;
+    animation-delay: var(--tunda, 0s);
+  }
+
+  .mt-progres__isi {
+    animation: mt-progres var(--mt-siklus) ease-in-out infinite;
+  }
+
+  .mt-progres__isi::after {
+    animation: mt-kilap 1.4s linear infinite;
+  }
+
+  .mt-persen {
+    animation: mt-hitung var(--mt-siklus) ease-in-out infinite;
+  }
+
+  .mt-gauge__jarum {
+    animation: mt-jarum var(--mt-siklus) ease-in-out infinite;
+  }
+
+  .mt-pil__perbaikan {
+    animation: mt-pil-perbaikan var(--mt-siklus) ease-in-out infinite;
+  }
+
+  .mt-pil__optimal {
+    animation: mt-pil-optimal var(--mt-siklus) ease-out infinite;
+  }
+
+  .mt-toast {
+    animation: mt-toast var(--mt-siklus) ease-in-out infinite;
+  }
+}
+
+/* Kamera bergoyang pelan */
+@keyframes mt-kamera {
+  from {
+    transform: rotateX(20deg) rotateY(-28deg) rotateZ(6deg);
+  }
+  to {
+    transform: rotateX(12deg) rotateY(-14deg) rotateZ(3deg);
+  }
+}
+
+@keyframes mt-denyut {
+  from {
+    opacity: 0.7;
+    transform: translateZ(-110px) scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(-110px) scale(1.08);
+  }
+}
+
+@keyframes mt-kilau {
+  0%,
+  4% {
+    transform: translateX(-70%);
+  }
+  22%,
+  100% {
+    transform: translateX(70%);
+  }
+}
+
+@keyframes mt-melayang {
+  0%,
+  100% {
+    transform: translateZ(var(--z));
+  }
+  50% {
+    transform: translateZ(calc(var(--z) + 8px));
+  }
+}
+
+@keyframes mt-putar {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes mt-kunci {
+  from {
+    rotate: -28deg;
+  }
+  to {
+    rotate: 18deg;
+  }
+}
+
+@keyframes mt-partikel {
+  from {
+    opacity: 0.3;
+    transform: translate3d(0, 6px, var(--z));
+  }
+  to {
+    opacity: 0.9;
+    transform: translate3d(0, -10px, var(--z));
+  }
+}
+
+/* Sapu turun lalu naik */
+@keyframes mt-pindai {
+  0%,
+  6% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  9% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  32% {
+    transform: translateY(88px);
+  }
+  56% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  60%,
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mt-kedip {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* Lampu hijau setelah optimal */
+@keyframes mt-perbaikan {
+  0%,
+  61% {
+    visibility: visible;
+  }
+  62%,
+  97% {
+    visibility: hidden;
+  }
+  98%,
+  100% {
+    visibility: visible;
+  }
+}
+
+/* Beban turun, warna jadi hijau */
+@keyframes mt-beban {
+  0%,
+  10% {
+    background: #f59e0b;
+    transform: scaleX(var(--beban));
+  }
+  60%,
+  94% {
+    background: #22c55e;
+    transform: scaleX(0.32);
+  }
+  100% {
+    background: #f59e0b;
+    transform: scaleX(var(--beban));
+  }
+}
+
+@keyframes mt-progres {
+  0%,
+  6% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+  60%,
+  92% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  96% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+  97% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+}
+
+@keyframes mt-kilap {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes mt-hitung {
+  0%,
+  6% {
+    --mt-n: 0;
+    opacity: 1;
+  }
+  60%,
+  92% {
+    --mt-n: 100;
+    opacity: 1;
+  }
+  96% {
+    --mt-n: 100;
+    opacity: 0;
+  }
+  97% {
+    --mt-n: 0;
+    opacity: 0;
+  }
+  100% {
+    --mt-n: 0;
+    opacity: 1;
+  }
+}
+
+/* Jarum naik ke zona hijau */
+@keyframes mt-jarum {
+  0%,
+  8% {
+    transform: rotate(-75deg);
+  }
+  30% {
+    transform: rotate(-8deg);
+  }
+  36% {
+    transform: rotate(-22deg);
+  }
+  60% {
+    transform: rotate(62deg);
+  }
+  64%,
+  92% {
+    transform: rotate(56deg);
+  }
+  100% {
+    transform: rotate(-75deg);
+  }
+}
+
+@keyframes mt-pil-perbaikan {
+  0%,
+  58% {
+    opacity: 1;
+  }
+  62%,
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes mt-pil-optimal {
+  0%,
+  58% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  62% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  66%,
+  93% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes mt-toast {
+  0%,
+  64% {
+    opacity: 0;
+    transform: translateZ(50px) translateY(10px);
+  }
+  69%,
+  90% {
+    opacity: 1;
+    transform: translateZ(80px) translateY(0);
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: translateZ(80px) translateY(-6px);
+  }
+}

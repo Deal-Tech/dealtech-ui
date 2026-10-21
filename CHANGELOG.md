@@ -16,6 +16,7 @@
 - Tambah halaman lupa kata sandi (`/lupa-sandi`) tiga langkah: kirim kode (amplop berubah jadi pesawat kertas yang terbang), verifikasi OTP 6 angka, lalu kata sandi baru dengan meter kekuatan. Pesan terkirim selalu generik supaya email terdaftar tak bisa ditebak, kirim ulang berjeda 60 detik, dan selesai kembali ke login dengan pesan sukses. Mode demo menerima kode apa pun kecuali 000000.
 - Tambah element `kode-otp`: kotak kode sekali pakai yang menumpuk ke tengah jadi perisai hijau centang atau merah silang, lalu kosong lagi kalau ditolak.
 - Tambah `KerangkaMasuk`: kerangka bersama halaman masuk dan pemulihan sandi, dengan adegan 3D sendiri untuk lupa sandi (email berkode, kotak OTP terisi, gembok mengunci).
+- Tambah halaman pemeliharaan (`/maintenance`): latar biru penuh dengan lingkaran seperti login versi HP, tanpa scroll, dan adegan 3D server yang diperbaiki lalu dioptimalkan — garis pindai menyapu rak, beban turun ke hijau, progres optimasi 0–100%, jarum performa naik, gir berputar, kunci pas bergoyang, lalu muncul "Sistem optimal". Gerak berhenti saat reduced motion.
 - Tambah `AGENTS.md` dan `CLAUDE.md` di starter v3.0: aturan tabel untuk asisten AI — satu sel satu data, isi satu baris, aksi lewat dropdown.
 
 ## v2.2.0 - 2026-09-18
