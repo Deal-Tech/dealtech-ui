@@ -69,14 +69,14 @@
 /* Proporsi tombol disamakan dengan isian form di bawahnya */
 .login-page .login-google {
   width: 100%;
-  min-height: 46px;
-  gap: 10px;
-  padding: 0 20px;
-  border-radius: 10px;
+  min-height: 41.4px;
+  gap: 9px;
+  padding: 0 18px;
+  border-radius: 9px;
   border: 1px solid var(--app-border-strong);
   background: #ffffff;
   color: var(--app-text);
-  font-size: 0.9rem;
+  font-size: 0.81rem;
   font-weight: 700;
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
@@ -90,22 +90,22 @@
 .login-page .login-google > span {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
 }
 
 .login-google__mark {
-  width: 18px;
-  height: 18px;
+  width: 16.2px;
+  height: 16.2px;
   flex: 0 0 auto;
 }
 
 .login-divider {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 10px 0 18px;
+  gap: 10.8px;
+  margin: 9px 0 16.2px;
   color: var(--app-text-faint);
-  font-size: 0.74rem;
+  font-size: 0.666rem;
 }
 
 .login-divider::before,
@@ -123,12 +123,13 @@
 }
 
 .login-field .inputtext__field {
-  min-height: 46px;
-  padding-left: 40px;
-  border-radius: 10px;
+  min-height: 41.4px;
+  padding-left: 36px;
+  border-radius: 9px;
+  font-size: 11.7px;
   background-repeat: no-repeat;
-  background-position: 13px center;
-  background-size: 15px 15px;
+  background-position: 11.7px center;
+  background-size: 13.5px 13.5px;
 }
 
 .login-field--email .inputtext__field {
@@ -298,5 +299,11 @@
   .login-google__mark {
     width: 16px;
     height: 16px;
+  }
+
+  .login-divider {
+    gap: 12px;
+    margin: 10px 0 18px;
+    font-size: 0.74rem;
   }
 }
