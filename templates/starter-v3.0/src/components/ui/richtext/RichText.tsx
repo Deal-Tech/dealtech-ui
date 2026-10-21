@@ -302,10 +302,26 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
     }, JEDA_TUTUP_MS);
   };
 
+  const bukaGelembungBaru = (fokus: boolean) => {
+    const rentang = rentangTersimpan.current;
+    const rect = rentang ? rectTerakhir(rentang) : null;
+    // Kursor di baris kosong tanpa rect.
+    const jangkar = rect && (rect.width > 0 || rect.height > 0) ? rect : tombolTautanRef.current?.getBoundingClientRect();
+    if (!jangkar) return;
+    sorotRentang(rentang);
+    tampilkanGelembung(jangkar, null, fokus);
+  };
+
   const ikutiKursor = () => {
     if (disabled) return;
     const a = tautanDiKursor();
-    if (a) tampilkanGelembung(rectTerakhir(a), a);
+    if (a) {
+      tampilkanGelembung(rectTerakhir(a), a);
+      return;
+    }
+    simpanSeleksi();
+    // Tanpa fokus: Ctrl+B tetap jalan.
+    if (rentangTersimpan.current && !rentangTersimpan.current.collapsed) bukaGelembungBaru(false);
     else if (gelembungBuka && !penunjukDiAtas.current) tutupGelembung();
   };
 
@@ -347,12 +363,7 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
       return;
     }
     simpanSeleksi();
-    const rect = rentangTersimpan.current ? rectTerakhir(rentangTersimpan.current) : null;
-    // Kursor di baris kosong tanpa rect.
-    const jangkar = rect && (rect.width > 0 || rect.height > 0) ? rect : tombolTautanRef.current?.getBoundingClientRect();
-    if (!jangkar) return;
-    sorotRentang(rentangTersimpan.current);
-    tampilkanGelembung(jangkar, null, true);
+    bukaGelembungBaru(true);
   };
 
   const klikIsi = (e: MouseEvent<HTMLDivElement>) => {
