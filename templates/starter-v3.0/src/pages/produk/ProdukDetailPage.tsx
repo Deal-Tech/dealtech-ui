@@ -11,6 +11,7 @@ import { Modal } from '@/components/ui/modal/Modal';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { IsiKaya } from '@/components/ui/richtext/IsiKaya';
 import { TabButton } from '@/components/ui/tab-button/TabButton';
+import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ambilProdukSatu, hapusProduk, rupiah, type Produk } from '@/services/produk';
 import './produk.css';
 
@@ -35,8 +36,10 @@ export default function ProdukDetailPage() {
   /* Menghapus tidak bisa dibatalkan dan pemicunya sekarang cuma satu butir menu
      yang mudah tersenggol, jadi dikonfirmasi dulu. */
   const [tanyaHapus, setTanyaHapus] = useState(false);
-  const [prosesHapus, setProsesHapus] = useState(false);
+  const [statusHapus, setStatusHapus] = useState<StatusTuang>('idle');
   const [tab, setTab] = useState('deskripsi');
+  // Jangan tertutup di tengah animasi
+  const sibukHapus = statusHapus === 'pending' || statusHapus === 'success';
 
   useEffect(() => {
     let hidup = true;
@@ -79,6 +82,17 @@ export default function ProdukDetailPage() {
   }
 
   const habis = produk.stok === 0;
+
+  const hapus = async () => {
+    if (sibukHapus) return;
+    setStatusHapus('pending');
+    try {
+      await hapusProduk([produk.kode]);
+      setStatusHapus('success');
+    } catch {
+      setStatusHapus('error');
+    }
+  };
 
   return (
     <div className="produk-page space-y-6">
@@ -193,28 +207,21 @@ export default function ProdukDetailPage() {
 
       <Modal
         open={tanyaHapus}
-        onClose={() => (prosesHapus ? undefined : setTanyaHapus(false))}
+        onClose={() => (sibukHapus ? undefined : setTanyaHapus(false))}
         title="Hapus produk ini?"
         footer={
           <>
-            <Button variant="ghost" onClick={() => setTanyaHapus(false)} disabled={prosesHapus}>
+            <Button variant="ghost" onClick={() => setTanyaHapus(false)} disabled={sibukHapus}>
               Batal
             </Button>
-            <Button
-              icon={Trash2}
-              loading={prosesHapus}
-              onClick={async () => {
-                setProsesHapus(true);
-                try {
-                  await hapusProduk([produk.kode]);
-                  navigate('/dashboard/produk');
-                } catch {
-                  setProsesHapus(false);
-                }
-              }}
+            <TombolTuang
+              ikon="hapus"
+              status={statusHapus}
+              onClick={() => void hapus()}
+              onTuntas={() => navigate('/dashboard/produk')}
             >
-              {prosesHapus ? 'Menghapus…' : 'Hapus Sekarang'}
-            </Button>
+              Hapus Sekarang
+            </TombolTuang>
           </>
         }
       >

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PencilLine, Save, Share2, SlidersHorizontal, UserRound, X } from 'lucide-react';
+import { PencilLine, Share2, SlidersHorizontal, UserRound, X } from 'lucide-react';
 
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { Button } from '@/components/ui/button/Button';
@@ -7,6 +7,7 @@ import { InputText } from '@/components/ui/inputtext/InputText';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { Select } from '@/components/ui/select/Select';
 import { TabButton } from '@/components/ui/tab-button/TabButton';
+import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ApiError } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { PANJANG_MIN_SANDI, periksaSandi } from '@/lib/sandi';
@@ -66,7 +67,7 @@ export default function PengaturanPage() {
   const [galatKontak, setGalatKontak] = useState<GalatKontak>({});
   const [suksesKontak, setSuksesKontak] = useState('');
   const [memuatKontak, setMemuatKontak] = useState(false);
-  const [prosesKontak, setProsesKontak] = useState(false);
+  const [statusKontak, setStatusKontak] = useState<StatusTuang>('idle');
 
   useEffect(() => {
     if (!peranAdmin) return;
@@ -121,18 +122,18 @@ export default function PengaturanPage() {
       return;
     }
 
-    setProsesKontak(true);
+    setStatusKontak('pending');
     try {
       const k = await simpanKontak(kontak);
       setKontak(keInputKontak(k));
       setGalatKontak({});
       setSuksesKontak('Kontak publik tersimpan.');
+      setStatusKontak('success');
     } catch (err) {
       setGalatKontak({
         umum: err instanceof ApiError ? err.message : 'Kontak gagal disimpan.',
       });
-    } finally {
-      setProsesKontak(false);
+      setStatusKontak('error');
     }
   };
 
@@ -140,14 +141,14 @@ export default function PengaturanPage() {
   const [zona, setZona] = useState<ZonaWaktu>(pengguna?.zona_waktu ?? ZONA_WAKTU_BAWAAN);
   const [galatNama, setGalatNama] = useState('');
   const [suksesNama, setSuksesNama] = useState('');
-  const [prosesNama, setProsesNama] = useState(false);
+  const [statusNama, setStatusNama] = useState<StatusTuang>('idle');
 
   // ---- Informasi akun: ganti email ----
   const [tahap, setTahap] = useState<TahapEmail>('diam');
   const [emailBaru, setEmailBaru] = useState('');
   const [sandiEmail, setSandiEmail] = useState('');
   const [galatEmail, setGalatEmail] = useState<{ email?: string; sandi?: string; umum?: string }>({});
-  const [prosesEmail, setProsesEmail] = useState(false);
+  const [statusEmail, setStatusEmail] = useState<StatusTuang>('idle');
   const [suksesEmail, setSuksesEmail] = useState('');
 
   // ---- Ganti sandi ----
@@ -157,7 +158,7 @@ export default function PengaturanPage() {
   const [galatSandi, setGalatSandi] = useState<{ lama?: string; baru?: string; konfirmasi?: string }>(
     {},
   );
-  const [prosesSandi, setProsesSandi] = useState(false);
+  const [statusSandi, setStatusSandi] = useState<StatusTuang>('idle');
   const [suksesSandi, setSuksesSandi] = useState('');
 
   useEffect(() => {
@@ -184,7 +185,7 @@ export default function PengaturanPage() {
 
   const simpanProfil = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (prosesNama || !profilBerubah) return;
+    if (statusNama === 'pending' || !profilBerubah) return;
 
     const bersih = nama.trim();
     if (bersih.length < 3 || bersih.length > 100) {
@@ -192,17 +193,17 @@ export default function PengaturanPage() {
       return;
     }
 
-    setProsesNama(true);
+    setStatusNama('pending');
     setGalatNama('');
     setSuksesNama('');
     try {
       const user = await perbaruiAkun({ name: bersih, zona_waktu: zona });
       segarkan(user);
       setSuksesNama('Informasi akun berhasil disimpan.');
+      setStatusNama('success');
     } catch (err) {
       setGalatNama(err instanceof ApiError ? err.message : 'Gagal menyimpan informasi akun.');
-    } finally {
-      setProsesNama(false);
+      setStatusNama('error');
     }
   };
 
@@ -211,11 +212,14 @@ export default function PengaturanPage() {
     setEmailBaru('');
     setSandiEmail('');
     setGalatEmail({});
+    setStatusEmail('idle');
   };
+
+  const sibukEmail = statusEmail === 'pending' || statusEmail === 'success';
 
   const simpanEmail = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (prosesEmail) return;
+    if (sibukEmail) return;
 
     const tujuan = emailBaru.trim().toLowerCase();
     const galatBaru: typeof galatEmail = {};
@@ -226,25 +230,25 @@ export default function PengaturanPage() {
     setGalatEmail(galatBaru);
     if (Object.keys(galatBaru).length > 0) return;
 
-    setProsesEmail(true);
+    setStatusEmail('pending');
     try {
       const user = await gantiEmail(tujuan, sandiEmail);
       segarkan(user);
       setSuksesEmail(`Email berhasil diganti menjadi ${user.email}.`);
-      tutupFormEmail();
+      setSandiEmail('');
+      setStatusEmail('success');
     } catch (err) {
       const pesan = err instanceof ApiError ? err.message : 'Gagal mengganti email.';
       if (err instanceof ApiError && err.status === 401) setGalatEmail({ sandi: pesan });
       else if (err instanceof ApiError && err.status === 409) setGalatEmail({ email: pesan });
       else setGalatEmail({ umum: pesan });
-    } finally {
-      setProsesEmail(false);
+      setStatusEmail('error');
     }
   };
 
   const submitSandi = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (prosesSandi) return;
+    if (statusSandi === 'pending') return;
 
     const galatBaru: typeof galatSandi = {};
     if (!sandiLama) galatBaru.lama = 'Kata sandi saat ini wajib diisi.';
@@ -257,7 +261,7 @@ export default function PengaturanPage() {
     setGalatSandi(galatBaru);
     if (Object.keys(galatBaru).length > 0) return;
 
-    setProsesSandi(true);
+    setStatusSandi('pending');
     setSuksesSandi('');
     try {
       await gantiSandi(sandiLama, sandiBaru);
@@ -265,12 +269,12 @@ export default function PengaturanPage() {
       setSandiLama('');
       setSandiBaru('');
       setKonfirmasi('');
+      setStatusSandi('success');
     } catch (err) {
       const pesan = err instanceof ApiError ? err.message : 'Gagal mengganti kata sandi.';
       if (err instanceof ApiError && err.status === 401) setGalatSandi({ lama: pesan });
       else setGalatSandi({ baru: pesan });
-    } finally {
-      setProsesSandi(false);
+      setStatusSandi('error');
     }
   };
 
@@ -324,9 +328,14 @@ export default function PengaturanPage() {
               />
 
               <div className="pengaturan-aksi">
-                <Button type="submit" icon={Save} loading={prosesKontak} disabled={memuatKontak}>
+                <TombolTuang
+                  type="submit"
+                  ikon="simpan"
+                  status={statusKontak}
+                  disabled={memuatKontak}
+                >
                   Simpan Kontak
-                </Button>
+                </TombolTuang>
                 {suksesKontak ? <BadgeInfo variant="success">{suksesKontak}</BadgeInfo> : null}
                 {galatKontak.umum ? (
                   <BadgeInfo variant="error">{galatKontak.umum}</BadgeInfo>
@@ -363,9 +372,14 @@ export default function PengaturanPage() {
               </p>
 
               <div className="pengaturan-aksi">
-                <Button type="submit" icon={Save} loading={prosesKontak} disabled={memuatKontak}>
+                <TombolTuang
+                  type="submit"
+                  ikon="simpan"
+                  status={statusKontak}
+                  disabled={memuatKontak}
+                >
                   Simpan Kontak
-                </Button>
+                </TombolTuang>
                 {suksesKontak ? <BadgeInfo variant="success">{suksesKontak}</BadgeInfo> : null}
                 {galatKontak.umum ? (
                   <BadgeInfo variant="error">{galatKontak.umum}</BadgeInfo>
@@ -403,14 +417,19 @@ export default function PengaturanPage() {
                       setSuksesNama('');
                     }}
                     options={OPSI_ZONA}
-                    disabled={prosesNama}
+                    disabled={statusNama === 'pending'}
                   />
                 </div>
 
                 <div className="pengaturan-aksi">
-                  <Button type="submit" icon={Save} loading={prosesNama} disabled={!profilBerubah}>
-                    Simpan Nama &amp; Zona Waktu
-                  </Button>
+                  <TombolTuang
+                    type="submit"
+                    ikon="simpan"
+                    status={statusNama}
+                    disabled={!profilBerubah}
+                  >
+                    Simpan Nama & Zona Waktu
+                  </TombolTuang>
                   {suksesNama ? <BadgeInfo variant="success">{suksesNama}</BadgeInfo> : null}
                 </div>
               </form>
@@ -474,10 +493,15 @@ export default function PengaturanPage() {
                     />
 
                     <div className="pengaturan-aksi">
-                      <Button type="submit" icon={Save} loading={prosesEmail}>
+                      <TombolTuang
+                        type="submit"
+                        ikon="simpan"
+                        status={statusEmail}
+                        onTuntas={tutupFormEmail}
+                      >
                         Simpan Email
-                      </Button>
-                      <Button variant="ghost" icon={X} onClick={tutupFormEmail} disabled={prosesEmail}>
+                      </TombolTuang>
+                      <Button variant="ghost" icon={X} onClick={tutupFormEmail} disabled={sibukEmail}>
                         Batal
                       </Button>
                     </div>
@@ -524,9 +548,9 @@ export default function PengaturanPage() {
                 />
 
                 <div className="pengaturan-aksi">
-                  <Button type="submit" icon={Save} loading={prosesSandi}>
+                  <TombolTuang type="submit" ikon="simpan" status={statusSandi}>
                     Simpan Kata Sandi
-                  </Button>
+                  </TombolTuang>
                   {suksesSandi ? <BadgeInfo variant="success">{suksesSandi}</BadgeInfo> : null}
                 </div>
               </form>

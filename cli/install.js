@@ -365,7 +365,7 @@ ${colors.bold('Usage:')}
 ${colors.bold('Starter:')}
   ${colors.cyan('dealtech-ui')}          ${colors.dim('v1 - Tailwind inline, 29 element')}
   ${colors.cyan('dealtech-ui-v2-next')}  ${colors.dim('v2.0-next - token CSS, style per komponen, 58 element')}
-  ${colors.cyan('dealtech-ui-v3')}       ${colors.dim('v3.0 - element sama dengan v2, shell & tema baru')}
+  ${colors.cyan('dealtech-ui-v3')}       ${colors.dim('v3.0 - element v2 + tombol-tuang, shell & tema baru')}
   ${colors.dim('Bendera --v1 / --v2 / --v3 menimpa pilihan berdasarkan nama perintah.')}
 
 ${colors.bold('Examples:')}

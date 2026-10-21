@@ -12,13 +12,13 @@ import {
   QrCode,
   ReceiptText,
   ShoppingCart,
-  Upload,
   type LucideIcon,
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge/Badge';
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { Button } from '@/components/ui/button/Button';
+import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import './checkout.css';
 
 interface MetodeBayar {
@@ -232,6 +232,8 @@ export function PembayaranPage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [bukti, setBukti] = useState<File | null>(null);
   const [terkirim, setTerkirim] = useState(false);
+  const [statusUnggah, setStatusUnggah] = useState<StatusTuang>('idle');
+  const mengunggah = statusUnggah !== 'idle';
   const urlBukti = useMemo(() => {
     if (!bukti) return '';
     // Hanya blob lokal yang dipakai.
@@ -286,17 +288,17 @@ export function PembayaranPage() {
           <div className="app-section-body checkout-stack">
             <RincianMetode metode={metode} />
             <div className="checkout-pemisah" />
-            <div>
-              <h2 className="checkout-judul">Bukti Pembayaran</h2>
-              <p className="checkout-keterangan">Bukti tidak dapat diganti setelah dikirim.</p>
-            </div>
+            <h2 className="checkout-judul">Bukti Pembayaran</h2>
+            <BadgeInfo variant="info" icon={false}>
+              Bukti tidak dapat diganti setelah dikirim.
+            </BadgeInfo>
 
             <input
               ref={inputRef}
               type="file"
               className="checkout-bukti__input"
               accept="image/jpeg,image/png,image/webp"
-              disabled={terkirim}
+              disabled={terkirim || mengunggah}
               onChange={(e) => setBukti(e.target.files?.[0] ?? null)}
             />
 
@@ -314,12 +316,24 @@ export function PembayaranPage() {
               </>
             ) : (
               <div className="checkout-bukti__aksi">
-                <Button variant="ghost" icon={ImagePlus} onClick={() => inputRef.current?.click()}>
+                <Button
+                  variant="ghost"
+                  icon={ImagePlus}
+                  disabled={mengunggah}
+                  onClick={() => inputRef.current?.click()}
+                >
                   {bukti ? 'Ganti Bukti' : 'Pilih Bukti'}
                 </Button>
-                <Button icon={Upload} disabled={!bukti} onClick={() => setTerkirim(true)}>
+                {/* Ganti dengan unggahan ke backend */}
+                <TombolTuang
+                  ikon="unggah"
+                  status={statusUnggah}
+                  disabled={!bukti}
+                  onClick={() => setStatusUnggah('success')}
+                  onTuntas={() => setTerkirim(true)}
+                >
                   Unggah Bukti Pembayaran
-                </Button>
+                </TombolTuang>
               </div>
             )}
           </div>

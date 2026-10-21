@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Save } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { Button } from '@/components/ui/button/Button';
@@ -9,6 +9,7 @@ import { InputText } from '@/components/ui/inputtext/InputText';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { RichText } from '@/components/ui/richtext/RichText';
 import { Select } from '@/components/ui/select/Select';
+import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import {
   KATEGORI,
   ambilProduk,
@@ -63,8 +64,11 @@ export default function ProdukTambahPage() {
   const [isian, setIsian] = useState<Isian>(KOSONG);
   const [galat, setGalat] = useState<Partial<Record<keyof Isian, string>>>({});
   const [terpakai, setTerpakai] = useState<string[]>([]);
-  const [proses, setProses] = useState(false);
+  const [status, setStatus] = useState<StatusTuang>('idle');
   const [gagal, setGagal] = useState('');
+  // Dipakai setelah animasi centang
+  const tujuanRef = useRef('/dashboard/produk');
+  const proses = status === 'pending' || status === 'success';
 
   /* Kode yang sudah ada dipakai dua kali: untuk mengusulkan nomor berikutnya,
      dan untuk menolak kode kembar saat disimpan. */
@@ -116,7 +120,7 @@ export default function ProdukTambahPage() {
       return;
     }
 
-    setProses(true);
+    setStatus('pending');
     setGagal('');
     try {
       const data: Produk = {
@@ -131,10 +135,13 @@ export default function ProdukTambahPage() {
       else await tambahProduk(data);
       /* Sesudah mengubah, kembali ke detailnya — kodenya bisa saja ikut berganti,
          jadi yang dipakai kode baru, bukan kode rutenya. */
-      navigate(modeUbah ? `/dashboard/produk/${encodeURIComponent(data.kode)}` : '/dashboard/produk');
+      tujuanRef.current = modeUbah
+        ? `/dashboard/produk/${encodeURIComponent(data.kode)}`
+        : '/dashboard/produk';
+      setStatus('success');
     } catch {
       setGagal('Produk tidak bisa disimpan. Coba lagi sebentar lagi.');
-      setProses(false);
+      setStatus('error');
     }
   };
 
@@ -234,9 +241,14 @@ export default function ProdukTambahPage() {
               >
                 Batal
               </Button>
-              <Button type="submit" icon={Save} loading={proses}>
-                {proses ? 'Menyimpan…' : modeUbah ? 'Simpan Perubahan' : 'Simpan Produk'}
-              </Button>
+              <TombolTuang
+                type="submit"
+                ikon="simpan"
+                status={status}
+                onTuntas={() => navigate(tujuanRef.current)}
+              >
+                {modeUbah ? 'Simpan Perubahan' : 'Simpan Produk'}
+              </TombolTuang>
             </div>
           </form>
         </div>

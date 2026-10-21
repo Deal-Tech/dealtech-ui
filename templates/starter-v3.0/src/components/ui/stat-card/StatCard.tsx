@@ -1,4 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  Children,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from 'react';
 import type { LucideIcon } from 'lucide-react';
 
 import { fmtCompact } from '@/lib/format';
@@ -90,20 +98,90 @@ export function StatCard({
 
   return (
     <div className="stat-card">
-      <span className="stat-card__icon">
-        <Icon className="h-5 w-5" />
-      </span>
-      <div className="stat-card__body">
-        <span className="stat-card__title">{title}</span>
-        <span className={`stat-card__value ${sizeClass}`}>
+      <div className="stat-card__isi">
+        <span className="stat-card__icon">
+          <Icon className="h-5 w-5" />
+        </span>
+        <span className="stat-card__title" title={title}>
+          {title}
+        </span>
+        <span className={`stat-card__value ${sizeClass}`} title={String(display)}>
           <AngkaNaik value={display} />
         </span>
+        {helper ? (
+          <span
+            className={`stat-card__badge stat-card__badge--${nada}`}
+            title={helperTitle ?? helper}
+          >
+            {helper}
+          </span>
+        ) : null}
       </div>
-      {helper ? (
-        <span className={`stat-card__badge stat-card__badge--${nada}`} title={helperTitle}>
-          {helper}
-        </span>
-      ) : null}
+    </div>
+  );
+}
+
+/** Kolom terbanyak yang muat, baris seimbang. */
+function hitungKolom(lebar: number, celah: number, minLebar: number, jumlah: number): number {
+  if (jumlah < 2) return 1;
+  const muat = Math.max(1, Math.floor((lebar + celah) / (minLebar + celah)));
+  const baris = Math.ceil(jumlah / Math.min(muat, jumlah));
+  return Math.ceil(jumlah / baris);
+}
+
+function useKolomSeimbang(jumlah: number, minLebar: number) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const grid = ref.current;
+    if (!grid || typeof ResizeObserver === 'undefined') return undefined;
+
+    let kolomLalu = 0;
+    let bingkai = 0;
+    const atur = () => {
+      const celah = Number.parseFloat(getComputedStyle(grid).columnGap) || 0;
+      const kolom = hitungKolom(grid.clientWidth, celah, minLebar, jumlah);
+      if (kolom === kolomLalu) return;
+      kolomLalu = kolom;
+      grid.style.gridTemplateColumns = `repeat(${kolom}, minmax(0, 1fr))`;
+    };
+
+    atur();
+    // Tunda sebingkai, cegah loop observer
+    const pengamat = new ResizeObserver(() => {
+      cancelAnimationFrame(bingkai);
+      bingkai = requestAnimationFrame(atur);
+    });
+    pengamat.observe(grid);
+    return () => {
+      cancelAnimationFrame(bingkai);
+      pengamat.disconnect();
+    };
+  }, [jumlah, minLebar]);
+
+  return ref;
+}
+
+export interface StatGridProps {
+  children: ReactNode;
+  /** Lebar minimum kartu, dalam px. */
+  minLebar?: number;
+  className?: string;
+}
+
+/** Kolom mengikuti lebar wadah. */
+export function StatGrid({ children, minLebar = 150, className = '' }: StatGridProps) {
+  const ref = useKolomSeimbang(Children.toArray(children).length, minLebar);
+
+  return (
+    <div className={`stat-grid-wadah ${className}`}>
+      <div
+        ref={ref}
+        className="stat-grid"
+        style={{ '--stat-min': `${minLebar}px` } as CSSProperties}
+      >
+        {children}
+      </div>
     </div>
   );
 }
