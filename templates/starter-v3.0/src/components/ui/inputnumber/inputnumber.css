@@ -66,3 +66,7 @@
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+.inputnumber__field[hidden] {
+  display: none;
+}

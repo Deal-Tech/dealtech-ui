@@ -15,7 +15,7 @@ const KOLOM = [
   { key: 'nama', label: 'Nama' },
   { key: 'hp', label: 'No HP', width: '170px' },
   { key: 'email', label: 'Email' },
-  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px' },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px', skeleton: 'ikon' as const },
 ];
 
 interface Member {

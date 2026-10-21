@@ -39,8 +39,8 @@ const KOLOM = [
   { key: 'nama', label: 'Nama Item' },
   { key: 'tanggal', label: 'Tanggal', width: '130px' },
   { key: 'jumlah', label: 'Jumlah', align: 'right' as const, width: '150px' },
-  { key: 'status', label: 'Status', align: 'center' as const, width: '130px' },
-  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px' },
+  { key: 'status', label: 'Status', align: 'center' as const, width: '130px', skeleton: 'pil' as const },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px', skeleton: 'ikon' as const },
 ];
 
 type Status = 'aktif' | 'baru' | 'tinjau' | 'arsip';

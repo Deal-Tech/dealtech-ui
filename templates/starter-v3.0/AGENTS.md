@@ -134,3 +134,66 @@ aksi: (
 `TabelCardV1` adalah daftar kartu, bukan tabel. Judul dengan subjudul di
 bawahnya memang bagian dari desain kartu itu, jadi aturan di atas tidak berlaku
 untuknya.
+
+## Loading data (`Skeleton`)
+
+Halaman yang menunggu data menampilkan skeleton yang meniru susunan halaman itu
+sendiri. Jangan memakai spinner, teks "Memuat…", atau balok abu-abu acak di dalam
+halaman admin.
+
+1. **Bentuknya sama dengan tampilan jadinya.** Skeleton memakai wadah dan class
+   yang sama dengan halaman aslinya (`app-section-card`, kisi, form), jadi saat
+   data datang tidak ada yang bergeser.
+2. **Teks statis tetap asli.** Judul halaman, label, hint, nama tab, dan judul
+   kartu tidak menunggu data, jadi ditulis apa adanya. Yang diganti skeleton
+   hanya bagian yang berasal dari data.
+3. **Isian form pakai prop `memuat`.** `InputText`, `InputNumber`, `Select`, dan
+   `RichText` menerima `memuat`: label dan hint tetap, kotaknya jadi skeleton.
+4. **Tabel pakai `memuat` di `TableListV1`.** Header, toolbar, dan paginasi tetap;
+   barisnya jadi skeleton. Bentuk sel diatur lewat `skeleton` di definisi kolom:
+   `'ikon'` untuk kolom aksi, `'pil'` untuk kolom status ber-`Badge`, selebihnya
+   teks.
+5. **Kontrol yang bergantung data dibungkus `SkeletonBila`.** Tombol simpan,
+   menu aksi, dan badge status dirender tak terlihat di dalam skeleton, jadi
+   ukurannya persis sama. Tombol yang tetap berfungsi tanpa data, seperti
+   Kembali atau Batal, tetap tombol asli.
+6. **Nilai teks pakai `<Skeleton />` di dalam elemen teks aslinya**, supaya tinggi
+   barisnya ikut ukuran huruf aslinya.
+7. **Halaman detail punya komponen skeleton sendiri** di folder halamannya,
+   misalnya `ProdukDetailSkeleton.tsx`, dibungkus `SkeletonHalaman` supaya
+   pembaca layar mendengar status memuat.
+8. `Memuat` hanya untuk layar penuh di luar layout, misalnya saat memeriksa sesi.
+
+### Benar
+
+```tsx
+import { Skeleton, SkeletonBila } from '@/components/ui/skeleton/Skeleton';
+
+<PageTitle title="Ubah Produk" subtitle={memuat ? <Skeleton lebar={140} /> : produk.nama} />
+
+<InputText label="Nama Produk" value={isian.nama} memuat={memuat} required />
+
+<SkeletonBila memuat={memuat}>
+  <TombolTuang type="submit" ikon="simpan" status={status}>
+    Simpan Perubahan
+  </TombolTuang>
+</SkeletonBila>
+
+<Keterangan nama="Harga">
+  <p className="produk-detail__isi">{memuat ? <Skeleton lebar="60%" /> : rupiah(produk.harga)}</p>
+</Keterangan>
+```
+
+### Salah
+
+```tsx
+// Spinner atau teks di tengah halaman
+if (memuat) return <Memuat teks="Memuat produk…" />;
+
+// Balok acak yang tidak mengikuti susunan halaman
+if (memuat) return <div className="h-64 animate-pulse rounded bg-gray-200" />;
+
+// Label ikut dijadikan skeleton padahal teksnya sudah diketahui
+<Skeleton lebar={80} />
+<Skeleton bentuk="kotak" lebar="100%" tinggi={34} />
+```

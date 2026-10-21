@@ -56,6 +56,7 @@ import { RichText } from '@/components/ui/richtext/RichText';
 import { SearchInput } from '@/components/ui/search-input/SearchInput';
 import { SearchSelect } from '@/components/ui/search-select/SearchSelect';
 import { Select } from '@/components/ui/select/Select';
+import { Skeleton, SkeletonTeks } from '@/components/ui/skeleton/Skeleton';
 import { KartuPaket, type PaketItem } from '@/components/ui/kartu-paket/KartuPaket';
 import { StatCard, StatGrid } from '@/components/ui/stat-card/StatCard';
 import { TabButton } from '@/components/ui/tab-button/TabButton';
@@ -269,8 +270,8 @@ const KOLOM_TABEL = [
   { key: 'kode', label: 'Kode', width: '130px' },
   { key: 'nama', label: 'Nama Item' },
   { key: 'jumlah', label: 'Jumlah', align: 'right' as const, width: '110px' },
-  { key: 'status', label: 'Status', align: 'center' as const, width: '130px' },
-  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px' },
+  { key: 'status', label: 'Status', align: 'center' as const, width: '130px', skeleton: 'pil' as const },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px', skeleton: 'ikon' as const },
 ];
 
 type StatusItem = 'aktif' | 'baru' | 'tinjau' | 'arsip';
@@ -564,6 +565,16 @@ export default function ElementPage() {
 
         <Petak nama="Memuat" jalur="memuat/">
           <Memuat teks="Memuat data…" ukuran="halaman" />
+        </Petak>
+
+        <Petak nama="Skeleton" jalur="skeleton/">
+          <InputText label="Nama Produk" hint="Label dan hint tetap tampil." memuat required />
+          <SkeletonTeks />
+          <div className="flex items-center gap-2">
+            <Skeleton bentuk="pil" />
+            <Skeleton bentuk="kotak" lebar={30} tinggi={30} />
+            <Skeleton bentuk="bulat" lebar={32} tinggi={32} />
+          </div>
         </Petak>
 
         <Petak nama="KodeOtomatis" jalur="kode-otomatis/">

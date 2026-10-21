@@ -4,6 +4,7 @@ import { RotateCcw } from 'lucide-react';
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { Button } from '@/components/ui/button/Button';
 import { InputText } from '@/components/ui/inputtext/InputText';
+import { Skeleton, SkeletonBila } from '@/components/ui/skeleton/Skeleton';
 import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ApiError } from '@/lib/api';
 import {
@@ -130,14 +131,15 @@ export default function WarnaTema() {
               Warna tema admin
             </span>
             <div className="warna-tema" role="group" aria-labelledby="label-warna-tema">
-              <input
-                type="color"
-                className="warna-tema__pilih"
-                value={warna}
-                onChange={(e) => pilih(e.target.value)}
-                aria-label="Pilih warna"
-                disabled={memuat}
-              />
+              <SkeletonBila memuat={memuat}>
+                <input
+                  type="color"
+                  className="warna-tema__pilih"
+                  value={warna}
+                  onChange={(e) => pilih(e.target.value)}
+                  aria-label="Pilih warna"
+                />
+              </SkeletonBila>
               <div className="warna-tema__kode">
                 <InputText
                   value={kode}
@@ -150,10 +152,10 @@ export default function WarnaTema() {
                   autoCapitalize="none"
                   autoComplete="off"
                   spellCheck={false}
-                  disabled={memuat}
+                  memuat={memuat}
                 />
               </div>
-              {warna !== WARNA_BAWAAN ? (
+              {!memuat && warna !== WARNA_BAWAAN ? (
                 <Button variant="ghost" icon={RotateCcw} onClick={() => pilih(WARNA_BAWAAN)}>
                   Pakai Bawaan
                 </Button>
@@ -164,9 +166,13 @@ export default function WarnaTema() {
           <ul className="warna-tema__palet" aria-label="Turunan warna tema">
             {TURUNAN.map(({ kunci, label }) => (
               <li key={kunci}>
-                <span className="warna-tema__contoh" style={{ background: turunan[kunci] }} />
+                {memuat ? (
+                  <Skeleton bentuk="kotak" className="warna-tema__contoh" />
+                ) : (
+                  <span className="warna-tema__contoh" style={{ background: turunan[kunci] }} />
+                )}
                 <span className="warna-tema__nama">{label}</span>
-                <code>{turunan[kunci]}</code>
+                <code>{memuat ? <Skeleton lebar="70%" /> : turunan[kunci]}</code>
               </li>
             ))}
           </ul>
@@ -176,7 +182,7 @@ export default function WarnaTema() {
             kalau tidak disimpan, warna kembali saat halaman ini ditinggalkan.
           </BadgeInfo>
 
-          {kontrasPutih(warna) < KONTRAS_MIN ? (
+          {!memuat && kontrasPutih(warna) < KONTRAS_MIN ? (
             <BadgeInfo variant="warning">
               Warna ini terlalu terang, teks putih di tombol dan menu jadi sulit dibaca. Pilih
               warna yang lebih gelap.
@@ -184,14 +190,11 @@ export default function WarnaTema() {
           ) : null}
 
           <div className="pengaturan-aksi">
-            <TombolTuang
-              type="submit"
-              ikon="simpan"
-              status={status}
-              disabled={memuat || !berubah}
-            >
-              Simpan Warna
-            </TombolTuang>
+            <SkeletonBila memuat={memuat}>
+              <TombolTuang type="submit" ikon="simpan" status={status} disabled={!berubah}>
+                Simpan Warna
+              </TombolTuang>
+            </SkeletonBila>
             {sukses ? <BadgeInfo variant="success">{sukses}</BadgeInfo> : null}
             {galat ? <BadgeInfo variant="error">{galat}</BadgeInfo> : null}
           </div>

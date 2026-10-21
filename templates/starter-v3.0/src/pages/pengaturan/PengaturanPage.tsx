@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button/Button';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { Select } from '@/components/ui/select/Select';
+import { SkeletonBila } from '@/components/ui/skeleton/Skeleton';
 import { TabButton } from '@/components/ui/tab-button/TabButton';
 import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ApiError } from '@/lib/api';
@@ -67,7 +68,7 @@ export default function PengaturanPage() {
   const [kontak, setKontak] = useState<InputKontak>(KONTAK_KOSONG);
   const [galatKontak, setGalatKontak] = useState<GalatKontak>({});
   const [suksesKontak, setSuksesKontak] = useState('');
-  const [memuatKontak, setMemuatKontak] = useState(false);
+  const [memuatKontak, setMemuatKontak] = useState(peranAdmin);
   const [statusKontak, setStatusKontak] = useState<StatusTuang>('idle');
 
   useEffect(() => {
@@ -296,6 +297,7 @@ export default function PengaturanPage() {
                   value={kontak.whatsapp}
                   onChange={(e) => ubahKontak('whatsapp', e.target.value)}
                   error={galatKontak.whatsapp}
+                  memuat={memuatKontak}
                   hint="Boleh ditulis bebas — yang dipakai tautan wa.me cuma angkanya."
                   required
                 />
@@ -305,6 +307,7 @@ export default function PengaturanPage() {
                   value={kontak.email}
                   onChange={(e) => ubahKontak('email', e.target.value)}
                   error={galatKontak.email}
+                  memuat={memuatKontak}
                   required
                 />
                 <InputText
@@ -312,6 +315,7 @@ export default function PengaturanPage() {
                   value={kontak.lokasi}
                   onChange={(e) => ubahKontak('lokasi', e.target.value)}
                   error={galatKontak.lokasi}
+                  memuat={memuatKontak}
                   required
                 />
                 <InputText
@@ -319,6 +323,7 @@ export default function PengaturanPage() {
                   value={kontak.jam_buka}
                   onChange={(e) => ubahKontak('jam_buka', e.target.value)}
                   error={galatKontak.jam_buka}
+                  memuat={memuatKontak}
                   required
                 />
 
@@ -327,18 +332,16 @@ export default function PengaturanPage() {
                   value={kontak.maps}
                   onChange={(e) => ubahKontak('maps', e.target.value)}
                   error={galatKontak.maps}
+                  memuat={memuatKontak}
                   hint="Tempel alamat Google Maps lokasinya — koordinatnya diambil sendiri. Tautan pendek (maps.app.goo.gl) tidak bisa; buka dulu di peramban lalu salin alamat lengkap dari bilah alamat. Kosongkan kalau tidak ingin menampilkan peta."
                 />
 
                 <div className="pengaturan-aksi">
-                  <TombolTuang
-                    type="submit"
-                    ikon="simpan"
-                    status={statusKontak}
-                    disabled={memuatKontak}
-                  >
-                    Simpan Kontak
-                  </TombolTuang>
+                  <SkeletonBila memuat={memuatKontak}>
+                    <TombolTuang type="submit" ikon="simpan" status={statusKontak}>
+                      Simpan Kontak
+                    </TombolTuang>
+                  </SkeletonBila>
                   {suksesKontak ? <BadgeInfo variant="success">{suksesKontak}</BadgeInfo> : null}
                   {galatKontak.umum ? (
                     <BadgeInfo variant="error">{galatKontak.umum}</BadgeInfo>
@@ -364,6 +367,7 @@ export default function PengaturanPage() {
                   value={kontak[kunci]}
                   onChange={(e) => ubahKontak(kunci, e.target.value)}
                   error={galatKontak[kunci]}
+                  memuat={memuatKontak}
                   placeholder={contoh}
                   autoCapitalize="none"
                   spellCheck={false}
@@ -376,14 +380,11 @@ export default function PengaturanPage() {
               </BadgeInfo>
 
               <div className="pengaturan-aksi">
-                <TombolTuang
-                  type="submit"
-                  ikon="simpan"
-                  status={statusKontak}
-                  disabled={memuatKontak}
-                >
-                  Simpan Kontak
-                </TombolTuang>
+                <SkeletonBila memuat={memuatKontak}>
+                  <TombolTuang type="submit" ikon="simpan" status={statusKontak}>
+                    Simpan Kontak
+                  </TombolTuang>
+                </SkeletonBila>
                 {suksesKontak ? <BadgeInfo variant="success">{suksesKontak}</BadgeInfo> : null}
                 {galatKontak.umum ? (
                   <BadgeInfo variant="error">{galatKontak.umum}</BadgeInfo>

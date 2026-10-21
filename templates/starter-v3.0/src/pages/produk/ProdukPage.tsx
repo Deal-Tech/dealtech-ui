@@ -15,7 +15,7 @@ const KOLOM = [
   { key: 'kategori', label: 'Kategori', width: '150px' },
   { key: 'harga', label: 'Harga', align: 'right' as const, width: '150px' },
   { key: 'stok', label: 'Stok', align: 'right' as const, width: '100px' },
-  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px' },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px', skeleton: 'ikon' as const },
 ];
 
 export default function ProdukPage() {
@@ -149,7 +149,8 @@ export default function ProdukPage() {
           } produk`,
           onNavigasi: setHalaman,
         }}
-        emptyText={memuat ? 'Memuat produk…' : 'Tidak ada produk yang cocok.'}
+        memuat={memuat}
+        emptyText="Tidak ada produk yang cocok."
       />
     </div>
   );

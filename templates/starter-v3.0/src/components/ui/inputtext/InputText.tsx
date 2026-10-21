@@ -1,6 +1,7 @@
 import { forwardRef, useId, useState, type ChangeEvent, type InputHTMLAttributes } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 
+import { Skeleton } from '@/components/ui/skeleton/Skeleton';
 import { formatCurrencyInputValue, normalizeCurrencyDigits } from '@/lib/currency';
 import './inputtext.css';
 
@@ -9,10 +10,12 @@ export interface InputTextProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   hint?: string;
   currency?: boolean;
+  /** Label tetap, kotak jadi skeleton. */
+  memuat?: boolean;
 }
 
 export const InputText = forwardRef<HTMLInputElement, InputTextProps>(function InputText(
-  { label, error, hint, className = '', type, currency = false, onChange, value, inputMode, pattern, required, id, ...props },
+  { label, error, hint, className = '', type, currency = false, memuat = false, onChange, value, inputMode, pattern, required, id, ...props },
   ref,
 ) {
   const idOtomatis = useId();
@@ -53,7 +56,8 @@ export const InputText = forwardRef<HTMLInputElement, InputTextProps>(function I
           {required ? <span className="inputtext__req">*</span> : null}
         </label>
       ) : null}
-      <div className={`inputtext__wrap ${sandi ? 'inputtext__wrap--sandi' : ''}`}>
+      {memuat ? <Skeleton bentuk="kotak" blok className="skeleton-kontrol" /> : null}
+      <div className={`inputtext__wrap ${sandi ? 'inputtext__wrap--sandi' : ''}`} hidden={memuat}>
         <input
           ref={ref}
           id={idField}

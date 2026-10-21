@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 
+import { Skeleton, SkeletonTeks } from '@/components/ui/skeleton/Skeleton';
 import { GelembungTautan, hitungPosisiGelembung, rectTerakhir, type PosisiGelembung } from './GelembungTautan';
 import './richtext.css';
 
@@ -181,9 +182,38 @@ export interface RichTextProps {
   placeholder?: string;
   error?: string;
   disabled?: boolean;
+  /** Label tetap, editor jadi skeleton. */
+  memuat?: boolean;
 }
 
-export function RichText({ value, onChange, label, placeholder, error, disabled = false }: RichTextProps) {
+// Tombol format plus tautan
+const JUMLAH_TOMBOL = TOMBOL.length + 1;
+
+export function RichTextSkeleton({ label }: { label?: string }) {
+  return (
+    <div className="richtext">
+      {label ? <span className="richtext__label">{label}</span> : null}
+      <div className="richtext__kotak">
+        <div className="richtext__toolbar">
+          {Array.from({ length: JUMLAH_TOMBOL }, (_, i) => (
+            <Skeleton key={i} bentuk="kotak" lebar={32} tinggi={32} />
+          ))}
+        </div>
+        <div className="richtext__konten">
+          <SkeletonTeks />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Editor dipasang ulang setelah memuat
+export function RichText({ memuat = false, ...props }: RichTextProps) {
+  if (memuat) return <RichTextSkeleton label={props.label} />;
+  return <EditorRichText {...props} />;
+}
+
+function EditorRichText({ value, onChange, label, placeholder, error, disabled = false }: RichTextProps) {
   const ref = useRef<HTMLDivElement>(null);
   const htmlTerakhir = useRef<string>('');
   const rentangTersimpan = useRef<Range | null>(null);

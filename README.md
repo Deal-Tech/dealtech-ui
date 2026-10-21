@@ -186,7 +186,7 @@ Alias umum seperti `action-button`, `page-header`, `search-input`, `scroll-to-to
 
 `action-button`, `badge`, `badgeinfo`, `badgev2`, `bilah-lipat`, `blok-tentang`, `button`, `cardbar-chart`, `cardbar-list`, `chartbar-ganda`, `chartbarhor`, `chartbarver`, `chartline`, `chartlinev2`, `chartlistbar`, `chartpie`, `charttoplist`, `checkbox`, `date-input`, `heatmap`, `hex-backdrop`, `inputlongtext`, `inputnumber`, `inputtext`, `kalender`, `kartu-katalog`, `kartu-paket`, `kepala-publik`, `kode-otomatis`, `label-qr`, `lembar-cetak`, `lightbox`, `logo-shape`, `memuat`, `menu-aksi`, `modal`, `modal-galat`, `pagetitle`, `pagination`, `peta-titik`, `pilih-banyak`, `pita-berjalan`, `progress-bar`, `proses-modal`, `protected-route`, `richtext`, `search-input`, `search-select`, `select`, `stat-card`, `tab-button`, `tabelcardv1`, `table-toolbar`, `tablelist-v1`, `toggleonoff`, `ulasan-berjalan`, `unggah-gambar`, `welcome-card-v2`
 
-Khusus v3: `tombol-tuang`, `kode-otp`.
+Khusus v3: `tombol-tuang`, `kode-otp`, `skeleton`.
 
 Tanda hubung boleh dilepas: `add searchselect` sama dengan `add search-select`.
 

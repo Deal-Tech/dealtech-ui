@@ -145,3 +145,10 @@
 .select__check--visible {
   opacity: 1;
 }
+
+.select__trigger[hidden] {
+  display: none;
+}
+.skeleton.select__skeleton {
+  border-radius: 8px;
+}

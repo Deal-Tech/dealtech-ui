@@ -23,6 +23,7 @@
 - Kontrak backend Lydia (kunci API model hanya di backend): `GET /api/v1/lydia/percakapan`, `GET`/`DELETE /api/v1/lydia/percakapan/{id}`, `POST /api/v1/lydia/lampiran` (multipart `berkas`), `POST /api/v1/lydia/chat` berisi `{ percakapan_id, pesan, lampiran }` yang menjawab SSE dengan event `mulai`, `potongan`, `selesai`, dan `galat`, serta `GET`/`PUT /api/v1/lydia/pengaturan`. Mode demo menyimulasikan semuanya.
 - Tambah `AGENTS.md` dan `CLAUDE.md` di starter v3.0: aturan tabel untuk asisten AI — satu sel satu data, isi satu baris, aksi lewat dropdown.
 - `RichText` (juga di v2.0-next): modal tautan diganti gelembung di bawah teks. Gelembung muncul begitu teks diblok (tanpa merebut fokus, jadi Ctrl+B tetap jalan) atau saat kursor atau penunjuk berada di tautan, berisi URL, terapkan, buka, dan hapus. Teks terpilih tetap tersorot, dan tombol toolbar berlatar putih supaya tidak menyatu dengan bilah.
+- Tambah element `skeleton` dan pakai di semua halaman yang memuat data: daftar produk (baris tabel dengan bentuk sel per kolom), detail produk, ubah produk, serta Pengaturan (warna tema, kontak, sosmed). Skeleton meniru susunan halamannya — label, hint, dan judul tetap teks asli, hanya bagian data yang berkilau — jadi tidak ada yang bergeser saat data datang. `InputText`, `InputNumber`, `Select`, `RichText`, dan `TableListV1` kini menerima prop `memuat`, dan aturannya ditulis di `AGENTS.md`.
 
 ## v2.2.0 - 2026-09-18
 
