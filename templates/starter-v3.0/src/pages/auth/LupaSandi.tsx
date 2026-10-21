@@ -134,7 +134,6 @@ function LangkahEmail({ email, onEmail, onTerkirim }: LangkahEmailProps) {
           ikon="kirim"
           status={pengirim.status}
           className="login-submit"
-          samarkan
           teksBerhasil="Berhasil terkirim"
           onTuntas={onTerkirim}
         >

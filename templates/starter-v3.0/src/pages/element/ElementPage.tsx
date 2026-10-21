@@ -437,7 +437,7 @@ export default function ElementPage() {
             <DemoTuang ikon="simpan" label="Simpan" />
             <DemoTuang ikon="unggah" variant="ghost" label="Unggah Berkas" unggah />
             <DemoTuang ikon="file" variant="ghost" label="Cetak PDF" />
-            <DemoTuang ikon="kirim" variant="ghost" label="Kirim Kode" samarkan teksBerhasil="Berhasil terkirim" />
+            <DemoTuang ikon="kirim" variant="ghost" label="Kirim Kode" teksBerhasil="Berhasil terkirim" />
             <DemoTuang ikon="hapus" label="Hapus" gagal />
           </div>
           <div className="element-baris">
