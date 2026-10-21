@@ -41,8 +41,8 @@
 .richtext__toolbar {
   display: flex;
   flex-wrap: wrap;
-  gap: 2px;
-  padding: 4px 8px;
+  gap: 6px;
+  padding: 6px 8px;
   border-bottom: 1px solid var(--app-border);
   background: var(--app-fill);
   position: sticky;
@@ -56,9 +56,9 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: 50%;
   border: 0;
-  background: transparent;
+  background: var(--app-surface);
   color: var(--app-body-text);
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
