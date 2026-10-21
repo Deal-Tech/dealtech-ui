@@ -65,6 +65,12 @@
   animation: tombol-tuang-goyang 0.9s ease-in-out 0.5s infinite alternate;
 }
 
+/* Gembok berat bawah: angkat sedikit */
+.tombol-tuang--kunci .tombol-tuang__ikon {
+  position: relative;
+  top: -0.1em;
+}
+
 .tombol-tuang__datar {
   transform-origin: 12px 12px;
   transform: rotate(calc(var(--miring) * -1));
