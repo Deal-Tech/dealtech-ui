@@ -7,19 +7,9 @@ import { InputText } from '@/components/ui/inputtext/InputText';
 import { Modal } from '@/components/ui/modal/Modal';
 import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ApiError } from '@/lib/api';
-import {
-  MAKS_SARAN,
-  hapusPercakapan,
-  simpanPengaturanLydia,
-  ubahJudulPercakapan,
-  type PengaturanLydia,
-  type RingkasanPercakapan,
-} from '@/services/lydia';
+import { MAKS_SARAN, simpanPengaturanLydia, type PengaturanLydia } from '@/services/lydia';
 
 const MAKS_NAMA = 40;
-const MAKS_JUDUL = 80;
-
-const pesanGalat = (e: unknown, cadangan: string) => (e instanceof ApiError ? e.message : cadangan);
 
 interface PengaturanModalProps {
   pengaturan: PengaturanLydia;
@@ -65,7 +55,7 @@ export function PengaturanLydiaModal({ pengaturan, onClose, onTersimpan }: Penga
       onTersimpan(hasil);
       setStatus('success');
     } catch (err) {
-      setGalat({ umum: pesanGalat(err, 'Pengaturan Lydia gagal disimpan.') });
+      setGalat({ umum: err instanceof ApiError ? err.message : 'Pengaturan Lydia gagal disimpan.' });
       setStatus('error');
     }
   };
@@ -127,122 +117,6 @@ export function PengaturanLydiaModal({ pengaturan, onClose, onTersimpan }: Penga
         />
         {galat.umum ? <BadgeInfo variant="error">{galat.umum}</BadgeInfo> : null}
       </form>
-    </Modal>
-  );
-}
-
-interface PercakapanModalProps {
-  percakapan: RingkasanPercakapan;
-  onClose: () => void;
-}
-
-export function UbahJudulModal({
-  percakapan,
-  onClose,
-  onTersimpan,
-}: PercakapanModalProps & { onTersimpan: (c: RingkasanPercakapan) => void }) {
-  const idForm = useId();
-  const [judul, setJudul] = useState(percakapan.judul);
-  const [galat, setGalat] = useState('');
-  const [menyimpan, setMenyimpan] = useState(false);
-
-  const simpan = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const bersih = judul.trim();
-    if (!bersih) {
-      setGalat('Judul wajib diisi.');
-      return;
-    }
-    setMenyimpan(true);
-    try {
-      onTersimpan(await ubahJudulPercakapan(percakapan.id, bersih));
-      onClose();
-    } catch (err) {
-      setGalat(pesanGalat(err, 'Judul gagal diganti.'));
-      setMenyimpan(false);
-    }
-  };
-
-  return (
-    <Modal
-      open
-      onClose={onClose}
-      title="Ganti nama percakapan"
-      footer={
-        <>
-          <Button variant="ghost" onClick={onClose} disabled={menyimpan}>
-            Batal
-          </Button>
-          <Button type="submit" form={idForm} loading={menyimpan}>
-            Simpan
-          </Button>
-        </>
-      }
-    >
-      <form id={idForm} onSubmit={simpan}>
-        <InputText
-          label="Judul"
-          value={judul}
-          onChange={(e) => {
-            setJudul(e.target.value);
-            setGalat('');
-          }}
-          error={galat}
-          maxLength={MAKS_JUDUL}
-          autoFocus
-          required
-        />
-      </form>
-    </Modal>
-  );
-}
-
-export function HapusPercakapanModal({
-  percakapan,
-  onClose,
-  onTerhapus,
-}: PercakapanModalProps & { onTerhapus: (id: string) => void }) {
-  const [status, setStatus] = useState<StatusTuang>('idle');
-  const [galat, setGalat] = useState('');
-  const sibuk = status === 'pending' || status === 'success';
-
-  const hapus = async () => {
-    setStatus('pending');
-    setGalat('');
-    try {
-      await hapusPercakapan(percakapan.id);
-      setStatus('success');
-    } catch (err) {
-      setGalat(pesanGalat(err, 'Percakapan gagal dihapus.'));
-      setStatus('error');
-    }
-  };
-
-  return (
-    <Modal
-      open
-      onClose={() => (sibuk ? undefined : onClose())}
-      title="Hapus percakapan ini?"
-      footer={
-        <>
-          <Button variant="ghost" onClick={onClose} disabled={sibuk}>
-            Batal
-          </Button>
-          <TombolTuang
-            ikon="hapus"
-            status={status}
-            onClick={() => void hapus()}
-            onTuntas={() => onTerhapus(percakapan.id)}
-          >
-            Hapus Sekarang
-          </TombolTuang>
-        </>
-      }
-    >
-      <BadgeInfo variant="warning">
-        “{percakapan.judul}” beserta seluruh pesannya akan dihapus permanen.
-      </BadgeInfo>
-      {galat ? <BadgeInfo variant="error" className="mt-3">{galat}</BadgeInfo> : null}
     </Modal>
   );
 }

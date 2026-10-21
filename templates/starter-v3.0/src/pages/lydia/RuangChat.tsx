@@ -24,8 +24,21 @@ import {
   type PesanLydia,
 } from '@/services/lydia';
 import { IsiPesan } from './IsiPesan';
+import { LangkahAi, type LangkahProses } from './LangkahAi';
 
 const TINGGI_TULIS_MAKS = 180;
+
+const LANGKAH_CHAT: LangkahProses[] = [
+  { teks: 'Membaca pesan Anda', mulaiMs: 0 },
+  { teks: 'Memahami maksud pertanyaan', mulaiMs: 900 },
+  { teks: 'Menyusun jawaban', mulaiMs: 1800 },
+];
+
+const LANGKAH_LAMPIRAN: LangkahProses[] = [
+  { teks: 'Mengunggah lampiran', mulaiMs: 0 },
+  { teks: 'Membaca isi lampiran', mulaiMs: 900 },
+  { teks: 'Menyusun jawaban', mulaiMs: 1800 },
+];
 // Jarak masih dianggap di bawah
 const AMBANG_BAWAH_PX = 80;
 
@@ -166,6 +179,7 @@ export function RuangChat({ pengaturan, pesan, aliran, memuat, galat, onKirim, o
   const menjawab = aliran !== null;
   const kosong = !memuat && pesan.length === 0 && !menjawab;
   const bisaKirim = !menjawab && (teks.trim() !== '' || berkas.length > 0);
+  const berlampiran = !!pesan.filter((p) => p.peran === 'pengguna').at(-1)?.lampiran?.length;
 
   const pratinjau = useMemo(
     () => berkas.map((f) => (f.type.startsWith('image/') ? URL.createObjectURL(f) : '')),
@@ -249,6 +263,11 @@ export function RuangChat({ pengaturan, pesan, aliran, memuat, galat, onKirim, o
                 ))}
               </div>
             ) : null}
+            {galat ? (
+              <BadgeInfo variant="error" className="lydia-sambut__galat">
+                {galat}
+              </BadgeInfo>
+            ) : null}
           </div>
         ) : (
           <div className="lydia-pesan-daftar">
@@ -270,11 +289,7 @@ export function RuangChat({ pengaturan, pesan, aliran, memuat, galat, onKirim, o
                     {aliran ? (
                       <IsiPesan teks={aliran} mengalir />
                     ) : (
-                      <span className="lydia-mengetik" aria-hidden="true">
-                        <i />
-                        <i />
-                        <i />
-                      </span>
+                      <LangkahAi langkah={berlampiran ? LANGKAH_LAMPIRAN : LANGKAH_CHAT} />
                     )}
                   </div>
                 </div>

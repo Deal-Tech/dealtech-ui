@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react';
-import { MessageSquare, MoreHorizontal, Pencil, SquarePen, Trash2 } from 'lucide-react';
+import { MessageSquare, SquarePen, Trash2 } from 'lucide-react';
 
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { Button } from '@/components/ui/button/Button';
-import { MenuAksi } from '@/components/ui/menu-aksi/MenuAksi';
 import { SearchInput } from '@/components/ui/search-input/SearchInput';
 import type { RingkasanPercakapan } from '@/services/lydia';
 
@@ -28,12 +27,11 @@ interface RiwayatChatProps {
   aktifId: string | null;
   onBaru: () => void;
   onPilih: (id: string) => void;
-  onUbahJudul: (c: RingkasanPercakapan) => void;
   onHapus: (c: RingkasanPercakapan) => void;
 }
 
 /** Panel kiri: riwayat percakapan. */
-export function RiwayatChat({ daftar, memuat, aktifId, onBaru, onPilih, onUbahJudul, onHapus }: RiwayatChatProps) {
+export function RiwayatChat({ daftar, memuat, aktifId, onBaru, onPilih, onHapus }: RiwayatChatProps) {
   const [cari, setCari] = useState('');
 
   const kelompok = useMemo(() => {
@@ -96,16 +94,15 @@ export function RiwayatChat({ daftar, memuat, aktifId, onBaru, onPilih, onUbahJu
                       <MessageSquare className="lydia-butir__ikon" aria-hidden="true" />
                       <span className="lydia-butir__teks">{c.judul}</span>
                     </button>
-                    <MenuAksi
-                      hanyaIkon
-                      ikon={MoreHorizontal}
-                      ariaLabel={`Aksi untuk ${c.judul}`}
-                      className="lydia-butir__menu"
-                      item={[
-                        { kunci: 'ubah', label: 'Ganti Nama', ikon: Pencil, onClick: () => onUbahJudul(c) },
-                        { kunci: 'hapus', label: 'Hapus', ikon: Trash2, bahaya: true, onClick: () => onHapus(c) },
-                      ]}
-                    />
+                    <button
+                      type="button"
+                      className="lydia-butir__hapus"
+                      aria-label={`Hapus ${c.judul}`}
+                      title="Hapus percakapan"
+                      onClick={() => onHapus(c)}
+                    >
+                      <Trash2 aria-hidden="true" />
+                    </button>
                   </div>
                 );
               })}

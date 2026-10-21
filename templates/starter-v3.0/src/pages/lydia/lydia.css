@@ -352,30 +352,41 @@
   white-space: nowrap;
 }
 
-.lydia-butir__menu {
+/* Hapus langsung, tanpa konfirmasi */
+.lydia-butir__hapus {
+  display: grid;
+  width: 28px;
+  height: 28px;
   flex: none;
+  place-items: center;
   margin-right: 4px;
+  border-radius: 6px;
+  color: rgba(var(--color-hitam-rgb), 0.55);
   opacity: 0;
-  transition: opacity 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
-.lydia-butir:hover .lydia-butir__menu,
-.lydia-butir.is-aktif .lydia-butir__menu,
-.lydia-butir__menu:focus-within {
+.lydia-butir__hapus svg {
+  width: 15px;
+  height: 15px;
+}
+
+.lydia-butir:hover .lydia-butir__hapus,
+.lydia-butir.is-aktif .lydia-butir__hapus,
+.lydia-butir__hapus:focus-visible {
   opacity: 1;
 }
 
-.lydia-butir__menu .menu-aksi__pemicu {
-  background: transparent;
-}
-
-.lydia-butir__menu .menu-aksi__pemicu:hover,
-.lydia-butir__menu .menu-aksi__pemicu[aria-expanded='true'] {
-  background: var(--app-fill-strong);
+.lydia-butir__hapus:hover {
+  background: color-mix(in srgb, var(--app-danger-text) 12%, transparent);
+  color: var(--app-danger-text);
 }
 
 @media (hover: none) {
-  .lydia-butir__menu {
+  .lydia-butir__hapus {
     opacity: 1;
   }
 }
@@ -609,26 +620,80 @@
   animation: lydia-cincin 1.4s ease-out infinite;
 }
 
-.lydia-mengetik {
-  display: inline-flex;
+/* --- Langkah AI ala Claude Code --- */
+
+.langkah-ai {
+  display: flex;
+  flex-direction: column;
   gap: 4px;
-  padding: 6px 0;
+  margin: 0;
+  padding: 2px 0;
+  list-style: none;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
-.lydia-mengetik i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(var(--color-hitam-rgb), 0.45);
-  animation: lydia-lompat 1s ease-in-out infinite;
+.langkah-ai__langkah {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(var(--color-hitam-rgb), 0.6);
 }
 
-.lydia-mengetik i:nth-child(2) {
-  animation-delay: 0.15s;
+.langkah-ai__centang {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  margin: 0 1px;
+  color: var(--app-primary);
 }
 
-.lydia-mengetik i:nth-child(3) {
-  animation-delay: 0.3s;
+/* Lebar tetap: teks tidak goyang; warna ikut tema */
+.langkah-ai__pemutar {
+  display: inline-block;
+  width: 14px;
+  flex-shrink: 0;
+  font-size: 13px;
+  line-height: 1;
+  text-align: center;
+  color: var(--app-primary);
+}
+
+.langkah-ai__detik {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+/* Kilau warna primary saat berjalan */
+.langkah-ai__langkah.is-jalan .langkah-ai__teks {
+  background: linear-gradient(
+    90deg,
+    rgba(var(--color-hitam-rgb), 0.5) 40%,
+    var(--app-primary) 50%,
+    rgba(var(--color-hitam-rgb), 0.5) 60%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: langkah-ai-kilau 1.6s linear infinite;
+}
+
+@keyframes langkah-ai-kilau {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .langkah-ai__langkah.is-jalan .langkah-ai__teks {
+    animation: none;
+    background: none;
+    color: var(--app-text);
+  }
 }
 
 /* --- Isi pesan Lydia --- */
@@ -1040,22 +1105,28 @@
   gap: 12px;
 }
 
-@keyframes lydia-kedip {
-  50% {
-    opacity: 0;
+.lydia-sambut__galat {
+  margin-top: 16px;
+}
+
+/* Jarak sama dengan sipekum */
+@media (min-width: 768px) {
+  .lydia-ruang__gulir {
+    padding: 24px;
+  }
+
+  .lydia-tulis-wadah {
+    padding: 8px 24px 14px;
+  }
+
+  .lydia-baris {
+    gap: 14px;
   }
 }
 
-@keyframes lydia-lompat {
-  0%,
-  60%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.5;
-  }
-  30% {
-    transform: translateY(-4px);
-    opacity: 1;
+@keyframes lydia-kedip {
+  50% {
+    opacity: 0;
   }
 }
 

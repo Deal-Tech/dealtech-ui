@@ -11,13 +11,14 @@ import {
   ambilPengaturanLydia,
   ambilPercakapan,
   daftarPercakapan,
+  hapusPercakapan,
   kirimPesan,
   unggahLampiran,
   type LampiranPesan,
   type PesanLydia,
   type RingkasanPercakapan,
 } from '@/services/lydia';
-import { HapusPercakapanModal, PengaturanLydiaModal, UbahJudulModal } from './ModalLydia';
+import { PengaturanLydiaModal } from './ModalLydia';
 import { LEBAR_MIN, PembagiPanel, useLebarPanel } from './PembagiPanel';
 import { RiwayatChat } from './RiwayatChat';
 import { AvatarLydia, RuangChat } from './RuangChat';
@@ -65,8 +66,6 @@ export default function LydiaChatPage() {
   const [pengaturan, setPengaturan] = useState(PENGATURAN_BAWAAN);
 
   const [aturBuka, setAturBuka] = useState(false);
-  const [ubahJudul, setUbahJudul] = useState<RingkasanPercakapan | null>(null);
-  const [hapus, setHapus] = useState<RingkasanPercakapan | null>(null);
 
   // Percakapan yang sedang tampil
   const aktifRef = useRef<string | null>(null);
@@ -192,10 +191,16 @@ export default function LydiaChatPage() {
 
   const hentikan = () => pengendaliRef.current?.abort();
 
-  const terhapus = (target: string) => {
-    setDaftar((d) => d.filter((c) => c.id !== target));
-    setHapus(null);
-    if (target === id) navigate(JALUR, { replace: true });
+  // Langsung hilang, kembali kalau gagal
+  const hapus = async (c: RingkasanPercakapan) => {
+    setDaftar((d) => d.filter((x) => x.id !== c.id));
+    if (c.id === id) navigate(JALUR, { replace: true });
+    try {
+      await hapusPercakapan(c.id);
+    } catch (e) {
+      setDaftar((d) => [...d, c].sort((a, b) => b.diperbarui.localeCompare(a.diperbarui)));
+      setGalat(e instanceof ApiError ? e.message : 'Percakapan gagal dihapus.');
+    }
   };
 
   return (
@@ -258,8 +263,7 @@ export default function LydiaChatPage() {
             aktifId={id ?? null}
             onBaru={chatBaru}
             onPilih={pilih}
-            onUbahJudul={setUbahJudul}
-            onHapus={setHapus}
+            onHapus={(c) => void hapus(c)}
           />
         </aside>
 
@@ -286,14 +290,6 @@ export default function LydiaChatPage() {
       {aturBuka ? (
         <PengaturanLydiaModal pengaturan={pengaturan} onClose={() => setAturBuka(false)} onTersimpan={setPengaturan} />
       ) : null}
-      {ubahJudul ? (
-        <UbahJudulModal
-          percakapan={ubahJudul}
-          onClose={() => setUbahJudul(null)}
-          onTersimpan={(c) => setDaftar((d) => d.map((x) => (x.id === c.id ? { ...x, judul: c.judul } : x)))}
-        />
-      ) : null}
-      {hapus ? <HapusPercakapanModal percakapan={hapus} onClose={() => setHapus(null)} onTerhapus={terhapus} /> : null}
     </section>
   );
 }

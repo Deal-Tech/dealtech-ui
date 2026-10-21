@@ -165,21 +165,6 @@ export async function ambilPercakapan(id: string, signal?: AbortSignal): Promise
   return api<Percakapan>(`/api/v1/lydia/percakapan/${encodeURIComponent(id)}`, { signal });
 }
 
-export async function ubahJudulPercakapan(id: string, judul: string): Promise<RingkasanPercakapan> {
-  if (MODE_DEMO) {
-    await jeda();
-    const daftar = bacaDemo().map((c) => (c.id === id ? { ...c, judul } : c));
-    simpanDemo(daftar);
-    const c = daftar.find((x) => x.id === id);
-    if (!c) throw new ApiError(404, 'Percakapan ini tidak ditemukan.');
-    return ringkas(c);
-  }
-  return api<RingkasanPercakapan>(`/api/v1/lydia/percakapan/${encodeURIComponent(id)}`, {
-    method: 'PATCH',
-    body: { judul },
-  });
-}
-
 export async function hapusPercakapan(id: string): Promise<void> {
   if (MODE_DEMO) {
     await jeda();
@@ -331,7 +316,8 @@ async function kirimDemo(
   const potongan = balasanDemo(pesan, nama, lampiran).match(/\s*\S+/g) ?? [];
   let jawaban = '';
   try {
-    await tunggu(500, signal);
+    // Langkah loading sempat tampil
+    await tunggu(2400, signal);
     for (const p of potongan) {
       await tunggu(JEDA_KATA_MS, signal);
       jawaban += p;
