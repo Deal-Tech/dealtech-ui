@@ -35,15 +35,6 @@
   border-top: 1px solid var(--app-border);
 }
 
-.pengaturan-page .pengaturan-catatan {
-  margin: 0;
-  border-radius: 6px;
-  background: var(--app-primary-soft);
-  padding: 8px 12px;
-  font-size: 11px;
-  color: var(--app-body-text);
-}
-
 /* ---- Email ---- */
 
 .pengaturan-page .pengaturan-email {

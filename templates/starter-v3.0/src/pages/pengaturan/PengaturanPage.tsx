@@ -370,10 +370,10 @@ export default function PengaturanPage() {
                 />
               ))}
 
-              <p className="pengaturan-catatan">
+              <BadgeInfo variant="info" icon={false}>
                 Kosongkan kalau tidak ingin ikonnya ditampilkan; isi <code>#</code> kalau akunnya
                 belum ada tapi tetap mau tampil.
-              </p>
+              </BadgeInfo>
 
               <div className="pengaturan-aksi">
                 <TombolTuang
@@ -467,10 +467,10 @@ export default function PengaturanPage() {
 
                 {tahap === 'form' ? (
                   <form onSubmit={simpanEmail} className="pengaturan-form">
-                    <p className="pengaturan-catatan">
+                    <BadgeInfo variant="info" icon={false}>
                       Email baru langsung dipakai untuk masuk. Pastikan alamatnya benar — kalau salah,
                       akun ini tidak bisa dipakai masuk lagi dan harus direset admin.
-                    </p>
+                    </BadgeInfo>
 
                     {galatEmail.umum ? <BadgeInfo variant="error">{galatEmail.umum}</BadgeInfo> : null}
 

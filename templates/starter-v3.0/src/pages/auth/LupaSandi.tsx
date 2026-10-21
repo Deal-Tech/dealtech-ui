@@ -202,9 +202,9 @@ function LangkahKode({ email, onToken, onGantiEmail }: LangkahKodeProps) {
         />
 
         {MODE_DEMO ? (
-          <p className="login-catatan">
+          <BadgeInfo variant="info" icon={false}>
             Mode demo: kode apa pun diterima, kecuali {KODE_DEMO_SALAH} yang selalu ditolak.
-          </p>
+          </BadgeInfo>
         ) : null}
 
         {galat ? (

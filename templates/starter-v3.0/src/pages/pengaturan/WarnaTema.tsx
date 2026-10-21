@@ -171,10 +171,10 @@ export default function WarnaTema() {
             ))}
           </ul>
 
-          <p className="pengaturan-catatan">
+          <BadgeInfo variant="info" icon={false}>
             Pilih dari palet atau ketik kode hex. Warnanya langsung terlihat di seluruh admin;
             kalau tidak disimpan, warna kembali saat halaman ini ditinggalkan.
-          </p>
+          </BadgeInfo>
 
           {kontrasPutih(warna) < KONTRAS_MIN ? (
             <BadgeInfo variant="warning">

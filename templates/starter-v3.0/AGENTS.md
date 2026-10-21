@@ -19,6 +19,49 @@ merek tidak boleh ditulis langsung sebagai hex.
    `seriesColors()` dari `@/lib/chart`, karena keduanya membaca warna tema yang
    sedang aktif.
 
+## Keterangan dan catatan (`BadgeInfo`)
+
+1. **Keterangan, catatan, atau info tambahan wajib memakai
+   `<BadgeInfo variant="info" icon={false}>`.** Jangan membuat paragraf
+   ber-style sendiri seperti `<p className="...-catatan">` dengan latar, padding,
+   atau ukuran huruf baru.
+2. **Ukuran dan tebal teks BadgeInfo tanpa ikon selalu sama** (12px, tebal
+   500, dari `badgeinfo.css`). Jangan menimpanya lewat `className`, `style`,
+   atau kelas Tailwind seperti `text-xs` / `font-bold`. `className` hanya boleh
+   dipakai untuk jarak dan penempatan, misalnya `margin`.
+3. **Isinya teks polos.** Jangan membungkus sebagian isi dengan `<strong>`,
+   `<b>`, `<small>`, atau elemen lain untuk mengubah ukuran dan tebal; elemen di
+   dalam BadgeInfo tanpa ikon dipaksa mengikuti ukuran induknya.
+4. Varian mengikuti makna: `info` untuk keterangan, `warning` untuk
+   peringatan, `success` untuk berhasil, `error` untuk gagal.
+
+### Benar
+
+```tsx
+import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
+
+<BadgeInfo variant="info" icon={false}>
+  Bukti tidak dapat diganti setelah dikirim.
+</BadgeInfo>
+```
+
+### Salah
+
+```tsx
+// Gaya catatan buatan sendiri
+<p className="pengaturan-catatan">Bukti tidak dapat diganti setelah dikirim.</p>
+
+// Ukuran dan tebal ditimpa
+<BadgeInfo variant="info" icon={false} className="text-[11px] font-bold">
+  Bukti tidak dapat diganti setelah dikirim.
+</BadgeInfo>
+
+// Sebagian isi ditebalkan
+<BadgeInfo variant="info" icon={false}>
+  Bukti <strong>tidak dapat</strong> diganti setelah dikirim.
+</BadgeInfo>
+```
+
 ## Tabel data (`TableListV1`)
 
 1. **Satu sel, satu data.** Jangan menumpuk dua data dalam satu sel, misalnya

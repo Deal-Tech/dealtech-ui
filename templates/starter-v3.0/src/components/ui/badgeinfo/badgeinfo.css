@@ -26,6 +26,12 @@
   gap: 0;
 }
 
+/* Isi tak boleh ubah ukuran */
+.badgeinfo--polos .badgeinfo__text * {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
 .badgeinfo--success {
   --bi-c: var(--app-success-text);
 }
