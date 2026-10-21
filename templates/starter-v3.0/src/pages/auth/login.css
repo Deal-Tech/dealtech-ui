@@ -146,13 +146,18 @@
 
 .login-page .login-submit {
   width: 100%;
-  min-height: 46px;
-  margin-top: 10px;
-  padding: 0 20px;
-  border-radius: 10px;
-  font-size: 0.9rem;
+  min-height: 41.4px;
+  margin-top: 9px;
+  padding: 0 18px;
+  border-radius: 9px;
+  font-size: 0.81rem;
   font-weight: 700;
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.login-page .login-submit .btn__icon {
+  width: 14.4px;
+  height: 14.4px;
 }
 
 .login-page .login-submit:hover:not(:disabled) {
@@ -286,5 +291,14 @@
     gap: 12px;
     margin: 10px 0 18px;
     font-size: 0.74rem;
+  }
+
+  .login-page .login-submit {
+    margin-top: 10px;
+  }
+
+  .login-page .login-submit .btn__icon {
+    width: 16px;
+    height: 16px;
   }
 }
