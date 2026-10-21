@@ -20,6 +20,7 @@
 - Warna tema admin bisa diganti di Pengaturan → Atur System: pilih dari palet atau ketik kode hex (3 atau 6 digit), pratinjau langsung ke seluruh admin, empat turunan (utama, hover, aktif, aksen) dihitung otomatis, peringatan kalau warnanya terlalu terang untuk teks putih, dan tombol kembali ke bawaan `#01498b`. Warna tersimpan dipasang sebelum render (tanpa kedip) dan ikut ke halaman login, maintenance, serta grafik. Backend cukup menyediakan `GET /api/v1/pengaturan/tema` (publik) dan `PUT` (admin) berisi `{ "warna_utama": "#rrggbb" }`.
 - Semua keterangan memakai `BadgeInfo` tanpa ikon dengan ukuran dan tebal teks yang sama (12px, 500): gaya `pengaturan-catatan` dan `login-catatan` dihapus, elemen di dalamnya dipaksa mengikuti ukuran induk, dan aturannya ditulis di `AGENTS.md`.
 - Tambah `AGENTS.md` dan `CLAUDE.md` di starter v3.0: aturan tabel untuk asisten AI — satu sel satu data, isi satu baris, aksi lewat dropdown.
+- `RichText` (juga di v2.0-next): modal tautan diganti gelembung di bawah teks. Gelembung muncul saat kursor atau penunjuk berada di tautan, berisi URL, terapkan, buka, dan hapus. Teks terpilih tetap tersorot, dan tombol toolbar berlatar putih supaya tidak menyatu dengan bilah.
 
 ## v2.2.0 - 2026-09-18
 
