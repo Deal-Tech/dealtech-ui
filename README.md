@@ -55,14 +55,17 @@ penyalinan setengah jadi.
 Ke-58 folder di `src/components/ui/` milik v2.0-next juga ada di v3.0, dan
 dependensi npm-nya sama persis. Selisih di sisi element:
 
-- `tombol-tuang` — khusus v3: teks tombol dituang ke ikon selama proses (ikon simpan, unggah, hapus, file, kunci), lengkap dengan progres unggah dan label hasil
+- `tombol-tuang` — khusus v3: teks tombol dituang ke ikon selama proses (ikon simpan, unggah, hapus, file, kunci, kirim, lambang Google), lengkap dengan progres unggah dan label hasil
 - `stat-card` — di v3 kolom, ukuran ikon, dan format kartu mengikuti lebar wadah, teks panjang dipotong elipsis, plus `StatGrid` untuk deretan kartunya
 - `unggah-gambar` — di v3 tombolnya memakai `tombol-tuang`
 - teks badge bawaan `WelcomeCardV2`
 
 Berkas shell yang berbeda:
 
-- `src/pages/auth/` — v3 punya halaman login baru (`LoginArt.tsx`, `GoogleMark.tsx`) menggantikan `LoginBg.tsx` milik v2, dengan tombol masuk beranimasi tuang
+- `src/pages/auth/` — v3 punya halaman login baru (`LoginArt.tsx`, `KerangkaMasuk.tsx`) menggantikan `LoginBg.tsx` milik v2, dengan tombol masuk dan tombol Google beranimasi tuang, plus halaman lupa kata sandi (`/lupa-sandi`): kirim kode, verifikasi OTP, lalu sandi baru
+- `src/pages/maintenance/` — khusus v3: halaman pemeliharaan (`/maintenance`) berlatar biru penuh dengan adegan 3D server yang diperbaiki dan dioptimalkan
+- `src/pages/lydia/` dan `src/services/lydia.ts` — khusus v3: Lydia Chat UI (`/dashboard/lydia`), halaman chat AI layar penuh dengan riwayat di kiri, chat di kanan, lampiran, dan jawaban SSE
+- `src/lib/tema.ts` dan `src/pages/pengaturan/WarnaTema.tsx` — khusus v3: warna tema admin bisa diganti dari Pengaturan → Atur System (palet atau kode hex)
 - `src/pages/pengaturan/`, `src/pages/produk/`, `src/pages/member/`, `src/pages/checkout/` — tombol simpan, hapus, dan unggah memakai `tombol-tuang`
 - `src/pages/dash/DashboardPage.tsx` dan `src/pages/element/ElementPage.tsx`
 - `src/components/layout/AdminHeader.tsx` — header bergaya dokumen
@@ -72,6 +75,15 @@ Berkas shell yang berbeda:
 Praktisnya: pilih **v3.0** untuk project baru. Pilih **v2.0-next** kalau sudah
 terlanjur memakai tampilannya. Komponen yang Anda `add` dari salah satunya bisa
 dipakai di keduanya tanpa penyesuaian.
+
+## Aturan tabel
+
+Starter v3.0 membawa `AGENTS.md` (dan `CLAUDE.md` yang mengimpornya), jadi asisten
+AI di project hasil `install` ikut aturan tabel yang sama:
+
+- Satu sel, satu data — tidak ada nama dengan nomor HP ditumpuk di bawahnya.
+- Isi sel selalu satu baris; yang melebihi kolom dipotong elipsis dengan tooltip isi lengkap.
+- Aksi baris lewat dropdown `AksiBaris` berpemicu ikon titik tiga, bukan deretan tombol ikon.
 
 ## Perintah
 
@@ -174,7 +186,7 @@ Alias umum seperti `action-button`, `page-header`, `search-input`, `scroll-to-to
 
 `action-button`, `badge`, `badgeinfo`, `badgev2`, `bilah-lipat`, `blok-tentang`, `button`, `cardbar-chart`, `cardbar-list`, `chartbar-ganda`, `chartbarhor`, `chartbarver`, `chartline`, `chartlinev2`, `chartlistbar`, `chartpie`, `charttoplist`, `checkbox`, `date-input`, `heatmap`, `hex-backdrop`, `inputlongtext`, `inputnumber`, `inputtext`, `kalender`, `kartu-katalog`, `kartu-paket`, `kepala-publik`, `kode-otomatis`, `label-qr`, `lembar-cetak`, `lightbox`, `logo-shape`, `memuat`, `menu-aksi`, `modal`, `modal-galat`, `pagetitle`, `pagination`, `peta-titik`, `pilih-banyak`, `pita-berjalan`, `progress-bar`, `proses-modal`, `protected-route`, `richtext`, `search-input`, `search-select`, `select`, `stat-card`, `tab-button`, `tabelcardv1`, `table-toolbar`, `tablelist-v1`, `toggleonoff`, `ulasan-berjalan`, `unggah-gambar`, `welcome-card-v2`
 
-Khusus v3: `tombol-tuang`.
+Khusus v3: `tombol-tuang`, `kode-otp`, `skeleton`.
 
 Tanda hubung boleh dilepas: `add searchselect` sama dengan `add search-select`.
 

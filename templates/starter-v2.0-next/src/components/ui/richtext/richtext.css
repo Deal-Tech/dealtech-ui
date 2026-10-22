@@ -1,4 +1,5 @@
 .richtext {
+  position: relative;
   display: block;
 }
 
@@ -41,8 +42,8 @@
 .richtext__toolbar {
   display: flex;
   flex-wrap: wrap;
-  gap: 2px;
-  padding: 4px 8px;
+  gap: 6px;
+  padding: 6px 8px;
   border-bottom: 1px solid var(--app-border);
   background: var(--app-fill);
   position: sticky;
@@ -58,7 +59,7 @@
   height: 32px;
   border-radius: 6px;
   border: 0;
-  background: transparent;
+  background: var(--app-surface);
   color: var(--app-body-text);
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
@@ -106,22 +107,39 @@
   color: var(--app-danger-text);
 }
 
-.richtext-modal__form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.richtext-modal__aksi {
+.richtext__gelembung {
+  position: absolute;
+  z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  width: 100%;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid var(--app-border-strong);
+  background: var(--app-elevated);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--app-text) 22%, transparent);
 }
 
-.richtext-modal__aksi .btn--danger {
-  margin-right: auto;
+.richtext__gelembung::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: calc(var(--panah-x) - 5px);
+  width: 10px;
+  height: 10px;
+  border-left: 1px solid var(--app-border-strong);
+  border-top: 1px solid var(--app-border-strong);
+  background: var(--app-elevated);
+  transform: rotate(45deg);
+}
+
+.richtext__gelembung-url {
+  flex: 1;
+  min-width: 0;
+}
+
+::highlight(richtext-tautan) {
+  background-color: var(--app-chip-bg);
 }
 
 .richtext__konten h2,

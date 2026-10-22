@@ -8,6 +8,13 @@ import { zonaPengguna } from './jam-zona';
 import { menu, saringMenu } from './menu';
 import '@/styles/admin.css';
 
+// Layar penuh, sidebar jadi laci
+const JALUR_LAYAR_PENUH = ['/dashboard/lydia'];
+
+export interface AdminOutletContext {
+  bukaSidebar: () => void;
+}
+
 const PENGGUNA_CONTOH: SidebarUser = {
   name: 'Administrator',
   email: 'admin@dealtech-ui.com',
@@ -29,6 +36,8 @@ export default function AdminLayout() {
   const { pengguna, keluar } = useAuth();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const layarPenuh = JALUR_LAYAR_PENUH.some((j) => location.pathname.startsWith(j));
+  const konteks: AdminOutletContext = { bukaSidebar: () => setIsSidebarOpen(true) };
 
   const user: SidebarUser = pengguna
     ? { name: pengguna.name, email: pengguna.email, initials: inisial(pengguna.name) }
@@ -54,25 +63,32 @@ export default function AdminLayout() {
       <AdminSidebar
         menu={menuPeran}
         user={user}
+        laci={layarPenuh}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
         onLogout={logout}
       />
 
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-        <AdminHeader
-          nama={user.name}
-          inisial={user.initials ?? ''}
-          zona={zonaPengguna(pengguna)}
-          onBukaSidebar={() => setIsSidebarOpen(true)}
-          onKeluar={logout}
-        />
+        {layarPenuh ? null : (
+          <AdminHeader
+            nama={user.name}
+            inisial={user.initials ?? ''}
+            zona={zonaPengguna(pengguna)}
+            onBukaSidebar={() => setIsSidebarOpen(true)}
+            onKeluar={logout}
+          />
+        )}
 
         <main
           ref={mainRef}
-          className="app-main min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-3 pb-4 pt-4 md:px-6 md:pb-6 md:pt-6"
+          className={
+            layarPenuh
+              ? 'app-main app-main--penuh min-h-0 flex-1 overflow-hidden'
+              : 'app-main min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-3 pb-4 pt-4 md:px-6 md:pb-6 md:pt-6'
+          }
         >
-          <Outlet />
+          <Outlet context={konteks} />
         </main>
       </div>
     </div>

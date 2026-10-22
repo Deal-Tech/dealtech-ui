@@ -1,5 +1,6 @@
 import { forwardRef, type ChangeEvent, type InputHTMLAttributes } from 'react';
 
+import { Skeleton } from '@/components/ui/skeleton/Skeleton';
 import { formatCurrencyInputValue, normalizeCurrencyDigits } from '@/lib/currency';
 import './inputnumber.css';
 
@@ -9,10 +10,12 @@ export interface InputNumberProps extends Omit<InputHTMLAttributes<HTMLInputElem
   hint?: string;
   currency?: boolean;
   invalid?: boolean;
+  /** Label tetap, kotak jadi skeleton. */
+  memuat?: boolean;
 }
 
 export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function InputNumber(
-  { label, error, hint, invalid = false, className = '', currency = false, onChange, onWheel, value, inputMode, pattern, required, ...props },
+  { label, error, hint, invalid = false, className = '', currency = false, memuat = false, onChange, onWheel, value, inputMode, pattern, required, ...props },
   ref,
 ) {
   const displayValue =
@@ -39,7 +42,9 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(functi
           {required ? <span className="inputnumber__req">*</span> : null}
         </label>
       ) : null}
+      {memuat ? <Skeleton bentuk="kotak" blok className="skeleton-kontrol" /> : null}
       <input
+        hidden={memuat}
         ref={ref}
         type={currency ? 'text' : 'number'}
         inputMode={currency ? 'numeric' : inputMode}

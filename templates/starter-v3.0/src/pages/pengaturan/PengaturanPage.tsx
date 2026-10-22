@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button/Button';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { Select } from '@/components/ui/select/Select';
+import { SkeletonBila } from '@/components/ui/skeleton/Skeleton';
 import { TabButton } from '@/components/ui/tab-button/TabButton';
 import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ApiError } from '@/lib/api';
@@ -21,6 +22,7 @@ import {
   simpanKontak,
   type InputKontak,
 } from '@/services/pengaturan';
+import WarnaTema from './WarnaTema';
 import './pengaturan.css';
 
 const POLA_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -66,7 +68,7 @@ export default function PengaturanPage() {
   const [kontak, setKontak] = useState<InputKontak>(KONTAK_KOSONG);
   const [galatKontak, setGalatKontak] = useState<GalatKontak>({});
   const [suksesKontak, setSuksesKontak] = useState('');
-  const [memuatKontak, setMemuatKontak] = useState(false);
+  const [memuatKontak, setMemuatKontak] = useState(peranAdmin);
   const [statusKontak, setStatusKontak] = useState<StatusTuang>('idle');
 
   useEffect(() => {
@@ -285,65 +287,70 @@ export default function PengaturanPage() {
       <TabButton tabs={TAB} value={tab} onChange={setTab} />
 
       {tab === 'system' && peranAdmin ? (
-        <section className="app-section-card">
-          <div className="app-section-body pengaturan-bagian">
-            <form onSubmit={simpanKontakPublik} className="pengaturan-form">
-              <InputText
-                label="WhatsApp"
-                value={kontak.whatsapp}
-                onChange={(e) => ubahKontak('whatsapp', e.target.value)}
-                error={galatKontak.whatsapp}
-                hint="Boleh ditulis bebas — yang dipakai tautan wa.me cuma angkanya."
-                required
-              />
-              <InputText
-                label="Email"
-                type="email"
-                value={kontak.email}
-                onChange={(e) => ubahKontak('email', e.target.value)}
-                error={galatKontak.email}
-                required
-              />
-              <InputText
-                label="Where we are"
-                value={kontak.lokasi}
-                onChange={(e) => ubahKontak('lokasi', e.target.value)}
-                error={galatKontak.lokasi}
-                required
-              />
-              <InputText
-                label="Open"
-                value={kontak.jam_buka}
-                onChange={(e) => ubahKontak('jam_buka', e.target.value)}
-                error={galatKontak.jam_buka}
-                required
-              />
+        <div className="space-y-4">
+          <WarnaTema />
+          <section className="app-section-card">
+            <div className="app-section-body pengaturan-bagian">
+              <form onSubmit={simpanKontakPublik} className="pengaturan-form">
+                <InputText
+                  label="WhatsApp"
+                  value={kontak.whatsapp}
+                  onChange={(e) => ubahKontak('whatsapp', e.target.value)}
+                  error={galatKontak.whatsapp}
+                  memuat={memuatKontak}
+                  hint="Boleh ditulis bebas — yang dipakai tautan wa.me cuma angkanya."
+                  required
+                />
+                <InputText
+                  label="Email"
+                  type="email"
+                  value={kontak.email}
+                  onChange={(e) => ubahKontak('email', e.target.value)}
+                  error={galatKontak.email}
+                  memuat={memuatKontak}
+                  required
+                />
+                <InputText
+                  label="Where we are"
+                  value={kontak.lokasi}
+                  onChange={(e) => ubahKontak('lokasi', e.target.value)}
+                  error={galatKontak.lokasi}
+                  memuat={memuatKontak}
+                  required
+                />
+                <InputText
+                  label="Open"
+                  value={kontak.jam_buka}
+                  onChange={(e) => ubahKontak('jam_buka', e.target.value)}
+                  error={galatKontak.jam_buka}
+                  memuat={memuatKontak}
+                  required
+                />
 
-              <InputText
-                label="Titik lokasi (Google Maps)"
-                value={kontak.maps}
-                onChange={(e) => ubahKontak('maps', e.target.value)}
-                error={galatKontak.maps}
-                hint="Tempel alamat Google Maps lokasinya — koordinatnya diambil sendiri. Tautan pendek (maps.app.goo.gl) tidak bisa; buka dulu di peramban lalu salin alamat lengkap dari bilah alamat. Kosongkan kalau tidak ingin menampilkan peta."
-              />
+                <InputText
+                  label="Titik lokasi (Google Maps)"
+                  value={kontak.maps}
+                  onChange={(e) => ubahKontak('maps', e.target.value)}
+                  error={galatKontak.maps}
+                  memuat={memuatKontak}
+                  hint="Tempel alamat Google Maps lokasinya — koordinatnya diambil sendiri. Tautan pendek (maps.app.goo.gl) tidak bisa; buka dulu di peramban lalu salin alamat lengkap dari bilah alamat. Kosongkan kalau tidak ingin menampilkan peta."
+                />
 
-              <div className="pengaturan-aksi">
-                <TombolTuang
-                  type="submit"
-                  ikon="simpan"
-                  status={statusKontak}
-                  disabled={memuatKontak}
-                >
-                  Simpan Kontak
-                </TombolTuang>
-                {suksesKontak ? <BadgeInfo variant="success">{suksesKontak}</BadgeInfo> : null}
-                {galatKontak.umum ? (
-                  <BadgeInfo variant="error">{galatKontak.umum}</BadgeInfo>
-                ) : null}
-              </div>
-            </form>
-          </div>
-        </section>
+                <div className="pengaturan-aksi">
+                  <SkeletonBila memuat={memuatKontak}>
+                    <TombolTuang type="submit" ikon="simpan" status={statusKontak}>
+                      Simpan Kontak
+                    </TombolTuang>
+                  </SkeletonBila>
+                  {suksesKontak ? <BadgeInfo variant="success">{suksesKontak}</BadgeInfo> : null}
+                  {galatKontak.umum ? (
+                    <BadgeInfo variant="error">{galatKontak.umum}</BadgeInfo>
+                  ) : null}
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
       ) : null}
 
       {tab === 'sosmed' && peranAdmin ? (
@@ -360,26 +367,24 @@ export default function PengaturanPage() {
                   value={kontak[kunci]}
                   onChange={(e) => ubahKontak(kunci, e.target.value)}
                   error={galatKontak[kunci]}
+                  memuat={memuatKontak}
                   placeholder={contoh}
                   autoCapitalize="none"
                   spellCheck={false}
                 />
               ))}
 
-              <p className="pengaturan-catatan">
+              <BadgeInfo variant="info" icon={false}>
                 Kosongkan kalau tidak ingin ikonnya ditampilkan; isi <code>#</code> kalau akunnya
                 belum ada tapi tetap mau tampil.
-              </p>
+              </BadgeInfo>
 
               <div className="pengaturan-aksi">
-                <TombolTuang
-                  type="submit"
-                  ikon="simpan"
-                  status={statusKontak}
-                  disabled={memuatKontak}
-                >
-                  Simpan Kontak
-                </TombolTuang>
+                <SkeletonBila memuat={memuatKontak}>
+                  <TombolTuang type="submit" ikon="simpan" status={statusKontak}>
+                    Simpan Kontak
+                  </TombolTuang>
+                </SkeletonBila>
                 {suksesKontak ? <BadgeInfo variant="success">{suksesKontak}</BadgeInfo> : null}
                 {galatKontak.umum ? (
                   <BadgeInfo variant="error">{galatKontak.umum}</BadgeInfo>
@@ -463,10 +468,10 @@ export default function PengaturanPage() {
 
                 {tahap === 'form' ? (
                   <form onSubmit={simpanEmail} className="pengaturan-form">
-                    <p className="pengaturan-catatan">
+                    <BadgeInfo variant="info" icon={false}>
                       Email baru langsung dipakai untuk masuk. Pastikan alamatnya benar — kalau salah,
                       akun ini tidak bisa dipakai masuk lagi dan harus direset admin.
-                    </p>
+                    </BadgeInfo>
 
                     {galatEmail.umum ? <BadgeInfo variant="error">{galatEmail.umum}</BadgeInfo> : null}
 

@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Boxes, Check, FileText, Package, Pencil, Trash2 } from 'lucide-react';
 
@@ -13,16 +13,9 @@ import { IsiKaya } from '@/components/ui/richtext/IsiKaya';
 import { TabButton } from '@/components/ui/tab-button/TabButton';
 import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ambilProdukSatu, hapusProduk, rupiah, type Produk } from '@/services/produk';
+import { Keterangan } from './Keterangan';
+import { ProdukDetailSkeleton } from './ProdukDetailSkeleton';
 import './produk.css';
-
-function Keterangan({ nama, children }: { nama: string; children: ReactNode }) {
-  return (
-    <div>
-      <span className="produk-detail__label">{nama}</span>
-      {children}
-    </div>
-  );
-}
 
 export default function ProdukDetailPage() {
   const navigate = useNavigate();
@@ -56,13 +49,7 @@ export default function ProdukDetailPage() {
     };
   }, [kode]);
 
-  if (memuat) {
-    return (
-      <div className="produk-page space-y-6">
-        <PageTitle title="Detail Produk" subtitle="Memuat…" />
-      </div>
-    );
-  }
+  if (memuat) return <ProdukDetailSkeleton />;
 
   if (!produk) {
     return (

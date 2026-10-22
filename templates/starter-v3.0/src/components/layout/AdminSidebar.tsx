@@ -88,6 +88,8 @@ function SidebarMenuItem({ item, active, onNavigate }: MenuItemProps) {
 export interface AdminSidebarProps {
   menu: AppMenu;
   user: SidebarUser;
+  /** Laci juga di desktop. */
+  laci?: boolean;
   isOpen?: boolean;
   onClose?: () => void;
   onLogout?: () => void;
@@ -96,6 +98,7 @@ export interface AdminSidebarProps {
 export default function AdminSidebar({
   menu,
   user,
+  laci = false,
   isOpen = false,
   onClose,
   onLogout,
@@ -181,13 +184,15 @@ export default function AdminSidebar({
   return (
     <>
       <div
-        className={`sidebar-overlay md:hidden ${isOpen ? 'is-open' : ''}`}
+        className={`sidebar-overlay ${laci ? '' : 'md:hidden'} ${isOpen ? 'is-open' : ''}`}
         onClick={onClose}
       />
 
       <aside
-        className={`app-sidebar fixed left-0 top-0 z-50 flex w-64 flex-col md:sticky ${
-          isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+        className={`app-sidebar fixed left-0 top-0 z-50 flex w-64 flex-col ${
+          laci
+            ? `app-sidebar--laci ${isOpen ? 'is-terbuka translate-x-0' : '-translate-x-full'}`
+            : `md:sticky ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`
         }`}
       >
         <div className="sidebar-header flex h-14 items-center justify-between px-4">
@@ -206,7 +211,11 @@ export default function AdminSidebar({
               }}
             />
           </Link>
-          <button type="button" onClick={onClose} className="sidebar-close-btn md:hidden">
+          <button
+            type="button"
+            onClick={onClose}
+            className={`sidebar-close-btn ${laci ? '' : 'md:hidden'}`}
+          >
             <X className="h-4 w-4" />
           </button>
         </div>

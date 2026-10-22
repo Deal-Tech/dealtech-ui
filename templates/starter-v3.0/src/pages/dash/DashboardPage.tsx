@@ -15,13 +15,12 @@ import {
   Users,
 } from 'lucide-react';
 
-import ActionButton from '@/components/ui/action-button/ActionButton';
 import { Badge } from '@/components/ui/badge/Badge';
 import { BilahLipat } from '@/components/ui/bilah-lipat/BilahLipat';
 import { Button } from '@/components/ui/button/Button';
 import { StatCard, StatGrid } from '@/components/ui/stat-card/StatCard';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
-import { TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
+import { AksiBaris, TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
 import { resolveIcon } from '@/layout/ikon-menu';
 import { menu, saringMenu } from '@/layout/menu';
@@ -40,8 +39,8 @@ const KOLOM = [
   { key: 'nama', label: 'Nama Item' },
   { key: 'tanggal', label: 'Tanggal', width: '130px' },
   { key: 'jumlah', label: 'Jumlah', align: 'right' as const, width: '150px' },
-  { key: 'status', label: 'Status', align: 'center' as const, width: '130px' },
-  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '150px' },
+  { key: 'status', label: 'Status', align: 'center' as const, width: '130px', skeleton: 'pil' as const },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px', skeleton: 'ikon' as const },
 ];
 
 type Status = 'aktif' | 'baru' | 'tinjau' | 'arsip';
@@ -116,11 +115,14 @@ function TabelTerbaru() {
     jumlah: rupiah(d.jumlah),
     status: LENCANA[d.status],
     aksi: (
-      <div className="tablelist-v1__aksi">
-        <ActionButton icon={Eye} aria-label={`Lihat ${d.kode}`} />
-        <ActionButton icon={Pencil} aria-label={`Ubah ${d.kode}`} />
-        <ActionButton icon={Trash2} variant="danger" aria-label={`Hapus ${d.kode}`} />
-      </div>
+      <AksiBaris
+        nama={d.kode}
+        item={[
+          { kunci: 'lihat', label: 'Lihat Detail', ikon: Eye, onClick: () => {} },
+          { kunci: 'ubah', label: 'Ubah', ikon: Pencil, onClick: () => {} },
+          { kunci: 'hapus', label: 'Hapus', ikon: Trash2, bahaya: true, onClick: () => {} },
+        ]}
+      />
     ),
   }));
 

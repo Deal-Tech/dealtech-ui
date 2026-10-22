@@ -39,6 +39,7 @@ import { InputNumber } from '@/components/ui/inputnumber/InputNumber';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { Kalender } from '@/components/ui/kalender/Kalender';
 import { KodeOtomatis } from '@/components/ui/kode-otomatis/KodeOtomatis';
+import { KodeOtp } from '@/components/ui/kode-otp/KodeOtp';
 import { LabelQR } from '@/components/ui/label-qr/LabelQR';
 import { LembarCetak } from '@/components/ui/lembar-cetak/LembarCetak';
 import { TombolCetak } from '@/components/ui/lembar-cetak/TombolCetak';
@@ -55,17 +56,19 @@ import { RichText } from '@/components/ui/richtext/RichText';
 import { SearchInput } from '@/components/ui/search-input/SearchInput';
 import { SearchSelect } from '@/components/ui/search-select/SearchSelect';
 import { Select } from '@/components/ui/select/Select';
+import { Skeleton, SkeletonTeks } from '@/components/ui/skeleton/Skeleton';
 import { KartuPaket, type PaketItem } from '@/components/ui/kartu-paket/KartuPaket';
 import { StatCard, StatGrid } from '@/components/ui/stat-card/StatCard';
 import { TabButton } from '@/components/ui/tab-button/TabButton';
 import { TabelCardV1 } from '@/components/ui/tabelcardv1/TabelCardV1';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
-import { TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
+import { AksiBaris, TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
 import { ToggleOnOff } from '@/components/ui/toggleonoff/ToggleOnOff';
 import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { UnggahGambar } from '@/components/ui/unggah-gambar/UnggahGambar';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
 import { PER_HALAMAN_BAWAAN, usePilihan } from '@/lib/daftar';
+import { KODE_DEMO_SALAH } from '@/services/auth';
 import './element.css';
 
 /* -------------------------------------------------------------------------- */
@@ -162,6 +165,24 @@ type DemoTuangProps = Omit<
   unggah?: boolean;
 };
 
+/** Proses tiruan untuk KodeOtp. */
+function DemoOtp() {
+  const [status, setStatus] = useState<StatusTuang>('idle');
+  const timer = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  const periksa = (kode: string) => {
+    setStatus('pending');
+    timer.current = window.setTimeout(
+      () => setStatus(kode === KODE_DEMO_SALAH ? 'error' : 'success'),
+      JEDA_DETAK_MS * 5,
+    );
+  };
+
+  return <KodeOtp status={status} onLengkap={periksa} onSelesai={() => setStatus('idle')} />;
+}
+
 /** Proses tiruan untuk TombolTuang. */
 function DemoTuang({ label, gagal = false, unggah = false, ...props }: DemoTuangProps) {
   const [status, setStatus] = useState<StatusTuang>('idle');
@@ -249,8 +270,8 @@ const KOLOM_TABEL = [
   { key: 'kode', label: 'Kode', width: '130px' },
   { key: 'nama', label: 'Nama Item' },
   { key: 'jumlah', label: 'Jumlah', align: 'right' as const, width: '110px' },
-  { key: 'status', label: 'Status', align: 'center' as const, width: '130px' },
-  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '150px' },
+  { key: 'status', label: 'Status', align: 'center' as const, width: '130px', skeleton: 'pil' as const },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px', skeleton: 'ikon' as const },
 ];
 
 type StatusItem = 'aktif' | 'baru' | 'tinjau' | 'arsip';
@@ -260,7 +281,12 @@ const ITEM_CONTOH: { kode: string; nama: string; jumlah: number; status: StatusI
   { kode: 'ITM-002', nama: 'Paket Langganan Pro', jumlah: 64, status: 'baru' },
   { kode: 'ITM-003', nama: 'Tambahan Penyimpanan', jumlah: 19, status: 'tinjau' },
   { kode: 'ITM-004', nama: 'Dukungan Prioritas', jumlah: 42, status: 'aktif' },
-  { kode: 'ITM-005', nama: 'Modul Laporan Lanjutan', jumlah: 31, status: 'aktif' },
+  {
+    kode: 'ITM-005',
+    nama: 'Modul Laporan Lanjutan dengan Ekspor Otomatis ke Excel dan PDF Tiap Akhir Bulan',
+    jumlah: 31,
+    status: 'aktif',
+  },
   { kode: 'ITM-006', nama: 'Integrasi API', jumlah: 8, status: 'tinjau' },
   { kode: 'ITM-007', nama: 'Pelatihan Tim', jumlah: 12, status: 'baru' },
   { kode: 'ITM-008', nama: 'Migrasi Data', jumlah: 5, status: 'arsip' },
@@ -350,11 +376,14 @@ export default function ElementPage() {
     jumlah: i.jumlah.toLocaleString('id-ID'),
     status: LENCANA[i.status],
     aksi: (
-      <div className="tablelist-v1__aksi">
-        <ActionButton icon={Eye} aria-label={`Lihat ${i.nama}`} />
-        <ActionButton icon={Pencil} aria-label={`Ubah ${i.nama}`} />
-        <ActionButton icon={Trash2} variant="danger" aria-label={`Hapus ${i.nama}`} />
-      </div>
+      <AksiBaris
+        nama={i.nama}
+        item={[
+          { kunci: 'lihat', label: 'Lihat Detail', ikon: Eye, onClick: () => {} },
+          { kunci: 'ubah', label: 'Ubah', ikon: Pencil, onClick: () => {} },
+          { kunci: 'hapus', label: 'Hapus', ikon: Trash2, bahaya: true, onClick: () => {} },
+        ]}
+      />
     ),
   }));
 
@@ -363,7 +392,7 @@ export default function ElementPage() {
       <PageTitle
         title="Semua Element"
         subtitle="Katalog komponen DealTech UI v2. Setiap kotak menampilkan satu komponen beserta letak berkasnya di src/components/ui/."
-        action={<span className="element-hitung">50 komponen</span>}
+        action={<span className="element-hitung">51 komponen</span>}
       />
 
       <nav className="element-nav" aria-label="Lompat ke seksi">
@@ -409,6 +438,7 @@ export default function ElementPage() {
             <DemoTuang ikon="simpan" label="Simpan" />
             <DemoTuang ikon="unggah" variant="ghost" label="Unggah Berkas" unggah />
             <DemoTuang ikon="file" variant="ghost" label="Cetak PDF" />
+            <DemoTuang ikon="kirim" variant="ghost" label="Kirim Kode" teksBerhasil="Berhasil terkirim" />
             <DemoTuang ikon="hapus" label="Hapus" gagal />
           </div>
           <div className="element-baris">
@@ -433,7 +463,9 @@ export default function ElementPage() {
             <ActionButton icon={Trash2} variant="danger" aria-label="Hapus" />
             <ActionButton icon={Pencil} disabled aria-label="Nonaktif" />
           </div>
-          <p className="element-catatan">Tombol ikon untuk kolom aksi di tabel.</p>
+          <p className="element-catatan">
+            Tombol ikon ringkas, mis. hapus gambar. Aksi baris tabel memakai AksiBaris.
+          </p>
         </Petak>
 
         <Petak nama="TabButton" jalur="tab-button/">
@@ -535,6 +567,16 @@ export default function ElementPage() {
           <Memuat teks="Memuat data…" ukuran="halaman" />
         </Petak>
 
+        <Petak nama="Skeleton" jalur="skeleton/">
+          <InputText label="Nama Produk" hint="Label dan hint tetap tampil." memuat required />
+          <SkeletonTeks />
+          <div className="flex items-center gap-2">
+            <Skeleton bentuk="pil" />
+            <Skeleton bentuk="kotak" lebar={30} tinggi={30} />
+            <Skeleton bentuk="bulat" lebar={32} tinggi={32} />
+          </div>
+        </Petak>
+
         <Petak nama="KodeOtomatis" jalur="kode-otomatis/">
           <KodeOtomatis
             label="Kode Item"
@@ -546,7 +588,7 @@ export default function ElementPage() {
       </Seksi>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="form" judul="Form" jumlah={12}>
+      <Seksi id="form" judul="Form" jumlah={13}>
         <Petak nama="InputText / InputNumber" jalur="inputtext/, inputnumber/">
           <InputText
             label="Nama Item"
@@ -641,6 +683,14 @@ export default function ElementPage() {
             yang gagal terkirim.
           </p>
         </Petak>
+
+        <Petak nama="KodeOtp" jalur="kode-otp/">
+          <DemoOtp />
+          <p className="element-catatan">
+            Enam kotak menumpuk jadi perisai saat diperiksa. Ketik 000000 untuk melihat yang
+            ditolak.
+          </p>
+        </Petak>
       </Seksi>
 
       {/* ------------------------------------------------------------------ */}
@@ -715,6 +765,10 @@ export default function ElementPage() {
               onNavigasi: setHalamanTabel,
             }}
           />
+          <p className="element-catatan">
+            Satu sel satu data. Isi yang melebihi kolom dipotong elipsis, isi lengkapnya ada di
+            tooltip. Aksi baris lewat dropdown AksiBaris.
+          </p>
         </Petak>
 
         <Petak nama="TabelCardV1" jalur="tabelcardv1/">

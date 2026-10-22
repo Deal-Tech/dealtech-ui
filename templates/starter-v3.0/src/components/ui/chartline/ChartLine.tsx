@@ -9,7 +9,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import { SERIES_COLORS, chartColors } from '@/lib/chart';
+import { chartColors, seriesColors } from '@/lib/chart';
 import './chartline.css';
 
 export interface ChartLineSeries {
@@ -34,6 +34,7 @@ export function ChartLine({
   className = '',
 }: ChartLineProps) {
   const c = chartColors();
+  const seri = seriesColors();
 
   return (
     <section className={`chartline ${className}`}>
@@ -61,7 +62,7 @@ export function ChartLine({
             />
             <Legend wrapperStyle={{ fontSize: 11 }} />
             {series.map((s, i) => {
-              const stroke = s.color ?? SERIES_COLORS[i % SERIES_COLORS.length];
+              const stroke = s.color ?? seri[i % seri.length];
               return (
                 <Line
                   key={s.key}

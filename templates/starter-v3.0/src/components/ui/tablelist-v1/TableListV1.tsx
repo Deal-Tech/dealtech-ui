@@ -9,7 +9,9 @@ import {
 } from 'react';
 
 import { Checkbox } from '@/components/ui/checkbox/Checkbox';
+import { MenuAksi, type ItemAksi } from '@/components/ui/menu-aksi/MenuAksi';
 import { Pagination } from '@/components/ui/pagination/Pagination';
+import { Skeleton } from '@/components/ui/skeleton/Skeleton';
 import './tablelist-v1.css';
 
 export type TableListAlign = 'left' | 'center' | 'right';
@@ -20,8 +22,11 @@ export interface TableListColumn {
   align?: TableListAlign;
   muted?: boolean;
   width?: string;
+  /** Bentuk sel saat memuat. */
+  skeleton?: 'teks' | 'ikon' | 'pil';
 }
 
+// Satu sel satu data (AGENTS.md)
 export type TableListRow = Record<string, ReactNode>;
 
 export interface PilihanTabel {
@@ -55,6 +60,8 @@ export interface TableListV1Props {
    * pendek. Kosongkan kalau tabel memang boleh memendek.
    */
   minBaris?: number;
+  /** Tampilkan baris skeleton. */
+  memuat?: boolean;
   emptyText?: string;
   className?: string;
 }
@@ -72,6 +79,17 @@ const TD_ALIGN: Record<TableListAlign, string> = {
 };
 
 const LEBAR_PILIH = 44;
+
+const BARIS_MEMUAT = 5;
+const LEBAR_TEKS_MEMUAT = ['72%', '56%', '84%', '64%', '48%'];
+
+function SelMemuat({ kolom, urutan }: { kolom: TableListColumn; urutan: number }) {
+  if (kolom.skeleton === 'ikon') {
+    return <Skeleton bentuk="kotak" lebar="var(--app-control-h-sm)" tinggi="var(--app-control-h-sm)" />;
+  }
+  if (kolom.skeleton === 'pil') return <Skeleton bentuk="pil" />;
+  return <Skeleton lebar={LEBAR_TEKS_MEMUAT[urutan % LEBAR_TEKS_MEMUAT.length]} />;
+}
 
 /** Jatah kolom yang tidak diberi lebar. */
 const LEBAR_LENTUR = 200;
@@ -177,6 +195,24 @@ function useSeretGulir(pemicu: unknown) {
   return { wadahRef, bisaSeret, menyeret, mulai, tahanKlik };
 }
 
+export interface AksiBarisProps {
+  item: ItemAksi[];
+  /** Nama baris untuk pembaca layar. */
+  nama: string;
+}
+
+/** Aksi baris tabel, selalu dropdown. */
+export function AksiBaris({ item, nama }: AksiBarisProps) {
+  return (
+    <MenuAksi
+      hanyaIkon
+      item={item}
+      ariaLabel={`Aksi untuk ${nama}`}
+      className="tablelist-v1__menu"
+    />
+  );
+}
+
 export function TableListV1({
   action,
   toolbar,
@@ -189,6 +225,7 @@ export function TableListV1({
   paginasi,
   footer,
   minBaris,
+  memuat = false,
   emptyText = 'Tidak ada data.',
   className = '',
 }: TableListV1Props) {
@@ -207,11 +244,12 @@ export function TableListV1({
   // Baris kosong penambal; tanpa ini tinggi tabel melompat di halaman terakhir.
   const kurang = minBaris && rows.length > 0 ? Math.max(0, minBaris - rows.length) : 0;
   const pengisi = Array.from({ length: kurang }, (_, i) => i);
+  const barisMemuat = memuat ? Array.from({ length: minBaris ?? BARIS_MEMUAT }, (_, i) => i) : [];
 
   const { wadahRef, bisaSeret, menyeret, mulai, tahanKlik } = useSeretGulir(columns);
 
   return (
-    <section className={`tablelist-v1 ${className}`}>
+    <section className={`tablelist-v1 ${className}`} aria-busy={memuat || undefined}>
       {action ? (
         <div className="tablelist-v1__header">
           <div className="tablelist-v1__action">{action}</div>
@@ -274,7 +312,21 @@ export function TableListV1({
               </tr>
             </thead>
             <tbody>
-              {rows.length === 0 ? (
+              {barisMemuat.map((i) => (
+                <tr key={`memuat-${i}`} className="tablelist-v1__row" aria-hidden="true">
+                  {adaPilihan ? (
+                    <td className="tablelist-v1__td tablelist-v1__td--pilih">
+                      <Skeleton bentuk="kotak" lebar={18} tinggi={18} />
+                    </td>
+                  ) : null}
+                  {columns.map((col, j) => (
+                    <td key={col.key} className={`tablelist-v1__td ${TD_ALIGN[col.align ?? 'left']}`}>
+                      <SelMemuat kolom={col} urutan={i + j} />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+              {!memuat && rows.length === 0 ? (
                 <tr className="tablelist-v1__row">
                   <td className="tablelist-v1__empty" colSpan={kolomTotal}>
                     {emptyText}
@@ -353,7 +405,9 @@ export function TableListV1({
 
       {paginasi ? (
         <div className="tablelist-v1__footer tablelist-v1__footer--paginasi">
-          <span className="tablelist-v1__info">{paginasi.info}</span>
+          <span className="tablelist-v1__info">
+            {memuat ? <Skeleton lebar={180} /> : paginasi.info}
+          </span>
           <Pagination
             current={paginasi.halaman}
             last={paginasi.totalHalaman}

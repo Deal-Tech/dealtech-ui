@@ -1,0 +1,105 @@
+/* Mode gelap: khusus Lydia saja */
+
+:root[data-tema='gelap'] :is(.lydia, .modal-overlay, .menu-aksi__panel, .select__panel) {
+  color-scheme: dark;
+
+  --app-bg: #10121c;
+  --app-bg-gradient: #10121c;
+  --app-surface: #1e202a;
+  --app-elevated: #1e202a;
+  --app-option-bg: #262935;
+
+  /* Teks, garis, isian: dibalik terang */
+  --color-hitam: #e6e8ee;
+  --color-hitam-rgb: 230, 232, 238;
+
+  /* Aksen tema lebih terbaca */
+  --app-primary: var(--color-accent);
+  --app-primary-hover: var(--color-primary);
+  --app-primary-active: var(--color-primary-dark);
+  --app-primary-deep: var(--color-primary-dark);
+  --app-primary-soft: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  --app-primary-ring: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  --app-chip-bg: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  --app-chip-fg: #ffffff;
+  --app-link: #ffffff;
+  --app-link-hover: #ffffff;
+  --app-input-scheme: dark;
+
+  --app-text: var(--color-hitam);
+  --app-body-text: var(--color-hitam);
+  --app-text-muted: var(--color-hitam);
+  --app-text-faint: var(--color-hitam);
+  --app-placeholder: rgba(var(--color-hitam-rgb), 0.42);
+  --app-border: rgba(var(--color-hitam-rgb), 0.14);
+  --app-border-strong: rgba(var(--color-hitam-rgb), 0.2);
+  --app-border-focus: rgba(var(--color-hitam-rgb), 0.42);
+  --app-fill: rgba(var(--color-hitam-rgb), 0.04);
+  --app-fill-strong: rgba(var(--color-hitam-rgb), 0.08);
+  --app-scroll-thumb: rgba(var(--color-hitam-rgb), 0.2);
+  --app-scroll-thumb-hover: rgba(var(--color-hitam-rgb), 0.36);
+  --app-control-ring: 0 0 0 3px var(--app-fill-strong);
+  --app-control-ring-focus: 0 0 0 3px rgba(var(--color-hitam-rgb), 0.12);
+
+  --app-success-text: #4ade80;
+  --app-warning-text: #fbbf24;
+  --app-danger-text: #f87171;
+  --app-control-ring-error: 0 0 0 3px color-mix(in srgb, var(--app-danger-text) 25%, transparent);
+
+  --app-card-border: transparent;
+  --app-shadow-card: none;
+
+  --gelap-tirai: rgba(0, 0, 0, 0.6);
+  --gelap-bayang: rgba(0, 0, 0, 0.45);
+  --lydia-latar: var(--app-bg);
+  --lydia-kode-latar: #0b0d14;
+
+  color: var(--app-text);
+}
+
+/* --- Tombol abu (ghost) --- */
+
+:root[data-tema='gelap'] :is(.lydia, .modal-overlay) .btn--ghost,
+:root[data-tema='gelap'] .lydia .menu-aksi__pemicu {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--app-text);
+}
+
+:root[data-tema='gelap'] :is(.lydia, .modal-overlay) .btn--ghost:hover:not(:disabled),
+:root[data-tema='gelap'] .lydia .menu-aksi__pemicu:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+:root[data-tema='gelap'] :is(.lydia, .modal-overlay) .btn:disabled:not(.btn--loading) {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.32);
+}
+
+:root[data-tema='gelap'] :is(.lydia, .modal-overlay) .badgeinfo--info {
+  --bi-c: #ffffff;
+}
+
+/* --- Tirai & bayangan tetap gelap --- */
+
+:root[data-tema='gelap'] :is(.modal-overlay, .lydia-tirai) {
+  background: var(--gelap-tirai);
+}
+
+:root[data-tema='gelap'] :is(.modal-overlay .modal, .select__panel, .menu-aksi__panel) {
+  box-shadow: 0 16px 40px var(--gelap-bayang);
+}
+
+:root[data-tema='gelap'] .lydia-bilah {
+  border-bottom-color: transparent;
+}
+
+:root[data-tema='gelap'] .lydia-tulis {
+  box-shadow: none;
+}
+
+/* Circular reveal: tanpa crossfade bawaan */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}

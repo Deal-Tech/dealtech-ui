@@ -1,0 +1,69 @@
+/* Latar biru penuh, tidak ikut scroll */
+.maintenance {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  padding: 24px 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: none;
+  background: linear-gradient(160deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: #ffffff;
+}
+
+.maintenance::before,
+.maintenance::after {
+  content: '';
+  position: fixed;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+}
+
+.maintenance::before {
+  width: max(110vmin, 420px);
+  top: -18vh;
+  right: -40vmin;
+}
+
+.maintenance::after {
+  width: max(80vmin, 300px);
+  bottom: -14vh;
+  left: -32vmin;
+}
+
+/* Tengah, aman saat terlalu tinggi */
+.maintenance__isi {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  max-width: 520px;
+  margin: auto;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.maintenance__judul {
+  margin: 20px 0 0;
+  font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.maintenance__teks {
+  max-width: 380px;
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 380px) {
+  .maintenance .mt-art {
+    scale: 0.85;
+    margin: -19px -24px;
+  }
+}

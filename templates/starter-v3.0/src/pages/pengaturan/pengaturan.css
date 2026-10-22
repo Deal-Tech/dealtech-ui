@@ -35,15 +35,6 @@
   border-top: 1px solid var(--app-border);
 }
 
-.pengaturan-page .pengaturan-catatan {
-  margin: 0;
-  border-radius: 6px;
-  background: var(--app-primary-soft);
-  padding: 8px 12px;
-  font-size: 11px;
-  color: var(--app-body-text);
-}
-
 /* ---- Email ---- */
 
 .pengaturan-page .pengaturan-email {
@@ -61,3 +52,90 @@
   cursor: default;
 }
 
+/* ---- Warna tema ---- */
+
+.pengaturan-page .warna-tema {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.pengaturan-page .warna-tema__pilih {
+  width: var(--app-control-h);
+  height: var(--app-control-h);
+  flex: none;
+  padding: 0;
+  border: 1px solid var(--app-border-strong);
+  border-radius: 8px;
+  background: var(--app-surface);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.pengaturan-page .warna-tema__pilih::-webkit-color-swatch-wrapper {
+  padding: 3px;
+}
+
+.pengaturan-page .warna-tema__pilih::-webkit-color-swatch {
+  border: 0;
+  border-radius: 5px;
+}
+
+.pengaturan-page .warna-tema__pilih::-moz-color-swatch {
+  border: 0;
+  border-radius: 5px;
+}
+
+.pengaturan-page .warna-tema__pilih:focus-visible {
+  outline: none;
+  border-color: var(--app-primary);
+  box-shadow: var(--app-control-ring-focus);
+}
+
+.pengaturan-page .warna-tema__pilih:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pengaturan-page .warna-tema__kode {
+  flex: 0 1 160px;
+  min-width: 120px;
+}
+
+/* Empat turunan warna */
+.pengaturan-page .warna-tema__palet {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 420px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pengaturan-page .warna-tema__palet li {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pengaturan-page .warna-tema__contoh {
+  height: 32px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(var(--color-hitam-rgb), 0.08);
+  transition: background-color 0.2s ease;
+}
+
+.pengaturan-page .warna-tema__nama {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--app-body-text);
+}
+
+.pengaturan-page .warna-tema__palet code {
+  font-size: 10.5px;
+  color: var(--app-text-muted);
+}

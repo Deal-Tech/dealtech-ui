@@ -71,17 +71,9 @@
   transform: translateY(-1px);
 }
 
-/* Tailwind preflight membuat svg jadi block — ikon perlu sebaris dengan teks */
-.login-page .login-google > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.login-google__mark {
+.login-page .login-google .btn__icon {
   width: 16.2px;
   height: 16.2px;
-  flex: 0 0 auto;
 }
 
 .login-divider {
@@ -164,6 +156,81 @@
   transform: translateY(-1px);
 }
 
+/* --- Lupa & atur ulang sandi --------------------------------------------- */
+
+.login-tautan-bawah {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.login-kembali {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.login-kembali:hover {
+  text-decoration: underline;
+}
+
+.login-kembali svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Tempat tetap ada, tanpa geser */
+.login-galat--tunggu {
+  visibility: hidden;
+}
+
+.login-kekuatan {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: -4px;
+}
+
+.login-kekuatan__batang {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.login-kekuatan__batang span {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--app-fill-strong);
+  transition: background-color 0.2s ease;
+}
+
+.login-kekuatan[data-nilai='1'] .login-kekuatan__batang span:first-child {
+  background: var(--app-danger-solid);
+}
+
+.login-kekuatan[data-nilai='2'] .login-kekuatan__batang span:nth-child(-n + 2) {
+  background: var(--app-warning-solid);
+}
+
+.login-kekuatan[data-nilai='3'] .login-kekuatan__batang span {
+  background: var(--app-success-solid);
+}
+
+.login-kekuatan__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--app-text-muted);
+}
+
 .login-footnote {
   margin: 20px 0 0;
   text-align: left;
@@ -241,6 +308,44 @@
   .login-art-panel {
     display: none;
   }
+
+  /* Pengganti panel kanan, tidak ikut scroll */
+  .login-page {
+    position: fixed;
+    inset: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    background: linear-gradient(160deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  }
+
+  .login-page::before,
+  .login-page::after {
+    content: '';
+    position: fixed;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    pointer-events: none;
+  }
+
+  .login-page::before {
+    width: max(110vw, 420px);
+    top: -18vh;
+    right: -40vw;
+  }
+
+  .login-page::after {
+    width: max(80vw, 300px);
+    bottom: -14vh;
+    left: -32vw;
+  }
+
+  .login-shell {
+    position: relative;
+    margin: auto;
+  }
 }
 
 /* Di mobile ukuran isian dan tombol kembali ke ukuran bawaan kendali tema */
@@ -271,11 +376,7 @@
     font-size: 12px;
   }
 
-  .login-page .login-google > span {
-    gap: 8px;
-  }
-
-  .login-google__mark {
+  .login-page .login-google .btn__icon {
     width: 16px;
     height: 16px;
   }

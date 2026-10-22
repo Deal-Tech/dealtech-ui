@@ -164,6 +164,63 @@ export async function api<T>(path: string, opsi: OpsiRequest = {}): Promise<T> {
   return (amplop?.data ?? amplop) as T;
 }
 
+/** POST dengan jawaban SSE. */
+export async function apiAliran(
+  path: string,
+  body: unknown,
+  onData: (data: string) => void,
+  signal?: AbortSignal,
+): Promise<void> {
+  const headers: Record<string, string> = {
+    Accept: 'text/event-stream',
+    'Content-Type': 'application/json',
+  };
+  const csrf = ambilCSRF();
+  if (csrf) headers['X-CSRF-Token'] = csrf;
+
+  let respons: Response;
+  try {
+    respons = await fetch(`${BASE_URL}${path}`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+      signal,
+      credentials: 'include',
+    });
+  } catch (e) {
+    if ((e as Error).name === 'AbortError') throw e;
+    throw new ApiError(0, 'Tidak bisa menghubungi server. Periksa koneksi internet Anda, lalu coba lagi.');
+  }
+
+  if (!respons.ok || !respons.body) {
+    const isi = (await respons.json().catch(() => ({}))) as { error?: string };
+    if (respons.status === 401) {
+      hapusCSRF();
+      saatSesiHabis?.();
+    }
+    throw new ApiError(respons.status, isi.error || pesanBawaan(respons.status));
+  }
+
+  const pembaca = respons.body.pipeThrough(new TextDecoderStream()).getReader();
+  let sisa = '';
+  for (;;) {
+    const { value, done } = await pembaca.read();
+    if (done) break;
+    sisa += value.replace(/\r\n/g, '\n');
+    // Event SSE dipisah baris kosong
+    const blok = sisa.split('\n\n');
+    sisa = blok.pop() ?? '';
+    for (const b of blok) {
+      const data = b
+        .split('\n')
+        .filter((baris) => baris.startsWith('data:'))
+        .map((baris) => baris.slice(5).trimStart())
+        .join('\n');
+      if (data) onData(data);
+    }
+  }
+}
+
 export interface MetaPaginasi {
   page: number;
   per_page: number;

@@ -2,11 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Download, Eye, Pencil, Plus, Trash2 } from 'lucide-react';
 
-import ActionButton from '@/components/ui/action-button/ActionButton';
 import { Button } from '@/components/ui/button/Button';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
-import { TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
+import { AksiBaris, TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
 import { PER_HALAMAN_BAWAAN, usePilihan } from '@/lib/daftar';
 import { ambilProduk, hapusProduk, rupiah, type Produk } from '@/services/produk';
 
@@ -16,7 +15,7 @@ const KOLOM = [
   { key: 'kategori', label: 'Kategori', width: '150px' },
   { key: 'harga', label: 'Harga', align: 'right' as const, width: '150px' },
   { key: 'stok', label: 'Stok', align: 'right' as const, width: '100px' },
-  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '150px' },
+  { key: 'aksi', label: 'Aksi', align: 'right' as const, width: '64px', skeleton: 'ikon' as const },
 ];
 
 export default function ProdukPage() {
@@ -73,20 +72,30 @@ export default function ProdukPage() {
     harga: rupiah(d.harga),
     stok: d.stok,
     aksi: (
-      <div className="tablelist-v1__aksi">
-        <ActionButton
-          icon={Eye}
-          aria-label={`Lihat ${d.nama}`}
-          onClick={() => navigate(`/dashboard/produk/${encodeURIComponent(d.kode)}`)}
-        />
-        <ActionButton icon={Pencil} aria-label={`Ubah ${d.nama}`} />
-        <ActionButton
-          icon={Trash2}
-          variant="danger"
-          aria-label={`Hapus ${d.nama}`}
-          onClick={() => void buang([d.kode])}
-        />
-      </div>
+      <AksiBaris
+        nama={d.nama}
+        item={[
+          {
+            kunci: 'lihat',
+            label: 'Lihat Detail',
+            ikon: Eye,
+            onClick: () => navigate(`/dashboard/produk/${encodeURIComponent(d.kode)}`),
+          },
+          {
+            kunci: 'ubah',
+            label: 'Ubah',
+            ikon: Pencil,
+            onClick: () => navigate(`/dashboard/produk/${encodeURIComponent(d.kode)}/ubah`),
+          },
+          {
+            kunci: 'hapus',
+            label: 'Hapus',
+            ikon: Trash2,
+            bahaya: true,
+            onClick: () => void buang([d.kode]),
+          },
+        ]}
+      />
     ),
   }));
 
@@ -140,7 +149,8 @@ export default function ProdukPage() {
           } produk`,
           onNavigasi: setHalaman,
         }}
-        emptyText={memuat ? 'Memuat produk…' : 'Tidak ada produk yang cocok.'}
+        memuat={memuat}
+        emptyText="Tidak ada produk yang cocok."
       />
     </div>
   );

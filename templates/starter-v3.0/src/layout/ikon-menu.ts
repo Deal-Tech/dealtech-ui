@@ -5,6 +5,7 @@ import {
   BarChart3,
   Book,
   BookOpen,
+  Bot,
   Boxes,
   Building,
   Building2,
@@ -62,6 +63,7 @@ import {
 
 const ICON_MAP: Record<string, LucideIcon> = {
   'layout-dashboard': LayoutDashboard,
+  bot: Bot,
   component: Component,
   'shopping-cart': ShoppingCart,
   'file-text': FileText,

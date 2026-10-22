@@ -9,6 +9,7 @@ import ProdukDetailPage from '@/pages/produk/ProdukDetailPage';
 import ProdukTambahPage from '@/pages/produk/ProdukTambahPage';
 import PengaturanPage from '@/pages/pengaturan/PengaturanPage';
 import { CheckoutPage, PembayaranPage } from '@/pages/checkout/CheckoutPages';
+import LydiaChatPage from '@/pages/lydia/LydiaChatPage';
 // [dealtech:auto-imports]
 
 const AdminApp = () => (
@@ -24,6 +25,7 @@ const AdminApp = () => (
       <Route path="pengaturan" element={<PengaturanPage />} />
       <Route path="checkout" element={<CheckoutPage />} />
       <Route path="pembayaran" element={<PembayaranPage />} />
+      <Route path="lydia/:id?" element={<LydiaChatPage />} />
       {/* [dealtech:auto-routes] */}
     </Route>
     <Route path="*" element={<Navigate to="/dashboard" replace />} />

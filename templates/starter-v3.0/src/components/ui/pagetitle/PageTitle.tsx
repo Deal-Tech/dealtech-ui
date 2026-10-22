@@ -4,7 +4,8 @@ import './pagetitle.css';
 
 export interface PageTitleProps {
   title: string;
-  subtitle?: string;
+  /** Boleh Skeleton saat memuat. */
+  subtitle?: ReactNode;
   action?: ReactNode;
   className?: string;
 }

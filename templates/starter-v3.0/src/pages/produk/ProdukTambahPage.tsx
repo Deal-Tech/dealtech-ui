@@ -9,6 +9,7 @@ import { InputText } from '@/components/ui/inputtext/InputText';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { RichText } from '@/components/ui/richtext/RichText';
 import { Select } from '@/components/ui/select/Select';
+import { Skeleton, SkeletonBila } from '@/components/ui/skeleton/Skeleton';
 import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import {
   KATEGORI,
@@ -66,6 +67,8 @@ export default function ProdukTambahPage() {
   const [terpakai, setTerpakai] = useState<string[]>([]);
   const [status, setStatus] = useState<StatusTuang>('idle');
   const [gagal, setGagal] = useState('');
+  // Hanya mode ubah menunggu data
+  const [memuat, setMemuat] = useState(modeUbah);
   // Dipakai setelah animasi centang
   const tujuanRef = useRef('/dashboard/produk');
   const proses = status === 'pending' || status === 'success';
@@ -74,8 +77,10 @@ export default function ProdukTambahPage() {
      dan untuk menolak kode kembar saat disimpan. */
   useEffect(() => {
     let hidup = true;
+    setMemuat(modeUbah);
     ambilProduk().then((daftar: Produk[]) => {
       if (!hidup) return;
+      setMemuat(false);
 
       /* Saat mengubah, kode miliknya sendiri dikeluarkan dari daftar terpakai —
          kalau tidak, menyimpan tanpa mengganti kode akan ditolak sebagai kembar. */
@@ -99,6 +104,10 @@ export default function ProdukTambahPage() {
       }
 
       setIsian((s) => (s.kode ? s : { ...s, kode: kodeBerikutnya(daftar) }));
+    }).catch(() => {
+      if (!hidup) return;
+      setMemuat(false);
+      setGagal('Data produk gagal dimuat. Muat ulang halaman.');
     });
     return () => {
       hidup = false;
@@ -149,7 +158,9 @@ export default function ProdukTambahPage() {
     <div className="produk-page space-y-6">
       <PageTitle
         title={modeUbah ? 'Ubah Produk' : 'Tambah Produk'}
-        subtitle={modeUbah ? isian.nama || kodeAwal : 'Isi rincian produk baru, lalu simpan.'}
+        subtitle={
+          memuat ? <Skeleton lebar={140} /> : modeUbah ? isian.nama || kodeAwal : 'Isi rincian produk baru, lalu simpan.'
+        }
         action={
           <Button variant="ghost" icon={ArrowLeft} onClick={() => navigate('/dashboard/produk')}>
             Kembali
@@ -159,7 +170,7 @@ export default function ProdukTambahPage() {
 
       <section className="app-section-card">
         <div className="app-section-body">
-          <form onSubmit={simpan} className="produk-form">
+          <form onSubmit={simpan} className="produk-form" aria-busy={memuat || undefined}>
             {gagal ? <BadgeInfo variant="error">{gagal}</BadgeInfo> : null}
 
             <InputText
@@ -168,6 +179,7 @@ export default function ProdukTambahPage() {
               value={isian.kode}
               onChange={(e) => ubah('kode', e.target.value)}
               error={galat.kode}
+              memuat={memuat}
               hint={
                 modeUbah
                   ? 'Mengganti kode akan mengubah alamat halaman detailnya.'
@@ -183,6 +195,7 @@ export default function ProdukTambahPage() {
               onChange={(e) => ubah('nama', e.target.value)}
               placeholder="Paket Langganan Pro"
               error={galat.nama}
+              memuat={memuat}
               required
             />
 
@@ -197,6 +210,7 @@ export default function ProdukTambahPage() {
                 onValueChange={(v) => ubah('kategori', v)}
                 options={OPSI_KATEGORI}
                 placeholder="Pilih kategori"
+                memuat={memuat}
               />
               {galat.kategori ? <span className="produk-form__galat">{galat.kategori}</span> : null}
             </div>
@@ -209,6 +223,7 @@ export default function ProdukTambahPage() {
               onChange={(e) => ubah('harga', e.target.value)}
               placeholder="450.000"
               error={galat.harga}
+              memuat={memuat}
               required
             />
 
@@ -219,6 +234,7 @@ export default function ProdukTambahPage() {
               onChange={(e) => ubah('stok', e.target.value)}
               placeholder="0"
               error={galat.stok}
+              memuat={memuat}
               required
             />
 
@@ -230,6 +246,7 @@ export default function ProdukTambahPage() {
               onChange={(html) => ubah('deskripsi', html)}
               placeholder="Tulis rincian produk di sini…"
               disabled={proses}
+              memuat={memuat}
             />
 
             <div className="produk-form__aksi">
@@ -241,14 +258,16 @@ export default function ProdukTambahPage() {
               >
                 Batal
               </Button>
-              <TombolTuang
-                type="submit"
-                ikon="simpan"
-                status={status}
-                onTuntas={() => navigate(tujuanRef.current)}
-              >
-                {modeUbah ? 'Simpan Perubahan' : 'Simpan Produk'}
-              </TombolTuang>
+              <SkeletonBila memuat={memuat}>
+                <TombolTuang
+                  type="submit"
+                  ikon="simpan"
+                  status={status}
+                  onTuntas={() => navigate(tujuanRef.current)}
+                >
+                  {modeUbah ? 'Simpan Perubahan' : 'Simpan Produk'}
+                </TombolTuang>
+              </SkeletonBila>
             </div>
           </form>
         </div>

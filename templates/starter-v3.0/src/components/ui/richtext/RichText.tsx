@@ -9,15 +9,11 @@ import {
   ListOrdered,
   Pilcrow,
   Quote,
-  Save,
-  Unlink,
-  X,
   type LucideIcon,
 } from 'lucide-react';
 
-import { Button } from '@/components/ui/button/Button';
-import { InputText } from '@/components/ui/inputtext/InputText';
-import { Modal } from '@/components/ui/modal/Modal';
+import { Skeleton, SkeletonTeks } from '@/components/ui/skeleton/Skeleton';
+import { GelembungTautan, hitungPosisiGelembung, rectTerakhir, type PosisiGelembung } from './GelembungTautan';
 import './richtext.css';
 
 const DIIZINKAN = new Set([
@@ -165,6 +161,20 @@ const TOMBOL: TombolAlat[] = [
   { cmd: 'formatBlock', arg: '<p>', icon: Pilcrow, label: 'Paragraf biasa' },
 ];
 
+// Waktu pindah dari tautan ke gelembung.
+const JEDA_TUTUP_MS = 250;
+
+type StatusGelembung = PosisiGelembung & { baru: boolean; fokus: boolean };
+
+const NAMA_SOROTAN = 'richtext-tautan';
+
+// Seleksi hilang saat input fokus.
+function sorotRentang(rentang: Range | null): void {
+  if (typeof CSS === 'undefined' || !('highlights' in CSS)) return;
+  if (rentang && !rentang.collapsed) CSS.highlights.set(NAMA_SOROTAN, new Highlight(rentang));
+  else CSS.highlights.delete(NAMA_SOROTAN);
+}
+
 export interface RichTextProps {
   value: string;
   onChange: (html: string) => void;
@@ -172,9 +182,38 @@ export interface RichTextProps {
   placeholder?: string;
   error?: string;
   disabled?: boolean;
+  /** Label tetap, editor jadi skeleton. */
+  memuat?: boolean;
 }
 
-export function RichText({ value, onChange, label, placeholder, error, disabled = false }: RichTextProps) {
+// Tombol format plus tautan
+const JUMLAH_TOMBOL = TOMBOL.length + 1;
+
+export function RichTextSkeleton({ label }: { label?: string }) {
+  return (
+    <div className="richtext">
+      {label ? <span className="richtext__label">{label}</span> : null}
+      <div className="richtext__kotak">
+        <div className="richtext__toolbar">
+          {Array.from({ length: JUMLAH_TOMBOL }, (_, i) => (
+            <Skeleton key={i} bentuk="kotak" lebar={32} tinggi={32} />
+          ))}
+        </div>
+        <div className="richtext__konten">
+          <SkeletonTeks />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Editor dipasang ulang setelah memuat
+export function RichText({ memuat = false, ...props }: RichTextProps) {
+  if (memuat) return <RichTextSkeleton label={props.label} />;
+  return <EditorRichText {...props} />;
+}
+
+function EditorRichText({ value, onChange, label, placeholder, error, disabled = false }: RichTextProps) {
   const ref = useRef<HTMLDivElement>(null);
   const htmlTerakhir = useRef<string>('');
   const rentangTersimpan = useRef<Range | null>(null);
@@ -186,10 +225,14 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
   const idEditor = `${idDasar}-editor`;
   const idGalat = `${idDasar}-galat`;
 
-  const [modalBuka, setModalBuka] = useState(false);
-  const [sedangEdit, setSedangEdit] = useState(false);
-  const [teksTautan, setTeksTautan] = useState('');
+  const wadahRef = useRef<HTMLDivElement>(null);
+  const gelembungRef = useRef<HTMLDivElement>(null);
+  const tombolTautanRef = useRef<HTMLButtonElement>(null);
+  const timerTutup = useRef<number | undefined>(undefined);
+  const penunjukDiAtas = useRef(false);
+  const [gelembung, setGelembung] = useState<StatusGelembung | null>(null);
   const [urlTautan, setUrlTautan] = useState('');
+  const gelembungBuka = gelembung !== null;
 
   useEffect(() => {
     if (!ref.current || value === htmlTerakhir.current) return;
@@ -234,82 +277,157 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
     }
   };
 
-  const bukaModalTautan = () => {
-    if (disabled) return;
-    simpanSeleksi();
+  const tutupGelembung = useCallback(() => {
+    window.clearTimeout(timerTutup.current);
+    penunjukDiAtas.current = false;
     tautanDiedit.current = null;
-    setSedangEdit(false);
-    setTeksTautan(rentangTersimpan.current ? rentangTersimpan.current.toString() : '');
-    setUrlTautan('');
-    setModalBuka(true);
+    rentangTersimpan.current = null;
+    sorotRentang(null);
+    setGelembung(null);
+  }, []);
+
+  useEffect(() => {
+    if (!gelembungBuka) return;
+    const tekanLuar = (e: Event) => {
+      if (!wadahRef.current?.contains(e.target as Node)) tutupGelembung();
+    };
+    document.addEventListener('mousedown', tekanLuar);
+    return () => document.removeEventListener('mousedown', tekanLuar);
+  }, [gelembungBuka, tutupGelembung]);
+
+  useEffect(() => {
+    const timer = timerTutup;
+    return () => window.clearTimeout(timer.current);
+  }, []);
+
+  const batalTutup = () => window.clearTimeout(timerTutup.current);
+
+  const sedangMengisi = () =>
+    gelembung?.baru === true || !!gelembungRef.current?.contains(document.activeElement);
+
+  const tautanDari = (simpul: EventTarget | Node | null | undefined): HTMLAnchorElement | null => {
+    const el = simpul instanceof Element ? simpul : simpul instanceof Node ? simpul.parentElement : null;
+    const a = el?.closest('a');
+    return a && ref.current?.contains(a) ? a : null;
+  };
+
+  const tautanDiKursor = () => tautanDari(window.getSelection()?.anchorNode);
+
+  const tampilkanGelembung = (jangkar: DOMRect, tautan: HTMLAnchorElement | null, fokus = false) => {
+    if (!wadahRef.current) return;
+    batalTutup();
+    if (tautan === null || tautan !== tautanDiedit.current) {
+      setUrlTautan(tautan ? hrefAman(tautan.getAttribute('href') ?? '') : '');
+    }
+    tautanDiedit.current = tautan;
+    setGelembung({ ...hitungPosisiGelembung(wadahRef.current, jangkar), baru: tautan === null, fokus });
+  };
+
+  const jadwalTutup = () => {
+    batalTutup();
+    timerTutup.current = window.setTimeout(() => {
+      const kursorDiTautan = tautanDiedit.current !== null && tautanDiKursor() === tautanDiedit.current;
+      if (penunjukDiAtas.current || sedangMengisi() || kursorDiTautan) return;
+      tutupGelembung();
+    }, JEDA_TUTUP_MS);
+  };
+
+  const bukaGelembungBaru = (fokus: boolean) => {
+    const rentang = rentangTersimpan.current;
+    const rect = rentang ? rectTerakhir(rentang) : null;
+    // Kursor di baris kosong tanpa rect.
+    const jangkar = rect && (rect.width > 0 || rect.height > 0) ? rect : tombolTautanRef.current?.getBoundingClientRect();
+    if (!jangkar) return;
+    sorotRentang(rentang);
+    tampilkanGelembung(jangkar, null, fokus);
+  };
+
+  const ikutiKursor = () => {
+    if (disabled) return;
+    const a = tautanDiKursor();
+    if (a) {
+      tampilkanGelembung(rectTerakhir(a), a);
+      return;
+    }
+    simpanSeleksi();
+    // Tanpa fokus: Ctrl+B tetap jalan.
+    if (rentangTersimpan.current && !rentangTersimpan.current.collapsed) bukaGelembungBaru(false);
+    else if (gelembungBuka && !penunjukDiAtas.current) tutupGelembung();
+  };
+
+  const saatKursorBerubah = () => {
+    segarkanAktif();
+    ikutiKursor();
+  };
+
+  const masukTautan = (e: MouseEvent<HTMLDivElement>) => {
+    const a = tautanDari(e.target);
+    if (disabled || !a) return;
+    penunjukDiAtas.current = true;
+    batalTutup();
+    if (!sedangMengisi()) tampilkanGelembung(rectTerakhir(a), a);
+  };
+
+  const keluarTautan = (e: MouseEvent<HTMLDivElement>) => {
+    const a = tautanDari(e.target);
+    if (!a || a.contains(e.relatedTarget as Node | null)) return;
+    penunjukDiAtas.current = false;
+    if (!gelembung?.baru) jadwalTutup();
+  };
+
+  const masukGelembung = () => {
+    penunjukDiAtas.current = true;
+    batalTutup();
+  };
+
+  const keluarGelembung = () => {
+    penunjukDiAtas.current = false;
+    if (!gelembung?.baru) jadwalTutup();
+  };
+
+  const bukaTautanBaru = () => {
+    if (disabled) return;
+    const ada = tautanDiKursor();
+    if (ada) {
+      tampilkanGelembung(rectTerakhir(ada), ada, true);
+      return;
+    }
+    simpanSeleksi();
+    bukaGelembungBaru(true);
   };
 
   const klikIsi = (e: MouseEvent<HTMLDivElement>) => {
-    if (disabled) return;
-    const tautan = (e.target as HTMLElement).closest('a');
-    if (tautan && ref.current?.contains(tautan)) {
-      e.preventDefault();
-      tautanDiedit.current = tautan as HTMLAnchorElement;
-      setSedangEdit(true);
-      setTeksTautan(tautan.textContent ?? '');
-      setUrlTautan(hrefAman(tautan.getAttribute('href') ?? ''));
-      rentangTersimpan.current = null;
-      setModalBuka(true);
+    if (tautanDari(e.target)) e.preventDefault();
+  };
+
+  const pasangAtribut = (a: HTMLAnchorElement, url: string) => {
+    a.setAttribute('href', url);
+    if (eksternal(url)) {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
+    } else {
+      a.removeAttribute('target');
+      a.removeAttribute('rel');
     }
   };
 
-  const tutupModal = () => {
-    setModalBuka(false);
-    setSedangEdit(false);
-    tautanDiedit.current = null;
-    rentangTersimpan.current = null;
+  const lepasTautan = (a: HTMLAnchorElement) => {
+    const induk = a.parentNode;
+    if (!induk) return;
+    while (a.firstChild) induk.insertBefore(a.firstChild, a);
+    induk.removeChild(a);
   };
 
-  const terapkanTautan = () => {
-    const url = urlTautanAman(urlTautan);
-    const teks = teksTautan.trim();
-
-    if (tautanDiedit.current) {
-      const a = tautanDiedit.current;
-      if (url === '') {
-        if (a.parentNode) {
-          while (a.firstChild) a.parentNode.insertBefore(a.firstChild, a);
-          a.parentNode.removeChild(a);
-        }
-      } else {
-        a.setAttribute('href', url);
-        if (eksternal(url)) {
-          a.setAttribute('target', '_blank');
-          a.setAttribute('rel', 'noopener noreferrer');
-        } else {
-          a.removeAttribute('target');
-          a.removeAttribute('rel');
-        }
-        if (teks !== '' && a.textContent !== teks) a.textContent = teks;
-      }
-      kirim();
-      tutupModal();
-      return;
-    }
-
-    if (url === '') {
-      tutupModal();
-      return;
-    }
+  const sisipkanTautan = (url: string) => {
     ref.current?.focus();
     const sel = window.getSelection();
     if (rentangTersimpan.current && sel) {
       sel.removeAllRanges();
       sel.addRange(rentangTersimpan.current);
     }
-    const nama = teks !== '' ? teks : rentangTersimpan.current?.toString() || url;
     const a = document.createElement('a');
-    a.setAttribute('href', url);
-    if (eksternal(url)) {
-      a.setAttribute('target', '_blank');
-      a.setAttribute('rel', 'noopener noreferrer');
-    }
-    a.textContent = nama;
+    pasangAtribut(a, url);
+    a.textContent = rentangTersimpan.current?.toString() || url;
 
     const rentang = sel && sel.rangeCount > 0 ? sel.getRangeAt(0) : null;
     if (rentang) {
@@ -322,22 +440,46 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
     } else {
       ref.current?.appendChild(a);
     }
+  };
+
+  const terapkanTautan = () => {
+    const url = urlTautanAman(urlTautan);
+    const a = tautanDiedit.current;
+    if (a) {
+      if (url === '') lepasTautan(a);
+      else pasangAtribut(a, url);
+    } else if (url !== '') {
+      sisipkanTautan(url);
+    }
     kirim();
-    tutupModal();
+    tutupGelembung();
   };
 
   const hapusTautan = () => {
-    const a = tautanDiedit.current;
-    if (a && a.parentNode) {
-      while (a.firstChild) a.parentNode.insertBefore(a.firstChild, a);
-      a.parentNode.removeChild(a);
+    if (tautanDiedit.current) {
+      lepasTautan(tautanDiedit.current);
       kirim();
     }
-    tutupModal();
+    tutupGelembung();
+  };
+
+  const bukaTautan = () => {
+    const url = urlTautanAman(urlTautan);
+    if (url !== '') window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const batalTautan = () => {
+    const rentang = rentangTersimpan.current;
+    tutupGelembung();
+    if (!rentang) return;
+    ref.current?.focus();
+    const sel = window.getSelection();
+    sel?.removeAllRanges();
+    sel?.addRange(rentang);
   };
 
   return (
-    <div className="richtext">
+    <div ref={wadahRef} className="richtext">
       {label ? (
         <span
           id={idLabel}
@@ -370,13 +512,15 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
             );
           })}
           <button
+            ref={tombolTautanRef}
             type="button"
             className="richtext__tombol"
             title="Tautan"
             aria-label="Tautan"
+            aria-expanded={gelembungBuka}
             disabled={disabled}
             onMouseDown={(e) => e.preventDefault()}
-            onClick={bukaModalTautan}
+            onClick={bukaTautanBaru}
           >
             <LinkIcon className="h-4 w-4" />
           </button>
@@ -395,10 +539,13 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
           aria-errormessage={error ? idGalat : undefined}
           data-placeholder={placeholder ?? ''}
           onInput={kirim}
-          onKeyUp={segarkanAktif}
-          onMouseUp={segarkanAktif}
+          onKeyUp={saatKursorBerubah}
+          onMouseUp={saatKursorBerubah}
           onFocus={segarkanAktif}
           onClick={klikIsi}
+          onMouseOver={masukTautan}
+          onMouseOut={keluarTautan}
+          onScroll={tutupGelembung}
           onPaste={(e) => {
             if (disabled) return;
             e.preventDefault();
@@ -420,49 +567,22 @@ export function RichText({ value, onChange, label, placeholder, error, disabled 
         </p>
       ) : null}
 
-      <Modal
-        open={modalBuka}
-        onClose={tutupModal}
-        title={sedangEdit ? 'Ubah Tautan' : 'Tambah Tautan'}
-        className="richtext-modal"
-        footer={
-          <div className="richtext-modal__aksi">
-            {sedangEdit ? (
-              <Button icon={Unlink} onClick={hapusTautan}>
-                Hapus Link
-              </Button>
-            ) : null}
-            <Button variant="ghost" icon={X} onClick={tutupModal}>
-              Batal
-            </Button>
-            <Button icon={Save} onClick={terapkanTautan}>
-              Terapkan
-            </Button>
-          </div>
-        }
-      >
-        <div className="richtext-modal__form">
-          <InputText
-            label="Teks"
-            value={teksTautan}
-            onChange={(e) => setTeksTautan(e.target.value)}
-            placeholder="Teks yang ditautkan"
-          />
-          <InputText
-            label="Target URL"
-            value={urlTautan}
-            onChange={(e) => setUrlTautan(e.target.value)}
-            placeholder="https://contoh.com atau /halaman"
-            autoFocus
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                terapkanTautan();
-              }
-            }}
-          />
-        </div>
-      </Modal>
+      {gelembung ? (
+        <GelembungTautan
+          ref={gelembungRef}
+          posisi={gelembung}
+          url={urlTautan}
+          sudahAda={!gelembung.baru}
+          fokusOtomatis={gelembung.fokus}
+          onUrlChange={setUrlTautan}
+          onTerapkan={terapkanTautan}
+          onBuka={bukaTautan}
+          onHapus={hapusTautan}
+          onBatal={batalTautan}
+          onMouseEnter={masukGelembung}
+          onMouseLeave={keluarGelembung}
+        />
+      ) : null}
     </div>
   );
 }

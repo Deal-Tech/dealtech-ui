@@ -68,8 +68,11 @@
   background: var(--app-fill-strong);
 }
 
+/* Isi kepanjangan dipotong, baris seragam */
 .tablelist-v1__td {
   padding: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
   font-size: 13px;
@@ -229,6 +232,15 @@
   align-items: center;
   justify-content: flex-end;
   gap: 6px;
+}
+
+/* Pemicu tipis seperti menu header */
+.tablelist-v1__menu .menu-aksi__pemicu {
+  background: transparent;
+}
+.tablelist-v1__menu .menu-aksi__pemicu:hover,
+.tablelist-v1__menu .menu-aksi__pemicu[aria-expanded='true'] {
+  background: var(--app-fill-strong);
 }
 
 /* Seret-untuk-menggulir. `pointer: fine` membatasinya ke perangkat bertetikus —

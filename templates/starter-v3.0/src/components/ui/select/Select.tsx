@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
 import { SearchInput } from '@/components/ui/search-input/SearchInput';
+import { Skeleton } from '@/components/ui/skeleton/Skeleton';
 
 import './select.css';
 
@@ -21,6 +22,8 @@ export interface SelectProps {
   panelClassName?: string;
   disabled?: boolean;
   searchable?: boolean;
+  /** Pemicu jadi skeleton. */
+  memuat?: boolean;
 }
 
 interface Pos {
@@ -41,6 +44,7 @@ export function Select({
   panelClassName = '',
   disabled = false,
   searchable = false,
+  memuat = false,
 }: SelectProps) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<Pos | null>(null);
@@ -149,9 +153,11 @@ export function Select({
 
   return (
     <div className={className}>
+      {memuat ? <Skeleton bentuk="kotak" blok className="skeleton-kontrol select__skeleton" /> : null}
       <button
         ref={triggerRef}
         type="button"
+        hidden={memuat}
         disabled={disabled}
         onClick={() => setOpen((o) => !o)}
         className={`select__trigger ${triggerClassName}`}

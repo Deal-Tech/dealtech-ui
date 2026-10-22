@@ -1,4 +1,5 @@
-import { api, apiMentah, simpanCSRF, hapusCSRF } from '@/lib/api';
+import { ApiError, api, apiMentah, simpanCSRF, hapusCSRF } from '@/lib/api';
+import { MODE_DEMO, jeda } from '@/lib/demo';
 
 export type Peran = 'admin' | 'operator';
 
@@ -46,4 +47,66 @@ export async function keluar(): Promise<void> {
   } finally {
     hapusCSRF();
   }
+}
+
+// Backend mengalihkan ke Google
+export const URL_OAUTH_GOOGLE: string =
+  import.meta.env.VITE_OAUTH_GOOGLE_URL ?? '/api/v1/auth/google/redirect';
+
+export const EMAIL_DEMO_GOOGLE = 'akun.google@gmail.com';
+
+export const PANJANG_KODE_SANDI = 6;
+
+// Demo: kode ini selalu ditolak
+export const KODE_DEMO_SALAH = '000000';
+
+export async function mintaKodeSandi(email: string): Promise<void> {
+  if (MODE_DEMO) {
+    await jeda();
+    return;
+  }
+  await api<{ terkirim: boolean }>('/api/v1/auth/forgot-password', {
+    method: 'POST',
+    body: { email },
+    tanpaCSRF: true,
+  });
+}
+
+/** Kode benar menghasilkan token atur ulang. */
+export async function periksaKodeSandi(email: string, kode: string): Promise<string> {
+  if (MODE_DEMO) {
+    await jeda();
+    if (kode === KODE_DEMO_SALAH) throw new ApiError(422, 'Kode salah atau sudah kedaluwarsa.');
+    return 'demo';
+  }
+  const hasil = await api<{ token: string }>('/api/v1/auth/verify-code', {
+    method: 'POST',
+    body: { email, code: kode },
+    tanpaCSRF: true,
+  });
+  return hasil.token;
+}
+
+export interface DataAturUlang {
+  token: string;
+  email: string;
+  sandi: string;
+  ulang: string;
+}
+
+export async function aturUlangSandi(data: DataAturUlang): Promise<void> {
+  if (MODE_DEMO) {
+    await jeda();
+    return;
+  }
+  await api<{ diatur: boolean }>('/api/v1/auth/reset-password', {
+    method: 'POST',
+    body: {
+      token: data.token,
+      email: data.email,
+      password: data.sandi,
+      password_confirmation: data.ulang,
+    },
+    tanpaCSRF: true,
+  });
 }

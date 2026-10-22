@@ -12,11 +12,13 @@ import {
   masuk as masukLayanan,
   keluar as keluarLayanan,
   profil,
+  EMAIL_DEMO_GOOGLE,
+  URL_OAUTH_GOOGLE,
   type Pengguna,
   type Peran,
 } from '@/services/auth';
 import { hapusCSRF, pasangPenanganSesiHabis, pasangPenanganWajibGantiSandi } from './api';
-import { MODE_DEMO, bacaSesi, penggunaDemo, simpanSesi } from './demo';
+import { MODE_DEMO, bacaSesi, jeda, penggunaDemo, simpanSesi } from './demo';
 
 export type { Pengguna, Peran };
 
@@ -24,6 +26,8 @@ interface KonteksAuth {
   pengguna: Pengguna | null;
   memuat: boolean;
   masuk: (email: string, sandi: string, ingat?: boolean) => Promise<void>;
+  /** Demo: langsung masuk. Produksi: ke halaman OAuth. */
+  masukGoogle: () => Promise<void>;
   keluar: () => Promise<void>;
   boleh: (...peran: Peran[]) => boolean;
   segarkan: (u: Pengguna) => void;
@@ -88,6 +92,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [pasang],
   );
 
+  const masukGoogle = useCallback(async () => {
+    if (MODE_DEMO) {
+      await jeda();
+      const u = penggunaDemo(EMAIL_DEMO_GOOGLE);
+      simpanSesi(u, true);
+      pasang(u);
+      return;
+    }
+    window.location.assign(URL_OAUTH_GOOGLE);
+  }, [pasang]);
+
   const keluar = useCallback(async () => {
     if (MODE_DEMO) {
       simpanSesi(null);
@@ -106,8 +121,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const segarkan = useCallback((u: Pengguna) => pasang(u), [pasang]);
 
   const nilai = useMemo(
-    () => ({ pengguna, memuat, masuk, keluar, boleh, segarkan }),
-    [pengguna, memuat, masuk, keluar, boleh, segarkan],
+    () => ({ pengguna, memuat, masuk, masukGoogle, keluar, boleh, segarkan }),
+    [pengguna, memuat, masuk, masukGoogle, keluar, boleh, segarkan],
   );
 
   return <Konteks.Provider value={nilai}>{children}</Konteks.Provider>;
