@@ -189,3 +189,14 @@
     margin-top: 4px;
   }
 }
+
+/* Skeleton putih di kartu berwarna */
+.stat-card .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.28) 25%,
+    rgba(255, 255, 255, 0.5) 37%,
+    rgba(255, 255, 255, 0.28) 63%
+  );
+  background-size: 400% 100%;
+}
