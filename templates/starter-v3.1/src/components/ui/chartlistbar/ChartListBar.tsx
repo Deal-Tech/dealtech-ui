@@ -1,6 +1,10 @@
 import type { ReactNode } from 'react';
 
+import { Skeleton } from '@/components/ui/skeleton/Skeleton';
 import './chartlistbar.css';
+
+// Lebar batang skeleton bervariasi
+const BATANG_MEMUAT = [88, 62, 45, 30, 20];
 
 export interface ChartListBarItem {
   label: string;
@@ -15,6 +19,9 @@ export interface ChartListBarProps {
   items: ChartListBarItem[];
   emptyText?: string;
   className?: string;
+  /** Baris skeleton meniru susunan */
+  memuat?: boolean;
+  barisMemuat?: number;
 }
 
 export function ChartListBar({
@@ -22,6 +29,8 @@ export function ChartListBar({
   items,
   emptyText = 'Tidak ada data.',
   className = '',
+  memuat = false,
+  barisMemuat = 3,
 }: ChartListBarProps) {
   const max = Math.max(...items.map((i) => i.value), 1);
   return (
@@ -33,7 +42,26 @@ export function ChartListBar({
       ) : null}
 
       <div className="chartlistbar__body">
-        {items.length === 0 ? (
+        {memuat ? (
+          Array.from({ length: barisMemuat }, (_, i) => (
+            <div key={`memuat-${i}`} className="chartlistbar__row">
+              <div className="chartlistbar__row-head">
+                <span className="chartlistbar__label">
+                  <Skeleton lebar={110 - (i % 3) * 20} />
+                </span>
+                <span className="chartlistbar__meta">
+                  <Skeleton lebar={72} />
+                </span>
+              </div>
+              <div className="chartlistbar__track chartlistbar__track--memuat">
+                <Skeleton bentuk="kotak" lebar={`${BATANG_MEMUAT[i % BATANG_MEMUAT.length]}%`} tinggi="100%" />
+              </div>
+              <p className="chartlistbar__value">
+                <Skeleton lebar={44} />
+              </p>
+            </div>
+          ))
+        ) : items.length === 0 ? (
           <div className="chartlistbar__empty">{emptyText}</div>
         ) : (
           items.map((item, i) => {

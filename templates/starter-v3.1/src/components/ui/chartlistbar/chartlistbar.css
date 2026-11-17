@@ -70,3 +70,12 @@
   flex-direction: column;
   gap: 4px;
 }
+
+/* Rel polos saat memuat */
+.chartlistbar__track--memuat {
+  background: transparent;
+}
+.chartlistbar__track--memuat > .skeleton {
+  display: block;
+  border-radius: 999px;
+}

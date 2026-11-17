@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import { Skeleton } from '@/components/ui/skeleton/Skeleton';
 import './charttoplist.css';
 
 export interface ChartTopListItem {
@@ -13,6 +14,9 @@ export interface ChartTopListProps {
   items: ChartTopListItem[];
   emptyText?: string;
   className?: string;
+  /** Baris skeleton meniru susunan */
+  memuat?: boolean;
+  barisMemuat?: number;
 }
 
 export function ChartTopList({
@@ -20,6 +24,8 @@ export function ChartTopList({
   items,
   emptyText = 'Tidak ada data.',
   className = '',
+  memuat = false,
+  barisMemuat = 4,
 }: ChartTopListProps) {
   return (
     <section className={`charttoplist ${className}`}>
@@ -30,7 +36,24 @@ export function ChartTopList({
       ) : null}
 
       <div className="charttoplist__body">
-        {items.length === 0 ? (
+        {memuat ? (
+          Array.from({ length: barisMemuat }, (_, i) => (
+            <div key={`memuat-${i}`} className="charttoplist__row">
+              <span className="charttoplist__rank">{i + 1}</span>
+              <div className="charttoplist__info">
+                <p className="charttoplist__name">
+                  <Skeleton lebar={140 - (i % 3) * 25} />
+                </p>
+                <p className="charttoplist__meta">
+                  <Skeleton lebar={64} />
+                </p>
+              </div>
+              <span className="charttoplist__value">
+                <Skeleton lebar={72} />
+              </span>
+            </div>
+          ))
+        ) : items.length === 0 ? (
           <div className="charttoplist__empty">{emptyText}</div>
         ) : (
           items.map((item, i) => (

@@ -1249,6 +1249,10 @@ export default function ElementPage() {
               { label: 'Mitra', value: 14, valueLabel: '14%', meta: '167 transaksi' },
             ]}
           />
+          <BadgeInfo variant="info" icon={false}>
+            Saat memuat (prop memuat): baris skeleton meniru label, batang, dan nilai.
+          </BadgeInfo>
+          <ChartListBar items={[]} memuat />
         </Petak>
 
         <Petak nama="ChartTopList" jalur="charttoplist/">
@@ -1259,6 +1263,10 @@ export default function ElementPage() {
               { name: 'Rina Kusuma', meta: 'Dukungan', value: '4.7' },
             ]}
           />
+          <BadgeInfo variant="info" icon={false}>
+            Saat memuat (prop memuat): nomor peringkat tetap, nama dan nilai jadi skeleton.
+          </BadgeInfo>
+          <ChartTopList items={[]} memuat />
         </Petak>
 
         <Petak nama="CardBarChart" jalur="cardbar-chart/">

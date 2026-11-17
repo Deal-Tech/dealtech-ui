@@ -248,7 +248,8 @@ halaman admin.
 4. **Tabel pakai `memuat` di `TableListV1`.** Header, toolbar, dan paginasi tetap;
    barisnya jadi skeleton. Bentuk sel diatur lewat `skeleton` di definisi kolom:
    `'ikon'` untuk kolom aksi, `'pil'` untuk kolom status ber-`Badge`, selebihnya
-   teks.
+   teks. `ChartListBar` dan `ChartTopList` juga menerima `memuat` (jumlah baris lewat
+   `barisMemuat`); jangan membungkus chart dengan satu kotak `SkeletonBila`.
 5. **Kontrol yang bergantung data dibungkus `SkeletonBila`.** Tombol simpan,
    menu aksi, dan badge status dirender tak terlihat di dalam skeleton, jadi
    ukurannya persis sama. Tombol yang tetap berfungsi tanpa data, seperti
