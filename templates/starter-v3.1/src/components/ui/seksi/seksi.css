@@ -1,10 +1,10 @@
 .seksi__kepala {
   display: flex;
-  min-height: 32.8px;
+  min-height: 37.8px;
   align-items: center;
   gap: 10px;
   margin: 2px 2px 0;
-  padding: 1px 1px 1px 6px;
+  padding: 3.5px 3.5px 3.5px 6px;
   border-radius: 6px 6px 3px 3px;
   background: var(--app-fill-strong);
 }
@@ -27,12 +27,12 @@
 }
 
 .seksi__aksi > a {
-  padding-right: 11px;
+  padding-right: 8.5px;
 }
 
-/* Isi: setengah jarak lama */
+/* Isi: tiga perempat jarak lama */
 .seksi .app-section-body {
-  padding: 8px;
+  padding: 12px;
 }
 /* Jarak ke kepala = header tabel */
 .seksi__kepala + .app-section-body,
@@ -58,7 +58,7 @@
   }
 
   .seksi .app-section-body {
-    padding: 5px;
+    padding: 7.5px;
   }
   .seksi__kepala + .app-section-body,
   .seksi__kepala + * > .app-section-body:first-child {
