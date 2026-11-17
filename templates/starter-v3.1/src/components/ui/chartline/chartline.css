@@ -8,3 +8,21 @@
 .chartline__body {
   padding: 16px 12px 8px;
 }
+
+/* Memuat: garis abu berdenyut */
+.chartline--memuat .chartline__muat .recharts-line-curve {
+  stroke: var(--app-fill-strong);
+}
+.chartline--memuat .recharts-surface {
+  animation: chartline-denyut 1.4s ease-in-out infinite;
+}
+@keyframes chartline-denyut {
+  50% {
+    opacity: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chartline--memuat .recharts-surface {
+    animation: none;
+  }
+}

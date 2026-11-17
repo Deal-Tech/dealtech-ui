@@ -1189,6 +1189,16 @@ export default function ElementPage() {
               { key: 'transaksi', label: 'Transaksi' },
             ]}
           />
+          <BadgeInfo variant="info" icon={false}>
+            Saat memuat (prop memuat): grid dan label sumbu X tetap, garisnya bayangan abu berdenyut.
+          </BadgeInfo>
+          <ChartLine
+            data={DATA_GARIS}
+            xKey="bulan"
+            series={[{ key: 'transaksi', label: 'Transaksi' }]}
+            height={220}
+            memuat
+          />
         </Petak>
 
         <Petak nama="ChartLineV2" jalur="chartlinev2/">
