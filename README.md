@@ -3,7 +3,7 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:13263a,100:01498b&height=200&section=header&text=DealTech%20UI&fontColor=ffffff&fontSize=56&fontAlignY=36&desc=Starter%20admin%20panel%20React%20%2B%20Vite%20dalam%20satu%20perintah&descSize=18&descAlignY=58" alt="DealTech UI — starter admin panel React + Vite dalam satu perintah" width="100%" />
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&duration=3000&pause=1000&color=01498B&center=true&vCenter=true&width=640&lines=dealtech-ui+install+my-admin-app+--v3.1;66+UI+element+siap+pakai;Tabel%2C+form%2C+chart%2C+login%2C+dan+tema+sekaligus" alt="dealtech-ui install my-admin-app --v3.1" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&duration=3000&pause=1000&color=01498B&center=true&vCenter=true&width=640&lines=dealtech-ui+install+my-admin-app+--v3.1;67+UI+element+siap+pakai;Tabel%2C+form%2C+chart%2C+login%2C+dan+tema+sekaligus" alt="dealtech-ui install my-admin-app --v3.1" />
 </p>
 
 <p align="center">
@@ -16,7 +16,7 @@
   <img src="https://img.shields.io/badge/Lisensi-MIT-13263a?style=for-the-badge" alt="Lisensi MIT" height="32" />
 </p>
 
-<sub>React 19 · Vite · TypeScript · Tailwind CSS &nbsp;|&nbsp; 66 element di v3.1 &nbsp;|&nbsp; Gratis</sub>
+<sub>React 19 · Vite · TypeScript · Tailwind CSS &nbsp;|&nbsp; 67 element di v3.1 &nbsp;|&nbsp; Gratis</sub>
 
 </div>
 
@@ -64,7 +64,7 @@ Pola pakainya mirip shadcn/ui: kode komponen disalin ke project Anda, bukan diim
   <tr>
     <td width="50%" valign="top">
       <h3>Element baru</h3>
-      <code>seksi</code> untuk kartu berjudul, <code>bidang</code> untuk label kontrol tanpa label, <code>tombol-muat-ulang</code> untuk Refresh beranimasi, dan hook <code>useAksiTuang</code> untuk tombol async.
+      <code>seksi</code> untuk kartu berjudul, <code>bidang</code> untuk label kontrol tanpa label, <code>kartu-ringkas</code> untuk kartu data dashboard, <code>tombol-muat-ulang</code> untuk Refresh beranimasi, dan hook <code>useAksiTuang</code> untuk tombol async.
     </td>
     <td width="50%" valign="top">
       <h3>Lebih padu</h3>
@@ -182,7 +182,7 @@ npx dealtech-ui install my-admin-app
 
 Karena itu nama element v1 tidak dikenali di v2/v3 dan sebaliknya. CLI menolak nama yang tidak ada di starter aktif dan menampilkan daftar yang tersedia.
 
-**v3.1 dibanding v3.0:** semua element v3.0 ada di v3.1. Bedanya ada di tampilan (token tanpa bayangan, bar abu, kartu statistik chevron, tinggi isian) dan lima element baru: `seksi`, `bidang`, `konfirmasi-modal`, `hapus-massal`, `tombol-muat-ulang`. Rinciannya ada di [CHANGELOG](CHANGELOG.md).
+**v3.1 dibanding v3.0:** semua element v3.0 ada di v3.1. Bedanya ada di tampilan (token tanpa bayangan, bar abu, kartu statistik chevron, tinggi isian) dan enam element baru: `seksi`, `bidang`, `konfirmasi-modal`, `hapus-massal`, `tombol-muat-ulang`, `kartu-ringkas`. Rinciannya ada di [CHANGELOG](CHANGELOG.md).
 
 **v3.0 dibanding v2.0-next:** element-nya nyaris sama. Yang berbeda terutama kulit aplikasinya: halaman login dan lupa sandi baru, halaman maintenance, Lydia Chat UI, warna tema yang bisa diganti dari Pengaturan, header bergaya dokumen, dan sidebar biru. Khusus v3: `tombol-tuang`, `kode-otp`, `skeleton`.
 
@@ -195,9 +195,9 @@ Karena itu nama element v1 tidak dikenali di v2/v3 dan sebaliknya. CLI menolak n
 
 **v3.1** (`--v3.1`)
 
-`action-button`, `badge`, `badgeinfo`, `badgev2`, `bidang`, `bilah-lipat`, `blok-tentang`, `button`, `cardbar-chart`, `cardbar-list`, `chartbar-ganda`, `chartbarhor`, `chartbarver`, `chartline`, `chartlinev2`, `chartlistbar`, `chartpie`, `charttoplist`, `checkbox`, `date-input`, `hapus-massal`, `heatmap`, `hex-backdrop`, `inputlongtext`, `inputnumber`, `inputtext`, `kalender`, `kartu-katalog`, `kartu-paket`, `kepala-publik`, `kode-otomatis`, `kode-otp`, `konfirmasi-modal`, `label-qr`, `lembar-cetak`, `lightbox`, `logo-shape`, `memuat`, `menu-aksi`, `modal`, `modal-galat`, `pagetitle`, `pagination`, `peta-titik`, `pilih-banyak`, `pita-berjalan`, `progress-bar`, `proses-modal`, `protected-route`, `richtext`, `search-input`, `search-select`, `seksi`, `select`, `skeleton`, `stat-card`, `tab-button`, `tabelcardv1`, `table-toolbar`, `tablelist-v1`, `toggleonoff`, `tombol-muat-ulang`, `tombol-tuang`, `ulasan-berjalan`, `unggah-gambar`, `welcome-card-v2`
+`action-button`, `badge`, `badgeinfo`, `badgev2`, `bidang`, `bilah-lipat`, `blok-tentang`, `button`, `cardbar-chart`, `cardbar-list`, `chartbar-ganda`, `chartbarhor`, `chartbarver`, `chartline`, `chartlinev2`, `chartlistbar`, `chartpie`, `charttoplist`, `checkbox`, `date-input`, `hapus-massal`, `heatmap`, `hex-backdrop`, `inputlongtext`, `inputnumber`, `inputtext`, `kalender`, `kartu-katalog`, `kartu-paket`, `kartu-ringkas`, `kepala-publik`, `kode-otomatis`, `kode-otp`, `konfirmasi-modal`, `label-qr`, `lembar-cetak`, `lightbox`, `logo-shape`, `memuat`, `menu-aksi`, `modal`, `modal-galat`, `pagetitle`, `pagination`, `peta-titik`, `pilih-banyak`, `pita-berjalan`, `progress-bar`, `proses-modal`, `protected-route`, `richtext`, `search-input`, `search-select`, `seksi`, `select`, `skeleton`, `stat-card`, `tab-button`, `tabelcardv1`, `table-toolbar`, `tablelist-v1`, `toggleonoff`, `tombol-muat-ulang`, `tombol-tuang`, `ulasan-berjalan`, `unggah-gambar`, `welcome-card-v2`
 
-v3.0 sama dengan v3.1 tanpa `bidang`, `hapus-massal`, `konfirmasi-modal`, `seksi`, dan `tombol-muat-ulang`. v2.0-next sama dengan v3.0 tanpa `tombol-tuang`, `kode-otp`, dan `skeleton`.
+v3.0 sama dengan v3.1 tanpa `bidang`, `hapus-massal`, `kartu-ringkas`, `konfirmasi-modal`, `seksi`, dan `tombol-muat-ulang`. v2.0-next sama dengan v3.0 tanpa `tombol-tuang`, `kode-otp`, dan `skeleton`.
 
 **v1** (`--v1`, juga di npm)
 

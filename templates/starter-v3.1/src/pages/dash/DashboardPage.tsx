@@ -1,6 +1,7 @@
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  Bell,
   Boxes,
   Check,
   CircleAlert,
@@ -9,28 +10,37 @@ import {
   Eye,
   LayoutDashboard,
   Package,
+  PackageX,
   Pencil,
   Sparkles,
   Trash2,
+  UserPlus,
   Users,
+  Wallet,
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge/Badge';
 import { BilahLipat } from '@/components/ui/bilah-lipat/BilahLipat';
 import { Button } from '@/components/ui/button/Button';
+import {
+  GridKartuRingkas,
+  GridKartuRingkasSkeleton,
+  KartuRingkas,
+  type KartuRingkasProps,
+} from '@/components/ui/kartu-ringkas/KartuRingkas';
 import { HapusMassal } from '@/components/ui/hapus-massal/HapusMassal';
 import { Modal } from '@/components/ui/modal/Modal';
+import { Seksi } from '@/components/ui/seksi/Seksi';
 import { StatCard, StatGrid } from '@/components/ui/stat-card/StatCard';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
 import { AksiBaris, TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
 import { WelcomeCardV2 } from '@/components/ui/welcome-card-v2/WelcomeCardV2';
-import { resolveIcon } from '@/layout/ikon-menu';
-import { menu, saringMenu } from '@/layout/menu';
 import { PER_HALAMAN_BAWAAN, usePilihan } from '@/lib/daftar';
+import { ambilProduk, type Produk } from '@/services/produk';
 import './dashboard.css';
 
 const RINGKASAN = [
-  { kunci: 'komponen', ikon: Component, judul: 'Komponen UI', nilai: '66 elemen', helper: null },
+  { kunci: 'komponen', ikon: Component, judul: 'Komponen UI', nilai: '67 elemen', helper: null },
   { kunci: 'layout', ikon: LayoutDashboard, judul: 'Layout', nilai: '1 layout', helper: null },
   { kunci: 'token', ikon: Boxes, judul: 'Token Tema', nilai: '60+ variabel', helper: null },
   { kunci: 'pengguna', ikon: Users, judul: 'Pengguna', nilai: '1 akun', helper: 'mode demo' },
@@ -214,38 +224,116 @@ function TabelTerbaru() {
   );
 }
 
-function AksesCepat() {
-  const tujuan = useMemo(() => {
-    const m = saringMenu(menu, undefined);
-    return [...m.main, ...m.groups.flatMap((g) => g.items), ...m.others].filter(
-      (i) => i.href !== '/dashboard' && !i.external,
-    );
+type BarisKartu = KartuRingkasProps & { kunci: string };
+
+const BATAS_KARTU = 6;
+// Stok di bawah ini perlu diisi ulang
+const STOK_MINIMUM = 50;
+
+const NOTIFIKASI: BarisKartu[] = [
+  { kunci: 'n1', judul: 'Pembayaran TRX-1002 diterima', status: '5 menit lalu', info: 'TRX-1002', ikon: Bell, ke: '/dashboard/pembayaran' },
+  { kunci: 'n2', judul: 'Harga Paket Langganan Pro diubah', status: '32 menit lalu', info: 'PRD-2002', ikon: Bell, ke: '/dashboard/produk/PRD-2002' },
+  { kunci: 'n3', judul: 'Member baru mendaftar', status: '1 jam lalu', info: 'USR-1012', ikon: Bell, ke: '/dashboard/member' },
+  { kunci: 'n4', judul: 'Warna tema admin diperbarui', status: 'Kemarin', info: 'Pengaturan', ikon: Bell, ke: '/dashboard/pengaturan' },
+  { kunci: 'n5', judul: 'Bukti bayar TRX-1006 diunggah', status: 'Kemarin', info: 'TRX-1006', ikon: Bell, ke: '/dashboard/pembayaran' },
+];
+
+const MEMBER_BARU: BarisKartu[] = [
+  { kunci: 'USR-1012', judul: 'Yoga Pratama', status: 'Bergabung hari ini', info: 'USR-1012', ikon: UserPlus, nada: 'sukses' },
+  { kunci: 'USR-1011', judul: 'Nadia Puspita', status: 'Bergabung hari ini', info: 'USR-1011', ikon: UserPlus, nada: 'sukses' },
+  { kunci: 'USR-1010', judul: 'Rizky Ramadhan', status: 'Kemarin', info: 'USR-1010', ikon: UserPlus, nada: 'sukses' },
+];
+
+const TINDAKAN: BarisKartu[] = DATA.filter((d) => d.status === 'baru' || d.status === 'tinjau').map((d) => ({
+  kunci: d.kode,
+  judul: d.nama,
+  status: d.status === 'baru' ? 'Menunggu pembayaran' : 'Perlu ditinjau',
+  info: `${d.kode} · ${rupiah(d.jumlah)}`,
+  ikon: d.status === 'baru' ? Wallet : CircleAlert,
+  nada: 'awas',
+  ke: d.status === 'baru' ? '/dashboard/pembayaran' : '/dashboard/checkout',
+}));
+
+interface SeksiKartuProps {
+  judul: string;
+  /** Tanpa halaman daftar: tanpa tautan */
+  ke?: string;
+  baris: BarisKartu[];
+  memuat: boolean;
+}
+
+/** Seksi kartu data: skeleton, lalu sembunyi bila kosong */
+function SeksiKartu({ judul, ke, baris, memuat }: SeksiKartuProps) {
+  if (!memuat && baris.length === 0) return null;
+  return (
+    <Seksi
+      title={memuat ? judul : `${judul} (${baris.length})`}
+      rapat
+      action={
+        ke ? (
+          <Link to={ke} className="dashboard-tautan">
+            Lihat semua
+          </Link>
+        ) : undefined
+      }
+    >
+      <div className="app-section-body">
+        {memuat ? (
+          <GridKartuRingkasSkeleton />
+        ) : (
+          <GridKartuRingkas>
+            {baris.slice(0, BATAS_KARTU).map(({ kunci, ...b }) => (
+              <KartuRingkas key={kunci} {...b} ke={b.ke ?? ke} />
+            ))}
+          </GridKartuRingkas>
+        )}
+      </div>
+    </Seksi>
+  );
+}
+
+function KartuData() {
+  const [produk, setProduk] = useState<Produk[] | null>(null);
+  const memuat = produk === null;
+
+  useEffect(() => {
+    let hidup = true;
+    ambilProduk()
+      .then((d) => hidup && setProduk(d))
+      .catch(() => hidup && setProduk([]));
+    return () => {
+      hidup = false;
+    };
   }, []);
 
-  if (tujuan.length === 0) return null;
+  const stok = useMemo<BarisKartu[]>(
+    () =>
+      (produk ?? [])
+        .filter((p) => p.stok < STOK_MINIMUM)
+        .sort((a, b) => a.stok - b.stok)
+        .map((p) => ({
+          kunci: p.kode,
+          judul: p.nama,
+          status: `Sisa ${p.stok}`,
+          info: `minimal ${STOK_MINIMUM}`,
+          ikon: PackageX,
+          nada: p.stok < 20 ? 'bahaya' : 'awas',
+          ke: `/dashboard/produk/${encodeURIComponent(p.kode)}`,
+        })),
+    [produk],
+  );
 
   return (
-    <section className="akses-cepat" aria-label="Akses cepat">
-      <div className="akses-cepat__isi">
-        <span className="akses-cepat__badge">
-          <Sparkles className="akses-cepat__badge-ikon" aria-hidden="true" />
-          Akses Cepat
-        </span>
-        <h2 className="akses-cepat__judul">Langsung Ke Halaman Yang Sering Dibuka</h2>
+    <>
+      <div className="dashboard-dua">
+        <SeksiKartu judul="Perlu Tindakan" ke="/dashboard/pembayaran" baris={TINDAKAN} memuat={memuat} />
+        <SeksiKartu judul="Stok di Bawah Minimum" ke="/dashboard/produk" baris={stok} memuat={memuat} />
       </div>
-
-      <div className="akses-cepat__tombol">
-        {tujuan.map((item) => {
-          const Ikon = resolveIcon(item.icon);
-          return (
-            <Link key={item.key} className="akses-cepat__butir" to={item.href}>
-              <Ikon className="akses-cepat__ikon" aria-hidden="true" />
-              {item.label}
-            </Link>
-          );
-        })}
+      <div className="dashboard-satu">
+        <SeksiKartu judul="Notifikasi Baru" baris={NOTIFIKASI} memuat={memuat} />
+        <SeksiKartu judul="Member Baru" ke="/dashboard/member" baris={MEMBER_BARU} memuat={memuat} />
       </div>
-    </section>
+    </>
   );
 }
 
@@ -282,7 +370,7 @@ export default function DashboardPage() {
 
       <TabelTerbaru />
 
-      <AksesCepat />
+      <KartuData />
     </div>
   );
 }

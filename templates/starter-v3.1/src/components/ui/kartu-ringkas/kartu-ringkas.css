@@ -1,0 +1,110 @@
+/* Sama persis kartu meja */
+
+.kartu-ringkas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--kartu-ringkas-min, 240px)), 1fr));
+  gap: 12px;
+}
+
+.kartu-ringkas {
+  --nada: color-mix(in srgb, var(--color-hitam) 45%, #ffffff);
+
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(var(--color-hitam-rgb), 0.04);
+  color: var(--app-text);
+  text-align: left;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+a.kartu-ringkas:hover {
+  background: rgba(var(--color-hitam-rgb), 0.08);
+}
+a.kartu-ringkas:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.kartu-ringkas--primer {
+  --nada: var(--color-primary);
+}
+.kartu-ringkas--sukses {
+  --nada: var(--app-success);
+}
+.kartu-ringkas--awas {
+  --nada: var(--app-warning);
+}
+.kartu-ringkas--bahaya {
+  --nada: var(--app-danger);
+}
+
+.kartu-ringkas__ikon {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--nada) 70%, #ffffff), var(--nada));
+  color: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.kartu-ringkas__ikon svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
+}
+
+.kartu-ringkas__teks {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+.kartu-ringkas__judul,
+.kartu-ringkas__ket {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kartu-ringkas__judul {
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.kartu-ringkas__ket {
+  color: rgba(var(--color-hitam-rgb), 0.6);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.kartu-ringkas__status {
+  color: var(--app-text);
+  line-height: inherit;
+}
+
+.kartu-ringkas__panah {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: rgba(var(--color-hitam-rgb), 0.4);
+  transition: color 0.15s ease;
+}
+a.kartu-ringkas:hover .kartu-ringkas__panah {
+  color: var(--app-text);
+}
+
+/* Skeleton: ubin ikon polos */
+.kartu-ringkas--memuat .kartu-ringkas__ikon {
+  background: none;
+  overflow: hidden;
+}
+.kartu-ringkas--memuat .kartu-ringkas__judul,
+.kartu-ringkas--memuat .kartu-ringkas__ket {
+  display: block;
+}
