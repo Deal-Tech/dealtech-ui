@@ -8,6 +8,9 @@ import {
   type ReactNode,
 } from 'react';
 
+import { X } from 'lucide-react';
+
+import { Button } from '@/components/ui/button/Button';
 import { Checkbox } from '@/components/ui/checkbox/Checkbox';
 import { MenuAksi, type ItemAksi } from '@/components/ui/menu-aksi/MenuAksi';
 import { Pagination } from '@/components/ui/pagination/Pagination';
@@ -260,14 +263,13 @@ export function TableListV1({
       {adaPilihan && jumlahTerpilih > 0 ? (
         <div className="tablelist-v1__massal">
           <span className="tablelist-v1__massal-jumlah">{jumlahTerpilih} baris dipilih</span>
-          <div className="tablelist-v1__massal-aksi">{aksiMassal}</div>
-          <button
-            type="button"
-            className="tablelist-v1__massal-batal"
-            onClick={pilihan.onBersihkan}
-          >
-            Batalkan pilihan
-          </button>
+          {/* Semua tombol di kanan */}
+          <div className="tablelist-v1__massal-aksi">
+            <Button icon={X} onClick={pilihan.onBersihkan}>
+              Batalkan pilihan
+            </Button>
+            {aksiMassal}
+          </div>
         </div>
       ) : (
         toolbar

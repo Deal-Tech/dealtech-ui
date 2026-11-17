@@ -183,28 +183,10 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-}
-
-.tablelist-v1__massal-batal {
   margin-left: auto;
-  background: transparent;
-  padding: 0;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--app-text-muted);
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.tablelist-v1__massal-batal:hover {
-  color: var(--app-text);
 }
 
 @media (max-width: 639px) {
-  .tablelist-v1__massal-batal {
-    margin-left: 0;
-  }
-
   .tablelist-v1__th--pilih,
   .tablelist-v1__td--pilih {
     padding-left: 12px;
@@ -294,9 +276,6 @@
 }
 .tablelist-v1__massal-jumlah {
   padding-left: 6px;
-}
-.tablelist-v1__massal-batal {
-  padding-right: 6px;
 }
 /* Di bawah tombol aksi */
 .tablelist-v1__header + .table-toolbar,
