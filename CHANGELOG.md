@@ -12,7 +12,7 @@ Starter baru di `templates/starter-v3.1`, dipasang lewat `dealtech-ui-v3.1` atau
 - Header tabel jadi bar abu terpisah setinggi 38px, sudut 3px (`border-collapse: separate` + border bawah transparan + `background-clip: padding-box`), tanpa garis bawah.
 - Toolbar tabel dan bar aksi massal jadi bar abu yang sama tingginya (42,8px), menempel 2px dari tepi kartu dengan sudut atas sejajar radius kartu. Bar massal menggantikan posisi toolbar, jadi tabel tidak bergeser saat baris dipilih.
 - Jarak tabel diseragamkan lewat `--tablelist-jarak`: tepi baris dan header sejajar bar cari, padding sel dua kali padding bar, checkbox tepat di tengah.
-- Kepala `Modal` jadi bar abu setinggi kepala `Seksi` (37,8px, 2px dari tepi, sudut atas sejajar radius modal); Esc menutup dropdown yang terbuka dulu, baru modalnya.
+- Kepala `Modal` jadi bar abu setinggi kepala `Seksi` (37,8px, 2px dari tepi, sudut atas sejajar radius modal) dengan judul 13px seperti judul seksi; Esc menutup dropdown yang terbuka dulu, baru modalnya.
 - Kepala `Seksi` jadi bar abu ringkas (37,8px), badan seksi memakai padding rata 12px di semua sisi (7,5px di HP).
 - Isian setinggi tombol dan butir menu sidebar (`--app-control-h` = 30,8px); isian galat cukup berubah warna border.
 - Kartu statistik berbentuk segmen chevron yang saling mengunci, warna mengikuti kolom (`--app-stat-1` s.d. `--app-stat-5`), paling banyak lima per baris, plus prop `memuat`.

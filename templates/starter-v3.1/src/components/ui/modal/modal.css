@@ -50,7 +50,9 @@
 
 .modal__title {
   margin: 0;
-  font-size: 1.0625rem;
+  /* Sama dengan judul seksi */
+  font-size: 13px;
+  line-height: 1.3;
   font-weight: 700;
   color: var(--app-text);
 }
