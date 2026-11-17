@@ -1,0 +1,74 @@
+.produk-page .produk-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Select tidak membawa label sendiri seperti InputText, jadi bidangnya dirakit
+   di sini — ukuran dan bobot labelnya diambil dari token yang sama supaya
+   sebaris dengan isian lain di form ini. */
+.produk-page .produk-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.produk-page .produk-form__label {
+  font-size: var(--app-field-label-size);
+  font-weight: var(--app-field-label-weight);
+  color: var(--app-body-text);
+}
+
+.produk-page .produk-form__wajib {
+  margin-left: 2px;
+  color: var(--app-danger-text);
+}
+
+.produk-page .produk-form__galat {
+  font-size: 11px;
+  color: var(--app-danger-text);
+}
+
+.produk-page .produk-form__aksi {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+@media (max-width: 479px) {
+  /* Di layar sempit tombolnya ditumpuk penuh, bukan berdesakan di satu baris. */
+  .produk-page .produk-form__aksi {
+    flex-direction: column-reverse;
+  }
+}
+
+/* --- Detail produk -------------------------------------------------------- */
+
+/* Kisi keterangan berpasangan label-isi. Melebar mengikuti ruang, bukan jumlah
+   kolom tetap — di ponsel jadi satu lajur, di layar lebar sampai empat. */
+.produk-page .produk-detail__kisi {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.produk-page .produk-detail__label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 11px;
+  color: var(--app-text-muted);
+}
+
+.produk-page .produk-detail__isi {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--app-text);
+}
+
+.produk-page .produk-detail__kosong {
+  margin: 0;
+  font-size: 13px;
+  color: var(--app-text-muted);
+}

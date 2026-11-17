@@ -1,0 +1,64 @@
+
+.search-input-wrap {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-input {
+  width: 100%;
+  height: var(--app-control-h);
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid var(--app-border-strong);
+  box-shadow: var(--app-control-ring);
+  background: var(--app-bg);
+  color: var(--app-body-text);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.search-input::placeholder {
+  color: var(--app-placeholder);
+}
+.search-input:focus {
+  outline: none;
+  border-color: var(--app-border-focus);
+  box-shadow: var(--app-control-ring-focus);
+}
+
+.search-input--with-icon {
+  padding-left: 36px;
+}
+.search-input__icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--app-text-faint);
+  pointer-events: none;
+}
+
+/* Gaya pil ala WhatsApp CRM */
+.search-input--pil {
+  height: var(--app-control-h);
+  border: 0;
+  border-radius: 999px;
+  background: var(--app-fill-strong);
+  box-shadow: none;
+  font-size: 14px;
+}
+.search-input--pil:hover,
+.search-input--pil:focus {
+  border: 0;
+  box-shadow: none;
+}
+.search-input--pil.search-input--with-icon {
+  padding-left: 40px;
+  padding-right: 16px;
+}
+.search-input-wrap--pil .search-input__icon {
+  color: var(--app-text-muted);
+}

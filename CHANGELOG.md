@@ -1,6 +1,49 @@
 # Changelog
 
-## Belum dirilis
+## v2.3.0 - 2026-11-17
+
+### Starter v3.1 (terbaru)
+
+Starter baru di `templates/starter-v3.1`, dipasang lewat `dealtech-ui-v3.1` atau bendera
+`--v3.1`. Isinya v3.0 ditambah aturan tampilan yang sudah teruji di project produksi.
+`dealtech-ui-v3` tetap memasang v3.0 tanpa perubahan.
+
+- Kartu tanpa bayangan, cukup border: `--app-control-ring` dan `--app-control-ring-error` bernilai `none`, jadi kartu, seksi, tabel, chart, dan isian form rata dengan halaman. Bayangan tinggal di elemen yang melayang: modal, panel dropdown, tooltip, dan kenop toggle.
+- Header tabel jadi bar abu terpisah setinggi 38px, sudut 3px (`border-collapse: separate` + border bawah transparan + `background-clip: padding-box`), tanpa garis bawah.
+- Toolbar tabel dan bar aksi massal jadi bar abu yang sama tingginya (42,8px), menempel 2px dari tepi kartu dengan sudut atas sejajar radius kartu. Tombol tabel lewat prop `action` (mis. Tambah, Refresh) ikut duduk di bar yang sama, di kanan kolom cari, jadi tidak ada lagi baris tombol terpisah di atas bar. Bar massal menggantikan seluruh bar itu, jadi tabel tidak bergeser saat baris dipilih. Semua tombolnya rata kanan, dengan Batalkan pilihan sebagai tombol bergaya sama di kiri tombol aksi.
+- Klik baris tabel membuka Lihat Detail, atau Ubah bila tidak ada detail: daftar produk ke halaman detail, transaksi dashboard ke modal rincian baru, dan daftar member ke modal Ubah Member (modal tambah kini bisa mengubah). Klik checkbox dan menu aksi tidak ikut memicu klik baris. Aturannya ditulis di `AGENTS.md`.
+- Jarak tabel diseragamkan lewat `--tablelist-jarak`: tepi baris dan header sejajar bar cari, padding sel dua kali padding bar, checkbox tepat di tengah.
+- Kepala `Modal` jadi bar abu setinggi kepala `Seksi` (37,8px, 2px dari tepi, sudut atas sejajar radius modal) dengan judul 13px seperti judul seksi; Esc menutup dropdown yang terbuka dulu, baru modalnya. `BadgeInfo` di dalam modal berjarak 8px dari kepala dan dari isian sebelum/sesudahnya. Kaki modal jadi cermin kepalanya: bar abu 37,8px tanpa garis atas, sudut bawah sejajar radius modal.
+- Token warna sekunder baru: `--color-secondary` (#313437), `--app-secondary`, dan `--app-secondary-hover`. Tombol `ghost` di kaki modal (mis. Batal) memakai warna ini dengan teks putih; tombol ghost di tempat lain tidak berubah.
+- Kepala `Seksi` jadi bar abu ringkas (37,8px), badan seksi memakai padding rata 12px di semua sisi (7,5px di HP).
+- `Seksi` punya prop `saring` untuk bar saring laporan: badannya jadi bar abu setinggi toolbar tabel (42,8px) dan kontrol di baris `app-saring` tampil tanpa judul kolom (label tetap terbaca pembaca layar). Contohnya di katalog element.
+- Form dua kolom di desktop lewat kelas `app-form-kisi` (satu kolom di bawah 768px, `app-form-kisi__penuh` untuk isian lebar penuh). Dipakai di form tambah/ubah produk, Kontak Publik, dan Media Sosial; isian panjang (deskripsi, tautan Maps) tetap lebar penuh. Aturannya ditulis di `AGENTS.md`.
+- Isian setinggi tombol dan butir menu sidebar (`--app-control-h` = 30,8px); isian galat cukup berubah warna border.
+- Kartu statistik berbentuk segmen chevron yang saling mengunci, warna mengikuti kolom (`--app-stat-1` s.d. `--app-stat-5`), paling banyak lima per baris, plus prop `memuat` dengan skeleton putih supaya tetap terlihat di kartu berwarna.
+- `TabButton` dan `SearchInput` punya gaya `pil`, dan tab di halaman Pengaturan serta detail produk kini memakai `gaya="pil"`; `PageTitle` meratakan tombol ke bawah judul; animasi `TombolTuang` dua kali lebih cepat dan bisa difokuskan dari luar.
+- Tambah element `seksi`: kartu `app-section-card` berkepala bar abu, judul saja, aksi di kanan. Semua kartu seksi di halaman starter kini berjudul lewat `Seksi`: checkout, pembayaran, detail produk, tambah/ubah produk, dan Pengaturan (Informasi Akun, Ganti Kata Sandi, Warna Tema, Kontak Publik, Media Sosial).
+- Tambah element `bidang`: label, tanda wajib, hint, dan galat untuk kontrol tanpa label sendiri seperti `Select`.
+- Tambah element `konfirmasi-modal`: konfirmasi aksi berisiko dengan `TombolTuang`, peringatan, dan `kataKunci` (tombol baru aktif setelah pengguna mengetik, misalnya HAPUS).
+- Tambah element `hapus-massal`: hapus banyak baris dengan konfirmasi ketik HAPUS; yang gagal tetap terpilih beserta alasannya. Dipakai di tabel dashboard.
+- Tambah element `kartu-ringkas`: kartu data ringkas (ubin ikon berwarna sesuai nada `netral`/`primer`/`sukses`/`awas`/`bahaya`, judul, baris status - info, panah tautan), `GridKartuRingkas`, dan skeleton yang selalu penuh satu baris. Dashboard mengganti Akses Cepat dengan seksi data Perlu Tindakan, Stok di Bawah Minimum, Notifikasi Baru, dan Member Baru: judul tanpa jumlah dan skeleton saat memuat, seksi kosong disembunyikan.
+- Tambah element `tombol-muat-ulang` dan hook `useAksiTuang` untuk tombol async.
+- Katalog element punya grup baru **Baru di v3.1**, dan grup **TabButton** berisi sembilan varian: pil teks, pil + ikon, pil + jumlah (termasuk 99+), label `short` untuk layar sempit, tab sama rata (`tab-button--rata`), chip kategori bergaya kustom, dan gaya garis bawaan.
+- Halaman login dan lupa sandi: latar putih, kartu form abu tipis tanpa bayangan dan tanpa border yang menyatu dengan panel kanan bersudut 18px, serta garis isian lebih tebal yang berubah ke warna utama saat disorot atau fokus. Judul, teks per langkah, dan titik di panel kanan tetap seperti v3.0.
+- Perbaiki `LembarCetak`: aturan cetak hanya aktif saat halaman memang berisi lembar cetak.
+- Perbaiki `InputNumber` (non-rupiah): nol di depan dibuang saat mengetik, jadi isian bernilai 0 yang diketik 1000 tidak lagi tampil 01000. Desimal (0.5) dan negatif tetap aman. Selama fokus isian menampilkan persis yang diketik, jadi handler yang membatasi nilai (mis. minimal 1) tidak lagi membuat ketikan 2 jadi 12; nilai dari induk tampil lagi saat blur.
+- Semua tombol Refresh (`TombolMuatUlang`) memakai satu warna, token baru `--color-muat-ulang` (#3a76a8) dengan teks putih; centang sesudah muat ulang ikut putih.
+- Ikon chat dukungan di header atas dihapus; tinggal ikon informasi & bantuan, pengaturan, dan menu profil.
+- Tombol Keluar di sidebar dan menu profil header menampilkan status proses (ikon berputar, teks "Keluar…", tombol nonaktif) sampai pindah ke halaman login; menu profil tetap terbuka selama proses. `onLogout`/`onKeluar` boleh mengembalikan Promise.
+- `ChartLine` menerima prop `memuat`: grid dan label sumbu X tetap, garisnya bayangan abu yang berdenyut (diam saat reduced motion), tanpa titik, tooltip, dan legenda.
+- `ChartListBar` dan `ChartTopList` menerima prop `memuat` (dan `barisMemuat`): baris skeleton meniru label, batang beragam panjang, meta, dan nilai, dengan nomor peringkat tetap tampil, bukan satu kotak abu. Katalog element menampilkan keduanya.
+- `InputLongText` menerima prop `memuat` (label tetap, kotak jadi skeleton seukuran textarea). Label `InputNumber` dan `InputLongText` kini terhubung ke isiannya, jadi klik label langsung memfokuskan kolom.
+- `AGENTS.md` v3.1 menambah aturan kartu tanpa bayangan, kepala seksi dan bar abu, jarak antar section, tombol aksi async, serta toolbar dan hapus massal tabel.
+
+### CLI
+
+- Tambah perintah `dealtech-ui-v3.1` beserta bendera `--v3.1` (alias `--v31`).
+- `help` memakai contoh `dealtech-ui ... --v3.1` dan menjelaskan bahwa npm baru berisi starter v1; starter v2 ke atas dipasang dengan clone repo lalu `npm link`.
+- README ditulis ulang dengan tangkapan layar v3.1 dan panduan pasang lewat clone.
 
 ### Starter v3.0
 

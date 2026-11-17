@@ -1,0 +1,16 @@
+Sriracha — font judul BESAR sisi publik (h1 halaman dan .seksi-judul).
+
+Sumber   : Google Fonts, keluarga "Sriracha" versi v16
+Lisensi  : SIL Open Font License 1.1 (OFL) — boleh dipakai, disematkan, dan
+           didistribusikan ulang, termasuk komersial.
+Berkas   : Sriracha-latin.woff2, Sriracha-latin-ext.woff2
+           HANYA subset latin dan latin-ext yang diambil. Subset thai dan
+           vietnamese tidak pernah dipakai situs ini dan cuma menambah unduhan.
+Bobot    : 400 saja — keluarga ini memang tidak punya bobot atau gaya lain.
+
+Memperbarui:
+  1. Buka https://fonts.google.com/specimen/Sriracha
+  2. Ambil CSS-nya lewat fonts.googleapis.com/css2?family=Sriracha
+     dengan User-Agent peramban modern, supaya yang diberikan woff2.
+  3. Unduh URL subset latin dan latin-ext, timpa dua berkas di folder ini.
+  4. unicode-range di theme.css ikut disalin dari CSS itu kalau berubah.

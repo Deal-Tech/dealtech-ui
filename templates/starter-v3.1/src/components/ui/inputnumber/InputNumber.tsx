@@ -1,0 +1,85 @@
+import { forwardRef, useId, useState, type ChangeEvent, type InputHTMLAttributes } from 'react';
+
+import { Skeleton } from '@/components/ui/skeleton/Skeleton';
+import { formatCurrencyInputValue, normalizeCurrencyDigits } from '@/lib/currency';
+import './inputnumber.css';
+
+export interface InputNumberProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+  label?: string;
+  error?: string;
+  hint?: string;
+  currency?: boolean;
+  invalid?: boolean;
+  /** Label tetap, kotak jadi skeleton. */
+  memuat?: boolean;
+}
+
+export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function InputNumber(
+  { label, error, hint, invalid = false, className = '', currency = false, memuat = false, onChange, onBlur, onWheel, value, inputMode, pattern, required, id, ...props },
+  ref,
+) {
+  const idOtomatis = useId();
+  const idField = id ?? idOtomatis;
+  // Ketikan apa adanya selama fokus
+  const [draf, setDraf] = useState<string | null>(null);
+  const displayValue =
+    value === undefined
+      ? undefined
+      : currency
+        ? formatCurrencyInputValue(value)
+        : (draf ?? value);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!currency) {
+      // Buang nol depan, mis. 01000
+      const isi = event.target.value;
+      if (/^-?0\d/.test(isi)) event.target.value = isi.replace(/^(-?)0+(?=\d)/, '$1');
+      setDraf(event.target.value);
+      onChange?.(event);
+      return;
+    }
+    const rawValue = normalizeCurrencyDigits(event.target.value);
+    onChange?.({
+      ...event,
+      target: { ...event.target, value: rawValue },
+      currentTarget: { ...event.currentTarget, value: rawValue },
+    } as ChangeEvent<HTMLInputElement>);
+  };
+
+  return (
+    <div className="inputnumber">
+      {label ? (
+        <label className="inputnumber__label" htmlFor={idField}>
+          {label}
+          {required ? <span className="inputnumber__req">*</span> : null}
+        </label>
+      ) : null}
+      {memuat ? <Skeleton bentuk="kotak" blok className="skeleton-kontrol" /> : null}
+      <input
+        hidden={memuat}
+        ref={ref}
+        id={idField}
+        type={currency ? 'text' : 'number'}
+        inputMode={currency ? 'numeric' : inputMode}
+        pattern={currency ? '[0-9.]*' : pattern}
+        value={displayValue}
+        onChange={handleChange}
+        onBlur={(event) => {
+          setDraf(null);
+          onBlur?.(event);
+        }}
+        onWheel={(event) => {
+          if (!currency) event.currentTarget.blur();
+          onWheel?.(event);
+        }}
+        required={required}
+        className={`inputnumber__field ${error || invalid ? 'inputnumber__field--error' : ''} ${className}`}
+        {...props}
+      />
+      {hint && !error ? <p className="inputnumber__hint">{hint}</p> : null}
+      {error ? <p className="inputnumber__error">{error}</p> : null}
+    </div>
+  );
+});
+
+export default InputNumber;

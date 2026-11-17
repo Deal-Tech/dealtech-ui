@@ -1,0 +1,11 @@
+/*
+ * Bawaan yet-another-react-lightbox memakai hitam murni (#000) untuk tirai,
+ * alas thumbnail, dan cincin fokus thumbnail. Semuanya diarahkan ke warna dasar
+ * tema supaya sewarna dengan tirai modal dan sisa panel.
+ */
+.yarl__root {
+  --yarl__color_backdrop: rgba(var(--color-hitam-rgb), 0.92);
+  --yarl__thumbnails_thumbnail_background: var(--color-hitam);
+  --yarl__thumbnails_thumbnail_focus_box_shadow: var(--color-hitam) 0 0 0 2px,
+    var(--yarl__color_button, hsla(0, 0%, 100%, 0.8)) 0 0 0 4px;
+}

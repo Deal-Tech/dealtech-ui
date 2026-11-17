@@ -1,0 +1,333 @@
+.blok-tentang {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 36px 0;
+  scroll-margin-top: 80px;
+}
+
+.blok-tentang__wadah {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(28px, 4vw, 64px);
+  width: min(1200px, 100%);
+  margin: 0 22px;
+}
+
+.blok-tentang__foto-kisi {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  height: 100%;
+  min-height: 340px;
+}
+
+.blok-tentang__kartu-foto {
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--color-publik) 12%, #ffffff);
+}
+
+.blok-tentang__foto {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.blok-tentang.is-foto .blok-tentang__wadah,
+.blok-tentang.is-peta .blok-tentang__wadah {
+  align-items: stretch;
+}
+
+/* ── Peta (halaman Contact) ───────────────────────────────────────────────── */
+
+.blok-tentang__peta {
+  overflow: hidden;
+  min-width: 0;
+  min-height: 340px;
+  height: 100%;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--color-publik) 12%, #ffffff);
+}
+
+.blok-tentang__peta-bingkai {
+  display: block;
+  height: 100%;
+  width: 100%;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .blok-tentang__peta {
+    order: 2;
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 900px) {
+  .blok-tentang__foto-kisi {
+    order: 2;
+    min-height: 240px;
+  }
+}
+
+.blok-tentang__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 300px;
+  border: 1px solid color-mix(in srgb, var(--color-publik) 18%, #ffffff);
+  border-radius: 20px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-publik) 6%, #ffffff) 0%,
+    color-mix(in srgb, var(--color-publik) 18%, #ffffff) 100%
+  );
+  padding: 28px;
+}
+
+.blok-tentang__air {
+  position: absolute;
+  bottom: -168%;
+  left: 50%;
+  z-index: 0;
+  aspect-ratio: 1;
+  width: 240%;
+  margin-left: -120%;
+  border-radius: 44%;
+  background: color-mix(in srgb, var(--color-publik) 30%, #ffffff);
+  animation: blokTentangOmbak 16s linear infinite;
+}
+
+.blok-tentang__air--dalam {
+  bottom: -172%;
+  width: 260%;
+  margin-left: -130%;
+  border-radius: 46%;
+  background: color-mix(in srgb, var(--color-publik) 46%, #ffffff);
+  animation-duration: 24s;
+  animation-direction: reverse;
+}
+
+@keyframes blokTentangOmbak {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.blok-tentang__cincin {
+  position: absolute;
+  z-index: 1;
+  height: 96px;
+  width: 96px;
+  border: 1px solid color-mix(in srgb, var(--color-publik) 45%, transparent);
+  border-radius: 999px;
+  opacity: 0;
+  animation: blokTentangRiak 3.6s ease-out infinite;
+}
+
+.blok-tentang__cincin--dua {
+  animation-delay: 1.8s;
+}
+
+@keyframes blokTentangRiak {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+}
+
+.blok-tentang__buih {
+  position: absolute;
+  bottom: 12%;
+  z-index: 1;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  opacity: 0;
+  animation: blokTentangNaik 7s ease-in infinite;
+}
+
+.blok-tentang__buih:nth-of-type(1) {
+  left: 18%;
+  height: 8px;
+  width: 8px;
+}
+
+.blok-tentang__buih:nth-of-type(2) {
+  left: 34%;
+  height: 5px;
+  width: 5px;
+  animation-delay: 2.4s;
+  animation-duration: 8.5s;
+}
+
+.blok-tentang__buih:nth-of-type(3) {
+  left: 68%;
+  height: 10px;
+  width: 10px;
+  animation-delay: 1.2s;
+  animation-duration: 6.2s;
+}
+
+.blok-tentang__buih:nth-of-type(4) {
+  left: 82%;
+  height: 6px;
+  width: 6px;
+  animation-delay: 4.1s;
+}
+
+@keyframes blokTentangNaik {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  15% {
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-190px) scale(1);
+  }
+}
+
+.blok-tentang__ikon {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  height: 96px;
+  width: 96px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28px;
+  background: var(--color-publik);
+  color: var(--app-on-primary);
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--color-publik) 28%, transparent);
+  animation: blokTentangMelayang 3.6s ease-in-out infinite;
+}
+
+@keyframes blokTentangMelayang {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blok-tentang__ikon,
+  .blok-tentang__air,
+  .blok-tentang__cincin,
+  .blok-tentang__buih {
+    animation: none;
+  }
+
+  .blok-tentang__cincin {
+    opacity: 0.35;
+  }
+
+  .blok-tentang__buih {
+    opacity: 0.5;
+  }
+}
+
+.blok-tentang__angka {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 12px;
+  margin: 22px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--color-publik) 16%, #ffffff);
+  padding-top: 20px;
+}
+
+.blok-tentang__angka-nilai {
+  margin: 0;
+  font-size: clamp(1.3875rem, 2.2vw, 1.6875rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-publik);
+}
+
+.blok-tentang__angka-label {
+  margin: 4px 0 0;
+  font-size: 0.7875rem;
+  color: var(--color-publik-subteks);
+}
+
+.blok-tentang__teks {
+  margin: 14px 0 0;
+  font-size: 0.9375rem;
+  color: var(--color-publik-subteks);
+}
+
+.blok-tentang__tebal {
+  color: var(--app-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+}
+
+.blok-tentang__tautan {
+  display: inline-block;
+  margin-top: 18px;
+  color: var(--app-primary);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 2px;
+  transition: color 0.2s ease;
+}
+
+.blok-tentang__tautan:hover {
+  color: var(--app-primary-hover);
+}
+
+@media (max-width: 900px) {
+  .blok-tentang {
+    padding: 26px 0;
+  }
+
+  .blok-tentang__wadah {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .blok-tentang__isi {
+    order: 1;
+  }
+
+  .blok-tentang__media {
+    order: 2;
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 600px) {
+  .blok-tentang__wadah {
+    margin: 0 16px;
+  }
+
+  .blok-tentang__angka {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 12px;
+  }
+}

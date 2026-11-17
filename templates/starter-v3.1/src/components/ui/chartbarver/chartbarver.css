@@ -1,0 +1,10 @@
+
+.chartbarver {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+}
+.chartbarver__body {
+  padding: 16px 12px 8px;
+}

@@ -1,0 +1,298 @@
+
+.tablelist-v1 {
+  /* Satu jarak untuk semua bagian */
+  --tablelist-jarak: 12px 8px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--app-card-border);
+  background: var(--app-surface);
+}
+
+.tablelist-v1__alat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.tablelist-v1__alat-isi {
+  min-width: 0;
+  flex: 1 1 320px;
+}
+/* Toolbar di dalam bar */
+.tablelist-v1__alat .table-toolbar {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.tablelist-v1__action {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.tablelist-v1__body {
+  /* Sejajar bar cari */
+  padding: 2px 2px 6px;
+}
+
+.tablelist-v1__scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.tablelist-v1__table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+
+.tablelist-v1__th {
+  height: 38px;
+  /* Dua kali padding bar cari */
+  padding: 0 12px;
+  vertical-align: middle;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--app-text-muted);
+  background: var(--app-fill-strong);
+  background-clip: padding-box;
+  border-bottom: 4px solid transparent;
+}
+/* Header terpisah, sudut 3px */
+.tablelist-v1__th:first-child {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px 7px;
+}
+.tablelist-v1__th:last-child {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px 7px;
+}
+.tablelist-v1__th--right {
+  text-align: right;
+}
+.tablelist-v1__th--center {
+  text-align: center;
+}
+
+.tablelist-v1__row {
+  transition: background-color 0.15s ease;
+}
+.tablelist-v1__row:nth-child(odd) {
+  background: var(--app-fill);
+}
+.tablelist-v1__row:nth-child(even) {
+  background: var(--app-surface);
+}
+.tablelist-v1__row:hover {
+  background: var(--app-fill-strong);
+}
+
+/* Isi kepanjangan dipotong, baris seragam */
+.tablelist-v1__td {
+  padding: 10.5px 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--app-text);
+}
+
+.tablelist-v1__teks {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tablelist-v1__td--muted {
+  color: var(--app-text-muted);
+}
+.tablelist-v1__td--right {
+  text-align: right;
+}
+.tablelist-v1__td--center {
+  text-align: center;
+}
+
+.tablelist-v1__invoice {
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.tablelist-v1__empty {
+  padding: 28px 12px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: var(--app-desc-weight);
+  color: var(--app-desc-color);
+}
+
+/* Footer: bar abu, cermin toolbar */
+.tablelist-v1__footer {
+  min-height: 42.8px;
+  margin: 0 2px 2px;
+  padding: 6px;
+  border-radius: 3px 3px 6px 6px;
+  background: var(--app-fill-strong);
+}
+/* Bukan bar terakhir: sudut biasa */
+.tablelist-v1__footer:not(:last-child) {
+  border-radius: 3px;
+}
+.tablelist-v1__footer .pagination .pagination__page,
+.tablelist-v1__footer .pagination .pagination__nav {
+  height: 30.8px;
+  min-height: 30.8px;
+  width: 30.8px;
+  min-width: 30.8px;
+}
+
+.tablelist-v1__actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.tablelist-v1__th--pilih,
+.tablelist-v1__td--pilih {
+  padding-left: 12px;
+  padding-right: 0;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tablelist-v1__row--dipilih {
+  background: var(--app-primary-soft);
+}
+
+.tablelist-v1__massal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.tablelist-v1__massal-jumlah {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-primary-hover);
+}
+
+.tablelist-v1__massal-aksi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+@media (max-width: 639px) {
+  .tablelist-v1__th--pilih,
+  .tablelist-v1__td--pilih {
+    padding-left: 12px;
+  }
+}
+
+.tablelist-v1__footer--paginasi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tablelist-v1__info {
+  padding-left: 6px;
+  font-size: 11px;
+  color: var(--app-text-muted);
+}
+
+.tablelist-v1__row--klik {
+  cursor: pointer;
+}
+
+.tablelist-v1__row--klik:hover {
+  background: var(--app-fill);
+}
+
+.tablelist-v1__row--klik:focus-visible {
+  outline: 2px solid var(--app-primary);
+  outline-offset: -2px;
+}
+
+/* Baris penambal: hanya menahan tinggi, tidak boleh menarik perhatian. */
+.tablelist-v1__row--kosong:hover {
+  background: inherit;
+}
+.tablelist-v1__row--kosong .tablelist-v1__td {
+  color: transparent;
+}
+
+/* Wadah tombol aksi di kolom terakhir. Sengaja tidak boleh membungkus baris. */
+.tablelist-v1__aksi {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* Pemicu tipis seperti menu header */
+.tablelist-v1__menu .menu-aksi__pemicu {
+  background: transparent;
+}
+.tablelist-v1__menu .menu-aksi__pemicu:hover,
+.tablelist-v1__menu .menu-aksi__pemicu[aria-expanded='true'] {
+  background: var(--app-fill-strong);
+}
+
+/* Seret-untuk-menggulir. `pointer: fine` membatasinya ke perangkat bertetikus —
+   di layar sentuh gulir bawaan peramban sudah benar dan tidak boleh diganggu. */
+@media (pointer: fine) {
+  .tablelist-v1__scroll--seret {
+    cursor: grab;
+  }
+  .tablelist-v1__scroll--menyeret {
+    cursor: grabbing;
+    user-select: none;
+  }
+}
+
+/* Checkbox tepat di tengah */
+.tablelist-v1__th--pilih > .checkbox,
+.tablelist-v1__td--pilih > .checkbox {
+  display: flex;
+}
+
+/* Toolbar dan bar massal: bar abu setinggi */
+.tablelist-v1__alat,
+.tablelist-v1__massal {
+  margin: 2px 2px 0;
+  padding: 6px;
+  border: 0;
+  /* Sudut atas sejajar kartu */
+  border-radius: 6px 6px 3px 3px;
+  background: var(--app-fill-strong);
+}
+.tablelist-v1__massal-jumlah {
+  padding-left: 6px;
+}
+/* Jarak ke header tabel setengah */
+.tablelist-v1__alat + .tablelist-v1__body,
+.tablelist-v1__massal + .tablelist-v1__body {
+  padding-top: 6px;
+}
