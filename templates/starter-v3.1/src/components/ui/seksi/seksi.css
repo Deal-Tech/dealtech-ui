@@ -1,11 +1,10 @@
 .seksi__kepala {
   display: flex;
-  min-height: 42.8px;
+  min-height: 32.8px;
   align-items: center;
   gap: 10px;
-  /* Sama dengan bar cari tabel */
   margin: 2px 2px 0;
-  padding: 6px;
+  padding: 1px 1px 1px 6px;
   border-radius: 6px 6px 3px 3px;
   background: var(--app-fill-strong);
 }
@@ -28,7 +27,20 @@
 }
 
 .seksi__aksi > a {
-  padding-right: 6px;
+  padding-right: 11px;
+}
+
+/* Isi: setengah jarak lama */
+.seksi .app-section-body {
+  padding: 8px;
+}
+/* Jarak ke kepala = header tabel */
+.seksi__kepala + .app-section-body,
+.seksi__kepala + * > .app-section-body:first-child {
+  padding-top: 4px;
+}
+.seksi .app-section-body.pb-0 {
+  padding-bottom: 0;
 }
 
 .seksi__aksi {
@@ -43,5 +55,13 @@
 @media (max-width: 639px) {
   .seksi__kepala {
     flex-wrap: wrap;
+  }
+
+  .seksi .app-section-body {
+    padding: 5px;
+  }
+  .seksi__kepala + .app-section-body,
+  .seksi__kepala + * > .app-section-body:first-child {
+    padding-top: 4px;
   }
 }
