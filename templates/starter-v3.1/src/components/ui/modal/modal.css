@@ -155,3 +155,11 @@
   font-weight: var(--app-field-label-weight);
   color: var(--app-body-text);
 }
+
+/* BadgeInfo di modal: jarak 8px */
+.modal__body > .badgeinfo:first-child,
+.modal__body > :first-child > .badgeinfo:first-child,
+.modal__body .flex-col > .badgeinfo:not(:first-child),
+.modal__body .flex-col > .badgeinfo + * {
+  margin-top: -4px;
+}
