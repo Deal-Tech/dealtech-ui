@@ -15,7 +15,7 @@ Starter baru di `templates/starter-v3.1`, dipasang lewat `dealtech-ui-v3.1` atau
 - Kepala `Modal` dan `Seksi` jadi bar abu setinggi bar cari tabel (42,8px, 2px dari tepi, sudut atas sejajar radius kartu); Esc menutup dropdown yang terbuka dulu, baru modalnya.
 - Isian setinggi tombol dan butir menu sidebar (`--app-control-h` = 30,8px); isian galat cukup berubah warna border.
 - Kartu statistik berbentuk segmen chevron yang saling mengunci, warna mengikuti kolom (`--app-stat-1` s.d. `--app-stat-5`), paling banyak lima per baris, plus prop `memuat`.
-- `TabButton` dan `SearchInput` punya gaya `pil`; `PageTitle` meratakan tombol ke bawah judul; animasi `TombolTuang` dua kali lebih cepat dan bisa difokuskan dari luar.
+- `TabButton` dan `SearchInput` punya gaya `pil`, dan tab di halaman Pengaturan serta detail produk kini memakai `gaya="pil"`; `PageTitle` meratakan tombol ke bawah judul; animasi `TombolTuang` dua kali lebih cepat dan bisa difokuskan dari luar.
 - Tambah element `seksi`: kartu `app-section-card` berkepala bar abu, judul saja, aksi di kanan. Halaman checkout dan detail produk memakainya.
 - Tambah element `bidang`: label, tanda wajib, hint, dan galat untuk kontrol tanpa label sendiri seperti `Select`.
 - Tambah element `konfirmasi-modal`: konfirmasi aksi berisiko dengan `TombolTuang`, peringatan, dan `kataKunci` (tombol baru aktif setelah pengguna mengetik, misalnya HAPUS).

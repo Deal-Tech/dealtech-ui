@@ -284,7 +284,7 @@ export default function PengaturanPage() {
     <div className="pengaturan-page space-y-6">
       <PageTitle title="Pengaturan" subtitle="Kelola informasi akun dan kata sandi Anda" />
 
-      <TabButton tabs={TAB} value={tab} onChange={setTab} />
+      <TabButton gaya="pil" tabs={TAB} value={tab} onChange={setTab} />
 
       {tab === 'system' && peranAdmin ? (
         <div className="space-y-4">

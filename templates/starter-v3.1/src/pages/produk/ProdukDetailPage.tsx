@@ -164,6 +164,7 @@ export default function ProdukDetailPage() {
       ) : null}
 
       <TabButton
+        gaya="pil"
         tabs={[{ key: 'deskripsi', label: 'Deskripsi Produk', icon: FileText }]}
         value={tab}
         onChange={setTab}

@@ -80,7 +80,7 @@ export function ProdukDetailSkeleton() {
         </Keterangan>
       </Seksi>
 
-      <TabButton tabs={TAB} value="deskripsi" onChange={tanpaAksi} />
+      <TabButton gaya="pil" tabs={TAB} value="deskripsi" onChange={tanpaAksi} />
 
       <section className="app-section-card">
         <div className="app-section-body">
