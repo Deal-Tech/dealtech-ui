@@ -34,11 +34,6 @@
 .seksi .app-section-body {
   padding: 12px;
 }
-/* Jarak ke kepala = header tabel */
-.seksi__kepala + .app-section-body,
-.seksi__kepala + * > .app-section-body:first-child {
-  padding-top: 4px;
-}
 .seksi .app-section-body.pb-0 {
   padding-bottom: 0;
 }
@@ -59,9 +54,5 @@
 
   .seksi .app-section-body {
     padding: 7.5px;
-  }
-  .seksi__kepala + .app-section-body,
-  .seksi__kepala + * > .app-section-body:first-child {
-    padding-top: 4px;
   }
 }
