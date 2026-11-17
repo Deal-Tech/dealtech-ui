@@ -1,6 +1,34 @@
 # Changelog
 
-## Belum dirilis
+## v2.3.0 - 2026-11-17
+
+### Starter v3.1 (terbaru)
+
+Starter baru di `templates/starter-v3.1`, dipasang lewat `dealtech-ui-v3.1` atau bendera
+`--v3.1`. Isinya v3.0 ditambah aturan tampilan yang sudah teruji di project produksi.
+`dealtech-ui-v3` tetap memasang v3.0 tanpa perubahan.
+
+- Kartu tanpa bayangan, cukup border: `--app-control-ring` dan `--app-control-ring-error` bernilai `none`, jadi kartu, seksi, tabel, chart, dan isian form rata dengan halaman. Bayangan tinggal di elemen yang melayang: modal, panel dropdown, tooltip, dan kenop toggle.
+- Header tabel jadi bar abu terpisah setinggi 38px, sudut 3px (`border-collapse: separate` + border bawah transparan + `background-clip: padding-box`), tanpa garis bawah.
+- Toolbar tabel dan bar aksi massal jadi bar abu yang sama tingginya (42,8px), menempel 2px dari tepi kartu dengan sudut atas sejajar radius kartu. Bar massal menggantikan posisi toolbar, jadi tabel tidak bergeser saat baris dipilih.
+- Jarak tabel diseragamkan lewat `--tablelist-jarak`: tepi baris dan header sejajar bar cari, padding sel dua kali padding bar, checkbox tepat di tengah.
+- Kepala `Modal` jadi bar abu seperti header tabel; Esc menutup dropdown yang terbuka dulu, baru modalnya.
+- Isian setinggi tombol dan butir menu sidebar (`--app-control-h` = 30,8px); isian galat cukup berubah warna border.
+- Kartu statistik berbentuk segmen chevron yang saling mengunci, warna mengikuti kolom (`--app-stat-1` s.d. `--app-stat-5`), paling banyak lima per baris, plus prop `memuat`.
+- `TabButton` dan `SearchInput` punya gaya `pil`; `PageTitle` meratakan tombol ke bawah judul; animasi `TombolTuang` dua kali lebih cepat dan bisa difokuskan dari luar.
+- Tambah element `seksi`: kartu `app-section-card` berkepala bar abu, judul saja, aksi di kanan. Halaman checkout dan detail produk memakainya.
+- Tambah element `bidang`: label, tanda wajib, hint, dan galat untuk kontrol tanpa label sendiri seperti `Select`.
+- Tambah element `konfirmasi-modal`: konfirmasi aksi berisiko dengan `TombolTuang`, peringatan, dan `kataKunci` (tombol baru aktif setelah pengguna mengetik, misalnya HAPUS).
+- Tambah element `hapus-massal`: hapus banyak baris dengan konfirmasi ketik HAPUS; yang gagal tetap terpilih beserta alasannya. Dipakai di tabel dashboard.
+- Tambah element `tombol-muat-ulang` dan hook `useAksiTuang` untuk tombol async.
+- Katalog element punya grup baru **Baru di v3.1**.
+- Perbaiki `LembarCetak`: aturan cetak hanya aktif saat halaman memang berisi lembar cetak.
+- `AGENTS.md` v3.1 menambah aturan kartu tanpa bayangan, kepala seksi dan bar abu, jarak antar section, tombol aksi async, serta toolbar dan hapus massal tabel.
+
+### CLI
+
+- Tambah perintah `dealtech-ui-v3.1` beserta bendera `--v3.1` (alias `--v31`).
+- README ditulis ulang dengan tangkapan layar v3.1.
 
 ### Starter v3.0
 
