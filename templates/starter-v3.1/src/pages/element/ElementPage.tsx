@@ -399,6 +399,7 @@ export default function ElementPage() {
   const [lightbox, setLightbox] = useState(-1);
   const [tugas, setTugas] = useState<TugasProses | null>(null);
   const [konfirmasiBuka, setKonfirmasiBuka] = useState(false);
+  const [barisDibuka, setBarisDibuka] = useState('');
   const [contohMassal, setContohMassal] = useState(['TRX-1001', 'TRX-1002', 'TRX-1003']);
 
   const cocok = ITEM_CONTOH.filter(
@@ -1062,6 +1063,7 @@ export default function ElementPage() {
             columns={KOLOM_TABEL}
             rows={barisTabel}
             rowKey={(row) => String(row.kode)}
+            onKlikBaris={(row) => setBarisDibuka(String(row.nama))}
             pilihan={pilihanTabel}
             aksiMassal={
               <>
@@ -1099,6 +1101,11 @@ export default function ElementPage() {
             Satu sel satu data. Isi yang melebihi kolom dipotong elipsis, isi lengkapnya ada di
             tooltip. Aksi baris lewat dropdown AksiBaris.
           </p>
+          <BadgeInfo variant="info" icon={false}>
+            {barisDibuka
+              ? `Klik baris membuka Lihat Detail: ${barisDibuka}.`
+              : 'Klik baris membuka Lihat Detail; bila tidak ada halaman detail, buka Ubah.'}
+          </BadgeInfo>
         </Petak>
 
         <Petak nama="TabelCardV1" jalur="tabelcardv1/">

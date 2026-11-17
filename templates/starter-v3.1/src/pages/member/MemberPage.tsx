@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Download, Eye, Pencil, Plus, Trash2 } from 'lucide-react';
+import { Download, Pencil, Plus, Trash2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button/Button';
 import { InputText } from '@/components/ui/inputtext/InputText';
@@ -84,6 +84,8 @@ export default function MemberPage() {
   const [halaman, setHalaman] = useState(1);
 
   const [buka, setBuka] = useState(false);
+  // Kode asal saat mengubah
+  const [kodeUbah, setKodeUbah] = useState<string | null>(null);
   const [isian, setIsian] = useState<Member>(ISIAN_KOSONG);
   const [galat, setGalat] = useState<Partial<Record<keyof Member, string>>>({});
   const [statusSimpan, setStatusSimpan] = useState<StatusTuang>('idle');
@@ -111,6 +113,15 @@ export default function MemberPage() {
     /* Kodenya diisikan lebih dulu supaya tidak jadi pekerjaan tangan, tapi tetap
        bisa disunting kalau penomorannya mau lain. */
     setIsian({ ...ISIAN_KOSONG, kode: kodeBerikutnya(anggota) });
+    setKodeUbah(null);
+    setGalat({});
+    setStatusSimpan('idle');
+    setBuka(true);
+  };
+
+  const bukaUbah = (m: Member) => {
+    setIsian(m);
+    setKodeUbah(m.kode);
     setGalat({});
     setStatusSimpan('idle');
     setBuka(true);
@@ -125,7 +136,9 @@ export default function MemberPage() {
     e.preventDefault();
     if (tersimpan) return;
 
-    const hasil = periksa(isian, anggota);
+    // Lewati member yang sedang diubah
+    const lainnya = anggota.filter((m) => m.kode !== kodeUbah);
+    const hasil = periksa(isian, lainnya);
     if (Object.keys(hasil).length > 0) {
       setGalat(hasil);
       return;
@@ -137,6 +150,12 @@ export default function MemberPage() {
       hp: isian.hp.trim(),
       email: isian.email.trim(),
     };
+
+    if (kodeUbah) {
+      setAnggota((s) => s.map((m) => (m.kode === kodeUbah ? baru : m)));
+      setStatusSimpan('success');
+      return;
+    }
 
     setAnggota((s) => [baru, ...s]);
     /* Balik ke halaman satu dan kosongkan pencarian: tanpa itu member yang baru
@@ -156,8 +175,7 @@ export default function MemberPage() {
       <AksiBaris
         nama={d.nama}
         item={[
-          { kunci: 'lihat', label: 'Lihat Detail', ikon: Eye, onClick: () => {} },
-          { kunci: 'ubah', label: 'Ubah', ikon: Pencil, onClick: () => {} },
+          { kunci: 'ubah', label: 'Ubah', ikon: Pencil, onClick: () => bukaUbah(d) },
           {
             kunci: 'hapus',
             label: 'Hapus',
@@ -186,6 +204,11 @@ export default function MemberPage() {
         columns={KOLOM}
         rows={baris}
         rowKey={(row) => String(row.kode)}
+        onKlikBaris={(row) => {
+          // Tanpa halaman detail: ubah
+          const m = anggota.find((a) => a.kode === row.kode);
+          if (m) bukaUbah(m);
+        }}
         pilihan={pilihan}
         aksiMassal={
           <>
@@ -233,7 +256,7 @@ export default function MemberPage() {
       <Modal
         open={buka}
         onClose={() => (tersimpan ? undefined : setBuka(false))}
-        title="Tambah Member"
+        title={kodeUbah ? 'Ubah Member' : 'Tambah Member'}
         footer={
           <>
             <Button variant="ghost" onClick={() => setBuka(false)} disabled={tersimpan}>
@@ -260,7 +283,7 @@ export default function MemberPage() {
             value={isian.kode}
             onChange={(e) => ubah('kode', e.target.value)}
             error={galat.kode}
-            hint="Terisi otomatis dari nomor terakhir; boleh diganti."
+            hint={kodeUbah ? undefined : 'Terisi otomatis dari nomor terakhir; boleh diganti.'}
             required
           />
 

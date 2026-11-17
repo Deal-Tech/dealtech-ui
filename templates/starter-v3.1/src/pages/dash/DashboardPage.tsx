@@ -19,6 +19,7 @@ import { Badge } from '@/components/ui/badge/Badge';
 import { BilahLipat } from '@/components/ui/bilah-lipat/BilahLipat';
 import { Button } from '@/components/ui/button/Button';
 import { HapusMassal } from '@/components/ui/hapus-massal/HapusMassal';
+import { Modal } from '@/components/ui/modal/Modal';
 import { StatCard, StatGrid } from '@/components/ui/stat-card/StatCard';
 import { TableToolbar } from '@/components/ui/table-toolbar/TableToolbar';
 import { AksiBaris, TableListV1 } from '@/components/ui/tablelist-v1/TableListV1';
@@ -90,8 +91,11 @@ const rupiah = (n: number) =>
     maximumFractionDigits: 0,
   }).format(n);
 
+type Transaksi = (typeof DATA)[number];
+
 function TabelTerbaru() {
   const [data, setData] = useState(DATA);
+  const [dilihat, setDilihat] = useState<Transaksi | null>(null);
   const [cari, setCari] = useState('');
   const [perHalaman, setPerHalaman] = useState(PER_HALAMAN_BAWAAN);
   const [halaman, setHalaman] = useState(1);
@@ -120,7 +124,7 @@ function TabelTerbaru() {
       <AksiBaris
         nama={d.kode}
         item={[
-          { kunci: 'lihat', label: 'Lihat Detail', ikon: Eye, onClick: () => {} },
+          { kunci: 'lihat', label: 'Lihat Detail', ikon: Eye, onClick: () => setDilihat(d) },
           { kunci: 'ubah', label: 'Ubah', ikon: Pencil, onClick: () => {} },
           { kunci: 'hapus', label: 'Hapus', ikon: Trash2, bahaya: true, onClick: () => {} },
         ]}
@@ -129,51 +133,84 @@ function TabelTerbaru() {
   }));
 
   return (
-    <TableListV1
-      columns={KOLOM}
-      rows={baris}
-      rowKey={(row) => String(row.kode)}
-      pilihan={pilihan}
-      aksiMassal={
-        <>
-          <Button variant="ghost" icon={Download}>
-            Ekspor
-          </Button>
-          <HapusMassal
-            terpilih={pilihan.terpilih}
-            satuan="transaksi"
-            nama={(kode) => data.find((d) => d.kode === kode)?.nama ?? kode}
-            hapus={(kode) => setData((lama) => lama.filter((d) => d.kode !== kode))}
-            onBersihkan={pilihan.onBersihkan}
-            onToggle={pilihan.onToggle}
+    <>
+      <TableListV1
+        columns={KOLOM}
+        rows={baris}
+        rowKey={(row) => String(row.kode)}
+        onKlikBaris={(row) => setDilihat(data.find((d) => d.kode === row.kode) ?? null)}
+        pilihan={pilihan}
+        aksiMassal={
+          <>
+            <Button variant="ghost" icon={Download}>
+              Ekspor
+            </Button>
+            <HapusMassal
+              terpilih={pilihan.terpilih}
+              satuan="transaksi"
+              nama={(kode) => data.find((d) => d.kode === kode)?.nama ?? kode}
+              hapus={(kode) => setData((lama) => lama.filter((d) => d.kode !== kode))}
+              onBersihkan={pilihan.onBersihkan}
+              onToggle={pilihan.onToggle}
+            />
+          </>
+        }
+        toolbar={
+          <TableToolbar
+            cari={cari}
+            onCari={(v) => {
+              setCari(v);
+              setHalaman(1);
+            }}
+            perHalaman={perHalaman}
+            onPerHalaman={(v) => {
+              setPerHalaman(v);
+              setHalaman(1);
+            }}
+            placeholderCari="Cari kode atau nama item…"
           />
-        </>
-      }
-      toolbar={
-        <TableToolbar
-          cari={cari}
-          onCari={(v) => {
-            setCari(v);
-            setHalaman(1);
-          }}
-          perHalaman={perHalaman}
-          onPerHalaman={(v) => {
-            setPerHalaman(v);
-            setHalaman(1);
-          }}
-          placeholderCari="Cari kode atau nama item…"
-        />
-      }
-      paginasi={{
-        halaman: halamanAman,
-        totalHalaman,
-        info: `Menampilkan ${cocok.length === 0 ? 0 : mulai + 1}–${mulai + terlihat.length} dari ${
-          cocok.length
-        } data`,
-        onNavigasi: setHalaman,
-      }}
-      emptyText="Tidak ada transaksi yang cocok."
-    />
+        }
+        paginasi={{
+          halaman: halamanAman,
+          totalHalaman,
+          info: `Menampilkan ${cocok.length === 0 ? 0 : mulai + 1}–${mulai + terlihat.length} dari ${
+            cocok.length
+          } data`,
+          onNavigasi: setHalaman,
+        }}
+        emptyText="Tidak ada transaksi yang cocok."
+      />
+
+      <Modal
+        open={!!dilihat}
+        onClose={() => setDilihat(null)}
+        title={dilihat ? `Transaksi ${dilihat.kode}` : 'Transaksi'}
+        footer={
+          <Button variant="ghost" onClick={() => setDilihat(null)}>
+            Tutup
+          </Button>
+        }
+      >
+        {dilihat ? (
+          <dl className="dashboard-rincian">
+            {(
+              [
+                ['Kode', dilihat.kode],
+                ['Nama Item', dilihat.nama],
+                ['Tanggal', dilihat.tanggal],
+                ['Jumlah', rupiah(dilihat.jumlah)],
+                ['Status', LENCANA[dilihat.status]],
+              ] as const
+            ).map(([label, nilai]) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{nilai}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+      </Modal>
+    </>
   );
 }
 

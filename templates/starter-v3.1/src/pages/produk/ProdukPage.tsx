@@ -115,6 +115,7 @@ export default function ProdukPage() {
         columns={KOLOM}
         rows={baris}
         rowKey={(row) => String(row.kode)}
+        onKlikBaris={(row) => navigate(`/dashboard/produk/${encodeURIComponent(String(row.kode))}`)}
         pilihan={pilihan}
         aksiMassal={
           <>

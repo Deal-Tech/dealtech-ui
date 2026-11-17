@@ -142,6 +142,10 @@ import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
    isi `kataKunci` bila datanya penting.
 7. Jangan menimpa padding sel, tinggi header (38px), atau sudut header di halaman.
    Semua jarak tabel diatur di `tablelist-v1.css`.
+8. **Klik baris membuka Lihat Detail** lewat prop `onKlikBaris`. Bila datanya tidak
+   punya halaman atau modal detail, klik baris membuka Ubah. Aksi yang dipicu klik
+   baris tetap ada di `AksiBaris`, dan menu jangan berisi Lihat Detail yang tidak
+   melakukan apa-apa.
 
 ### Benar
 
