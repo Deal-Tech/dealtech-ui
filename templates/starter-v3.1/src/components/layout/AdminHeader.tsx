@@ -12,7 +12,6 @@ import {
   CircleAlert,
   LoaderCircle,
   LogOut,
-  MessageCircle,
   Settings,
   UserRound,
 } from 'lucide-react';
@@ -237,17 +236,6 @@ export default function AdminHeader({ nama, inisial, zona, onBukaSidebar, onKelu
             title="Informasi & bantuan"
           >
             <CircleAlert className="app-topbar__ikon-gambar" />
-          </a>
-
-          <a
-            href={TAUTAN_DUKUNGAN}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="app-topbar__ikon"
-            aria-label="Chat dukungan (buka di tab baru)"
-            title="Chat dukungan"
-          >
-            <MessageCircle className="app-topbar__ikon-gambar" />
           </a>
 
           <Link

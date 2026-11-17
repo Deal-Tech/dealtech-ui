@@ -32,6 +32,7 @@ Starter baru di `templates/starter-v3.1`, dipasang lewat `dealtech-ui-v3.1` atau
 - Perbaiki `LembarCetak`: aturan cetak hanya aktif saat halaman memang berisi lembar cetak.
 - Perbaiki `InputNumber` (non-rupiah): nol di depan dibuang saat mengetik, jadi isian bernilai 0 yang diketik 1000 tidak lagi tampil 01000. Desimal (0.5) dan negatif tetap aman. Selama fokus isian menampilkan persis yang diketik, jadi handler yang membatasi nilai (mis. minimal 1) tidak lagi membuat ketikan 2 jadi 12; nilai dari induk tampil lagi saat blur.
 - Semua tombol Refresh (`TombolMuatUlang`) memakai satu warna, token baru `--color-muat-ulang` (#3a76a8) dengan teks putih; centang sesudah muat ulang ikut putih.
+- Ikon chat dukungan di header atas dihapus; tinggal ikon informasi & bantuan, pengaturan, dan menu profil.
 - Tombol Keluar di sidebar dan menu profil header menampilkan status proses (ikon berputar, teks "Keluar…", tombol nonaktif) sampai pindah ke halaman login; menu profil tetap terbuka selama proses. `onLogout`/`onKeluar` boleh mengembalikan Promise.
 - `ChartLine` menerima prop `memuat`: grid dan label sumbu X tetap, garisnya bayangan abu yang berdenyut (diam saat reduced motion), tanpa titik, tooltip, dan legenda.
 - `ChartListBar` dan `ChartTopList` menerima prop `memuat` (dan `barisMemuat`): baris skeleton meniru label, batang beragam panjang, meta, dan nilai, dengan nomor peringkat tetap tampil, bukan satu kotak abu. Katalog element menampilkan keduanya.
