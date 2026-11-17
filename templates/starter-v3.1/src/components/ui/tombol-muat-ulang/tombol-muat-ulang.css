@@ -1,3 +1,12 @@
+/* Semua Refresh satu warna */
+.btn.tombol-muat-ulang {
+  background: var(--app-muat-ulang);
+  color: var(--app-on-primary);
+}
+.btn.tombol-muat-ulang:hover:not(:disabled) {
+  background: var(--app-muat-ulang-hover);
+}
+
 /* Ikon muat ulang berputar sekali */
 .tombol-muat-ulang[data-fase='putar'] .tombol-muat-ulang__ikon {
   animation: tombol-muat-ulang-putar 225ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -5,7 +14,7 @@
 
 /* Lalu jadi centang, gaya pop TombolTuang */
 .tombol-muat-ulang[data-fase='centang'] .tombol-muat-ulang__ikon {
-  color: var(--app-primary);
+  color: var(--app-on-primary);
   animation: tombol-muat-ulang-pop 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 

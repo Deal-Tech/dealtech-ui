@@ -106,6 +106,8 @@
   --color-accent: #0a6bc4;
   /* Tombol sekunder */
   --color-secondary: #313437;
+  /* Tombol Refresh */
+  --color-muat-ulang: #3a76a8;
 
   /* Dasar semua warna "hitam" — teks, garis, isian, bayangan, dan tirai modal. */
   --color-hitam: #13263a;
@@ -121,6 +123,8 @@
   --app-accent: var(--color-accent);
   --app-secondary: var(--color-secondary);
   --app-secondary-hover: color-mix(in srgb, var(--color-secondary) 85%, #000000);
+  --app-muat-ulang: var(--color-muat-ulang);
+  --app-muat-ulang-hover: color-mix(in srgb, var(--color-muat-ulang) 85%, #000000);
 
   --font-judul: 'Inter', 'Google Sans', 'SN Pro', system-ui, -apple-system, BlinkMacSystemFont,
     sans-serif;
