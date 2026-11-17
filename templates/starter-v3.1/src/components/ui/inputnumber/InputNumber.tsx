@@ -1,4 +1,4 @@
-import { forwardRef, useState, type ChangeEvent, type InputHTMLAttributes } from 'react';
+import { forwardRef, useId, useState, type ChangeEvent, type InputHTMLAttributes } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton/Skeleton';
 import { formatCurrencyInputValue, normalizeCurrencyDigits } from '@/lib/currency';
@@ -15,9 +15,11 @@ export interface InputNumberProps extends Omit<InputHTMLAttributes<HTMLInputElem
 }
 
 export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function InputNumber(
-  { label, error, hint, invalid = false, className = '', currency = false, memuat = false, onChange, onBlur, onWheel, value, inputMode, pattern, required, ...props },
+  { label, error, hint, invalid = false, className = '', currency = false, memuat = false, onChange, onBlur, onWheel, value, inputMode, pattern, required, id, ...props },
   ref,
 ) {
+  const idOtomatis = useId();
+  const idField = id ?? idOtomatis;
   // Ketikan apa adanya selama fokus
   const [draf, setDraf] = useState<string | null>(null);
   const displayValue =
@@ -47,7 +49,7 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(functi
   return (
     <div className="inputnumber">
       {label ? (
-        <label className="inputnumber__label">
+        <label className="inputnumber__label" htmlFor={idField}>
           {label}
           {required ? <span className="inputnumber__req">*</span> : null}
         </label>
@@ -56,6 +58,7 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(functi
       <input
         hidden={memuat}
         ref={ref}
+        id={idField}
         type={currency ? 'text' : 'number'}
         inputMode={currency ? 'numeric' : inputMode}
         pattern={currency ? '[0-9.]*' : pattern}
