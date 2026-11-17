@@ -400,6 +400,7 @@ export default function ElementPage() {
   const [tugas, setTugas] = useState<TugasProses | null>(null);
   const [konfirmasiBuka, setKonfirmasiBuka] = useState(false);
   const [barisDibuka, setBarisDibuka] = useState('');
+  const [tanggalAkhir, setTanggalAkhir] = useState('');
   const [contohMassal, setContohMassal] = useState(['TRX-1001', 'TRX-1002', 'TRX-1003']);
 
   const cocok = ITEM_CONTOH.filter(
@@ -450,7 +451,7 @@ export default function ElementPage() {
       </nav>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="baru" judul="Baru di v3.1" jumlah={5}>
+      <Seksi id="baru" judul="Baru di v3.1" jumlah={6}>
         <Petak nama="Seksi" jalur="seksi/">
           <SeksiKartu
             title="Informasi Paket"
@@ -464,6 +465,21 @@ export default function ElementPage() {
               Kepala seksi berupa bar abu seperti header tabel: judul saja, tanpa ikon dan deskripsi.
             </BadgeInfo>
           </SeksiKartu>
+        </Petak>
+
+        <Petak nama="Seksi saring" jalur="seksi/ saring">
+          <SeksiKartu saring>
+            <div className="app-saring">
+              <DateInput label="Dari tanggal" value={tanggal} onChange={(e) => setTanggal(e.target.value)} />
+              <DateInput label="Sampai tanggal" value={tanggalAkhir} onChange={(e) => setTanggalAkhir(e.target.value)} />
+              <Bidang label="Status">
+                <Select value={status} onValueChange={setStatus} options={OPSI_STATUS} />
+              </Bidang>
+            </div>
+          </SeksiKartu>
+          <BadgeInfo variant="info" icon={false}>
+            Saring laporan: bar abu tanpa judul kolom. Label tetap ada untuk pembaca layar.
+          </BadgeInfo>
         </Petak>
 
         <Petak nama="Bidang" jalur="bidang/">

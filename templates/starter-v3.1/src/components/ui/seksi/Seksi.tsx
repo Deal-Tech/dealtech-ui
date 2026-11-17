@@ -8,6 +8,8 @@ export interface SeksiProps {
   action?: ReactNode;
   /** Tanpa padding badan, mis. isi tabel. */
   rapat?: boolean;
+  /** Bar saring tanpa judul kolom */
+  saring?: boolean;
   className?: string;
   bodyClassName?: string;
   children?: ReactNode;
@@ -18,13 +20,14 @@ export function Seksi({
   title,
   action,
   rapat = false,
+  saring = false,
   className = '',
   bodyClassName = '',
   children,
 }: SeksiProps) {
   const adaKepala = !!(title || action);
   return (
-    <section className={`app-section-card seksi ${className}`}>
+    <section className={`app-section-card seksi ${saring ? 'seksi--saring' : ''} ${className}`}>
       {adaKepala ? (
         <div className="seksi__kepala">
           <div className="seksi__teks">

@@ -56,3 +56,23 @@
     padding: 7.5px;
   }
 }
+
+/* Saring: bar abu, judul kolom disembunyikan */
+.seksi--saring > .app-section-body {
+  margin: 2px;
+  padding: 6px;
+  border-radius: 6px;
+  background: var(--app-fill-strong);
+}
+.seksi--saring .app-saring {
+  align-items: center;
+  gap: 8px;
+}
+.seksi--saring :is(.date-input__label, .bidang__label, .inputtext__label, .date-input__hint, .bidang__hint) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

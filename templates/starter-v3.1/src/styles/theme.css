@@ -399,3 +399,15 @@ body * {
 .animate-fade-in-scale {
   animation: fadeInScale 0.2s ease-out;
 }
+
+/* Baris saring di atas laporan */
+.app-saring {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.app-saring > * {
+  min-width: 160px;
+}

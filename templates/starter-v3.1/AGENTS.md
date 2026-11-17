@@ -45,7 +45,12 @@ garis bawah**.
    `Bidang`, bukan `<span style={{ fontSize: ... }}>`.
 3. Jangan menambah `border-bottom` pada kepala kartu atau modal; pemisahnya
    sudah bar abu itu.
-4. **Tab memakai `TabButton gaya="pil"`.** Pakai `short` untuk label di layar
+4. **Saring laporan pakai `<Seksi saring>`** berisi `<div className="app-saring">`:
+   tanggal, select, dan cari duduk langsung di bar abu tanpa judul kolom. Label
+   tetap ditulis (`label=` di DateInput/Bidang) karena hanya disembunyikan dari
+   layar, bukan dari pembaca layar. Toggle yang labelnya bagian dari kontrol tetap
+   berlabel.
+5. **Tab memakai `TabButton gaya="pil"`.** Pakai `short` untuk label di layar
    sempit, `count` untuk jumlah, dan `className="tab-button--rata"` untuk tab
    selebar wadah. Gaya `garis` bawaan hanya untuk kebutuhan khusus. Contoh semua
    varian ada di katalog element, grup TabButton.
