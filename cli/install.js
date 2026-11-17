@@ -37,6 +37,12 @@ const VARIAN = {
     label: 'v3.0',
     folder: 'starter-v3.0',
   },
+  v31: {
+    kunci: 'v31',
+    perintah: 'dealtech-ui-v3.1',
+    label: 'v3.1',
+    folder: 'starter-v3.1',
+  },
 };
 
 function namaPerintah() {
@@ -45,6 +51,7 @@ function namaPerintah() {
 }
 
 function pilihVarian(bendera) {
+  if (bendera.has('--v3.1') || bendera.has('--v31')) return VARIAN.v31;
   if (bendera.has('--v3')) return VARIAN.v3;
   if (bendera.has('--v2')) return VARIAN.v2;
   if (bendera.has('--v1')) return VARIAN.v1;
@@ -366,10 +373,11 @@ ${colors.bold('Starter:')}
   ${colors.cyan('dealtech-ui')}          ${colors.dim('v1 - Tailwind inline, 29 element')}
   ${colors.cyan('dealtech-ui-v2-next')}  ${colors.dim('v2.0-next - token CSS, style per komponen, 58 element')}
   ${colors.cyan('dealtech-ui-v3')}       ${colors.dim('v3.0 - element v2 + tombol-tuang, shell & tema baru')}
-  ${colors.dim('Bendera --v1 / --v2 / --v3 menimpa pilihan berdasarkan nama perintah.')}
+  ${colors.cyan('dealtech-ui-v3.1')}     ${colors.dim('v3.1 - terbaru: tanpa bayangan, bar abu, Seksi, hapus massal')}
+  ${colors.dim('Bendera --v1 / --v2 / --v3 / --v3.1 menimpa pilihan berdasarkan nama perintah.')}
 
 ${colors.bold('Examples:')}
-  npx dealtech-ui-v3 install my-admin-app
+  npx dealtech-ui-v3.1 install my-admin-app
   npx ${cmd} add button badge modal
   npx ${cmd} add-layout admin-layout
   npx ${cmd} add-page reports
