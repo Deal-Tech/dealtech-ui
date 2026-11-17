@@ -243,7 +243,7 @@ halaman admin.
 2. **Teks statis tetap asli.** Judul halaman, label, hint, nama tab, dan judul
    kartu tidak menunggu data, jadi ditulis apa adanya. Yang diganti skeleton
    hanya bagian yang berasal dari data.
-3. **Isian form pakai prop `memuat`.** `InputText`, `InputNumber`, `Select`, dan
+3. **Isian form pakai prop `memuat`.** `InputText`, `InputNumber`, `InputLongText`, `Select`, dan
    `RichText` menerima `memuat`: label dan hint tetap, kotaknya jadi skeleton.
 4. **Tabel pakai `memuat` di `TableListV1`.** Header, toolbar, dan paginasi tetap;
    barisnya jadi skeleton. Bentuk sel diatur lewat `skeleton` di definisi kolom:

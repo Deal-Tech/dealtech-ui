@@ -30,6 +30,7 @@ Starter baru di `templates/starter-v3.1`, dipasang lewat `dealtech-ui-v3.1` atau
 - Halaman login dan lupa sandi: latar putih, kartu form abu tipis tanpa bayangan dan tanpa border yang menyatu dengan panel kanan bersudut 18px, serta garis isian lebih tebal yang berubah ke warna utama saat disorot atau fokus. Judul, teks per langkah, dan titik di panel kanan tetap seperti v3.0.
 - Perbaiki `LembarCetak`: aturan cetak hanya aktif saat halaman memang berisi lembar cetak.
 - Perbaiki `InputNumber` (non-rupiah): nol di depan dibuang saat mengetik, jadi isian bernilai 0 yang diketik 1000 tidak lagi tampil 01000. Desimal (0.5) dan negatif tetap aman. Selama fokus isian menampilkan persis yang diketik, jadi handler yang membatasi nilai (mis. minimal 1) tidak lagi membuat ketikan 2 jadi 12; nilai dari induk tampil lagi saat blur.
+- `InputLongText` menerima prop `memuat` (label tetap, kotak jadi skeleton seukuran textarea). Label `InputNumber` dan `InputLongText` kini terhubung ke isiannya, jadi klik label langsung memfokuskan kolom.
 - `AGENTS.md` v3.1 menambah aturan kartu tanpa bayangan, kepala seksi dan bar abu, jarak antar section, tombol aksi async, serta toolbar dan hapus massal tabel.
 
 ### CLI

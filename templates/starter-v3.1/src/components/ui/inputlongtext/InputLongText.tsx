@@ -2,11 +2,13 @@ import {
   forwardRef,
   useCallback,
   useEffect,
+  useId,
   useRef,
   type MutableRefObject,
   type TextareaHTMLAttributes,
 } from 'react';
 
+import { SkeletonBila } from '@/components/ui/skeleton/Skeleton';
 import './inputlongtext.css';
 
 export interface InputLongTextProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -14,13 +16,17 @@ export interface InputLongTextProps extends TextareaHTMLAttributes<HTMLTextAreaE
   error?: string;
   hint?: string;
   autoResize?: boolean;
+  /** Label tetap, kotak jadi skeleton. */
+  memuat?: boolean;
 }
 
 export const InputLongText = forwardRef<HTMLTextAreaElement, InputLongTextProps>(
   function InputLongText(
-    { label, error, hint, className = '', rows = 4, autoResize = false, value, onChange, onInput, required, ...props },
+    { label, error, hint, className = '', rows = 4, autoResize = false, memuat = false, value, onChange, onInput, required, id, ...props },
     ref,
   ) {
+    const idOtomatis = useId();
+    const idField = id ?? idOtomatis;
     const innerRef = useRef<HTMLTextAreaElement | null>(null);
 
     const setRefs = useCallback(
@@ -46,13 +52,15 @@ export const InputLongText = forwardRef<HTMLTextAreaElement, InputLongTextProps>
     return (
       <div className="inputlongtext">
         {label ? (
-          <label className="inputlongtext__label">
+          <label className="inputlongtext__label" htmlFor={idField}>
             {label}
             {required ? <span className="inputlongtext__req">*</span> : null}
           </label>
         ) : null}
+        <SkeletonBila memuat={memuat} blok>
         <textarea
           ref={setRefs}
+          id={idField}
           rows={autoResize ? undefined : rows}
           value={value}
           required={required}
@@ -69,6 +77,7 @@ export const InputLongText = forwardRef<HTMLTextAreaElement, InputLongTextProps>
           } ${className}`}
           {...props}
         />
+        </SkeletonBila>
         {hint && !error ? <p className="inputlongtext__hint">{hint}</p> : null}
         {error ? <p className="inputlongtext__error">{error}</p> : null}
       </div>
