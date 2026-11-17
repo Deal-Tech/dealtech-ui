@@ -1,4 +1,4 @@
-import { forwardRef, type ChangeEvent, type InputHTMLAttributes } from 'react';
+import { forwardRef, useState, type ChangeEvent, type InputHTMLAttributes } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton/Skeleton';
 import { formatCurrencyInputValue, normalizeCurrencyDigits } from '@/lib/currency';
@@ -15,17 +15,24 @@ export interface InputNumberProps extends Omit<InputHTMLAttributes<HTMLInputElem
 }
 
 export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function InputNumber(
-  { label, error, hint, invalid = false, className = '', currency = false, memuat = false, onChange, onWheel, value, inputMode, pattern, required, ...props },
+  { label, error, hint, invalid = false, className = '', currency = false, memuat = false, onChange, onBlur, onWheel, value, inputMode, pattern, required, ...props },
   ref,
 ) {
+  // Ketikan apa adanya selama fokus
+  const [draf, setDraf] = useState<string | null>(null);
   const displayValue =
-    currency && value !== undefined ? formatCurrencyInputValue(value) : value;
+    value === undefined
+      ? undefined
+      : currency
+        ? formatCurrencyInputValue(value)
+        : (draf ?? value);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!currency) {
       // Buang nol depan, mis. 01000
       const isi = event.target.value;
       if (/^-?0\d/.test(isi)) event.target.value = isi.replace(/^(-?)0+(?=\d)/, '$1');
+      setDraf(event.target.value);
       onChange?.(event);
       return;
     }
@@ -54,6 +61,10 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(functi
         pattern={currency ? '[0-9.]*' : pattern}
         value={displayValue}
         onChange={handleChange}
+        onBlur={(event) => {
+          setDraf(null);
+          onBlur?.(event);
+        }}
         onWheel={(event) => {
           if (!currency) event.currentTarget.blur();
           onWheel?.(event);
