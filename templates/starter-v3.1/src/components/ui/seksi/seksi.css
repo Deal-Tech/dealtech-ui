@@ -1,12 +1,12 @@
 .seksi__kepala {
   display: flex;
-  min-height: 38px;
+  min-height: 42.8px;
   align-items: center;
   gap: 10px;
-  /* Bar abu seperti header tabel */
-  margin: 12px 8px 0;
-  padding: 2px 2px 2px 12px;
-  border-radius: 3px;
+  /* Sama dengan bar cari tabel */
+  margin: 2px 2px 0;
+  padding: 6px;
+  border-radius: 6px 6px 3px 3px;
   background: var(--app-fill-strong);
 }
 
@@ -23,8 +23,12 @@
   color: var(--app-text);
 }
 
+.seksi__teks {
+  padding-left: 6px;
+}
+
 .seksi__aksi > a {
-  padding-right: 10px;
+  padding-right: 6px;
 }
 
 .seksi__aksi {

@@ -40,10 +40,11 @@
   justify-content: space-between;
   gap: 12px;
   /* Bar abu seperti header tabel */
-  min-height: 38px;
-  margin: 12px 12px 0;
-  padding: 2px 5px 2px 12px;
-  border-radius: 3px;
+  min-height: 42.8px;
+  /* Sama dengan bar cari tabel */
+  margin: 2px 2px 0;
+  padding: 6px 6px 6px 12px;
+  border-radius: 8px 8px 3px 3px;
   background: var(--app-fill-strong);
 }
 
