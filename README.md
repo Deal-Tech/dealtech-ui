@@ -2,13 +2,17 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:13263a,100:01498b&height=200&section=header&text=DealTech%20UI&fontColor=ffffff&fontSize=56&fontAlignY=36&desc=Starter%20admin%20panel%20React%20%2B%20Vite%20dalam%20satu%20perintah&descSize=18&descAlignY=58" alt="DealTech UI — starter admin panel React + Vite dalam satu perintah" width="100%" />
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&duration=3000&pause=1000&color=01498B&center=true&vCenter=true&width=640&lines=npx+dealtech-ui-v3.1+install+my-admin-app;66+UI+element+siap+pakai;Tabel%2C+form%2C+chart%2C+login%2C+dan+tema+sekaligus" alt="npx dealtech-ui-v3.1 install my-admin-app" />
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&duration=3000&pause=1000&color=01498B&center=true&vCenter=true&width=640&lines=npx+dealtech-ui-v3.1+install+my-admin-app;66+UI+element+siap+pakai;Tabel%2C+form%2C+chart%2C+login%2C+dan+tema+sekaligus" alt="npx dealtech-ui-v3.1 install my-admin-app" />
+</p>
 
-<img src="https://img.shields.io/badge/Versi-2.3.0-01498b?style=for-the-badge" alt="Versi 2.3.0" height="32" />
-&nbsp;
-<img src="https://img.shields.io/badge/Starter%20terbaru-v3.1-0a6bc4?style=for-the-badge" alt="Starter terbaru v3.1" height="32" />
-&nbsp;
-<img src="https://img.shields.io/badge/Lisensi-MIT-13263a?style=for-the-badge" alt="Lisensi MIT" height="32" />
+<p align="center">
+  <img src="https://img.shields.io/badge/Starter%20terbaru-v3.1-0a6bc4?style=for-the-badge" alt="Starter terbaru v3.1" height="32" />
+  &nbsp;
+  <img src="https://img.shields.io/badge/CLI-2.3.0-01498b?style=for-the-badge" alt="CLI dealtech-ui 2.3.0" height="32" />
+  &nbsp;
+  <img src="https://img.shields.io/badge/Lisensi-MIT-13263a?style=for-the-badge" alt="Lisensi MIT" height="32" />
+</p>
 
 <sub>React 19 · Vite · TypeScript · Tailwind CSS &nbsp;|&nbsp; 66 element di v3.1 &nbsp;|&nbsp; Gratis</sub>
 
