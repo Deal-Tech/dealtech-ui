@@ -131,3 +131,46 @@
   font-weight: 600;
   color: var(--app-chip-fg);
 }
+
+/* Chip kategori: track warna utama */
+.element-tab-kategori .tab-button--pil {
+  display: flex;
+  padding: 4px;
+  background: var(--color-primary);
+}
+.element-tab-kategori .tab-button__nav {
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+.element-tab-kategori .tab-button__item {
+  flex: 0 0 auto;
+}
+.element-tab-kategori .tab-button--pil .tab-button__item {
+  color: rgba(255, 255, 255, 0.86);
+}
+.element-tab-kategori .tab-button--pil .tab-button__item:hover:not(.tab-button__item--active) {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+.element-tab-kategori .tab-button--pil .tab-button__item--active {
+  background: #ffffff;
+  color: var(--color-primary);
+}
+.element-tab-kategori .tab-button--pil .tab-button__count {
+  background: #ffffff;
+  color: var(--color-primary);
+}
+.element-tab-kategori .tab-button--pil .tab-button__item--active .tab-button__count {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+.element-tab-kategori .tab-button--pil .tab-button__item:focus-visible {
+  outline-color: #ffffff;
+}
+
+/* Track pil selebar isinya */
+.element-petak__isi > .tab-button--pil:not(.tab-button--rata) {
+  align-self: flex-start;
+}

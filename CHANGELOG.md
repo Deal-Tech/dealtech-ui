@@ -21,7 +21,7 @@ Starter baru di `templates/starter-v3.1`, dipasang lewat `dealtech-ui-v3.1` atau
 - Tambah element `konfirmasi-modal`: konfirmasi aksi berisiko dengan `TombolTuang`, peringatan, dan `kataKunci` (tombol baru aktif setelah pengguna mengetik, misalnya HAPUS).
 - Tambah element `hapus-massal`: hapus banyak baris dengan konfirmasi ketik HAPUS; yang gagal tetap terpilih beserta alasannya. Dipakai di tabel dashboard.
 - Tambah element `tombol-muat-ulang` dan hook `useAksiTuang` untuk tombol async.
-- Katalog element punya grup baru **Baru di v3.1**.
+- Katalog element punya grup baru **Baru di v3.1**, dan grup **TabButton** berisi sembilan varian: pil teks, pil + ikon, pil + jumlah (termasuk 99+), label `short` untuk layar sempit, tab sama rata (`tab-button--rata`), chip kategori bergaya kustom, dan gaya garis bawaan.
 - Halaman login dan lupa sandi: latar putih, kartu form abu tipis tanpa bayangan dan tanpa border yang menyatu dengan panel kanan bersudut 18px, serta garis isian lebih tebal yang berubah ke warna utama saat disorot atau fokus. Judul, teks per langkah, dan titik di panel kanan tetap seperti v3.0.
 - Perbaiki `LembarCetak`: aturan cetak hanya aktif saat halaman memang berisi lembar cetak.
 - `AGENTS.md` v3.1 menambah aturan kartu tanpa bayangan, kepala seksi dan bar abu, jarak antar section, tombol aksi async, serta toolbar dan hapus massal tabel.

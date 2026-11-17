@@ -1,17 +1,41 @@
 import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import {
+  BadgePercent,
+  BarChart3,
+  BellDot,
+  BellRing,
   Check,
+  ChefHat,
   CircleAlert,
+  ClipboardList,
   Clock,
+  Coffee,
+  Cookie,
+  CupSoda,
   Download,
   Eye,
+  History,
+  Inbox,
+  LayoutGrid,
+  List,
+  ListChecks,
+  MailOpen,
   Package,
+  PackagePlus,
+  PackageSearch,
   Pencil,
   Plus,
+  ReceiptText,
+  Send,
+  ShoppingBag,
   ShoppingCart,
+  Smartphone,
   Sparkles,
+  Table2,
+  Tags,
   Trash2,
   Users,
+  UtensilsCrossed,
   Wallet,
 } from 'lucide-react';
 
@@ -84,7 +108,18 @@ interface SeksiProps {
   id: string;
   judul: string;
   jumlah: number;
+  satuan?: string;
   children: ReactNode;
+}
+
+type ContohTabProps = Omit<ComponentProps<typeof TabButton>, 'value' | 'onChange'> & {
+  awal?: string;
+};
+
+/** TabButton dengan state sendiri. */
+function ContohTab({ tabs, awal, ...sisa }: ContohTabProps) {
+  const [nilai, setNilai] = useState(awal ?? tabs[0]?.key ?? '');
+  return <TabButton {...sisa} tabs={tabs} value={nilai} onChange={setNilai} />;
 }
 
 
@@ -132,13 +167,15 @@ const PAKET_CONTOH: PaketItem[] = [
   },
 ];
 
-function Seksi({ id, judul, jumlah, children }: SeksiProps) {
+function Seksi({ id, judul, jumlah, satuan = 'elemen', children }: SeksiProps) {
   return (
     <section className="element-seksi" id={id}>
       <div className="element-seksi__kepala">
         <h2 className="element-seksi__judul">
           {judul}
-          <span className="element-seksi__jumlah">{jumlah} elemen</span>
+          <span className="element-seksi__jumlah">
+            {jumlah} {satuan}
+          </span>
         </h2>
       </div>
       <div className="element-grid">{children}</div>
@@ -325,6 +362,7 @@ const LENCANA: Record<StatusItem, ReactNode> = {
 const NAVIGASI = [
   { id: 'baru', label: 'Baru di v3.1' },
   { id: 'tombol', label: 'Tombol & Navigasi' },
+  { id: 'tab', label: 'TabButton' },
   { id: 'status', label: 'Status & Umpan Balik' },
   { id: 'form', label: 'Form' },
   { id: 'data', label: 'Data & Tabel' },
@@ -354,7 +392,6 @@ export default function ElementPage() {
   const [isiKaya, setIsiKaya] = useState('<p>Tulis <strong>deskripsi</strong> paket di sini.</p>');
   const [gambar, setGambar] = useState('');
   const [badge, setBadge] = useState('aktif');
-  const [tab, setTab] = useState('semua');
   const [halaman, setHalaman] = useState(3);
   const [bulan, setBulan] = useState({ tahun: 2026, bulan: 8 });
   const [tanggalPilih, setTanggalPilih] = useState<string | null>('2026-09-12');
@@ -490,7 +527,7 @@ export default function ElementPage() {
       </Seksi>
 
       {/* ------------------------------------------------------------------ */}
-      <Seksi id="tombol" judul="Tombol & Navigasi" jumlah={6}>
+      <Seksi id="tombol" judul="Tombol & Navigasi" jumlah={5}>
         <Petak nama="Button" jalur="button/">
           <p className="element-catatan">Satu ukuran, empat keadaan.</p>
           <div className="element-baris">
@@ -554,19 +591,6 @@ export default function ElementPage() {
           </p>
         </Petak>
 
-        <Petak nama="TabButton" jalur="tab-button/">
-          <TabButton
-            value={tab}
-            onChange={setTab}
-            tabs={[
-              { key: 'semua', label: 'Semua', icon: Package, count: 24 },
-              { key: 'aktif', label: 'Aktif', icon: Check, count: 18 },
-              { key: 'arsip', label: 'Arsip', icon: Trash2, count: 6 },
-            ]}
-          />
-          <p className="element-catatan">Tab aktif: {tab}</p>
-        </Petak>
-
         <Petak nama="BilahLipat" jalur="bilah-lipat/">
           <BilahLipat
             terbuka={lipat}
@@ -588,6 +612,230 @@ export default function ElementPage() {
             onNavigate={setHalaman}
             info="Menampilkan 21–30 dari 118 data"
           />
+        </Petak>
+      </Seksi>
+
+      {/* ------------------------------------------------------------------ */}
+      <Seksi id="tab" judul="TabButton" jumlah={9} satuan="varian">
+        <Petak nama="Pil, teks saja" jalur="tab-button/ gaya=&quot;pil&quot;">
+          <ContohTab
+            gaya="pil"
+            label="Asal aset"
+            tabs={[
+              { key: 'beli', label: 'Dibeli' },
+              { key: 'saldo_awal', label: 'Aset lama (saldo awal)' },
+            ]}
+          />
+          <ContohTab
+            gaya="pil"
+            label="Asal prepaid"
+            tabs={[
+              { key: 'bayar', label: 'Dibayar sekarang' },
+              { key: 'saldo_awal', label: 'Sisa lama (saldo awal)' },
+            ]}
+          />
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: 'nanti', label: 'Bayar Nanti' },
+              { key: 'langsung', label: 'Langsung Bayar' },
+            ]}
+          />
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: 'rp', label: 'Rp' },
+              { key: 'persen', label: '%' },
+            ]}
+          />
+          <BadgeInfo variant="info" icon={false}>
+            Pilihan dua sampai tiga opsi di dalam form atau modal.
+          </BadgeInfo>
+        </Petak>
+
+        <Petak nama="Pil + ikon" jalur="tab-button/ gaya=&quot;pil&quot; icon">
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: 'denah', label: 'Per Area', icon: LayoutGrid },
+              { key: 'daftar', label: 'Daftar', icon: List },
+            ]}
+          />
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: 'transaksi', label: 'Transaksi', icon: List },
+              { key: 'produk', label: 'Per Produk', icon: Package },
+              { key: 'kategori', label: 'Per Kategori', icon: Tags },
+            ]}
+          />
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: 'struk', label: 'Struk', icon: ReceiptText },
+              { key: 'bar', label: 'Bar', icon: Coffee },
+              { key: 'dapur', label: 'Dapur', icon: ChefHat },
+            ]}
+          />
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: 'anggaran', label: 'Anggaran', icon: Table2 },
+              { key: 'realisasi', label: 'Realisasi vs Anggaran', icon: BarChart3 },
+            ]}
+          />
+          <BadgeInfo variant="info" icon={false}>
+            Ganti tampilan halaman: denah atau daftar, laporan per sudut pandang, pratinjau.
+          </BadgeInfo>
+        </Petak>
+
+        <Petak nama="Pil + jumlah" jalur="tab-button/ gaya=&quot;pil&quot; count">
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: 'semua', label: 'Semua', count: 63 },
+              { key: 'aset', label: 'Aset', count: 18 },
+              { key: 'kewajiban', label: 'Kewajiban', count: 9 },
+              { key: 'ekuitas', label: 'Ekuitas', count: 4 },
+              { key: 'pendapatan', label: 'Pendapatan', count: 7 },
+              { key: 'hpp', label: 'HPP', count: 5 },
+              { key: 'beban', label: 'Beban', count: 20 },
+            ]}
+          />
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: 'piutang', label: 'Piutang', icon: ReceiptText, count: 12 },
+              { key: 'penerimaan', label: 'Riwayat Penerimaan', icon: History, count: 148 },
+            ]}
+          />
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: 'baru', label: 'Belum Dibaca', icon: BellDot, count: 3 },
+              { key: 'semua', label: 'Semua', icon: MailOpen, count: 245 },
+            ]}
+          />
+          <BadgeInfo variant="info" icon={false}>
+            Jumlah di atas 99 tampil 99+ dan lencananya melebar (atribut data-long).
+          </BadgeInfo>
+        </Petak>
+
+        <Petak nama="Pil + ikon + jumlah + short" jalur="tab-button/ short">
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: 'tindakan', label: 'Perlu Tindakan Saya', short: 'Tindakan', icon: ListChecks, count: 4 },
+              { key: 'saya', label: 'Pengajuan Saya', short: 'Milik Saya', icon: Send, count: 7 },
+              { key: 'semua', label: 'Semua Pengajuan', short: 'Semua', icon: Inbox, count: 31 },
+            ]}
+          />
+          <ContohTab
+            gaya="pil"
+            className="tab-button--rata"
+            tabs={[
+              { key: 'aktif', label: 'Pesanan Aktif', short: 'Aktif', icon: ClipboardList, count: 6 },
+              { key: 'menunggu', label: 'Menunggu Konfirmasi', short: 'E-Menu', icon: Smartphone, count: 2 },
+              { key: 'panggilan', label: 'Panggilan', short: 'Panggil', icon: BellRing, count: 1 },
+              { key: 'denah', label: 'Denah Meja', short: 'Denah', icon: LayoutGrid },
+            ]}
+          />
+          <BadgeInfo variant="info" icon={false}>
+            Label short tampil di layar di bawah 640px, label penuh di layar lebar.
+          </BadgeInfo>
+        </Petak>
+
+        <Petak nama="Pil + ikon + short" jalur="tab-button/ short">
+          <ContohTab
+            gaya="pil"
+            label="Sumber item inventori"
+            tabs={[
+              { key: 'baru', label: 'Buat Item Otomatis', short: 'Buat Otomatis', icon: PackagePlus },
+              { key: 'pilih', label: 'Pilih Item yang Ada', short: 'Pilih Item', icon: PackageSearch },
+            ]}
+          />
+          <BadgeInfo variant="info" icon={false}>
+            Tanpa jumlah; label dipendekkan di layar sempit.
+          </BadgeInfo>
+        </Petak>
+
+        <Petak nama="Pil + jumlah + short" jalur="tab-button/ short">
+          <ContohTab
+            gaya="pil"
+            tabs={[
+              { key: '1', label: 'Checker · Supervisor', short: 'Checker', count: 5 },
+              { key: '2', label: 'Approval · Manager', short: 'Approval', count: 2 },
+            ]}
+          />
+          <BadgeInfo variant="info" icon={false}>
+            Tingkat persetujuan berurutan dengan antrean tiap tingkat.
+          </BadgeInfo>
+        </Petak>
+
+        <Petak nama="Lebar penuh, tab sama rata" jalur="tab-button/ tab-button--rata">
+          <div className="flex items-center gap-2">
+            <ContohTab
+              gaya="pil"
+              className="tab-button--rata flex-1"
+              tabs={[
+                { key: 'dine_in', label: 'Dine In', icon: UtensilsCrossed },
+                { key: 'take_away', label: 'Take Away', icon: ShoppingBag },
+              ]}
+            />
+          </div>
+          <ContohTab
+            gaya="pil"
+            className="tab-button--rata"
+            tabs={[
+              { key: 'item', label: 'Per Item', icon: ListChecks },
+              { key: 'nominal', label: 'Per Nominal', icon: Wallet },
+            ]}
+          />
+          <ContohTab
+            gaya="pil"
+            className="tab-button--rata flex-1"
+            tabs={[
+              { key: 'shift', label: 'Shift ini' },
+              { key: 'hari', label: 'Hari ini' },
+              { key: 'tanggal', label: 'Pilih tanggal' },
+            ]}
+          />
+          <BadgeInfo variant="info" icon={false}>
+            className tab-button--rata membagi lebar sama rata; tambah flex-1 bila di dalam baris flex.
+          </BadgeInfo>
+        </Petak>
+
+        <Petak nama="Chip kategori (gaya kustom)" jalur="tab-button/ + CSS halaman">
+          <div className="element-tab-kategori">
+            <ContohTab
+              gaya="pil"
+              label="Kategori"
+              tabs={[
+                { key: 'semua', label: 'Semua', icon: LayoutGrid, count: 42 },
+                { key: 'promo', label: 'Promo & Event', icon: BadgePercent, count: 3 },
+                { key: 'kopi', label: 'Kopi', icon: Coffee, count: 14 },
+                { key: 'non_kopi', label: 'Non Kopi', icon: CupSoda, count: 9 },
+                { key: 'makanan', label: 'Makanan', icon: UtensilsCrossed, count: 12 },
+                { key: 'snack', label: 'Snack', icon: Cookie, count: 7 },
+              ]}
+            />
+          </div>
+          <BadgeInfo variant="info" icon={false}>
+            Track warna utama yang digeser mendatar; warnanya ditimpa lewat CSS halaman, bukan di komponen.
+          </BadgeInfo>
+        </Petak>
+
+        <Petak nama="Garis (bawaan)" jalur="tab-button/ gaya=&quot;garis&quot;">
+          <ContohTab
+            tabs={[
+              { key: 'semua', label: 'Semua', icon: Package, count: 24 },
+              { key: 'aktif', label: 'Aktif', icon: Check, count: 18 },
+              { key: 'arsip', label: 'Arsip', icon: Trash2, count: 6 },
+            ]}
+          />
+          <BadgeInfo variant="info" icon={false}>
+            Gaya bawaan bila prop gaya dikosongkan: garis bawah dengan indikator tab aktif.
+          </BadgeInfo>
         </Petak>
       </Seksi>
 
