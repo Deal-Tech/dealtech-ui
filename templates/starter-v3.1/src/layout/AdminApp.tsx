@@ -1,0 +1,35 @@
+import { Navigate, Route, Routes } from 'react-router-dom';
+
+import AdminLayout from './AdminLayout';
+import DashboardPage from '@/pages/dash/DashboardPage';
+import ElementPage from '@/pages/element/ElementPage';
+import MemberPage from '@/pages/member/MemberPage';
+import ProdukPage from '@/pages/produk/ProdukPage';
+import ProdukDetailPage from '@/pages/produk/ProdukDetailPage';
+import ProdukTambahPage from '@/pages/produk/ProdukTambahPage';
+import PengaturanPage from '@/pages/pengaturan/PengaturanPage';
+import { CheckoutPage, PembayaranPage } from '@/pages/checkout/CheckoutPages';
+import LydiaChatPage from '@/pages/lydia/LydiaChatPage';
+// [dealtech:auto-imports]
+
+const AdminApp = () => (
+  <Routes>
+    <Route element={<AdminLayout />}>
+      <Route index element={<DashboardPage />} />
+      <Route path="element" element={<ElementPage />} />
+      <Route path="produk" element={<ProdukPage />} />
+      <Route path="produk/tambah" element={<ProdukTambahPage />} />
+      <Route path="produk/:kode" element={<ProdukDetailPage />} />
+      <Route path="produk/:kode/ubah" element={<ProdukTambahPage />} />
+      <Route path="member" element={<MemberPage />} />
+      <Route path="pengaturan" element={<PengaturanPage />} />
+      <Route path="checkout" element={<CheckoutPage />} />
+      <Route path="pembayaran" element={<PembayaranPage />} />
+      <Route path="lydia/:id?" element={<LydiaChatPage />} />
+      {/* [dealtech:auto-routes] */}
+    </Route>
+    <Route path="*" element={<Navigate to="/dashboard" replace />} />
+  </Routes>
+);
+
+export default AdminApp;

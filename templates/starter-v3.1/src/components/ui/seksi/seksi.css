@@ -1,0 +1,43 @@
+.seksi__kepala {
+  display: flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 10px;
+  /* Bar abu seperti header tabel */
+  margin: 12px 8px 0;
+  padding: 2px 2px 2px 12px;
+  border-radius: 3px;
+  background: var(--app-fill-strong);
+}
+
+.seksi__teks {
+  min-width: 0;
+  flex: 1;
+}
+
+.seksi__judul {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--app-text);
+}
+
+.seksi__aksi > a {
+  padding-right: 10px;
+}
+
+.seksi__aksi {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+@media (max-width: 639px) {
+  .seksi__kepala {
+    flex-wrap: wrap;
+  }
+}

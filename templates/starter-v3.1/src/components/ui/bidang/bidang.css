@@ -1,0 +1,31 @@
+.bidang {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.bidang__label {
+  font-size: var(--app-field-label-size);
+  font-weight: var(--app-field-label-weight);
+  color: var(--app-body-text);
+}
+
+.bidang__wajib {
+  margin-left: 2px;
+  color: var(--app-danger-text);
+}
+
+.bidang__hint,
+.bidang__error {
+  margin: 0;
+  font-size: 11px;
+}
+
+.bidang__hint {
+  color: var(--app-text-muted);
+}
+
+.bidang__error {
+  color: var(--app-danger-text);
+}
