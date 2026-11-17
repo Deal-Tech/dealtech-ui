@@ -276,60 +276,58 @@ export function PembayaranPage() {
           />
         </Seksi>
 
-        <section className="app-section-card">
-          <div className="app-section-body checkout-stack">
-            <RincianMetode metode={metode} />
-            <div className="checkout-pemisah" />
-            <h2 className="checkout-judul">Bukti Pembayaran</h2>
-            <BadgeInfo variant="info" icon={false}>
-              Bukti tidak dapat diganti setelah dikirim.
-            </BadgeInfo>
+        <Seksi title="Pembayaran" bodyClassName="checkout-stack">
+          <RincianMetode metode={metode} />
+          <div className="checkout-pemisah" />
+          <h2 className="checkout-judul">Bukti Pembayaran</h2>
+          <BadgeInfo variant="info" icon={false}>
+            Bukti tidak dapat diganti setelah dikirim.
+          </BadgeInfo>
 
-            <input
-              ref={inputRef}
-              type="file"
-              className="checkout-bukti__input"
-              accept="image/jpeg,image/png,image/webp"
-              disabled={terkirim || mengunggah}
-              onChange={(e) => setBukti(e.target.files?.[0] ?? null)}
-            />
+          <input
+            ref={inputRef}
+            type="file"
+            className="checkout-bukti__input"
+            accept="image/jpeg,image/png,image/webp"
+            disabled={terkirim || mengunggah}
+            onChange={(e) => setBukti(e.target.files?.[0] ?? null)}
+          />
 
-            {urlBukti ? (
-              <div className="checkout-bukti__pratinjau">
-                <img src={urlBukti} alt="Pratinjau bukti pembayaran" />
-                <span>{bukti?.name}</span>
-              </div>
-            ) : null}
+          {urlBukti ? (
+            <div className="checkout-bukti__pratinjau">
+              <img src={urlBukti} alt="Pratinjau bukti pembayaran" />
+              <span>{bukti?.name}</span>
+            </div>
+          ) : null}
 
-            {terkirim ? (
-              <>
-                <BadgeInfo variant="success">Bukti sudah diunggah dan tidak dapat diunggah ulang.</BadgeInfo>
-                <Button icon={Check} disabled>Bukti Sudah Diunggah</Button>
-              </>
-            ) : (
-              <div className="checkout-bukti__aksi">
-                <Button
-                  variant="ghost"
-                  icon={ImagePlus}
-                  disabled={mengunggah}
-                  onClick={() => inputRef.current?.click()}
-                >
-                  {bukti ? 'Ganti Bukti' : 'Pilih Bukti'}
-                </Button>
-                {/* Ganti dengan unggahan ke backend */}
-                <TombolTuang
-                  ikon="unggah"
-                  status={statusUnggah}
-                  disabled={!bukti}
-                  onClick={() => setStatusUnggah('success')}
-                  onTuntas={() => setTerkirim(true)}
-                >
-                  Unggah Bukti Pembayaran
-                </TombolTuang>
-              </div>
-            )}
-          </div>
-        </section>
+          {terkirim ? (
+            <>
+              <BadgeInfo variant="success">Bukti sudah diunggah dan tidak dapat diunggah ulang.</BadgeInfo>
+              <Button icon={Check} disabled>Bukti Sudah Diunggah</Button>
+            </>
+          ) : (
+            <div className="checkout-bukti__aksi">
+              <Button
+                variant="ghost"
+                icon={ImagePlus}
+                disabled={mengunggah}
+                onClick={() => inputRef.current?.click()}
+              >
+                {bukti ? 'Ganti Bukti' : 'Pilih Bukti'}
+              </Button>
+              {/* Ganti dengan unggahan ke backend */}
+              <TombolTuang
+                ikon="unggah"
+                status={statusUnggah}
+                disabled={!bukti}
+                onClick={() => setStatusUnggah('success')}
+                onTuntas={() => setTerkirim(true)}
+              >
+                Unggah Bukti Pembayaran
+              </TombolTuang>
+            </div>
+          )}
+        </Seksi>
       </div>
     </div>
   );

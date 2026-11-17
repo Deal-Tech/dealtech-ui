@@ -82,11 +82,9 @@ export function ProdukDetailSkeleton() {
 
       <TabButton gaya="pil" tabs={TAB} value="deskripsi" onChange={tanpaAksi} />
 
-      <section className="app-section-card">
-        <div className="app-section-body">
-          <SkeletonTeks className="richtext-isi" />
-        </div>
-      </section>
+      <Seksi title="Deskripsi Produk">
+        <SkeletonTeks className="richtext-isi" />
+      </Seksi>
     </SkeletonHalaman>
   );
 }

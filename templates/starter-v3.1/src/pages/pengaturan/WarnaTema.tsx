@@ -4,6 +4,7 @@ import { RotateCcw } from 'lucide-react';
 import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
 import { Button } from '@/components/ui/button/Button';
 import { InputText } from '@/components/ui/inputtext/InputText';
+import { Seksi } from '@/components/ui/seksi/Seksi';
 import { Skeleton, SkeletonBila } from '@/components/ui/skeleton/Skeleton';
 import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
 import { ApiError } from '@/lib/api';
@@ -123,83 +124,81 @@ export default function WarnaTema() {
   const berubah = warna !== tersimpan;
 
   return (
-    <section className="app-section-card">
-      <div className="app-section-body pengaturan-bagian">
-        <form onSubmit={simpan} className="pengaturan-form">
-          <div className="pengaturan-form__field">
-            <span className="pengaturan-form__label" id="label-warna-tema">
-              Warna tema admin
-            </span>
-            <div className="warna-tema" role="group" aria-labelledby="label-warna-tema">
-              <SkeletonBila memuat={memuat}>
-                <input
-                  type="color"
-                  className="warna-tema__pilih"
-                  value={warna}
-                  onChange={(e) => pilih(e.target.value)}
-                  aria-label="Pilih warna"
-                />
-              </SkeletonBila>
-              <div className="warna-tema__kode">
-                <InputText
-                  value={kode}
-                  onChange={(e) => ketik(e.target.value)}
-                  onBlur={rapikan}
-                  error={galatKode}
-                  aria-label="Kode warna hex"
-                  placeholder={WARNA_BAWAAN}
-                  maxLength={7}
-                  autoCapitalize="none"
-                  autoComplete="off"
-                  spellCheck={false}
-                  memuat={memuat}
-                />
-              </div>
-              {!memuat && warna !== WARNA_BAWAAN ? (
-                <Button variant="ghost" icon={RotateCcw} onClick={() => pilih(WARNA_BAWAAN)}>
-                  Pakai Bawaan
-                </Button>
-              ) : null}
-            </div>
-          </div>
-
-          <ul className="warna-tema__palet" aria-label="Turunan warna tema">
-            {TURUNAN.map(({ kunci, label }) => (
-              <li key={kunci}>
-                {memuat ? (
-                  <Skeleton bentuk="kotak" className="warna-tema__contoh" />
-                ) : (
-                  <span className="warna-tema__contoh" style={{ background: turunan[kunci] }} />
-                )}
-                <span className="warna-tema__nama">{label}</span>
-                <code>{memuat ? <Skeleton lebar="70%" /> : turunan[kunci]}</code>
-              </li>
-            ))}
-          </ul>
-
-          <BadgeInfo variant="info" icon={false}>
-            Pilih dari palet atau ketik kode hex. Warnanya langsung terlihat di seluruh admin;
-            kalau tidak disimpan, warna kembali saat halaman ini ditinggalkan.
-          </BadgeInfo>
-
-          {!memuat && kontrasPutih(warna) < KONTRAS_MIN ? (
-            <BadgeInfo variant="warning">
-              Warna ini terlalu terang, teks putih di tombol dan menu jadi sulit dibaca. Pilih
-              warna yang lebih gelap.
-            </BadgeInfo>
-          ) : null}
-
-          <div className="pengaturan-aksi">
+    <Seksi title="Warna Tema" bodyClassName="pengaturan-bagian">
+      <form onSubmit={simpan} className="pengaturan-form">
+        <div className="pengaturan-form__field">
+          <span className="pengaturan-form__label" id="label-warna-tema">
+            Warna tema admin
+          </span>
+          <div className="warna-tema" role="group" aria-labelledby="label-warna-tema">
             <SkeletonBila memuat={memuat}>
-              <TombolTuang type="submit" ikon="simpan" status={status} disabled={!berubah}>
-                Simpan Warna
-              </TombolTuang>
+              <input
+                type="color"
+                className="warna-tema__pilih"
+                value={warna}
+                onChange={(e) => pilih(e.target.value)}
+                aria-label="Pilih warna"
+              />
             </SkeletonBila>
-            {sukses ? <BadgeInfo variant="success">{sukses}</BadgeInfo> : null}
-            {galat ? <BadgeInfo variant="error">{galat}</BadgeInfo> : null}
+            <div className="warna-tema__kode">
+              <InputText
+                value={kode}
+                onChange={(e) => ketik(e.target.value)}
+                onBlur={rapikan}
+                error={galatKode}
+                aria-label="Kode warna hex"
+                placeholder={WARNA_BAWAAN}
+                maxLength={7}
+                autoCapitalize="none"
+                autoComplete="off"
+                spellCheck={false}
+                memuat={memuat}
+              />
+            </div>
+            {!memuat && warna !== WARNA_BAWAAN ? (
+              <Button variant="ghost" icon={RotateCcw} onClick={() => pilih(WARNA_BAWAAN)}>
+                Pakai Bawaan
+              </Button>
+            ) : null}
           </div>
-        </form>
-      </div>
-    </section>
+        </div>
+
+        <ul className="warna-tema__palet" aria-label="Turunan warna tema">
+          {TURUNAN.map(({ kunci, label }) => (
+            <li key={kunci}>
+              {memuat ? (
+                <Skeleton bentuk="kotak" className="warna-tema__contoh" />
+              ) : (
+                <span className="warna-tema__contoh" style={{ background: turunan[kunci] }} />
+              )}
+              <span className="warna-tema__nama">{label}</span>
+              <code>{memuat ? <Skeleton lebar="70%" /> : turunan[kunci]}</code>
+            </li>
+          ))}
+        </ul>
+
+        <BadgeInfo variant="info" icon={false}>
+          Pilih dari palet atau ketik kode hex. Warnanya langsung terlihat di seluruh admin;
+          kalau tidak disimpan, warna kembali saat halaman ini ditinggalkan.
+        </BadgeInfo>
+
+        {!memuat && kontrasPutih(warna) < KONTRAS_MIN ? (
+          <BadgeInfo variant="warning">
+            Warna ini terlalu terang, teks putih di tombol dan menu jadi sulit dibaca. Pilih
+            warna yang lebih gelap.
+          </BadgeInfo>
+        ) : null}
+
+        <div className="pengaturan-aksi">
+          <SkeletonBila memuat={memuat}>
+            <TombolTuang type="submit" ikon="simpan" status={status} disabled={!berubah}>
+              Simpan Warna
+            </TombolTuang>
+          </SkeletonBila>
+          {sukses ? <BadgeInfo variant="success">{sukses}</BadgeInfo> : null}
+          {galat ? <BadgeInfo variant="error">{galat}</BadgeInfo> : null}
+        </div>
+      </form>
+    </Seksi>
   );
 }

@@ -171,18 +171,16 @@ export default function ProdukDetailPage() {
       />
 
       {tab === 'deskripsi' ? (
-        <section className="app-section-card">
-          <div className="app-section-body">
-            {/* IsiKaya menyaring HTML-nya sebelum dirender, jadi apa pun yang
-                tersimpan dari RichText — atau nanti dari backend — aman
-                ditampilkan apa adanya di sini. */}
-            {produk.deskripsi?.trim() ? (
-              <IsiKaya html={produk.deskripsi} />
-            ) : (
-              <p className="produk-detail__kosong">Produk ini belum punya deskripsi.</p>
-            )}
-          </div>
-        </section>
+        <Seksi title="Deskripsi Produk">
+          {/* IsiKaya menyaring HTML-nya sebelum dirender, jadi apa pun yang
+              tersimpan dari RichText — atau nanti dari backend — aman
+              ditampilkan apa adanya di sini. */}
+          {produk.deskripsi?.trim() ? (
+            <IsiKaya html={produk.deskripsi} />
+          ) : (
+            <p className="produk-detail__kosong">Produk ini belum punya deskripsi.</p>
+          )}
+        </Seksi>
       ) : null}
 
       <Modal

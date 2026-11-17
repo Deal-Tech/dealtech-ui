@@ -8,6 +8,7 @@ import { InputNumber } from '@/components/ui/inputnumber/InputNumber';
 import { InputText } from '@/components/ui/inputtext/InputText';
 import { PageTitle } from '@/components/ui/pagetitle/PageTitle';
 import { RichText } from '@/components/ui/richtext/RichText';
+import { Seksi } from '@/components/ui/seksi/Seksi';
 import { Select } from '@/components/ui/select/Select';
 import { Skeleton, SkeletonBila } from '@/components/ui/skeleton/Skeleton';
 import { TombolTuang, type StatusTuang } from '@/components/ui/tombol-tuang/TombolTuang';
@@ -168,110 +169,108 @@ export default function ProdukTambahPage() {
         }
       />
 
-      <section className="app-section-card">
-        <div className="app-section-body">
-          <form onSubmit={simpan} className="produk-form" aria-busy={memuat || undefined}>
-            {gagal ? <BadgeInfo variant="error">{gagal}</BadgeInfo> : null}
+      <Seksi title="Data Produk">
+        <form onSubmit={simpan} className="produk-form" aria-busy={memuat || undefined}>
+          {gagal ? <BadgeInfo variant="error">{gagal}</BadgeInfo> : null}
 
-            <InputText
-              label="Kode Produk"
-              name="kode"
-              value={isian.kode}
-              onChange={(e) => ubah('kode', e.target.value)}
-              error={galat.kode}
+          <InputText
+            label="Kode Produk"
+            name="kode"
+            value={isian.kode}
+            onChange={(e) => ubah('kode', e.target.value)}
+            error={galat.kode}
+            memuat={memuat}
+            hint={
+              modeUbah
+                ? 'Mengganti kode akan mengubah alamat halaman detailnya.'
+                : 'Terisi otomatis dari nomor terakhir; boleh diganti.'
+            }
+            required
+          />
+
+          <InputText
+            label="Nama Produk"
+            name="nama"
+            value={isian.nama}
+            onChange={(e) => ubah('nama', e.target.value)}
+            placeholder="Paket Langganan Pro"
+            error={galat.nama}
+            memuat={memuat}
+            required
+          />
+
+          {/* Select tidak punya prop label sendiri, jadi labelnya dipasang di sini
+              memakai token ukuran dan bobot yang sama dengan isian lain. */}
+          <div className="produk-form__field">
+            <span className="produk-form__label">
+              Kategori<span className="produk-form__wajib">*</span>
+            </span>
+            <Select
+              value={isian.kategori}
+              onValueChange={(v) => ubah('kategori', v)}
+              options={OPSI_KATEGORI}
+              placeholder="Pilih kategori"
               memuat={memuat}
-              hint={
-                modeUbah
-                  ? 'Mengganti kode akan mengubah alamat halaman detailnya.'
-                  : 'Terisi otomatis dari nomor terakhir; boleh diganti.'
-              }
-              required
             />
+            {galat.kategori ? <span className="produk-form__galat">{galat.kategori}</span> : null}
+          </div>
 
-            <InputText
-              label="Nama Produk"
-              name="nama"
-              value={isian.nama}
-              onChange={(e) => ubah('nama', e.target.value)}
-              placeholder="Paket Langganan Pro"
-              error={galat.nama}
-              memuat={memuat}
-              required
-            />
+          <InputNumber
+            label="Harga"
+            name="harga"
+            currency
+            value={isian.harga}
+            onChange={(e) => ubah('harga', e.target.value)}
+            placeholder="450.000"
+            error={galat.harga}
+            memuat={memuat}
+            required
+          />
 
-            {/* Select tidak punya prop label sendiri, jadi labelnya dipasang di sini
-                memakai token ukuran dan bobot yang sama dengan isian lain. */}
-            <div className="produk-form__field">
-              <span className="produk-form__label">
-                Kategori<span className="produk-form__wajib">*</span>
-              </span>
-              <Select
-                value={isian.kategori}
-                onValueChange={(v) => ubah('kategori', v)}
-                options={OPSI_KATEGORI}
-                placeholder="Pilih kategori"
-                memuat={memuat}
-              />
-              {galat.kategori ? <span className="produk-form__galat">{galat.kategori}</span> : null}
-            </div>
+          <InputNumber
+            label="Stok"
+            name="stok"
+            value={isian.stok}
+            onChange={(e) => ubah('stok', e.target.value)}
+            placeholder="0"
+            error={galat.stok}
+            memuat={memuat}
+            required
+          />
 
-            <InputNumber
-              label="Harga"
-              name="harga"
-              currency
-              value={isian.harga}
-              onChange={(e) => ubah('harga', e.target.value)}
-              placeholder="450.000"
-              error={galat.harga}
-              memuat={memuat}
-              required
-            />
+          {/* Deskripsi sengaja tanpa tanda wajib: produk boleh disimpan dulu
+              lalu dilengkapi belakangan. */}
+          <RichText
+            label="Deskripsi Produk"
+            value={isian.deskripsi}
+            onChange={(html) => ubah('deskripsi', html)}
+            placeholder="Tulis rincian produk di sini…"
+            disabled={proses}
+            memuat={memuat}
+          />
 
-            <InputNumber
-              label="Stok"
-              name="stok"
-              value={isian.stok}
-              onChange={(e) => ubah('stok', e.target.value)}
-              placeholder="0"
-              error={galat.stok}
-              memuat={memuat}
-              required
-            />
-
-            {/* Deskripsi sengaja tanpa tanda wajib: produk boleh disimpan dulu
-                lalu dilengkapi belakangan. */}
-            <RichText
-              label="Deskripsi Produk"
-              value={isian.deskripsi}
-              onChange={(html) => ubah('deskripsi', html)}
-              placeholder="Tulis rincian produk di sini…"
+          <div className="produk-form__aksi">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => navigate('/dashboard/produk')}
               disabled={proses}
-              memuat={memuat}
-            />
-
-            <div className="produk-form__aksi">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => navigate('/dashboard/produk')}
-                disabled={proses}
+            >
+              Batal
+            </Button>
+            <SkeletonBila memuat={memuat}>
+              <TombolTuang
+                type="submit"
+                ikon="simpan"
+                status={status}
+                onTuntas={() => navigate(tujuanRef.current)}
               >
-                Batal
-              </Button>
-              <SkeletonBila memuat={memuat}>
-                <TombolTuang
-                  type="submit"
-                  ikon="simpan"
-                  status={status}
-                  onTuntas={() => navigate(tujuanRef.current)}
-                >
-                  {modeUbah ? 'Simpan Perubahan' : 'Simpan Produk'}
-                </TombolTuang>
-              </SkeletonBila>
-            </div>
-          </form>
-        </div>
-      </section>
+                {modeUbah ? 'Simpan Perubahan' : 'Simpan Produk'}
+              </TombolTuang>
+            </SkeletonBila>
+          </div>
+        </form>
+      </Seksi>
     </div>
   );
 }
