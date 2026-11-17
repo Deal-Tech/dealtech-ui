@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import panelDealtech from '@/assets/panel-dealtechui.png';
-import { ChevronDown, LogOut, UserRound, X } from 'lucide-react';
+import { ChevronDown, LoaderCircle, LogOut, UserRound, X } from 'lucide-react';
 
 import { resolveIcon } from '@/layout/ikon-menu';
 import type { AppMenu, MenuItem } from '@/layout/menu';
@@ -92,7 +92,7 @@ export interface AdminSidebarProps {
   laci?: boolean;
   isOpen?: boolean;
   onClose?: () => void;
-  onLogout?: () => void;
+  onLogout?: () => void | Promise<unknown>;
 }
 
 export default function AdminSidebar({
@@ -104,6 +104,13 @@ export default function AdminSidebar({
   onLogout,
 }: AdminSidebarProps) {
   const { pathname, hash } = useLocation();
+  const [keluar, setKeluar] = useState(false);
+
+  const klikKeluar = () => {
+    if (keluar || !onLogout) return;
+    setKeluar(true);
+    Promise.resolve(onLogout()).catch(() => setKeluar(false));
+  };
 
   const mainItems = menu.main ?? [];
   /* Butir lepas: dirender apa adanya di bawah semua grup, tanpa kepala grup. */
@@ -293,9 +300,19 @@ export default function AdminSidebar({
             </div>
           </div>
 
-          <button type="button" onClick={onLogout} className="sidebar-logout-btn">
-            <LogOut className="h-4 w-4 shrink-0" />
-            <span>Keluar</span>
+          <button
+            type="button"
+            onClick={klikKeluar}
+            disabled={keluar}
+            aria-busy={keluar || undefined}
+            className="sidebar-logout-btn"
+          >
+            {keluar ? (
+              <LoaderCircle className="h-4 w-4 shrink-0 animate-spin" />
+            ) : (
+              <LogOut className="h-4 w-4 shrink-0" />
+            )}
+            <span>{keluar ? 'Keluar…' : 'Keluar'}</span>
           </button>
         </div>
       </aside>

@@ -53,10 +53,11 @@ export default function AdminLayout() {
     if (typeof window !== 'undefined') window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  const logout = () => {
-    void keluar().catch(() => {});
-    navigate('/login', { replace: true });
-  };
+  // Tetap ke login walau API gagal
+  const logout = () =>
+    keluar()
+      .catch(() => {})
+      .then(() => navigate('/login', { replace: true }));
 
   return (
     <div className="app-shell flex overflow-hidden">

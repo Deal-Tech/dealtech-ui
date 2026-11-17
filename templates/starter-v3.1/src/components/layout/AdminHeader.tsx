@@ -10,6 +10,7 @@ import {
   AlignLeft,
   ChevronDown,
   CircleAlert,
+  LoaderCircle,
   LogOut,
   MessageCircle,
   Settings,
@@ -42,7 +43,7 @@ function JamBerjalan({ zona }: { zona: ZonaWaktu }) {
 interface MenuProfilProps {
   nama: string;
   inisial: string;
-  onKeluar: () => void;
+  onKeluar: () => void | Promise<unknown>;
 }
 
 interface PosisiPanel {
@@ -53,6 +54,7 @@ interface PosisiPanel {
 
 function MenuProfil({ nama, inisial, onKeluar }: MenuProfilProps) {
   const [terbuka, setTerbuka] = useState(false);
+  const [keluar, setKeluar] = useState(false);
   const [posisi, setPosisi] = useState<PosisiPanel | null>(null);
   const wadahRef = useRef<HTMLDivElement>(null);
   const pemicuRef = useRef<HTMLButtonElement>(null);
@@ -157,13 +159,24 @@ function MenuProfil({ nama, inisial, onKeluar }: MenuProfilProps) {
             type="button"
             role="menuitem"
             className="app-topbar__panel-item"
+            disabled={keluar}
+            aria-busy={keluar || undefined}
             onClick={() => {
-              tutup();
-              onKeluar();
+              // Panel tetap terbuka sampai pindah
+              if (keluar) return;
+              setKeluar(true);
+              Promise.resolve(onKeluar()).catch(() => {
+                setKeluar(false);
+                tutup();
+              });
             }}
           >
-            <LogOut className="app-topbar__panel-ikon" aria-hidden="true" />
-            <span>Keluar Sekarang</span>
+            {keluar ? (
+              <LoaderCircle className="app-topbar__panel-ikon animate-spin" aria-hidden="true" />
+            ) : (
+              <LogOut className="app-topbar__panel-ikon" aria-hidden="true" />
+            )}
+            <span>{keluar ? 'Keluar…' : 'Keluar Sekarang'}</span>
           </button>
         </div>
       ) : null}
@@ -176,7 +189,7 @@ export interface AdminHeaderProps {
   inisial: string;
   zona: ZonaWaktu;
   onBukaSidebar: () => void;
-  onKeluar: () => void;
+  onKeluar: () => void | Promise<unknown>;
 }
 
 export default function AdminHeader({ nama, inisial, zona, onBukaSidebar, onKeluar }: AdminHeaderProps) {
