@@ -253,12 +253,6 @@ export function TableListV1({
 
   return (
     <section className={`tablelist-v1 ${className}`} aria-busy={memuat || undefined}>
-      {action ? (
-        <div className="tablelist-v1__header">
-          <div className="tablelist-v1__action">{action}</div>
-        </div>
-      ) : null}
-
       {/* Menggantikan toolbar, tabel tak bergeser */}
       {adaPilihan && jumlahTerpilih > 0 ? (
         <div className="tablelist-v1__massal">
@@ -271,9 +265,13 @@ export function TableListV1({
             {aksiMassal}
           </div>
         </div>
-      ) : (
-        toolbar
-      )}
+      ) : toolbar || action ? (
+        // Cari/saring kiri, tombol kanan
+        <div className="tablelist-v1__alat">
+          {toolbar ? <div className="tablelist-v1__alat-isi">{toolbar}</div> : null}
+          {action ? <div className="tablelist-v1__action">{action}</div> : null}
+        </div>
+      ) : null}
 
       <div className="tablelist-v1__body">
         <div

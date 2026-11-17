@@ -154,9 +154,11 @@ import { BadgeInfo } from '@/components/ui/badgeinfo/BadgeInfo';
    menderetkan beberapa `ActionButton` dalam satu sel.
 4. **Kolom aksi selebar `64px`, rata kanan.** Pemicunya ikon titik tiga tanpa
    teks; sisa lebar diberikan ke kolom data.
-5. **Toolbar masuk lewat prop `toolbar`, aksi massal lewat `aksiMassal`.** Saat ada
-   baris terpilih, bar massal menggantikan posisi toolbar dengan tinggi yang sama,
-   jadi tabel tidak bergeser. Jangan menaruh toolbar di luar `TableListV1`.
+5. **Toolbar masuk lewat prop `toolbar`, tombol tabel (Tambah, Refresh) lewat
+   `action`, aksi massal lewat `aksiMassal`.** Cari/saring dan tombol duduk di satu
+   bar abu: cari di kiri, tombol di kanan. Saat ada baris terpilih, bar massal
+   menggantikan bar itu dengan tinggi yang sama, jadi tabel tidak bergeser. Jangan
+   menaruh toolbar atau tombol tabel di luar `TableListV1`.
 6. **Hapus massal pakai `HapusMassal`** (`@/components/ui/hapus-massal/`), yang
    meminta pengguna mengetik `HAPUS`. Hapus satuan pakai `KonfirmasiModal`;
    isi `kataKunci` bila datanya penting.

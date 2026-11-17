@@ -8,16 +8,30 @@
   background: var(--app-surface);
 }
 
-.tablelist-v1__header {
+.tablelist-v1__alat {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  padding: var(--tablelist-jarak);
-  padding-bottom: 0;
+  gap: 8px;
+}
+.tablelist-v1__alat-isi {
+  min-width: 0;
+  flex: 1 1 320px;
+}
+/* Toolbar di dalam bar */
+.tablelist-v1__alat .table-toolbar {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
 }
 .tablelist-v1__action {
+  display: flex;
   flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
 }
 
 .tablelist-v1__body {
@@ -265,7 +279,7 @@
 }
 
 /* Toolbar dan bar massal: bar abu setinggi */
-.tablelist-v1 .table-toolbar,
+.tablelist-v1__alat,
 .tablelist-v1__massal {
   margin: 2px 2px 0;
   padding: 6px;
@@ -277,14 +291,8 @@
 .tablelist-v1__massal-jumlah {
   padding-left: 6px;
 }
-/* Di bawah tombol aksi */
-.tablelist-v1__header + .table-toolbar,
-.tablelist-v1__header + .tablelist-v1__massal {
-  margin-top: 6px;
-  border-radius: 3px;
-}
 /* Jarak ke header tabel setengah */
-.tablelist-v1 .table-toolbar + .tablelist-v1__body,
+.tablelist-v1__alat + .tablelist-v1__body,
 .tablelist-v1__massal + .tablelist-v1__body {
   padding-top: 6px;
 }

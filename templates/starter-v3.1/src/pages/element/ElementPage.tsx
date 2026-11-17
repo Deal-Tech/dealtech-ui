@@ -1064,6 +1064,7 @@ export default function ElementPage() {
             rows={barisTabel}
             rowKey={(row) => String(row.kode)}
             onKlikBaris={(row) => setBarisDibuka(String(row.nama))}
+            action={<Button icon={Plus}>Tambah Item</Button>}
             pilihan={pilihanTabel}
             aksiMassal={
               <>
