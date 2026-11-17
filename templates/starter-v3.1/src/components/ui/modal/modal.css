@@ -40,10 +40,10 @@
   justify-content: space-between;
   gap: 12px;
   /* Bar abu seperti header tabel */
-  min-height: 42.8px;
-  /* Sama dengan bar cari tabel */
+  /* Sama dengan kepala seksi */
+  min-height: 37.8px;
   margin: 2px 2px 0;
-  padding: 6px 6px 6px 12px;
+  padding: 3.5px 3.5px 3.5px 12px;
   border-radius: 8px 8px 3px 3px;
   background: var(--app-fill-strong);
 }
