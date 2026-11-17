@@ -260,6 +260,11 @@ halaman admin.
    misalnya `ProdukDetailSkeleton.tsx`, dibungkus `SkeletonHalaman` supaya
    pembaca layar mendengar status memuat.
 8. `Memuat` hanya untuk layar penuh di luar layout, misalnya saat memeriksa sesi.
+9. **Kisi kartu saat memuat selalu penuh satu baris.** Jumlah kartu skeleton minimal
+   4, dibulatkan ke atas ke kelipatan jumlah kolom kisi yang sedang tampil (4 kolom →
+   4, 3 kolom → 6, 2 kolom → 4, 1 kolom → 4). Baca jumlah kolom dari
+   `getComputedStyle(kisi).gridTemplateColumns` dan ukur ulang lewat
+   `ResizeObserver`, jangan menebak dari lebar layar.
 
 ### Benar
 
