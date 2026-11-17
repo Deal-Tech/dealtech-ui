@@ -15,6 +15,7 @@ Starter baru di `templates/starter-v3.1`, dipasang lewat `dealtech-ui-v3.1` atau
 - Jarak tabel diseragamkan lewat `--tablelist-jarak`: tepi baris dan header sejajar bar cari, padding sel dua kali padding bar, checkbox tepat di tengah.
 - Kepala `Modal` jadi bar abu setinggi kepala `Seksi` (37,8px, 2px dari tepi, sudut atas sejajar radius modal) dengan judul 13px seperti judul seksi; Esc menutup dropdown yang terbuka dulu, baru modalnya. `BadgeInfo` di dalam modal berjarak 8px dari kepala dan dari isian sebelum/sesudahnya.
 - Kepala `Seksi` jadi bar abu ringkas (37,8px), badan seksi memakai padding rata 12px di semua sisi (7,5px di HP).
+- Form dua kolom di desktop lewat kelas `app-form-kisi` (satu kolom di bawah 768px, `app-form-kisi__penuh` untuk isian lebar penuh). Dipakai di form tambah/ubah produk, Kontak Publik, dan Media Sosial; isian panjang (deskripsi, tautan Maps) tetap lebar penuh. Aturannya ditulis di `AGENTS.md`.
 - Isian setinggi tombol dan butir menu sidebar (`--app-control-h` = 30,8px); isian galat cukup berubah warna border.
 - Kartu statistik berbentuk segmen chevron yang saling mengunci, warna mengikuti kolom (`--app-stat-1` s.d. `--app-stat-5`), paling banyak lima per baris, plus prop `memuat`.
 - `TabButton` dan `SearchInput` punya gaya `pil`, dan tab di halaman Pengaturan serta detail produk kini memakai `gaya="pil"`; `PageTitle` meratakan tombol ke bawah judul; animasi `TombolTuang` dua kali lebih cepat dan bisa difokuskan dari luar.

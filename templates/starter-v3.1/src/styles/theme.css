@@ -268,6 +268,24 @@ body {
   }
 }
 
+/* Isian form dua kolom */
+.app-form-kisi {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .app-form-kisi {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .app-form-kisi > .app-form-kisi__penuh {
+    grid-column: 1 / -1;
+  }
+}
+
 body,
 body * {
   line-height: 1.4;

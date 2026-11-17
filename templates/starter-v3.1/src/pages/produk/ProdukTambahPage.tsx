@@ -173,70 +173,72 @@ export default function ProdukTambahPage() {
         <form onSubmit={simpan} className="produk-form" aria-busy={memuat || undefined}>
           {gagal ? <BadgeInfo variant="error">{gagal}</BadgeInfo> : null}
 
-          <InputText
-            label="Kode Produk"
-            name="kode"
-            value={isian.kode}
-            onChange={(e) => ubah('kode', e.target.value)}
-            error={galat.kode}
-            memuat={memuat}
-            hint={
-              modeUbah
-                ? 'Mengganti kode akan mengubah alamat halaman detailnya.'
-                : 'Terisi otomatis dari nomor terakhir; boleh diganti.'
-            }
-            required
-          />
-
-          <InputText
-            label="Nama Produk"
-            name="nama"
-            value={isian.nama}
-            onChange={(e) => ubah('nama', e.target.value)}
-            placeholder="Paket Langganan Pro"
-            error={galat.nama}
-            memuat={memuat}
-            required
-          />
-
-          {/* Select tidak punya prop label sendiri, jadi labelnya dipasang di sini
-              memakai token ukuran dan bobot yang sama dengan isian lain. */}
-          <div className="produk-form__field">
-            <span className="produk-form__label">
-              Kategori<span className="produk-form__wajib">*</span>
-            </span>
-            <Select
-              value={isian.kategori}
-              onValueChange={(v) => ubah('kategori', v)}
-              options={OPSI_KATEGORI}
-              placeholder="Pilih kategori"
+          <div className="app-form-kisi">
+            <InputText
+              label="Kode Produk"
+              name="kode"
+              value={isian.kode}
+              onChange={(e) => ubah('kode', e.target.value)}
+              error={galat.kode}
               memuat={memuat}
+              hint={
+                modeUbah
+                  ? 'Mengganti kode akan mengubah alamat halaman detailnya.'
+                  : 'Terisi otomatis dari nomor terakhir; boleh diganti.'
+              }
+              required
             />
-            {galat.kategori ? <span className="produk-form__galat">{galat.kategori}</span> : null}
+
+            <InputText
+              label="Nama Produk"
+              name="nama"
+              value={isian.nama}
+              onChange={(e) => ubah('nama', e.target.value)}
+              placeholder="Paket Langganan Pro"
+              error={galat.nama}
+              memuat={memuat}
+              required
+            />
+
+            {/* Select tidak punya prop label sendiri, jadi labelnya dipasang di sini
+                memakai token ukuran dan bobot yang sama dengan isian lain. */}
+            <div className="produk-form__field">
+              <span className="produk-form__label">
+                Kategori<span className="produk-form__wajib">*</span>
+              </span>
+              <Select
+                value={isian.kategori}
+                onValueChange={(v) => ubah('kategori', v)}
+                options={OPSI_KATEGORI}
+                placeholder="Pilih kategori"
+                memuat={memuat}
+              />
+              {galat.kategori ? <span className="produk-form__galat">{galat.kategori}</span> : null}
+            </div>
+
+            <InputNumber
+              label="Harga"
+              name="harga"
+              currency
+              value={isian.harga}
+              onChange={(e) => ubah('harga', e.target.value)}
+              placeholder="450.000"
+              error={galat.harga}
+              memuat={memuat}
+              required
+            />
+
+            <InputNumber
+              label="Stok"
+              name="stok"
+              value={isian.stok}
+              onChange={(e) => ubah('stok', e.target.value)}
+              placeholder="0"
+              error={galat.stok}
+              memuat={memuat}
+              required
+            />
           </div>
-
-          <InputNumber
-            label="Harga"
-            name="harga"
-            currency
-            value={isian.harga}
-            onChange={(e) => ubah('harga', e.target.value)}
-            placeholder="450.000"
-            error={galat.harga}
-            memuat={memuat}
-            required
-          />
-
-          <InputNumber
-            label="Stok"
-            name="stok"
-            value={isian.stok}
-            onChange={(e) => ubah('stok', e.target.value)}
-            placeholder="0"
-            error={galat.stok}
-            memuat={memuat}
-            required
-          />
 
           {/* Deskripsi sengaja tanpa tanda wajib: produk boleh disimpan dulu
               lalu dilengkapi belakangan. */}

@@ -292,40 +292,42 @@ export default function PengaturanPage() {
           <WarnaTema />
           <Seksi title="Kontak Publik" bodyClassName="pengaturan-bagian">
             <form onSubmit={simpanKontakPublik} className="pengaturan-form">
-              <InputText
-                label="WhatsApp"
-                value={kontak.whatsapp}
-                onChange={(e) => ubahKontak('whatsapp', e.target.value)}
-                error={galatKontak.whatsapp}
-                memuat={memuatKontak}
-                hint="Boleh ditulis bebas — yang dipakai tautan wa.me cuma angkanya."
-                required
-              />
-              <InputText
-                label="Email"
-                type="email"
-                value={kontak.email}
-                onChange={(e) => ubahKontak('email', e.target.value)}
-                error={galatKontak.email}
-                memuat={memuatKontak}
-                required
-              />
-              <InputText
-                label="Where we are"
-                value={kontak.lokasi}
-                onChange={(e) => ubahKontak('lokasi', e.target.value)}
-                error={galatKontak.lokasi}
-                memuat={memuatKontak}
-                required
-              />
-              <InputText
-                label="Open"
-                value={kontak.jam_buka}
-                onChange={(e) => ubahKontak('jam_buka', e.target.value)}
-                error={galatKontak.jam_buka}
-                memuat={memuatKontak}
-                required
-              />
+              <div className="app-form-kisi">
+                <InputText
+                  label="WhatsApp"
+                  value={kontak.whatsapp}
+                  onChange={(e) => ubahKontak('whatsapp', e.target.value)}
+                  error={galatKontak.whatsapp}
+                  memuat={memuatKontak}
+                  hint="Boleh ditulis bebas — yang dipakai tautan wa.me cuma angkanya."
+                  required
+                />
+                <InputText
+                  label="Email"
+                  type="email"
+                  value={kontak.email}
+                  onChange={(e) => ubahKontak('email', e.target.value)}
+                  error={galatKontak.email}
+                  memuat={memuatKontak}
+                  required
+                />
+                <InputText
+                  label="Where we are"
+                  value={kontak.lokasi}
+                  onChange={(e) => ubahKontak('lokasi', e.target.value)}
+                  error={galatKontak.lokasi}
+                  memuat={memuatKontak}
+                  required
+                />
+                <InputText
+                  label="Open"
+                  value={kontak.jam_buka}
+                  onChange={(e) => ubahKontak('jam_buka', e.target.value)}
+                  error={galatKontak.jam_buka}
+                  memuat={memuatKontak}
+                  required
+                />
+              </div>
 
               <InputText
                 label="Titik lokasi (Google Maps)"
@@ -358,19 +360,21 @@ export default function PengaturanPage() {
             {/* Semua platform dirender dari satu daftar di services/pengaturan.
                 Menambah platform cukup menambah satu baris di sana — medan,
                 pemeriksaan, dan isian kosongnya ikut sendiri. */}
-            {SOSIAL.map(({ kunci, label, contoh }) => (
-              <InputText
-                key={kunci}
-                label={label}
-                value={kontak[kunci]}
-                onChange={(e) => ubahKontak(kunci, e.target.value)}
-                error={galatKontak[kunci]}
-                memuat={memuatKontak}
-                placeholder={contoh}
-                autoCapitalize="none"
-                spellCheck={false}
-              />
-            ))}
+            <div className="app-form-kisi">
+              {SOSIAL.map(({ kunci, label, contoh }) => (
+                <InputText
+                  key={kunci}
+                  label={label}
+                  value={kontak[kunci]}
+                  onChange={(e) => ubahKontak(kunci, e.target.value)}
+                  error={galatKontak[kunci]}
+                  memuat={memuatKontak}
+                  placeholder={contoh}
+                  autoCapitalize="none"
+                  spellCheck={false}
+                />
+              ))}
+            </div>
 
             <BadgeInfo variant="info" icon={false}>
               Kosongkan kalau tidak ingin ikonnya ditampilkan; isi <code>#</code> kalau akunnya

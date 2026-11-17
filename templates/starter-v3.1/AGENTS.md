@@ -61,6 +61,26 @@ import { Bidang } from '@/components/ui/bidang/Bidang';
 </Seksi>
 ```
 
+## Form dua kolom
+
+Di desktop, isian form tidak boleh semuanya lebar penuh berderet satu per satu.
+Bungkus isian pendek dengan `<div className="app-form-kisi">` supaya terbagi dua
+kolom (layar ≥ 768px; di bawahnya otomatis satu kolom). Isian panjang seperti URL,
+alamat lengkap, `RichText`, `InputLongText`, unggah gambar, `BadgeInfo`, dan baris
+tombol tetap lebar penuh di luar kisi, atau beri kelas `app-form-kisi__penuh`.
+Form di kartu yang sudah sempit (setengah layar) atau di modal kecil boleh satu
+kolom.
+
+```tsx
+<div className="app-form-kisi">
+  <InputText label="Kode Produk" ... />
+  <InputText label="Nama Produk" ... />
+  <InputNumber label="Harga" ... />
+  <InputNumber label="Stok" ... />
+</div>
+<RichText label="Deskripsi" ... />
+```
+
 ## Jarak antar section
 
 Jarak antar section, kartu, dan blok halaman 12px (9px di layar < 640px). Pakai
