@@ -23,24 +23,28 @@ const VARIAN = {
     kunci: 'v1',
     perintah: 'dealtech-ui',
     label: 'v1',
+    bendera: '',
     folder: 'starter',
   },
   v2: {
     kunci: 'v2',
     perintah: 'dealtech-ui-v2-next',
     label: 'v2.0-next',
+    bendera: ' --v2',
     folder: 'starter-v2.0-next',
   },
   v3: {
     kunci: 'v3',
     perintah: 'dealtech-ui-v3',
     label: 'v3.0',
+    bendera: ' --v3',
     folder: 'starter-v3.0',
   },
   v31: {
     kunci: 'v31',
     perintah: 'dealtech-ui-v3.1',
     label: 'v3.1',
+    bendera: ' --v3.1',
     folder: 'starter-v3.1',
   },
 };
@@ -358,29 +362,31 @@ function installDependencies(targetDir) {
 }
 
 function showHelp() {
-  const cmd = VARIAN_AKTIF.perintah;
+  const cmd = 'dealtech-ui';
+  const { bendera } = VARIAN_AKTIF;
   console.log(`
 ${colors.bold(cmd)} - DealTech UI Starter CLI ${colors.dim(`(starter ${VARIAN_AKTIF.label})`)}
 
 ${colors.bold('Usage:')}
-  npx ${cmd} ${colors.cyan('install')} ${colors.dim('[project-name]')} ${colors.dim('[--no-install] [--force]')}
-  npx ${cmd} ${colors.cyan('add')} ${colors.dim('<ui-name> [...ui-name] [--force]')}
-  npx ${cmd} ${colors.cyan('add-layout')} ${colors.dim('<layout-name> [...layout-name] [--force]')}
-  npx ${cmd} ${colors.cyan('add-page')} ${colors.dim('<page-name>')}
-  npx ${cmd} ${colors.cyan('help')}
+  ${cmd} ${colors.cyan('install')} ${colors.dim('[project-name]')} ${colors.dim('[--v1|--v2|--v3|--v3.1] [--no-install] [--force]')}
+  ${cmd} ${colors.cyan('add')} ${colors.dim('<ui-name> [...ui-name] [--v3.1] [--force]')}
+  ${cmd} ${colors.cyan('add-layout')} ${colors.dim('<layout-name> [...layout-name] [--v3.1] [--force]')}
+  ${cmd} ${colors.cyan('add-page')} ${colors.dim('<page-name>')}
+  ${cmd} ${colors.cyan('help')} ${colors.dim('[--v3.1]')}
 
 ${colors.bold('Starter:')}
-  ${colors.cyan('dealtech-ui')}          ${colors.dim('v1 - Tailwind inline, 29 element')}
-  ${colors.cyan('dealtech-ui-v2-next')}  ${colors.dim('v2.0-next - token CSS, style per komponen, 58 element')}
-  ${colors.cyan('dealtech-ui-v3')}       ${colors.dim('v3.0 - element v2 + tombol-tuang, shell & tema baru')}
-  ${colors.cyan('dealtech-ui-v3.1')}     ${colors.dim('v3.1 - terbaru: tanpa bayangan, bar abu, Seksi, hapus massal')}
-  ${colors.dim('Bendera --v1 / --v2 / --v3 / --v3.1 menimpa pilihan berdasarkan nama perintah.')}
+  ${colors.cyan('--v1')}    ${colors.dim('v1 - Tailwind inline, 29 element (bawaan)')}
+  ${colors.cyan('--v2')}    ${colors.dim('v2.0-next - token CSS, style per komponen, 58 element')}
+  ${colors.cyan('--v3')}    ${colors.dim('v3.0 - element v2 + tombol-tuang, shell & tema baru')}
+  ${colors.cyan('--v3.1')}  ${colors.dim('v3.1 - terbaru: tanpa bayangan, bar abu, Seksi, hapus massal')}
+  ${colors.yellow('Di npm baru starter v1. v2 ke atas: clone repo, lalu npm link.')}
+  ${colors.dim('git clone https://github.com/mrizky-fr/dealtech-ui.git')}
 
 ${colors.bold('Examples:')}
-  npx dealtech-ui-v3.1 install my-admin-app
-  npx ${cmd} add button badge modal
-  npx ${cmd} add-layout admin-layout
-  npx ${cmd} add-page reports
+  ${cmd} install my-admin-app --v3.1
+  ${cmd} add button badge modal${bendera}
+  ${cmd} add-layout admin-layout${bendera}
+  ${cmd} add-page reports
 
 ${colors.bold(`Available UI (${VARIAN_AKTIF.label}):`)}
   ${colors.dim(getTemplateUiFolders().join(', ') || '-')}

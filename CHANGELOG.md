@@ -22,13 +22,15 @@ Starter baru di `templates/starter-v3.1`, dipasang lewat `dealtech-ui-v3.1` atau
 - Tambah element `hapus-massal`: hapus banyak baris dengan konfirmasi ketik HAPUS; yang gagal tetap terpilih beserta alasannya. Dipakai di tabel dashboard.
 - Tambah element `tombol-muat-ulang` dan hook `useAksiTuang` untuk tombol async.
 - Katalog element punya grup baru **Baru di v3.1**.
+- Halaman login dan lupa sandi: latar putih, kartu form abu tipis tanpa bayangan dan tanpa border yang menyatu dengan panel kanan bersudut 18px, serta garis isian lebih tebal yang berubah ke warna utama saat disorot atau fokus. Judul, teks per langkah, dan titik di panel kanan tetap seperti v3.0.
 - Perbaiki `LembarCetak`: aturan cetak hanya aktif saat halaman memang berisi lembar cetak.
 - `AGENTS.md` v3.1 menambah aturan kartu tanpa bayangan, kepala seksi dan bar abu, jarak antar section, tombol aksi async, serta toolbar dan hapus massal tabel.
 
 ### CLI
 
 - Tambah perintah `dealtech-ui-v3.1` beserta bendera `--v3.1` (alias `--v31`).
-- README ditulis ulang dengan tangkapan layar v3.1.
+- `help` memakai contoh `dealtech-ui ... --v3.1` dan menjelaskan bahwa npm baru berisi starter v1; starter v2 ke atas dipasang dengan clone repo lalu `npm link`.
+- README ditulis ulang dengan tangkapan layar v3.1 dan panduan pasang lewat clone.
 
 ### Starter v3.0
 

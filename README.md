@@ -3,13 +3,15 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:13263a,100:01498b&height=200&section=header&text=DealTech%20UI&fontColor=ffffff&fontSize=56&fontAlignY=36&desc=Starter%20admin%20panel%20React%20%2B%20Vite%20dalam%20satu%20perintah&descSize=18&descAlignY=58" alt="DealTech UI — starter admin panel React + Vite dalam satu perintah" width="100%" />
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&duration=3000&pause=1000&color=01498B&center=true&vCenter=true&width=640&lines=npx+dealtech-ui-v3.1+install+my-admin-app;66+UI+element+siap+pakai;Tabel%2C+form%2C+chart%2C+login%2C+dan+tema+sekaligus" alt="npx dealtech-ui-v3.1 install my-admin-app" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&duration=3000&pause=1000&color=01498B&center=true&vCenter=true&width=640&lines=dealtech-ui+install+my-admin-app+--v3.1;66+UI+element+siap+pakai;Tabel%2C+form%2C+chart%2C+login%2C+dan+tema+sekaligus" alt="dealtech-ui install my-admin-app --v3.1" />
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Starter%20terbaru-v3.1-0a6bc4?style=for-the-badge" alt="Starter terbaru v3.1" height="32" />
   &nbsp;
-  <img src="https://img.shields.io/badge/CLI-2.3.0-01498b?style=for-the-badge" alt="CLI dealtech-ui 2.3.0" height="32" />
+  <img src="https://img.shields.io/badge/Repo-2.3.0-01498b?style=for-the-badge" alt="Versi repo 2.3.0" height="32" />
+  &nbsp;
+  <img src="https://img.shields.io/badge/npm-v1%20saja-6b7280?style=for-the-badge" alt="Di npm baru starter v1" height="32" />
   &nbsp;
   <img src="https://img.shields.io/badge/Lisensi-MIT-13263a?style=for-the-badge" alt="Lisensi MIT" height="32" />
 </p>
@@ -100,20 +102,40 @@ Pola pakainya mirip shadcn/ui: kode komponen disalin ke project Anda, bukan diim
 
 ## Mulai Sekarang
 
+> **Paket di npm baru berisi starter v1.** Starter v2.0-next, v3.0, dan v3.1 belum dirilis ke npm, jadi `npx` belum bisa dipakai untuk versi itu. Pasang dengan clone repo ini.
+
+**1. Clone repo dan daftarkan CLI-nya** (cukup sekali):
+
 ```bash
-npx dealtech-ui-v3.1 install my-admin-app
+git clone https://github.com/mrizky-fr/dealtech-ui.git
+cd dealtech-ui
+npm link
+```
+
+`npm link` membuat perintah `dealtech-ui` bisa dipanggil dari folder mana saja. Ambil pembaruan dengan `git pull` di folder `dealtech-ui`.
+
+**2. Buat project baru** dari folder lain:
+
+```bash
+dealtech-ui install my-admin-app --v3.1
 cd my-admin-app
 npm run dev
 ```
 
 Perintah `install` membuat folder project, menyalin starter, lalu menjalankan `npm install`. Masuk dengan email dan kata sandi apa saja, karena starter berjalan dalam mode demo sampai backend Anda siap.
 
-Tambah element atau layout ke project yang sudah ada:
+Tidak mau `npm link`? Panggil berkas CLI-nya langsung:
 
 ```bash
-npx dealtech-ui-v3.1 add tablelist-v1 hapus-massal seksi
-npx dealtech-ui-v3.1 add-layout admin-layout
-npx dealtech-ui-v3.1 add-page reports
+node ../dealtech-ui/cli/install.js install my-admin-app --v3.1
+```
+
+**3. Tambah element, layout, atau halaman** dari dalam folder project:
+
+```bash
+dealtech-ui add tablelist-v1 hapus-massal seksi --v3.1
+dealtech-ui add-layout admin-layout --v3.1
+dealtech-ui add-page reports
 ```
 
 | Perintah | Fungsi |
@@ -128,20 +150,19 @@ Bendera: `--no-install` melewati `npm install`, `--force` menimpa berkas yang su
 
 ## Pilih Starter
 
-Nama perintah menentukan starter yang dipakai. **v3.1 adalah versi terbaru** dan yang disarankan untuk project baru.
+Starter dipilih lewat bendera. **v3.1 adalah versi terbaru** dan yang disarankan untuk project baru.
 
-| Perintah | Starter | Gaya | Element |
-|---|---|---|---|
-| `dealtech-ui-v3.1` | `templates/starter-v3.1` | **v3.1 (terbaru)**: tanpa bayangan, bar abu, Seksi, hapus massal | 66 |
-| `dealtech-ui-v3` | `templates/starter-v3.0` | v3.0: element v2 + tombol tuang, shell dan tema baru | 61 |
-| `dealtech-ui-v2-next` | `templates/starter-v2.0-next` | v2.0-next: token CSS, satu berkas CSS per komponen | 58 |
-| `dealtech-ui` | `templates/starter` | v1: Tailwind inline | 29 |
+| Bendera | Starter | Gaya | Element | Cara pasang |
+|---|---|---|---|---|
+| `--v3.1` | `templates/starter-v3.1` | **v3.1 (terbaru)**: tanpa bayangan, bar abu, Seksi, hapus massal | 66 | clone repo |
+| `--v3` | `templates/starter-v3.0` | v3.0: element v2 + tombol tuang, shell dan tema baru | 61 | clone repo |
+| `--v2` | `templates/starter-v2.0-next` | v2.0-next: token CSS, satu berkas CSS per komponen | 58 | clone repo |
+| `--v1` | `templates/starter` | v1: Tailwind inline | 29 | clone repo, atau `npx dealtech-ui` |
 
-Bendera `--v1`, `--v2`, `--v3`, dan `--v3.1` menimpa pilihan dari nama perintah, misalnya saat menguji lewat `npm link`:
+Tanpa bendera, CLI memakai v1. Starter v1 juga bisa dipasang langsung dari npm tanpa clone:
 
 ```bash
-npx dealtech-ui install my-admin-app --v3.1
-npx dealtech-ui add tablelist-v1 --v3.1
+npx dealtech-ui install my-admin-app
 ```
 
 <details>
@@ -172,17 +193,17 @@ Karena itu nama element v1 tidak dikenali di v2/v3 dan sebaliknya. CLI menolak n
 
 <br>
 
-**v3.1** (`dealtech-ui-v3.1`)
+**v3.1** (`--v3.1`)
 
 `action-button`, `badge`, `badgeinfo`, `badgev2`, `bidang`, `bilah-lipat`, `blok-tentang`, `button`, `cardbar-chart`, `cardbar-list`, `chartbar-ganda`, `chartbarhor`, `chartbarver`, `chartline`, `chartlinev2`, `chartlistbar`, `chartpie`, `charttoplist`, `checkbox`, `date-input`, `hapus-massal`, `heatmap`, `hex-backdrop`, `inputlongtext`, `inputnumber`, `inputtext`, `kalender`, `kartu-katalog`, `kartu-paket`, `kepala-publik`, `kode-otomatis`, `kode-otp`, `konfirmasi-modal`, `label-qr`, `lembar-cetak`, `lightbox`, `logo-shape`, `memuat`, `menu-aksi`, `modal`, `modal-galat`, `pagetitle`, `pagination`, `peta-titik`, `pilih-banyak`, `pita-berjalan`, `progress-bar`, `proses-modal`, `protected-route`, `richtext`, `search-input`, `search-select`, `seksi`, `select`, `skeleton`, `stat-card`, `tab-button`, `tabelcardv1`, `table-toolbar`, `tablelist-v1`, `toggleonoff`, `tombol-muat-ulang`, `tombol-tuang`, `ulasan-berjalan`, `unggah-gambar`, `welcome-card-v2`
 
 v3.0 sama dengan v3.1 tanpa `bidang`, `hapus-massal`, `konfirmasi-modal`, `seksi`, dan `tombol-muat-ulang`. v2.0-next sama dengan v3.0 tanpa `tombol-tuang`, `kode-otp`, dan `skeleton`.
 
-**v1** (`dealtech-ui`)
+**v1** (`--v1`, juga di npm)
 
 `actionbutton`, `badge`, `button`, `cardtabelv1`, `confirmmodal`, `filterselect`, `formmodal`, `infosection`, `input`, `inputdate`, `kartupaket`, `longtextinput`, `modal`, `notecard`, `pageheader`, `pagination`, `plancard`, `progresbarv1`, `progresbarv2`, `progresbarv3`, `scroltotop`, `searchableselect`, `searchinput`, `statcardoverview`, `tabledata-v1`, `tabledata-v2`, `timelinetabel`, `uploadfield`, `welcomecard`
 
-Tanda hubung boleh dilepas: `add searchselect` sama dengan `add search-select`. Daftar paling mutakhir selalu bisa dilihat lewat `npx dealtech-ui-v3.1 help`.
+Tanda hubung boleh dilepas: `add searchselect` sama dengan `add search-select`. Daftar paling mutakhir selalu bisa dilihat lewat `dealtech-ui help --v3.1`.
 
 **Layout:** `admin-layout` (alias `admin`), tersedia di semua starter. Di v2 dan v3 ikut tersalin `theme.css`, font, dan berkas menu.
 
@@ -216,22 +237,6 @@ Starter v3.0 dan v3.1 membawa `AGENTS.md` (dan `CLAUDE.md` yang mengimpornya), s
 
 <br>
 
-Jalankan CLI dari clone lokal:
-
-```bash
-git clone https://github.com/mrizky-fr/dealtech-ui.git
-cd dealtech-ui
-npm link
-```
-
-Lalu dari folder lain:
-
-```bash
-dealtech-ui install demo-app --v3.1
-dealtech-ui add badge --v3.1
-dealtech-ui add-layout admin-layout --v3.1
-```
-
 Setiap starter adalah project Vite biasa. Untuk mengembangkan starter-nya sendiri:
 
 ```bash
@@ -245,9 +250,9 @@ npm run build    # tsc --noEmit lalu vite build
 
 | Folder | Isi |
 |---|---|
-| `cli/install.js` | Satu berkas CLI: `install`, `add`, `add-layout`, `add-page`, `help`. Starter dipilih dari nama perintah atau bendera. |
+| `cli/install.js` | Satu berkas CLI: `install`, `add`, `add-layout`, `add-page`, `help`. Starter dipilih lewat bendera `--v1` sampai `--v3.1`. |
 | `templates/starter-v3.1` | Starter terbaru. |
-| `templates/starter-v3.0` | Starter v3.0, tetap dipasang oleh `dealtech-ui-v3`. |
+| `templates/starter-v3.0` | Starter v3.0 (`--v3`). |
 | `templates/starter-v2.0-next` | Starter v2.0-next. |
 | `templates/starter` | Starter v1. |
 | `docs/` | Tangkapan layar README. |
