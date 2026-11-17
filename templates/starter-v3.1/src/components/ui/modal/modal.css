@@ -99,8 +99,12 @@
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  padding: 9px 15px;
-  border-top: 1px solid var(--app-border-strong);
+  /* Cermin kepala: bar abu */
+  min-height: 37.8px;
+  margin: 0 2px 2px;
+  padding: 3.5px;
+  border-radius: 3px 3px 8px 8px;
+  background: var(--app-fill-strong);
 }
 
 .modal-form {
@@ -162,4 +166,13 @@
 .modal__body .flex-col > .badgeinfo:not(:first-child),
 .modal__body .flex-col > .badgeinfo + * {
   margin-top: -4px;
+}
+
+/* Tombol sekunder di bar */
+.modal__footer .btn--ghost {
+  background: var(--app-secondary);
+  color: var(--app-on-primary);
+}
+.modal__footer .btn--ghost:hover:not(:disabled) {
+  background: var(--app-secondary-hover);
 }
