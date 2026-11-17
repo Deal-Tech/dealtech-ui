@@ -23,6 +23,9 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(functi
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!currency) {
+      // Buang nol depan, mis. 01000
+      const isi = event.target.value;
+      if (/^-?0\d/.test(isi)) event.target.value = isi.replace(/^(-?)0+(?=\d)/, '$1');
       onChange?.(event);
       return;
     }

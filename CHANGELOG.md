@@ -25,6 +25,7 @@ Starter baru di `templates/starter-v3.1`, dipasang lewat `dealtech-ui-v3.1` atau
 - Katalog element punya grup baru **Baru di v3.1**, dan grup **TabButton** berisi sembilan varian: pil teks, pil + ikon, pil + jumlah (termasuk 99+), label `short` untuk layar sempit, tab sama rata (`tab-button--rata`), chip kategori bergaya kustom, dan gaya garis bawaan.
 - Halaman login dan lupa sandi: latar putih, kartu form abu tipis tanpa bayangan dan tanpa border yang menyatu dengan panel kanan bersudut 18px, serta garis isian lebih tebal yang berubah ke warna utama saat disorot atau fokus. Judul, teks per langkah, dan titik di panel kanan tetap seperti v3.0.
 - Perbaiki `LembarCetak`: aturan cetak hanya aktif saat halaman memang berisi lembar cetak.
+- Perbaiki `InputNumber` (non-rupiah): nol di depan dibuang saat mengetik, jadi isian bernilai 0 yang diketik 1000 tidak lagi tampil 01000. Desimal (0.5) dan negatif tetap aman.
 - `AGENTS.md` v3.1 menambah aturan kartu tanpa bayangan, kepala seksi dan bar abu, jarak antar section, tombol aksi async, serta toolbar dan hapus massal tabel.
 
 ### CLI
